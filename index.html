@@ -380,6 +380,32 @@ nav.tabs button{font-size:10.5px}
 .field input,.field select{min-width:0;max-width:100%}
 .sh-head{grid-template-columns:minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr);column-gap:6px}
 .sh-head h2{font-size:clamp(15px,5vw,20px);min-width:0}
+/* --- snappier taps --- */
+html{-webkit-text-size-adjust:100%}
+button,a,input,select,textarea,[data-act]{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+[data-act]{cursor:pointer;-webkit-user-select:none;user-select:none}
+.mini,.pay,.icon-btn,nav.tabs button,.langs button,.chipsel button,.addrow .mini,.x,.chip[data-act],.ach,.tool,.alert,.kpi,.row,.btn{transition:transform .08s ease-out,opacity .08s ease-out,background-color .08s}
+.mini:active,.pay:active,.icon-btn:active,.langs button:active,.chipsel button:active,.x:active,.chip[data-act]:active{transform:scale(.92);opacity:.8}
+nav.tabs button:active{transform:scale(.9)}
+.btn:active{transform:scale(.98);opacity:.85}
+.row:active,.alert:active,.tool:active{transform:scale(.99)}
+.sheet{will-change:transform;contain:layout paint}
+.overlay{will-change:opacity}
+/* --- achievement pop-up (top-right) --- */
+.achpop{position:fixed;z-index:70;top:calc(10px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px));right:10px;max-width:min(270px,calc(100% - 20px));display:flex;gap:10px;align-items:center;padding:10px 14px 10px 10px;border-radius:16px;background:var(--card);color:var(--text);box-shadow:0 8px 28px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.04);transform:translateX(calc(100% + 20px));opacity:0;transition:transform .32s cubic-bezier(.2,.9,.25,1.15),opacity .2s;pointer-events:none}
+.achpop.on{transform:none;opacity:1;pointer-events:auto}
+.achpop .pi{font-size:28px;line-height:1;flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--soft)}
+.achpop .pt{display:flex;flex-direction:column;min-width:0}
+.achpop small{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--title);font-weight:600}
+.achpop b{font-size:14px;line-height:1.25;font-weight:600;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.achpop em{font-style:normal;font-size:12px;color:var(--hint);margin-top:2px}
+.achpop.prize{box-shadow:0 8px 28px rgba(0,0,0,.18),0 0 0 2px var(--accent)}
+.card.wn .li .tx{line-height:1.4}
+/* --- snack bar with an action (e.g. attach a receipt) --- */
+.snack{position:fixed;left:12px;right:86px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:61;display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--text);color:var(--card);border-radius:14px;padding:8px 8px 8px 16px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-size:14px;transform:translateY(20px);opacity:0;pointer-events:none;transition:transform .22s,opacity .18s}
+.snack.on{transform:none;opacity:1;pointer-events:auto}
+.snack button{border:0;border-radius:10px;padding:9px 14px;background:var(--card);color:var(--title);font-weight:600;font-size:14px;font-family:inherit}
+.rcrow .btn{margin-top:8px}
 </style>
 </head>
 <body>
@@ -396,6 +422,7 @@ nav.tabs button{font-size:10.5px}
 <div class="sheet" id="sheet"><div class="grab"></div><div class="sheet-in" id="sheetIn"></div></div>
 <div class="modal" id="modal"></div>
 <div class="toast" id="toast"></div>
+<div class="achpop" id="achpop" data-act="achPopTap" role="status" aria-live="polite"></div>
 <div class="celeb" id="celeb" data-act="celebOk"><canvas id="confetti"></canvas><div class="celeb-box" id="celebBox"></div></div>
 
 <script>
@@ -2068,6 +2095,104 @@ add('fr', {
 { s_ny: ['Cours du Nouvel An', 'Un cours pendant les fêtes'], s_val: ['Cours avec amour', 'Un cours le 14 février'], s_mar8: ['Voix du printemps', 'Un cours le 8 mars'],
   s_summer: ['Saison d’été', '10 cours en été'], s_fall: ['Automne doré', '10 cours en automne'] });
 }
+/* ================= bot input strings ================= */
+{
+const B = {
+  ru: { title: 'Внесено из бота', stu: n => `Новый ученик: ${n}`, stuUpd: n => `Обновлено: ${n}`, lesson: (n, d) => `Урок: ${n}, ${d}`, lessonUpd: (n, d) => `Урок ${n}: ${d}`,
+    lessonDel: (n, d) => `Удалён урок: ${n}, ${d}`, pkg: (n, k) => `Пакет ${n}: ${k} ур.`, exp: s => `Расход: ${s}`, note: n => `Заметка: ${n}`,
+    notFound: n => `Не нашла ученика «${n}»`, noLesson: n => `Не нашла урок: ${n}`, noDate: 'Урок без даты пропущен',
+    hint: b => `Пиши или наговаривай боту${b ? ' @' + b : ''} — он сам внесёт учеников, уроки, оплаты и песни`, hintOff: 'Голосовой ввод через бота: попроси Сашу вставить ключ Gemini в скрипт' },
+  en: { title: 'Added from the bot', stu: n => `New student: ${n}`, stuUpd: n => `Updated: ${n}`, lesson: (n, d) => `Lesson: ${n}, ${d}`, lessonUpd: (n, d) => `Lesson ${n}: ${d}`,
+    lessonDel: (n, d) => `Lesson deleted: ${n}, ${d}`, pkg: (n, k) => `Package ${n}: ${k} lessons`, exp: s => `Expense: ${s}`, note: n => `Note: ${n}`,
+    notFound: n => `Student “${n}” not found`, noLesson: n => `Lesson not found: ${n}`, noDate: 'Lesson without a date skipped',
+    hint: b => `Text or send a voice message to the bot${b ? ' @' + b : ''} — it adds students, lessons, payments and songs`, hintOff: 'Voice input via the bot: ask Sasha to add a Gemini key to the script' },
+  es: { title: 'Añadido desde el bot', stu: n => `Nuevo alumno: ${n}`, stuUpd: n => `Actualizado: ${n}`, lesson: (n, d) => `Clase: ${n}, ${d}`, lessonUpd: (n, d) => `Clase ${n}: ${d}`,
+    lessonDel: (n, d) => `Clase eliminada: ${n}, ${d}`, pkg: (n, k) => `Paquete ${n}: ${k} clases`, exp: s => `Gasto: ${s}`, note: n => `Nota: ${n}`,
+    notFound: n => `No encontré al alumno «${n}»`, noLesson: n => `No encontré la clase: ${n}`, noDate: 'Clase sin fecha omitida',
+    hint: b => `Escribe o manda un audio al bot${b ? ' @' + b : ''}: añade alumnos, clases, pagos y canciones`, hintOff: 'Entrada por voz con el bot: pide a Sasha que ponga la clave de Gemini en el script' },
+  it: { title: 'Aggiunto dal bot', stu: n => `Nuovo allievo: ${n}`, stuUpd: n => `Aggiornato: ${n}`, lesson: (n, d) => `Lezione: ${n}, ${d}`, lessonUpd: (n, d) => `Lezione ${n}: ${d}`,
+    lessonDel: (n, d) => `Lezione eliminata: ${n}, ${d}`, pkg: (n, k) => `Pacchetto ${n}: ${k} lezioni`, exp: s => `Spesa: ${s}`, note: n => `Nota: ${n}`,
+    notFound: n => `Allievo «${n}» non trovato`, noLesson: n => `Lezione non trovata: ${n}`, noDate: 'Lezione senza data saltata',
+    hint: b => `Scrivi o manda un vocale al bot${b ? ' @' + b : ''}: aggiunge allievi, lezioni, pagamenti e canzoni`, hintOff: 'Inserimento vocale con il bot: chiedi a Sasha di inserire la chiave Gemini nello script' },
+  fr: { title: 'Ajouté depuis le bot', stu: n => `Nouvel élève : ${n}`, stuUpd: n => `Mis à jour : ${n}`, lesson: (n, d) => `Cours : ${n}, ${d}`, lessonUpd: (n, d) => `Cours ${n} : ${d}`,
+    lessonDel: (n, d) => `Cours supprimé : ${n}, ${d}`, pkg: (n, k) => `Forfait ${n} : ${k} cours`, exp: s => `Dépense : ${s}`, note: n => `Note : ${n}`,
+    notFound: n => `Élève « ${n} » introuvable`, noLesson: n => `Cours introuvable : ${n}`, noDate: 'Cours sans date ignoré',
+    hint: b => `Écris ou envoie un vocal au bot${b ? ' @' + b : ''} : il ajoute élèves, cours, paiements et chansons`, hintOff: 'Saisie vocale via le bot : demande à Sasha d’ajouter la clé Gemini au script' }
+};
+const WN = {
+  ru: { title: 'Вышло обновление!', history: 'Что нового', ver: (v, d) => `Версия ${v} · ${d}`, add: 'Добавили', better: 'Улучшили', removed: 'Убрали', ok: 'Понятно' },
+  en: { title: 'Update is out!', history: 'What’s new', ver: (v, d) => `Version ${v} · ${d}`, add: 'Added', better: 'Improved', removed: 'Removed', ok: 'Got it' },
+  es: { title: '¡Nueva actualización!', history: 'Novedades', ver: (v, d) => `Versión ${v} · ${d}`, add: 'Añadido', better: 'Mejorado', removed: 'Eliminado', ok: 'Entendido' },
+  it: { title: 'Nuovo aggiornamento!', history: 'Novità', ver: (v, d) => `Versione ${v} · ${d}`, add: 'Aggiunto', better: 'Migliorato', removed: 'Rimosso', ok: 'Ho capito' },
+  fr: { title: 'Nouvelle mise à jour !', history: 'Nouveautés', ver: (v, d) => `Version ${v} · ${d}`, add: 'Ajouté', better: 'Amélioré', removed: 'Supprimé', ok: 'Compris' }
+};
+const RCS = {
+  ru: { attach: 'Прикрепить чек', attachShort: 'Чек', optional: 'по желанию', open: 'Чек прикреплён — открыть', title: 'Чек об оплате', replace: 'Заменить', del: 'Удалить',
+    cDel: 'Удалить чек?', cDelChat: 'Удалить чек из приложения? Копия останется в чате с ботом.', saving: 'Сохраняю чек…', saved: 'Чек прикреплён', loading: 'Загружаю чек…',
+    fail: 'Не получилось открыть фото', none: 'Чека нет', inChat: 'Копия сохранена в чате с ботом — откроется на любом телефоне', local: 'Чек хранится на этом телефоне',
+    cap: (n, s, d) => `🧾 Чек · ${n} · ${s} · ${d}` },
+  en: { attach: 'Attach receipt', attachShort: 'Receipt', optional: 'optional', open: 'Receipt attached — open', title: 'Payment receipt', replace: 'Replace', del: 'Delete',
+    cDel: 'Delete the receipt?', cDelChat: 'Delete the receipt from the app? A copy stays in the bot chat.', saving: 'Saving receipt…', saved: 'Receipt attached', loading: 'Loading receipt…',
+    fail: 'Could not open the photo', none: 'No receipt', inChat: 'A copy is saved in the bot chat — opens on any phone', local: 'The receipt is stored on this phone',
+    cap: (n, s, d) => `🧾 Receipt · ${n} · ${s} · ${d}` },
+  es: { attach: 'Adjuntar recibo', attachShort: 'Recibo', optional: 'opcional', open: 'Recibo adjunto: abrir', title: 'Recibo de pago', replace: 'Cambiar', del: 'Eliminar',
+    cDel: '¿Eliminar el recibo?', cDelChat: '¿Eliminar el recibo de la app? La copia queda en el chat del bot.', saving: 'Guardando recibo…', saved: 'Recibo adjunto', loading: 'Cargando recibo…',
+    fail: 'No se pudo abrir la foto', none: 'Sin recibo', inChat: 'Copia guardada en el chat del bot: se abre en cualquier móvil', local: 'El recibo está en este móvil',
+    cap: (n, s, d) => `🧾 Recibo · ${n} · ${s} · ${d}` },
+  it: { attach: 'Allega ricevuta', attachShort: 'Ricevuta', optional: 'facoltativo', open: 'Ricevuta allegata: apri', title: 'Ricevuta di pagamento', replace: 'Sostituisci', del: 'Elimina',
+    cDel: 'Eliminare la ricevuta?', cDelChat: 'Eliminare la ricevuta dall’app? La copia resta nella chat del bot.', saving: 'Salvo la ricevuta…', saved: 'Ricevuta allegata', loading: 'Carico la ricevuta…',
+    fail: 'Impossibile aprire la foto', none: 'Nessuna ricevuta', inChat: 'Copia salvata nella chat del bot: si apre su ogni telefono', local: 'La ricevuta è su questo telefono',
+    cap: (n, s, d) => `🧾 Ricevuta · ${n} · ${s} · ${d}` },
+  fr: { attach: 'Joindre le reçu', attachShort: 'Reçu', optional: 'facultatif', open: 'Reçu joint : ouvrir', title: 'Reçu de paiement', replace: 'Remplacer', del: 'Supprimer',
+    cDel: 'Supprimer le reçu ?', cDelChat: 'Supprimer le reçu de l’appli ? Une copie reste dans le chat du bot.', saving: 'Enregistrement du reçu…', saved: 'Reçu joint', loading: 'Chargement du reçu…',
+    fail: 'Impossible d’ouvrir la photo', none: 'Pas de reçu', inChat: 'Copie enregistrée dans le chat du bot : s’ouvre sur tout téléphone', local: 'Le reçu est sur ce téléphone',
+    cap: (n, s, d) => `🧾 Reçu · ${n} · ${s} · ${d}` }
+};
+const BKS = {
+  ru: { title: 'Резервные копии', hint: 'Копии делаются сами: на телефоне — каждый день и перед каждым обновлением, в чат с ботом — раз в неделю и перед обновлением. Из любой копии всё можно вернуть.',
+    sendNow: 'Отправить копию в чат с ботом', sending: 'Отправляю копию…', sent: 'Копия в чате с ботом', sendFail: 'Не получилось отправить, копия на телефоне есть', manual: 'вручную',
+    fromFile: 'Восстановить из файла', onPhone: 'Копии на этом телефоне', restore: 'Вернуть', none: 'Копий пока нет', beforeUpd: 'перед обновлением',
+    lastChat: d => `Последняя копия в чате: ${d}`, noChat: 'В чат с ботом копия ещё не отправлялась',
+    kinds: { day: 'за день', upd: 'перед обновлением', pre: 'перед изменением', man: 'вручную' },
+    cap: (n, l, d) => `Резервная копия · ${n} учен. · ${l} зан. · ${d}. Чтобы вернуть: Настройки → Резервные копии → Восстановить из файла`,
+    guard: 'База вдруг стала пустой — я не стала её сохранять. Данные целы, загляни в «Резервные копии».',
+    oops: 'Что-то пошло не так, но данные в безопасности', crash: 'Приложение не смогло открыться', crashText: 'Данные целы. Нажми «Повторить» или скопируй данные, чтобы ничего не потерять.', copyData: 'Скопировать данные' },
+  en: { title: 'Backups', hint: 'Backups are automatic: on the phone — every day and before every update, in the bot chat — weekly and before updates. Everything can be restored from any copy.',
+    sendNow: 'Send a backup to the bot chat', sending: 'Sending backup…', sent: 'Backup is in the bot chat', sendFail: 'Could not send; the phone copy is there', manual: 'manual',
+    fromFile: 'Restore from a file', onPhone: 'Backups on this phone', restore: 'Restore', none: 'No backups yet', beforeUpd: 'before update',
+    lastChat: d => `Last backup in the chat: ${d}`, noChat: 'No backup has been sent to the bot chat yet',
+    kinds: { day: 'daily', upd: 'before update', pre: 'before a change', man: 'manual' },
+    cap: (n, l, d) => `Backup · ${n} students · ${l} lessons · ${d}. To restore: Settings → Backups → Restore from a file`,
+    guard: 'The base suddenly became empty — I did not save it. Your data is safe, check “Backups”.',
+    oops: 'Something went wrong, but your data is safe', crash: 'The app could not open', crashText: 'Your data is safe. Tap “Retry” or copy the data so nothing is lost.', copyData: 'Copy data' },
+  es: { title: 'Copias de seguridad', hint: 'Las copias son automáticas: en el móvil — cada día y antes de cada actualización; en el chat del bot — cada semana y antes de actualizar. Todo se puede recuperar.',
+    sendNow: 'Enviar copia al chat del bot', sending: 'Enviando copia…', sent: 'Copia en el chat del bot', sendFail: 'No se pudo enviar; la copia del móvil existe', manual: 'manual',
+    fromFile: 'Restaurar desde archivo', onPhone: 'Copias en este móvil', restore: 'Restaurar', none: 'Aún no hay copias', beforeUpd: 'antes de actualizar',
+    lastChat: d => `Última copia en el chat: ${d}`, noChat: 'Aún no se envió ninguna copia al chat del bot',
+    kinds: { day: 'diaria', upd: 'antes de actualizar', pre: 'antes de un cambio', man: 'manual' },
+    cap: (n, l, d) => `Copia · ${n} alumnos · ${l} clases · ${d}. Para restaurar: Ajustes → Copias de seguridad → Restaurar desde archivo`,
+    guard: 'La base quedó vacía de repente: no la guardé. Tus datos están a salvo, revisa «Copias de seguridad».',
+    oops: 'Algo salió mal, pero tus datos están a salvo', crash: 'La app no pudo abrirse', crashText: 'Tus datos están a salvo. Pulsa «Reintentar» o copia los datos.', copyData: 'Copiar datos' },
+  it: { title: 'Backup', hint: 'I backup sono automatici: sul telefono — ogni giorno e prima di ogni aggiornamento; nella chat del bot — ogni settimana e prima degli aggiornamenti. Si può ripristinare tutto.',
+    sendNow: 'Invia un backup nella chat del bot', sending: 'Invio del backup…', sent: 'Backup nella chat del bot', sendFail: 'Invio non riuscito; la copia sul telefono c’è', manual: 'manuale',
+    fromFile: 'Ripristina da file', onPhone: 'Backup su questo telefono', restore: 'Ripristina', none: 'Nessun backup per ora', beforeUpd: 'prima dell’aggiornamento',
+    lastChat: d => `Ultimo backup in chat: ${d}`, noChat: 'Nessun backup ancora inviato nella chat del bot',
+    kinds: { day: 'giornaliero', upd: 'prima dell’aggiornamento', pre: 'prima di una modifica', man: 'manuale' },
+    cap: (n, l, d) => `Backup · ${n} allievi · ${l} lezioni · ${d}. Per ripristinare: Impostazioni → Backup → Ripristina da file`,
+    guard: 'La base è diventata vuota all’improvviso: non l’ho salvata. I dati sono al sicuro, guarda «Backup».',
+    oops: 'Qualcosa è andato storto, ma i dati sono al sicuro', crash: 'L’app non si è aperta', crashText: 'I dati sono al sicuro. Tocca «Riprova» o copia i dati.', copyData: 'Copia i dati' },
+  fr: { title: 'Sauvegardes', hint: 'Les sauvegardes sont automatiques : sur le téléphone — chaque jour et avant chaque mise à jour ; dans le chat du bot — chaque semaine et avant les mises à jour. Tout peut être restauré.',
+    sendNow: 'Envoyer une sauvegarde dans le chat du bot', sending: 'Envoi de la sauvegarde…', sent: 'Sauvegarde dans le chat du bot', sendFail: 'Envoi impossible ; la copie du téléphone existe', manual: 'manuelle',
+    fromFile: 'Restaurer depuis un fichier', onPhone: 'Sauvegardes sur ce téléphone', restore: 'Restaurer', none: 'Pas encore de sauvegarde', beforeUpd: 'avant mise à jour',
+    lastChat: d => `Dernière sauvegarde dans le chat : ${d}`, noChat: 'Aucune sauvegarde envoyée au chat du bot pour l’instant',
+    kinds: { day: 'quotidienne', upd: 'avant mise à jour', pre: 'avant un changement', man: 'manuelle' },
+    cap: (n, l, d) => `Sauvegarde · ${n} élèves · ${l} cours · ${d}. Pour restaurer : Réglages → Sauvegardes → Restaurer depuis un fichier`,
+    guard: 'La base est soudain devenue vide : je ne l’ai pas enregistrée. Tes données sont en sécurité, regarde « Sauvegardes ».',
+    oops: 'Un problème est survenu, mais tes données sont en sécurité', crash: 'L’appli n’a pas pu s’ouvrir', crashText: 'Tes données sont en sécurité. Touche « Réessayer » ou copie les données.', copyData: 'Copier les données' }
+};
+const PS = { ru: 'Списать из абонемента', en: 'Take from the package', es: 'Descontar del paquete', it: 'Scala dal pacchetto', fr: 'Déduire du forfait' };
+for (const c in B) { I18N[c].bx = B[c]; I18N[c].wn = WN[c]; I18N[c].rc = RCS[c]; I18N[c].pkgSw = PS[c]; I18N[c].bk = BKS[c]; }
+}
 
 /* ================= Quotes & language ================= */
 let quotePool = [], quoteIdx = 0;
@@ -2127,7 +2252,8 @@ function normalize(d){
 let state = normalize();
 let ready = false;
 const ui = { tab: 'home', month: today().slice(0, 7), moneyMonth: today().slice(0, 7), selDay: today(), calMode: 'day', q: '', showArch: false };
-const fmtNum = n => { try { return Math.round(+n || 0).toLocaleString(LOC); } catch (e) { return String(Math.round(+n || 0)); } };
+let NF = null, NFL = '';
+const fmtNum = n => { try { if (NFL !== LOC) { NF = new Intl.NumberFormat(LOC); NFL = LOC; } return NF.format(Math.round(+n || 0)); } catch (e) { return String(Math.round(+n || 0)); } };
 const money = n => fmtNum(n) + ' ' + (state.settings.cur || '₽');
 const stu = id => state.students.find(s => s.id === id);
 const svcOf = id => state.services.find(s => s.id === id);
@@ -2280,10 +2406,14 @@ function setSync(s){
   d.className = 'dot' + (s === 'busy' ? ' busy' : s === 'err' ? ' err' : '');
   t.textContent = s === 'busy' ? T.sync.busy : s === 'err' ? T.sync.err : useCloud ? T.sync.ok : inTG ? T.sync.device : T.sync.demo;
 }
-let achTimer = null;
+let achTimer = null, mirrorTimer = null, rev = 0;
+function writeMirror(){ clearTimeout(mirrorTimer); mirrorTimer = null; lsSet(JSON.stringify(state)); }
+window.addEventListener('pagehide', () => { if (mirrorTimer) writeMirror(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden && mirrorTimer) writeMirror(); });
 function save(){
-  lsSet(JSON.stringify(state));
-  if (ready) { clearTimeout(achTimer); achTimer = setTimeout(checkAch, 350); }
+  rev++; if (typeof bkTouch === 'function') bkTouch();
+  clearTimeout(mirrorTimer); mirrorTimer = setTimeout(writeMirror, 250);
+  if (ready) { clearTimeout(achTimer); achTimer = setTimeout(checkAch, 700); }
   if (!useCloud) return;
   setSync('busy'); closingGuard(true);
   clearTimeout(saveTimer); saveTimer = setTimeout(flush, 500);
@@ -2292,6 +2422,7 @@ async function flush(){
   clearTimeout(saveTimer); saveTimer = null;
   if (!useCloud || !cloudReady) return;
   if (saving) { again = true; return; }
+  if (!emptyGuard()) return;
   saving = true;
   let ok = true;
   try { await flushCloud(); } catch (e) { ok = false; }
@@ -2396,16 +2527,32 @@ const isDemo = () => !inTG && state.students.some(s => String(s.id).startsWith('
 /* ================= Calculations ================= */
 const paidMonth = l => String(l.paidAt || l.date).slice(0, 7);
 const pkgTotal = p => (+p.n || 0) * ((+p.price || 0) + (+p.rent || 0));
-const pkgUsed = p => state.lessons.filter(l => l.pkg === p.id).length;
+const pkgUsed = p => lessonsOf(p.sid).filter(l => l.pkg === p.id).length;
 const pkgLeft = p => Math.max(0, (+p.n || 0) - pkgUsed(p));
 const lastPkg = sid => state.packages.filter(p => p.sid === sid).sort((a, b) => (b.date + b.id).localeCompare(a.date + a.id))[0];
+function monthIndex(){
+  const mm = memoFresh();
+  if (!mm.byM) {
+    mm.byM = {}; mm.paidM = {}; mm.ms = {};
+    state.lessons.forEach(l => {
+      const k = l.date.slice(0, 7); (mm.byM[k] || (mm.byM[k] = [])).push(l);
+      if (l.paid && !l.pkg) { const pk = paidMonth(l); (mm.paidM[pk] || (mm.paidM[pk] = [])).push(l); }
+    });
+  }
+  return mm;
+}
 function monthStats(m){
+  const mm = monthIndex();
+  if (mm.ms[m]) return mm.ms[m];
+  return (mm.ms[m] = monthStatsRaw(m, mm));
+}
+function monthStatsRaw(m, mm){
   const t = today();
-  const list = state.lessons.filter(l => l.date.startsWith(m));
+  const list = (mm.byM[m] || []).slice();
   const c = list.filter(counts), unpaid = c.filter(l => !l.paid);
   const plan = list.filter(l => l.st === 'plan'), ahead = plan.filter(l => l.date > t);
   const pk = state.packages.filter(p => String(p.date).startsWith(m));
-  const got = vsum(state.lessons.filter(l => l.paid && !l.pkg && paidMonth(l) === m)) + pk.reduce((a, p) => a + pkgTotal(p), 0) + state.certs.filter(c => String(c.date).startsWith(m)).reduce((a, c) => a + (+c.price || 0), 0);
+  const got = vsum(mm.paidM[m] || []) + pk.reduce((a, p) => a + pkgTotal(p), 0) + state.certs.filter(c => String(c.date).startsWith(m)).reduce((a, c) => a + (+c.price || 0), 0);
   const rent = c.filter(l => !l.online).reduce((a, l) => a + (+l.rent || 0), 0);
   const exps = state.expenses.filter(e => String(e.date).startsWith(m));
   const exp = exps.reduce((a, e) => a + (+e.amount || 0), 0);
@@ -2413,24 +2560,39 @@ function monthStats(m){
   return { list, n: c.length, earned: vsum(c), got, debt: vsum(unpaid), ahead: ahead.length, aheadSum: vsum(ahead),
     unmarked: plan.length - ahead.length, rent, exp, exps, tax, net: got - rent - exp - tax };
 }
+/* Per-student numbers are cached until the data changes (save() bumps rev). */
+let memo = { key: '', st: null, by: {}, ss: {} };
+function memoFresh(){
+  const k = rev + '|' + today() + '|' + state.lessons.length + '|' + state.packages.length + '|' + state.students.length;
+  if (memo.key === k && memo.st === state) return memo;
+  const by = {};
+  state.lessons.forEach(l => { (by[l.sid] || (by[l.sid] = [])).push(l); });
+  return (memo = { key: k, st: state, by, ss: {} });
+}
+const lessonsOf = sid => memoFresh().by[sid] || [];
 function studentStats(id){
-  const t = today();
-  const ls = state.lessons.filter(l => l.sid === id);
-  const c = ls.filter(counts);
+  const m = memoFresh();
+  if (m.ss[id]) return m.ss[id];
+  const t = today(), ls = m.by[id] || [], c = [];
+  let last = null, lastHeld = null, next = null, lk = '', hk = '', nk = '';
+  ls.forEach(l => {
+    const k = l.date + l.time;
+    if (counts(l)) { c.push(l); if (!lastHeld || k > hk) { lastHeld = l; hk = k; } }
+    if (l.st !== 'plan') { if (!last || k > lk) { last = l; lk = k; } }
+    else if (l.date >= t && (!next || k < nk)) { next = l; nk = k; }
+  });
   const p = lastPkg(id);
-  return {
-    ls, n: c.length, earned: vsum(c), debt: vsum(c.filter(l => !l.paid)), pkg: p, left: p ? pkgLeft(p) : 0,
-    last: ls.filter(l => l.st !== 'plan').sort(byDateDesc)[0],
-    lastHeld: c.slice().sort(byDateDesc)[0],
-    next: ls.filter(l => l.st === 'plan' && l.date >= t).sort(byDateAsc)[0]
-  };
+  return (m.ss[id] = { ls, n: c.length, earned: vsum(c), debt: vsum(c.filter(l => !l.paid)), pkg: p, left: p ? pkgLeft(p) : 0,
+    last: last || undefined, lastHeld: lastHeld || undefined, next: next || undefined });
 }
 function applyPackages(sid){
   const pk = state.packages.filter(p => p.sid === sid).sort((a, b) => (a.date + a.id).localeCompare(b.date + b.id));
   const byId = {}; pk.forEach(p => { byId[p.id] = p; });
   const ls = state.lessons.filter(l => l.sid === sid).sort(byDateAsc);
   const release = l => { l.pkg = ''; l.paid = false; l.paidAt = ''; l.price = priceFor(l.sid, l.svc); l.rent = rentFor(l.svc, l.online); };
-  ls.forEach(l => { if (l.pkg && (!byId[l.pkg] || !counts(l) || l.date < byId[l.pkg].date)) release(l); });
+  /* a lesson takes a slot from the package as soon as it is held OR scheduled; a no-show without payment gives it back */
+  const elig = l => (counts(l) || l.st === 'plan') && !l.noPkg;
+  ls.forEach(l => { if (l.pkg && (!byId[l.pkg] || !elig(l) || (l.date < byId[l.pkg].date && !l.pkgForce))) release(l); });
   const used = {}; pk.forEach(p => { used[p.id] = 0; });
   ls.forEach(l => { if (l.pkg) used[l.pkg]++; });
   pk.forEach(p => {
@@ -2439,8 +2601,8 @@ function applyPackages(sid){
   });
   ls.forEach(l => {
     if (l.pkg) { const p = byId[l.pkg]; l.paid = true; l.paidAt = p.date; l.price = +p.price || 0; l.rent = l.online ? 0 : (+p.rent || 0); return; }
-    if (!counts(l) || l.paid) return;
-    const p = pk.find(x => x.date <= l.date && used[x.id] < x.n);
+    if (!elig(l) || l.paid) return;
+    const p = pk.find(x => (x.date <= l.date || l.pkgForce) && used[x.id] < x.n);
     if (!p) return;
     l.pkg = p.id; l.paid = true; l.paidAt = p.date; l.price = +p.price || 0; l.rent = l.online ? 0 : (+p.rent || 0); used[p.id]++;
   });
@@ -2566,19 +2728,23 @@ function checkAch(){
   fresh.forEach(id => { state.ach[id] = today(); });
   save();
   if (silent) return;
-  fresh.filter(isPrize).forEach(id => queueEvent('pz_' + id, T.nb.prizeAdmin(userName(), T.ach[id][0]), 'admin'));
-  if (state.settings.nt.ach) {
-    if (fresh.length > 3) queueEvent('achm_' + fresh.join('').slice(-60), T.nb.ach(fresh.map(id => T.ach[id][0]).slice(0, 8).join('», «')));
-    else fresh.forEach(id => queueEvent('ach_' + id, T.nb.ach(T.ach[id][0])));
-  }
-  if (fresh.length > 3) {
-    const pz = fresh.filter(isPrize);
-    achQueue.push({ icon: '🏆', label: pz.length ? '🎁 ' + T.prizeL : T.newAch, title: T.achMany(fresh.length),
-      text: fresh.slice(0, 8).map(id => (isPrize(id) ? '🎁 ' : '• ') + T.ach[id][0]).join('\n') + (fresh.length > 8 ? '\n…' : '') + (pz.length ? '\n\n🎁 ' + T.prizeX : ''),
-      sub: pz.length ? '— ' + T.egg.sanya : pick(T.cheers), hearts: !!pz.length });
-  } else achQueue.push(...fresh);
-  if (!$('celeb').classList.contains('on')) showNextCeleb();
+  const pz = fresh.filter(isPrize);
+  if (fresh.length > 3) achPop({ icon: '🏆', label: T.achMany(fresh.length), title: fresh.slice(0, 3).map(id => T.ach[id][0]).join(' · ') + (fresh.length > 3 ? ' …' : ''), prize: !!pz.length });
+  else fresh.forEach(id => { const a = ACH.find(x => x[0] === id); achPop({ icon: a ? a[1] : '🏆', label: isPrize(id) ? '🎁 ' + T.prizeL : T.newAch, title: T.ach[id][0], prize: isPrize(id), id }); });
 }
+/* Achievements pop up as a small card in the top-right corner, never over the whole screen. */
+const popQ = []; let popOn = false, popTimer = null, popCur = null;
+function achPop(o){ popQ.push(o); if (!popOn) nextPop(); }
+function nextPop(){
+  const o = popQ.shift(), el = $('achpop');
+  if (!o || !el) { popOn = false; return; }
+  popOn = true; popCur = o;
+  el.innerHTML = `<span class="pi">${o.icon}</span><span class="pt"><small>${esc(o.label)}</small><b>${esc(o.title)}</b>${o.prize ? `<em>🎁 ${esc(T.prizeShow)}</em>` : ''}</span>`;
+  el.classList.toggle('prize', !!o.prize);
+  el.classList.add('on'); haptic('light');
+  clearTimeout(popTimer); popTimer = setTimeout(hidePop, popQ.length ? 1800 : o.prize ? 7000 : 3800);
+}
+function hidePop(){ const el = $('achpop'); clearTimeout(popTimer); if (el) el.classList.remove('on'); setTimeout(nextPop, 320); }
 function showCeleb(o){
   curCeleb = o;
   $('celebBox').innerHTML = `<div class="ci">${o.icon}</div>${o.label ? `<small>${esc(o.label)}</small>` : ''}<h2>${esc(o.title)}</h2>
@@ -2601,7 +2767,7 @@ function celebrate(o){ achQueue.push(o); if (!$('celeb').classList.contains('on'
 /* ================= Bot notifications (Google Apps Script backend) ================= */
 let botStatus = '', botLast = 0, syncTimer = null, lastPayload = '', botBlocked = false;
 const API_RE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
-const evQueue = (() => { try { const q = JSON.parse(lsGetK('vs_evq') || '[]'); return Array.isArray(q) ? q : []; } catch (e) { return []; } })();
+const evQueue = (() => { try { const q = JSON.parse(lsGetK('vs_evq') || '[]'); return Array.isArray(q) ? q.filter(e => e && !/^(ach_|achm_|pz_)/.test(e.k)) : []; } catch (e) { return []; } })();
 const saveEvQ = () => lsSetK('vs_evq', JSON.stringify(evQueue.slice(-30)));
 function queueEvent(k, x, to){
   if (!inTG || !state.settings.api || !state.settings.nt.on) return;
@@ -2693,13 +2859,15 @@ async function botPost(body){
 }
 async function botSync(force){
   if (!inTG || !state.settings.api) return;
-  const notes = buildNotes(), pub = pubData(), hash = JSON.stringify([notes, appUrl(), L, pub]);
+  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), hash = JSON.stringify([notes, appUrl(), L, pub, ctx]);
   if (!force && hash === lastPayload) return;
-  const sentKeys = new Set(evQueue.map(e => e.k));
+  const sentKeys = new Set(evQueue.map(e => e.k)), ack = opsAck.slice();
   try {
-    const j = await botPost({ a: 'sync', notes, pub });
+    const j = await botPost({ a: 'sync', notes, pub, ctx, ack });
+    opsAck = opsAck.filter(x => !ack.includes(x)); saveAck();
     handleServer(j);
     lastPayload = hash; botStatus = 'ok'; botLast = Date.now();
+    setTimeout(rcRetry, 3000);
     for (let i = evQueue.length - 1; i >= 0; i--) if (sentKeys.has(evQueue[i].k)) evQueue.splice(i, 1);
     saveEvQ();
     if (Array.isArray(j.secrets)) { lsSetK('vs_secrets', JSON.stringify(j.secrets)); maybeSecret(); }
@@ -2855,7 +3023,8 @@ function lessonRow(l, opts = {}){
   const title = opts.noName ? esc(dayLabel(l.date)) : esc(s ? s.name : T.removed);
   const tags = (l.online ? `<span class="chip onl">💻 ${esc(T.chOnline)}</span>` : '')
     + (l.grp ? `<span class="chip grp">👯 ${esc(T.chGroup)}</span>` : '')
-    + (l.pkg ? `<span class="chip pk">🎟 ${esc(T.chPkg)}</span>` : '');
+    + (l.pkg ? `<span class="chip pk">🎟 ${esc(T.chPkg)}</span>` : '')
+    + (l.rcpt ? `<span class="chip">🧾</span>` : '');
   let sub;
   if (l.st === 'plan' && l.date <= today()) {
     sub = `<button class="mini ok" data-act="mark" data-id="${l.id}" data-v="done">${esc(T.markDone)}</button><button class="mini no" data-act="mark" data-id="${l.id}" data-v="miss">${esc(T.markMiss)}</button>${tags}`;
@@ -3198,13 +3367,12 @@ const curSt = () => { const b = $('f_st') && $('f_st').querySelector('.on'); ret
 function pickSt(v){ $('f_st').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === v)); $('paidRow').hidden = v === 'miss'; pkgInfo(); }
 function pkgInfo(){
   const el = $('pkgInfo'); if (!el) return;
-  const st = curSt(), counted = st === 'done' || st === 'misspaid';
-  if (el.dataset.pkg && counted) { el.hidden = false; el.textContent = '🎟 ' + T.inPkg; $('paidRow').hidden = true; return; }
-  const sid = swOn('f_grp') ? '' : $('f_sid').value, date = $('f_date').value;
-  const left = sid && counted ? state.packages.filter(p => p.sid === sid && p.date <= date).reduce((a, p) => a + pkgLeft(p), 0) : 0;
-  el.hidden = !left;
-  if (left) el.textContent = '🎟 ' + T.willPkg(left);
-  $('paidRow').hidden = st === 'miss' || !!left;
+  const st = curSt(), sid = swOn('f_grp') ? '' : $('f_sid').value, had = !!el.dataset.pkg;
+  const left = sid ? state.packages.filter(p => p.sid === sid).reduce((a, p) => a + pkgLeft(p), 0) : 0;
+  const show = st !== 'miss' && !!sid && (had || left > 0), on = show && swOn('f_pkg');
+  el.hidden = !show;
+  if (show) $('pkgTxt').textContent = '🎟 ' + (on ? (had ? T.inPkg : T.willPkg(left)) : T.pkgSw);
+  $('paidRow').hidden = st === 'miss' || on;
 }
 function setOnline(on){
   const b = $('f_online'); if (!b) return;
@@ -3253,8 +3421,9 @@ function lessonForm(id, preset = {}){
         <div class="field"><span class="lb">${esc(T.fStatus)}</span><div class="seg" id="f_st">
           ${Object.keys(T.st).map(k => `<button type="button" data-act="pickSt" data-v="${k}" class="${L0.st === k ? 'on' : ''}">${esc(T.st[k][0])}</button>`).join('')}</div></div>
         <div class="field toggle" id="paidRow"${L0.st === 'miss' ? ' hidden' : ''}><span>${esc(T.fPaid)}</span><button type="button" class="sw${L0.paid ? ' on' : ''}" id="f_paid" data-act="swToggle" aria-label="${esc(T.fPaid)}"></button></div>
-        <div class="field" id="pkgInfo" hidden${ex && ex.pkg ? ' data-pkg="1"' : ''}></div>
+        <div class="field toggle" id="pkgInfo" hidden${ex && ex.pkg ? ' data-pkg="1"' : ''}><span id="pkgTxt"></span><button type="button" class="sw${ex && ex.noPkg ? '' : ' on'}" id="f_pkg" data-act="swPkg" aria-label="🎟"></button></div>
       </div>
+      ${ex && ex.st !== 'miss' ? rcBlock('l', ex) : ''}
       ${!ex ? `<div class="group"><div class="field"><label for="f_rep">${esc(T.fRepeat)}</label><select id="f_rep">
         ${[0, 3, 7, 11].map((v, i) => `<option value="${v}">${esc(T.rep[i])}</option>`).join('')}</select></div></div>` : ''}
       <div class="group"><div class="field"><label for="f_note">${esc(T.fNote)}</label><textarea id="f_note" placeholder="${esc(T.fNotePh)}">${esc(L0.note)}</textarea></div></div>
@@ -3286,7 +3455,8 @@ function readLessonForm(){
     grp, sids, sid: sids[0] || '', svc: $('f_svc').value, date: $('f_date').value, time: $('f_time').value,
     dur: Math.max(0, Math.round(+$('f_dur').value || 0)), price: Math.max(0, +$('f_price').value || 0),
     rent: online ? 0 : Math.max(0, +$('f_rent').value || 0), online, link: online ? $('f_link').value.trim() : '',
-    st, paid: st !== 'miss' && !$('paidRow').hidden && swOn('f_paid'), note: $('f_note').value.trim(), rep: $('f_rep') ? +$('f_rep').value : 0
+    st, paid: st !== 'miss' && !$('paidRow').hidden && swOn('f_paid'), note: $('f_note').value.trim(), rep: $('f_rep') ? +$('f_rep').value : 0,
+    pkgMode: $('pkgInfo') && !$('pkgInfo').hidden ? (swOn('f_pkg') ? 'on' : 'off') : ''
   };
 }
 
@@ -3426,6 +3596,7 @@ function packageForm(sid, pid){
         <div class="field"><label for="p_date">${esc(T.pkgDate)}</label><input type="date" id="p_date" value="${esc(P0.date)}"></div></div>
       <div class="pkgbox" style="margin-top:0"><b id="p_total"></b><small>${esc(T.pkgHint)}</small></div>
       ${ex ? `<div class="hintline center">${esc(T.pkgUsedL(pkgUsed(ex), ex.n))}</div>` : ''}
+      ${ex ? rcBlock('p', ex) : ''}
       <button class="btn" data-act="savePackage" data-id="${ex ? ex.id : ''}" data-sid="${sidX}">${esc(ex ? T.save : T.pkgSellBtn)}</button>
       ${ex ? `<button class="btn danger" data-act="deletePackage" data-id="${ex.id}">${esc(T.pkgDel)}</button>` : ''}`;
   };
@@ -3461,9 +3632,10 @@ function settingsSheet(){
         <div class="field"><label for="nt_morning">☀️ ${esc(T.ntMorning)}</label>${sel('nt_morning', [-1, 7, 8, 9, 10, 11], nt.morning, v => v < 0 ? T.off : `${pad(v)}:00`)}</div>
         <div class="field"><label for="nt_before">⏰ ${esc(T.ntBefore)}</label>${sel('nt_before', [0, 15, 30, 60, 120, 1440], nt.before, v => v ? T.ntBeforeOpt(v) : T.off)}</div>
         <div class="field"><label for="nt_evening">📝 ${esc(T.ntEvening)}</label>${sel('nt_evening', [-1, 19, 20, 21, 22], nt.evening, v => v < 0 ? T.off : `${pad(v)}:00`)}</div>
-        ${sw('debts', '💸 ' + T.ntDebts)}${sw('monthly', '📊 ' + T.ntMonthly)}${sw('ach', '🏆 ' + T.ntAch)}</div>
+        ${sw('debts', '💸 ' + T.ntDebts)}${sw('monthly', '📊 ' + T.ntMonthly)}</div>
       <div class="btnrow"><button class="btn ghost" data-act="botTest">🔔 ${esc(T.ntTest)}</button><button class="btn ghost" data-act="botSyncNow">↻ ${esc(T.ntSync)}</button></div>
-      ${botBlocked ? `<button class="btn soft" data-act="allowPm">${esc(T.ntAllow)}</button>` : ''}`;
+      ${botBlocked ? `<button class="btn soft" data-act="allowPm">${esc(T.ntAllow)}</button>` : ''}
+      <div class="hintline" style="margin:8px 8px 0">🤖 ${esc(botAi ? T.bx.hint(botUser) : T.bx.hintOff)}</div>`;
     return sheetHead(T.settings) + `
       <div class="sec" style="margin-top:0"><span>${esc(T.lang)}</span></div>
       <div class="langs">${Object.keys(LANGS).map(c => `<button data-act="setLang" data-v="${c}" class="${c === L ? 'on' : ''}"><span class="fl">${LANGS[c].flag}</span>${esc(LANGS[c].name)}</button>`).join('')}</div>
@@ -3486,9 +3658,11 @@ function settingsSheet(){
       <div class="group" style="margin-top:12px"><div class="field"><label for="o_pay">📲 ${esc(T.payLinkL)}</label><input id="o_pay" value="${esc(S.payLink || '')}" placeholder="${esc(T.payLinkPh)}" autocapitalize="off"></div></div>
       <button class="btn" data-act="saveSettings">${esc(T.save)}</button>
       <div class="sec"><span>🔔 ${esc(T.ntSec)}</span></div>${bot}${bookSettings()}
+      <button class="btn ghost" data-act="whatsNew" style="margin-top:14px">🆕 ${esc(T.wn.history)} · ${esc(CHANGES[0].name)}</button>
       ${ver('8.0') ? `<button class="btn ghost" data-act="home">${esc(T.homeIcon)}</button>` : ''}
       <div class="sec"><span>${esc(T.storeSec)}</span></div>
       <div class="hintline" style="margin-top:0">${esc(useCloud ? T.storeCloud : inTG ? T.storeOld : T.storeLocal)} ${esc(T.storeTip)}</div>
+      <button class="btn ghost" data-act="backups">🛟 ${esc(T.bk.title)}</button>
       <button class="btn ghost" data-act="backup">${esc(T.backupBtn)}</button>
       <button class="btn ghost" data-act="restore">${esc(T.restoreBtn)}</button>
       <div class="hintline center">${esc(T.dbCount(state.students.length, state.lessons.length))}</div>
@@ -3766,6 +3940,8 @@ function handleServer(j){
   if (Array.isArray(j.voices)) { voices = j.voices.filter(v => /^https:\/\//.test(v)); lsSetK('vs_voices', JSON.stringify(voices)); }
   if (Array.isArray(j.requests)) { const was = requests.length; requests = j.requests; lsSetK('vs_reqs', JSON.stringify(requests)); if (requests.length !== was && ui.tab === 'home' && !stack.length) render(); }
   if (Array.isArray(j.capsules)) { lsSetK('vs_caps', JSON.stringify(j.capsules)); checkCapsules(); }
+  if (typeof j.ai === 'boolean') { botAi = j.ai; lsSetK('vs_ai', j.ai ? '1' : '0'); }
+  if (Array.isArray(j.ops)) applyOps(j.ops);
 }
 function playVoice(){
   if (!voices.length) return;
@@ -4215,6 +4391,472 @@ function studentNotes(){
   return out;
 }
 
+/* ================= Bot input: text & voice → data (actions queued on the server) ================= */
+let botAi = lsGetK('vs_ai') === '1', opsBusy = false, opsAck = [];
+try { opsAck = JSON.parse(lsGetK('vs_ack') || '[]').filter(x => typeof x === 'string').slice(-100); } catch (e) {}
+const saveAck = () => lsSetK('vs_ack', JSON.stringify(opsAck.slice(-100)));
+function botCtx(){
+  const t = today(), lo = ymd(addDays(parseD(t), -7)), hi = ymd(addDays(parseD(t), 30));
+  const up = state.lessons.filter(l => l.date >= lo && l.date <= hi).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).slice(0, 40)
+    .map(l => { const s = stu(l.sid); return `${l.date} ${l.time || '--:--'} ${s ? s.name : '?'} ${l.st}${l.paid ? ' paid' : ''}`; });
+  return { students: state.students.map(s => Object.assign({ id: s.id, n: s.name }, s.phone ? { ph: s.phone } : {}, s.archived ? { a: 1 } : {})),
+    svcs: state.services.map(s => Object.assign({ id: s.id, n: s.name, p: priceFor('', s.id) }, s.online ? { on: 1 } : {})), up, dur: +state.settings.dur || 60, price: +state.settings.price || 0, cur: state.settings.cur || '₽',
+    pk: state.students.filter(s => !s.archived).map(s => { const ss = studentStats(s.id); return ss.pkg ? `${s.name}: ${ss.left}` : ''; }).filter(Boolean),
+    work: `${state.settings.work.from}-${state.settings.work.to}` };
+}
+async function pollOps(){
+  if (!inTG || !state.settings.api || !ready || opsBusy || document.hidden) return;
+  opsBusy = true;
+  const ack = opsAck.slice();
+  try {
+    const j = await botPost({ a: 'ops', ack });
+    opsAck = opsAck.filter(x => !ack.includes(x)); saveAck();
+    if (Array.isArray(j.ops)) applyOps(j.ops);
+  } catch (e) {}
+  opsBusy = false;
+}
+setInterval(pollOps, 15000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(pollOps, 600); });
+
+const bxNorm = s => String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N} ]/gu, ' ').replace(/\s+/g, ' ').trim();
+function bxFind(ref){
+  if (!ref) return null;
+  const byId = stu(String(ref)); if (byId) return byId;
+  const r = bxNorm(ref); if (!r) return null;
+  const exact = state.students.filter(s => bxNorm(s.name) === r);
+  if (exact.length) return exact.find(s => !s.archived) || exact[0];
+  const f = r.split(' ')[0];
+  const cand = state.students.filter(s => { const n = bxNorm(s.name); return n.startsWith(r) || r.startsWith(n) || n.split(' ')[0] === f; });
+  const act = cand.filter(s => !s.archived);
+  if (act.length === 1) return act[0];
+  if (!act.length && cand.length === 1) return cand[0];
+  return null;
+}
+const bxDate = v => /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) && !isNaN(parseD(v)) ? String(v) : '';
+const bxTime = v => { const m = String(v || '').match(/^(\d{1,2})[:.](\d{2})$/); return m && +m[1] < 24 && +m[2] < 60 ? `${pad(+m[1])}:${m[2]}` : ''; };
+const bxNum = v => { const n = +String(v == null ? '' : v).replace(/[^\d.]/g, ''); return isFinite(n) && n > 0 ? Math.round(n) : 0; };
+const bxSvc = v => { if (svcOf(v)) return v; const n = bxNorm(v); const s = n && state.services.find(x => bxNorm(x.name) === n || bxNorm(x.name).startsWith(n)); return s ? s.id : ''; };
+const BX_ST = ['plan', 'done', 'miss', 'misspaid'];
+const bxWhen = (d, t) => shortDate(d) + (t ? ' ' + t : '');
+const bxAppend = (a, b) => (a ? a + '\n' : '') + b;
+
+function bxStudentFields(s, a){
+  if (a.name && String(a.name).trim()) s.name = String(a.name).trim().replace(/\s+/g, ' ').slice(0, 80);
+  if (a.phone) s.phone = String(a.phone).trim().slice(0, 40);
+  if (a.tg) s.tg = String(a.tg).trim().replace(/^(https?:\/\/)?(t\.me|telegram\.me)\//i, '').replace(/^@/, '').replace(/[/?#\s].*$/, '').slice(0, 40);
+  if (bxDate(a.bday)) s.bday = a.bday;
+  if (bxNum(a.price)) s.price = bxNum(a.price);
+  if (a.svc && bxSvc(a.svc)) s.svc = bxSvc(a.svc);
+  if (a.note) s.note = bxAppend(s.note, String(a.note).trim());
+  if (a.note_append) s.note = bxAppend(s.note, String(a.note_append).trim());
+  if (typeof a.archived === 'boolean') s.archived = a.archived;
+  if (SRCS.includes(a.src)) s.src = a.src;
+  const nt = v => /^[A-G][#b]?[0-8]$/.test(String(v || '').trim()) ? String(v).trim() : '';
+  if (nt(a.range_lo) || nt(a.range_hi)) { s.range = Object.assign({ lo: '', hi: '' }, s.range); if (nt(a.range_lo)) s.range.lo = nt(a.range_lo); if (nt(a.range_hi)) s.range.hi = nt(a.range_hi); }
+}
+function bxNewStudent(name){
+  const s = { id: uid(), name: '', phone: '', tg: '', price: 0, svc: '', bday: '', src: '', note: '', archived: false, created: today(), range: { lo: '', hi: '' }, songs: [], hw: [], warm: [], skills: {} };
+  bxStudentFields(s, { name }); state.students.push(s); return s;
+}
+function bxLessonFor(s, a, needDate){
+  let ls = state.lessons.filter(l => l.sid === s.id);
+  const d = bxDate(a.date), tm = bxTime(a.time), t = today();
+  if (d) ls = ls.filter(l => l.date === d); else if (needDate) return null;
+  if (tm && ls.some(l => l.time === tm)) ls = ls.filter(l => l.time === tm);
+  if (d) return ls.sort((x, y) => (x.time || '').localeCompare(y.time || ''))[0] || null;
+  const next = ls.filter(l => l.st === 'plan' && l.date >= t).sort((x, y) => (x.date + x.time).localeCompare(y.date + y.time))[0];
+  return next || ls.filter(l => l.date <= t).sort((x, y) => (y.date + y.time).localeCompare(x.date + x.time))[0] || null;
+}
+
+function applyAct(a, out, touched){
+  const T2 = T.bx, t = today();
+  const need = () => { const s = bxFind(a.student); if (!s) out.push('⚠️ ' + T2.notFound(a.student || '?')); return s; };
+  switch (a.type) {
+    case 'add_student': {
+      if (!a.name) return;
+      let s = bxFind(a.name);
+      if (s && bxNorm(s.name) !== bxNorm(a.name)) s = null;
+      if (s) { bxStudentFields(s, Object.assign({}, a, { name: '' })); out.push('👤 ' + T2.stuUpd(s.name)); return; }
+      s = bxNewStudent(a.name); bxStudentFields(s, Object.assign({}, a, { name: '' }));
+      out.push('👤 ' + T2.stu(s.name)); return;
+    }
+    case 'update_student': { const s = need(); if (!s) return; bxStudentFields(s, a); out.push('👤 ' + T2.stuUpd(s.name)); return; }
+    case 'add_lesson': {
+      const date = bxDate(a.date); if (!date) return out.push('⚠️ ' + T2.noDate);
+      let s = bxFind(a.student);
+      if (!s) { if (!a.student || stu(a.student)) return out.push('⚠️ ' + T2.notFound(a.student || '?')); s = bxNewStudent(a.student); out.push('👤 ' + T2.stu(s.name)); }
+      const svc = bxSvc(a.svc) || defSvcFor(s.id), online = a.online === true, time = bxTime(a.time);
+      const st = BX_ST.includes(a.status) ? a.status : date < t ? 'done' : 'plan';
+      const rep = Math.min(52, Math.max(0, Math.round(+a.repeat_weeks || 0)));
+      const pkgF = a.pkg === true ? { noPkg: false, pkgForce: true } : a.pkg === false ? { noPkg: true } : {};
+      const paid = a.pkg === true ? false : a.paid === true;
+      for (let k = 0; k <= rep; k++) {
+        const d = ymd(addDays(parseD(date), 7 * k));
+        const l = { id: uid(), sid: s.id, svc, date: d, time, dur: bxNum(a.dur) || +state.settings.dur || 60, price: bxNum(a.price) || priceFor(s.id, svc), rent: rentFor(svc, online),
+          online, link: '', grp: '', pkg: '', st: k ? 'plan' : st, paid: k ? false : paid, paidAt: '', note: k ? '' : String(a.note || '').slice(0, 500) };
+        Object.assign(l, pkgF);
+        if (l.paid) l.paidAt = d < t ? d : t;
+        state.lessons.push(l);
+      }
+      touched.add(s.id); ui.month = date.slice(0, 7); ui.selDay = date;
+      out.push('📅 ' + T2.lesson(s.name, bxWhen(date, time)) + (rep ? ' ×' + (rep + 1) : '')); return;
+    }
+    case 'update_lesson': case 'delete_lesson': {
+      const s = need(); if (!s) return;
+      const l = bxLessonFor(s, a, a.type === 'delete_lesson');
+      if (!l) return out.push('⚠️ ' + T2.noLesson(s.name + (a.date ? ' ' + bxWhen(bxDate(a.date) || t, bxTime(a.time)) : '')));
+      touched.add(s.id);
+      if (a.type === 'delete_lesson') { state.lessons = state.lessons.filter(x => x !== l); out.push('🗑 ' + T2.lessonDel(s.name, bxWhen(l.date, l.time))); return; }
+      const x = a.set || {}, was = bxWhen(l.date, l.time);
+      if (BX_ST.includes(x.status)) l.st = x.status;
+      if (typeof x.paid === 'boolean' && !l.pkg) { l.paid = x.paid; l.paidAt = x.paid ? (l.date < t ? l.date : t) : ''; }
+      if (bxDate(x.date)) l.date = x.date;
+      if (bxTime(x.time)) l.time = bxTime(x.time);
+      if (bxNum(x.price)) l.price = bxNum(x.price);
+      if (x.note) l.note = bxAppend(l.note, String(x.note).slice(0, 500));
+      if (x.pkg === true) Object.assign(l, { noPkg: false, pkgForce: true, paid: false });
+      else if (x.pkg === false && l.pkg) Object.assign(l, { noPkg: true, pkg: '', paid: false });
+      const now = bxWhen(l.date, l.time);
+      out.push((x.paid === true ? '💰 ' : '📅 ') + T2.lessonUpd(s.name, was === now ? now : was + ' → ' + now) + (x.paid === true ? ' · ' + T.tPaid.replace(/[.!]$/, '') : '')); return;
+    }
+    case 'add_package': {
+      const s = need(); if (!s) return;
+      const n = Math.min(100, bxNum(a.n) || 4), svc = bxSvc(a.svc) || defSvcFor(s.id), sv = svcOf(svc), rent = rentFor(svc, false);
+      const total = bxNum(a.total), per = bxNum(a.per_lesson) || (total ? Math.round(total / n) : 0) || bxNum(a.price);
+      const def = sv && n === 4 && +sv.p4 ? +sv.p4 : sv && n === 8 && +sv.p8 ? +sv.p8 : priceFor(s.id, svc);
+      /* a named sum is what the student paid in total: keep it exact (price per lesson, no extra rent) */
+      state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: '' });
+      touched.add(s.id); out.push('📦 ' + T2.pkg(s.name, n)); return;
+    }
+    case 'add_expense': {
+      const amount = bxNum(a.amount); if (!amount) return;
+      const cat = ['rent', 'ads', 'notes', 'equip', 'edu', 'transport', 'other'].includes(a.cat) ? a.cat : 'other', date = bxDate(a.date) || t;
+      state.expenses.push({ id: uid(), date, cat, amount, note: String(a.note || '').slice(0, 300) });
+      ui.moneyMonth = date.slice(0, 7); out.push('💸 ' + T2.exp(money(amount))); return;
+    }
+    case 'add_song': case 'add_warmup': case 'add_homework': {
+      const s = need(); if (!s) return;
+      const title = String(a.title || '').trim().slice(0, 200); if (!title) return;
+      if (a.type === 'add_song') s.songs.push({ id: uid(), t: title, key: String(a.key || '').slice(0, 12), done: false });
+      else (a.type === 'add_warmup' ? s.warm : s.hw).push({ id: uid(), t: title, done: false });
+      out.push(({ add_song: '🎵 ', add_warmup: '🌬 ', add_homework: '📝 ' })[a.type] + `${s.name}: ${title}`); return;
+    }
+    case 'add_event': {
+      const date = bxDate(a.date); if (!date || !a.title) return out.push('⚠️ ' + T2.noDate);
+      const sids = (Array.isArray(a.students) ? a.students : []).map(r => bxFind(r)).filter(Boolean).map(s => s.id);
+      state.events.push({ id: uid(), title: String(a.title).slice(0, 120), date, time: bxTime(a.time), place: String(a.place || '').slice(0, 120), program: '', sids: [...new Set(sids)] });
+      out.push('🎭 ' + String(a.title).slice(0, 60) + ', ' + bxWhen(date, bxTime(a.time))); return;
+    }
+    case 'add_note': { const s = need(); if (!s || !a.text) return; s.note = bxAppend(s.note, String(a.text).trim().slice(0, 1000)); out.push('🗒 ' + T2.note(s.name)); return; }
+  }
+}
+function applyOps(ops){
+  if (!ready || !Array.isArray(ops) || !ops.length) return;
+  const done = Array.isArray(state.settings.opsDone) ? state.settings.opsDone : [];
+  const fresh = ops.filter(o => o && o.id && Array.isArray(o.acts) && !done.includes(o.id));
+  ops.forEach(o => { if (o && o.id && !opsAck.includes(o.id)) opsAck.push(o.id); }); saveAck();
+  if (!fresh.length) return;
+  const out = [], touched = new Set();
+  fresh.forEach(o => { o.acts.forEach(a => { try { applyAct(a, out, touched); } catch (e) {} }); done.push(o.id); });
+  state.settings.opsDone = done.slice(-80);
+  touched.forEach(sid => applyPackages(sid));
+  save(); render(); if (stack.length) refreshSheet(); hapticOk();
+  toast('🤖 ' + T.bx.title + '\n' + out.slice(0, 8).join('\n') + (out.length > 8 ? '\n…' : ''), 3000 + 900 * Math.min(out.length, 6));
+  setTimeout(pollOps, 1500);
+}
+
+/* ================= What's new (shown once after each update) =================
+   Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
+const APP_VER = 7;
+const CHANGES = [
+  { v: 7, name: '6.1', date: '2026-10-31',
+    ru: {
+      add: ['Резервные копии: каждый день и перед каждым обновлением на телефоне, раз в неделю — файлом в чат с ботом. В настройках можно вернуть любую копию или восстановить из файла',
+        'В уроке появился переключатель «Списать из абонемента»',
+        'Бот понимает больше: «подписка» и «пакет» = абонемент, концерты, откуда пришёл ученик, диапазон голоса. Если не понял, о ком речь, — переспрашивает кнопками. Перед записью показывает всё, что понял, и вносит только после «✅ Внести»'],
+      better: ['Абонемент списывается сразу, как только урок поставлен в расписание; пропуск без оплаты возвращает занятие обратно',
+        'Защита: приложение не сохранит пустую базу поверх заполненной, а ошибка на одном экране не закроет всё приложение'],
+      removed: [] },
+    en: {
+      add: ['Backups: on the phone every day and before every update, weekly as a file in the bot chat. Restore any copy or a file in Settings',
+        'Lessons got a “Take from the package” switch',
+        'The bot understands more: “subscription” and “bundle” = package, concerts, where a student came from, vocal range. If unsure who is meant, it asks with buttons. Before writing it shows everything it understood and saves only after “✅ Add”'],
+      better: ['A package lesson is taken as soon as the lesson is scheduled; an unpaid no-show gives it back',
+        'Protection: the app never saves an empty base over a filled one, and an error on one screen no longer breaks the app'],
+      removed: [] } },
+  { v: 6, name: '6.0', date: '2026-10-31',
+    ru: {
+      add: ['Ввод через бота: пиши или наговаривай голосовое — бот сам внесёт учеников, уроки, оплаты, песни и расходы',
+        'Чеки к оплатам: к уроку или пакету можно прикрепить фото чека',
+        'Окно «Что нового» — после каждого обновления видно, что поменялось'],
+      better: ['Достижения появляются маленьким окошком в углу и не закрывают экран',
+        'Приложение стало быстрее: вкладки открываются в 2–3 раза быстрее, кнопки откликаются сразу'],
+      removed: ['Сообщения о достижениях в Telegram — теперь они только в приложении'] },
+    en: {
+      add: ['Input via the bot: type or send a voice message — the bot adds students, lessons, payments, songs and expenses',
+        'Receipts: attach a photo of the receipt to a lesson or a package',
+        '“What’s new” window — after every update you see what changed'],
+      better: ['Achievements now pop up in a small corner card instead of covering the screen',
+        'Faster app: tabs open 2–3× faster, buttons respond instantly'],
+      removed: ['Achievement messages in Telegram — they are only in the app now'] } }
+];
+const wnText = c => c[L] || c.en || c.ru;
+function whatsNewSheet(list, isNew){
+  return () => sheetHead(isNew ? '🎉 ' + T.wn.title : '🆕 ' + T.wn.history) + list.map(c => {
+    const x = wnText(c), sec = (k, ic) => x[k] && x[k].length ? `<div class="sec"><span>${ic} ${esc(T.wn[k])}</span></div><div class="card wn">${x[k].map(t => `<div class="li"><span class="tx">${esc(t)}</span></div>`).join('')}</div>` : '';
+    return `<div class="note" style="margin-top:4px">${esc(T.wn.ver(c.name, shortDate(c.date)))}</div>` + sec('add', '✨') + sec('better', '⚡') + sec('removed', '🗑');
+  }).join('') + `<button class="btn" data-act="closeSheet" style="margin-top:14px">${esc(T.wn.ok)}</button>`;
+}
+function checkWhatsNew(){
+  const seen = +state.settings.seenVer || +lsGetK('vs_seenVer') || 0;
+  if (seen >= APP_VER) return;
+  const veteran = state.students.length || state.lessons.length;
+  state.settings.seenVer = APP_VER; lsSetK('vs_seenVer', String(APP_VER)); save();
+  if (!veteran) return;
+  const list = CHANGES.filter(c => c.v > seen).slice(0, 3);
+  if (list.length) setTimeout(() => { if (!stack.length) openSheet(whatsNewSheet(list, true)); }, 900);
+}
+
+/* ================= Receipts: optional photo of a payment for a lesson or a package =================
+   The photo is compressed on the phone, kept on this device (IndexedDB) and, when the bot server is connected,
+   sent to the bot chat as an archive copy; its Telegram file_id lets any of your devices open it later. */
+let rcTarget = null, rcUploading = false;
+const rcObj = (k, id) => k === 'p' ? state.packages.find(x => x.id === id) : state.lessons.find(x => x.id === id);
+const rcFileInput = () => {
+  let el = $('rcFile');
+  if (!el) {
+    el = document.createElement('input'); el.type = 'file'; el.accept = 'image/*'; el.id = 'rcFile';
+    el.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0';
+    el.addEventListener('change', () => { const f = el.files && el.files[0]; el.value = ''; if (f && rcTarget) rcAttach(rcTarget, f); });
+    document.body.appendChild(el);
+  }
+  return el;
+};
+async function rcShrink(file){
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const k = Math.min(1, 1600 / Math.max(img.naturalWidth || 1, img.naturalHeight || 1));
+    const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(img.naturalWidth * k)); c.height = Math.max(1, Math.round(img.naturalHeight * k));
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
+    const b = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.75));
+    return b || file;
+  } catch (e) { return file.size < 4e6 ? file : null; } finally { URL.revokeObjectURL(url); }
+}
+const rcB64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = rej; r.readAsDataURL(blob); });
+const rcCaption = (k, o) => {
+  const s = stu(o.sid), sum = k === 'p' ? money(pkgTotal(o)) : money(val(o));
+  return T.rc.cap(s ? s.name : '', sum, shortDate(o.date) + (k === 'p' ? ' · 🎟 ' + o.n : ''));
+};
+async function rcAttach(t, file){
+  const o = rcObj(t.k, t.id); if (!o) return;
+  toast(T.rc.saving, 1200);
+  const blob = await rcShrink(file);
+  if (!blob) return toast(T.rc.fail, 2600);
+  const l = 'rc_' + uid();
+  try { await idb.put({ id: l, kind: 'rcpt', blob, at: Date.now() }); } catch (e) {}
+  o.rcpt = { l, at: Date.now() };
+  save(); hapticOk(); render(); if (stack.length) refreshSheet();
+  toast('🧾 ' + T.rc.saved, 2200);
+  rcUpload(t.k, o, blob);
+}
+async function rcUpload(k, o, blob){
+  if (!inTG || !state.settings.api || !o.rcpt || o.rcpt.f) return false;
+  try {
+    const j = await botPost({ a: 'rcpt', b64: await rcB64(blob), cap: rcCaption(k, o) });
+    if (j.f && o.rcpt) { o.rcpt.f = j.f; save(); if (stack.length) refreshSheet(); return true; }
+  } catch (e) {}
+  return false;
+}
+async function rcRetry(){
+  if (rcUploading || !inTG || !state.settings.api) return;
+  rcUploading = true;
+  const todo = state.lessons.map(o => ['l', o]).concat(state.packages.map(o => ['p', o])).filter(([, o]) => o.rcpt && o.rcpt.l && !o.rcpt.f).slice(0, 2);
+  for (const [k, o] of todo) {
+    let rec = null; try { rec = (await idb.all()).find(m => m.id === o.rcpt.l); } catch (e) {}
+    if (rec && rec.blob) await rcUpload(k, o, rec.blob);
+  }
+  rcUploading = false;
+}
+async function rcBlob(o){
+  const r = o.rcpt; if (!r) return null;
+  if (r.l) { try { const m = (await idb.all()).find(x => x.id === r.l); if (m && m.blob) return m.blob; } catch (e) {} }
+  if (r.f && inTG && state.settings.api) {
+    const j = await botPost({ a: 'rcptGet', f: r.f });
+    if (j.b64) {
+      const bin = atob(j.b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      const blob = new Blob([u8], { type: 'image/jpeg' }), l = r.l || 'rc_' + uid();
+      try { await idb.put({ id: l, kind: 'rcpt', blob, at: Date.now() }); if (!r.l) { r.l = l; save(); } } catch (e) {}
+      return blob;
+    }
+  }
+  return null;
+}
+function rcBlock(k, o){
+  if (!o) return '';
+  if (o.rcpt) return `<div class="rcrow"><button type="button" class="btn ghost" data-act="rcView" data-k="${k}" data-id="${o.id}">🧾 ${esc(T.rc.open)}</button></div>`;
+  return `<button type="button" class="btn ghost" data-act="rcAdd" data-k="${k}" data-id="${o.id}">📎 ${esc(T.rc.attach)} <small style="opacity:.6">· ${esc(T.rc.optional)}</small></button>`;
+}
+function rcSheet(k, id){
+  const fn = () => {
+    const o = rcObj(k, id);
+    if (!o || !o.rcpt) return sheetHead('🧾 ' + T.rc.title) + `<div class="empty">${esc(T.rc.none)}</div>`;
+    const s = stu(o.sid);
+    return sheetHead('🧾 ' + T.rc.title) + note(rcCaption(k, o).replace(/^🧾\s*/, ''))
+      + (fn.url ? `<img src="${fn.url}" alt="" style="width:100%;border-radius:14px;display:block;margin:6px 0 4px;background:#fff">` : `<div class="empty" style="padding:36px 0">${esc(fn.err ? T.rc.fail : T.rc.loading)}</div>`)
+      + `<div class="hintline center">${esc(o.rcpt.f ? T.rc.inChat : T.rc.local)}</div>
+      <div class="btnrow"><button class="btn ghost" data-act="rcAdd" data-k="${k}" data-id="${id}">🔄 ${esc(T.rc.replace)}</button><button class="btn ghost danger" data-act="rcDel" data-k="${k}" data-id="${id}">🗑 ${esc(T.rc.del)}</button></div>`
+      + (s ? '' : '');
+  };
+  fn.url = ''; fn.err = false;
+  fn.mount = () => { if (fn.loaded) return; fn.loaded = 1; const o = rcObj(k, id); if (!o) return;
+    rcBlob(o).then(b => { if (b) fn.url = URL.createObjectURL(b); else fn.err = true; refreshSheet(); }).catch(() => { fn.err = true; refreshSheet(); }); };
+  fn.unmount = () => { if (fn.url) URL.revokeObjectURL(fn.url); };
+  return fn;
+}
+/* small action bar at the bottom: "Paid ✓ — attach receipt?" */
+let snackTimer = null;
+function snack(text, btn, act, data){
+  let el = $('snack');
+  if (!el) { el = document.createElement('div'); el.id = 'snack'; el.className = 'snack'; document.body.appendChild(el); }
+  el.innerHTML = `<span>${esc(text)}</span><button type="button" data-act="${act}"${Object.keys(data).map(k => ` data-${k}="${esc(data[k])}"`).join('')}>${esc(btn)}</button>`;
+  el.classList.add('on'); clearTimeout(snackTimer); snackTimer = setTimeout(() => el.classList.remove('on'), 5500);
+}
+const hideSnack = () => { const el = $('snack'); if (el) el.classList.remove('on'); clearTimeout(snackTimer); };
+const RC = {
+  rcAdd: el => { hideSnack(); rcTarget = { k: el.dataset.k, id: el.dataset.id }; rcFileInput().click(); },
+  rcView: el => openSheet(rcSheet(el.dataset.k, el.dataset.id)),
+  rcDel: async el => {
+    const o = rcObj(el.dataset.k, el.dataset.id); if (!o || !o.rcpt) return;
+    if (!await ask(o.rcpt.f ? T.rc.cDelChat : T.rc.cDel, T.del, true)) return;
+    if (o.rcpt.l) idb.del(o.rcpt.l).catch(() => {});
+    delete o.rcpt; save(); closeSheet(); render(); if (stack.length) refreshSheet(); toast(T.tDeleted);
+  }
+};
+
+/* ================= Data safety =================
+   1) snapshots on this phone (IndexedDB): every day, before every app update, before a restore / deleting a student
+   2) a backup file in the bot chat: once a week and before every update (needs the notification server)
+   3) the app never writes an empty base over a non-empty one by accident
+   4) an error in one screen never kills the app: it shows a message and the data stays untouched */
+const bk = (() => {
+  let dbp = null;
+  const open = () => dbp || (dbp = new Promise((res, rej) => { try { const r = indexedDB.open('vs_bk', 1); r.onupgradeneeded = () => r.result.createObjectStore('b', { keyPath: 'id' }); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); } catch (e) { rej(e); } }));
+  const tx = (mode, fn) => open().then(db => new Promise((res, rej) => { const t = db.transaction('b', mode), st = t.objectStore('b'), r = fn(st); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }));
+  return { put: o => tx('readwrite', st => st.put(o)), del: id => tx('readwrite', st => st.delete(id)), all: () => tx('readonly', st => st.getAll()).then(a => a || []) };
+})();
+const BK_KEEP = { day: 14, upd: 6, pre: 6, man: 6 };
+let bkDayAt = 0, allowEmpty = false, loadedCounts = { n: 0, l: 0 };
+const hasData = s => s && (s.students.length || s.lessons.length);
+async function snapshot(kind, src){
+  const s = src || state; if (!hasData(s)) return null;
+  const at = Date.now(), id = kind === 'day' ? 'day_' + today() : `${kind}_${at}`;
+  const o = { id, kind, at, ver: typeof APP_VER === 'number' ? APP_VER : 0, n: s.students.length, l: s.lessons.length, data: JSON.stringify(s) };
+  try {
+    await bk.put(o);
+    const all = await bk.all(), mine = all.filter(x => x.kind === kind).sort((a, b) => b.at - a.at);
+    for (const x of mine.slice(BK_KEEP[kind] || 6)) await bk.del(x.id);
+  } catch (e) { return null; }
+  if (kind === 'day') bkDayAt = at;
+  return o;
+}
+/* today's snapshot is refreshed at most every 15 minutes while you work */
+function bkTouch(){ if (ready && hasData(state) && Date.now() - bkDayAt > 15 * 60000) { bkDayAt = Date.now(); setTimeout(() => snapshot('day'), 1500); } }
+async function chatBackup(reason){
+  if (!inTG || !state.settings.api || !hasData(state)) return false;
+  try {
+    const d = today();
+    await botPost({ a: 'report', name: `ucheniki-backup-${d}.json`, csv: 'VOCALBACKUP:' + JSON.stringify(state),
+      caption: '🛟 ' + T.bk.cap(state.students.length, state.lessons.length, shortDate(d)) + (reason ? ' · ' + reason : '') });
+    state.settings.bkAt = Date.now(); save();
+    return true;
+  } catch (e) { return false; }
+}
+function bkWeekly(){ if (Date.now() - (+state.settings.bkAt || 0) > 7 * 86400000) setTimeout(() => chatBackup(''), 8000); }
+function parseBackup(txt){
+  const t = String(txt || '').replace(/^﻿/, '').trim().replace(/^VOCALBACKUP:/, '');
+  const d = JSON.parse(t);
+  if (!d || !Array.isArray(d.students) || !Array.isArray(d.lessons)) throw new Error('bad');
+  return d;
+}
+async function restoreFrom(d){
+  if (!await ask(T.cRestore(d.students.length, d.lessons.length), T.replace, true)) return false;
+  await snapshot('pre');
+  const keep = { seenVer: state.settings.seenVer, opsDone: state.settings.opsDone, api: state.settings.api, pkgV: state.settings.pkgV, bkAt: state.settings.bkAt };
+  state = normalize(d); Object.keys(keep).forEach(k => { if (keep[k] && !state.settings[k]) state.settings[k] = keep[k]; });
+  if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
+  allowEmpty = true; seedDefaults(); save(); closeSheet(true); render(); toast(T.tRestored);
+  return true;
+}
+function bkSheet(){
+  const fn = () => {
+    const kinds = T.bk.kinds, list = (fn.items || []).slice().sort((a, b) => b.at - a.at);
+    return sheetHead('🛟 ' + T.bk.title) + `<div class="hintline" style="margin:0 6px 10px">${esc(T.bk.hint)}</div>`
+      + (inTG && state.settings.api ? `<button class="btn" data-act="bkChat">📦 ${esc(T.bk.sendNow)}</button>` : '')
+      + `<button class="btn ghost" data-act="bkFile">📂 ${esc(T.bk.fromFile)}</button>`
+      + `<div class="sec"><span>📱 ${esc(T.bk.onPhone)}</span></div>`
+      + (fn.loading ? `<div class="empty">…</div>` : list.length ? `<div class="card">${list.map(x => `<div class="li"><span class="tx"><b>${esc(shortDate(new Date(x.at).toISOString().slice(0, 10)))} ${esc(new Date(x.at).toTimeString().slice(0, 5))}</b> · ${esc(kinds[x.kind] || x.kind)}<br><small>${esc(T.dbCount(x.n, x.l))}</small></span><button class="mini" data-act="bkRestore" data-id="${esc(x.id)}">${esc(T.bk.restore)}</button></div>`).join('')}</div>` : `<div class="empty">${esc(T.bk.none)}</div>`)
+      + `<div class="hintline center">${esc(state.settings.bkAt ? T.bk.lastChat(shortDate(new Date(+state.settings.bkAt).toISOString().slice(0, 10))) : T.bk.noChat)}</div>`;
+  };
+  fn.loading = true; fn.items = [];
+  fn.mount = () => { if (fn.loaded) return; fn.loaded = 1; bk.all().then(a => { fn.items = a; fn.loading = false; refreshSheet(); }).catch(() => { fn.loading = false; refreshSheet(); }); };
+  return fn;
+}
+let bkFileEl = null;
+const SAFE = {
+  backups: () => openSheet(bkSheet()),
+  bkChat: async () => { toast(T.bk.sending, 1500); toast(await chatBackup(T.bk.manual) ? '✅ ' + T.bk.sent : T.bk.sendFail, 3000); },
+  bkRestore: async el => {
+    const x = (await bk.all()).find(b => b.id === el.dataset.id); if (!x) return;
+    try { await restoreFrom(parseBackup(x.data)); } catch (e) { toast(T.tNotBackup); }
+  },
+  bkFile: () => {
+    if (!bkFileEl) {
+      bkFileEl = document.createElement('input'); bkFileEl.type = 'file'; bkFileEl.accept = '.json,.txt,application/json,text/plain';
+      bkFileEl.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0';
+      bkFileEl.addEventListener('change', () => {
+        const f = bkFileEl.files && bkFileEl.files[0]; bkFileEl.value = ''; if (!f) return;
+        const r = new FileReader();
+        r.onload = () => { let d; try { d = parseBackup(r.result); } catch (e) { return toast(T.tNotBackup, 3000); } restoreFrom(d); };
+        r.readAsText(f);
+      });
+      document.body.appendChild(bkFileEl);
+    }
+    bkFileEl.click();
+  },
+  rescueCopy: async () => {
+    let txt = '';
+    try { const m = lsGet(); if (m && m.length > 20) txt = m; } catch (e) {}
+    if (!txt) { try { const a = (await bk.all()).sort((x, y) => y.at - x.at)[0]; if (a) txt = a.data; } catch (e) {} }
+    if (!txt) return toast(T.bk.none);
+    if (await copyText('VOCALBACKUP:' + txt)) toast(T.tBackup, 3000);
+  }
+};
+/* Never overwrite a filled base with an empty one unless the user really did it (restore / delete). */
+function emptyGuard(){
+  if (allowEmpty || hasData(state) || !(loadedCounts.n || loadedCounts.l)) return true;
+  setSync('err'); toast('⚠️ ' + T.bk.guard, 5000);
+  return false;
+}
+/* An error in one place must not take the whole app down. */
+function showOops(e){
+  try { console.error(e); } catch (x) {}
+  toast('⚠️ ' + T.bk.oops, 3500);
+}
+function rescueScreen(e){
+  try { console.error(e); } catch (x) {}
+  const app = $('app'); if (!app) return;
+  app.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🛟</div><b>${esc(T.bk.crash)}</b>${esc(T.bk.crashText)}
+    <button class="btn" data-act="retryLoad">${esc(T.retry)}</button><button class="btn ghost" data-act="rescueCopy">📋 ${esc(T.bk.copyData)}</button></div>`;
+}
+window.addEventListener('unhandledrejection', ev => { if (ready) showOops(ev.reason); });
+{
+  const baseRender = render;
+  render = function(){ try { return baseRender.apply(this, arguments); } catch (e) { showOops(e); } };
+  const baseSheet = showSheet;
+  showSheet = function(){ try { return baseSheet.apply(this, arguments); } catch (e) { showOops(e); } };
+}
+
 /* ================= Dialogs ================= */
 let toastT;
 function toast(msg, ms = 2200){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
@@ -4326,12 +4968,15 @@ const A = {
     pkgInfo(); haptic();
   },
   swOnline: el => { setOnline(!el.classList.contains('on')); haptic(); },
+  swPkg: el => { el.classList.toggle('on'); pkgInfo(); haptic(); },
   saveLesson: el => {
     const f = readLessonForm();
     if (!f.sids.length) return toast(f.grp ? T.tChooseSome : T.tChoose);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(f.date)) return toast(T.tDate);
     const id = el.dataset.id, t = today(), touched = new Set();
     const base = { svc: f.svc, date: f.date, time: f.time, dur: f.dur, price: f.price, rent: f.rent, online: f.online, link: f.link, st: f.st, paid: f.paid, note: f.note };
+    if (f.pkgMode === 'on') Object.assign(base, { noPkg: false, pkgForce: true, paid: false });
+    else if (f.pkgMode === 'off') Object.assign(base, { noPkg: true, pkgForce: false });
     const paidAt = l => l.paid ? (l.paidAt || (l.date < t ? l.date : t)) : '';
     let newlyDone = false;
     if (id) {
@@ -4400,7 +5045,9 @@ const A = {
     if (l.pkg) return toast(T.pkgPaid);
     l.paid = !l.paid; l.paidAt = l.paid ? today() : '';
     applyPackages(l.sid);
-    save(); haptic('medium'); refresh(); toast(l.pkg ? T.pkgPaid : l.paid ? T.tPaid : T.tUnpaid);
+    save(); haptic('medium'); refresh();
+    if (l.paid && !l.pkg && !l.rcpt) snack(T.tPaid, '📎 ' + T.rc.attachShort, 'rcAdd', { k: 'l', id: l.id });
+    else { hideSnack(); toast(l.pkg ? T.pkgPaid : l.paid ? T.tPaid : T.tUnpaid); }
   },
   addStudent: () => openSheet(studentForm(null)),
   editStudent: el => openSheet(studentForm(el.dataset.id)),
@@ -4426,6 +5073,7 @@ const A = {
     const s = stu(el.dataset.id); if (!s) return;
     const n = state.lessons.filter(l => l.sid === s.id).length;
     if (!await ask(T.cDelStudent(s.name, n), T.del, true)) return;
+    await snapshot('pre'); allowEmpty = true;
     state.students = state.students.filter(x => x.id !== s.id);
     state.lessons = state.lessons.filter(l => l.sid !== s.id);
     state.packages = state.packages.filter(p => p.sid !== s.id);
@@ -4477,10 +5125,12 @@ const A = {
     if (n < 1) return toast(T.tPkgN);
     const data = { svc: $('p_svc').value, n, price: Math.max(0, +$('p_price').value || 0), rent: Math.max(0, +$('p_rent').value || 0), date: $('p_date').value || today() };
     const id = el.dataset.id, sid = el.dataset.sid;
+    let nid = '';
     if (id) { const p = state.packages.find(x => x.id === id); if (p) Object.assign(p, data); }
-    else state.packages.push(Object.assign({ id: uid(), sid, note: '' }, data));
+    else { nid = uid(); state.packages.push(Object.assign({ id: nid, sid, note: '' }, data)); }
     applyPackages(sid);
-    save(); hapticOk(); closeSheet(); render(); toast(id ? savedMsg() : T.tPkgSold, 2600);
+    save(); hapticOk(); closeSheet(); render();
+    if (nid) snack(T.tPkgSold, '📎 ' + T.rc.attachShort, 'rcAdd', { k: 'p', id: nid }); else toast(savedMsg(), 2600);
   },
   deletePackage: async el => {
     const p = state.packages.find(x => x.id === el.dataset.id); if (!p) return;
@@ -4595,6 +5245,8 @@ const A = {
 
   /* fun */
   achievements: () => openSheet(achSheet()),
+  whatsNew: () => openSheet(whatsNewSheet(CHANGES, false)),
+  achPopTap: () => { hidePop(); if (!(stack.length && $('sheetIn').querySelector('.ach'))) openSheet(achSheet()); },
   achShow: el => { const a = ACH.find(x => x[0] === el.dataset.id); if (a) celebrate({ icon: a[1], label: T.newAch, title: T.ach[a[0]][0], text: T.ach[a[0]][1], sub: pick(T.cheers), quiet: true }); },
   secretRoom: () => openSheet(secretRoom()),
   sanyaLove: () => { confetti('hearts'); toast(pick(T.egg.love), 3500); hapticOk(); },
@@ -4698,20 +5350,20 @@ const A = {
     let d;
     try { d = JSON.parse(t); if (!d || !Array.isArray(d.students) || !Array.isArray(d.lessons)) throw new Error('bad'); }
     catch (e) { return toast(T.tNotBackup); }
-    if (!await ask(T.cRestore(d.students.length, d.lessons.length), T.replace, true)) return;
-    state = normalize(d); if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
-    seedDefaults(); save(); closeSheet(true); render(); toast(T.tRestored);
+    await restoreFrom(d);
   },
   retryLoad: () => start(),
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX);
+Object.assign(A, AX, RC, SAFE);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
   const fn = A[el.dataset.act];
-  if (fn) { e.preventDefault(); e.stopPropagation(); fn(el); }
+  if (!fn) return;
+  e.preventDefault(); e.stopPropagation();
+  try { const r = fn(el); if (r && r.catch) r.catch(showOops); } catch (err) { showOops(err); }
 });
 
 /* ================= Start ================= */
@@ -4737,7 +5389,13 @@ async function start(){
     if (m) state = m; else if (!inTG) seedDemo();
   }
   if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
+  loadedCounts = { n: state.students.length, l: state.lessons.length };
+  const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
+  if (updating) { await snapshot('upd'); setTimeout(() => chatBackup(T.bk.beforeUpd), 6000); }
+  else bkWeekly();
+  snapshot('day');
   let dirty = seedDefaults();
+  if ((+state.settings.pkgV || 0) < 2) { sidsOf(state.packages).forEach(applyPackages); state.settings.pkgV = 2; dirty = true; }
   if (pendingApi && API_RE.test(pendingApi) && pendingApi !== state.settings.api) { state.settings.api = pendingApi; dirty = true; }
   ready = true;
   if (dirty) save();
@@ -4749,8 +5407,9 @@ async function start(){
   checkCapsules();
   seasonFx();
   scheduleBotSync();
+  checkWhatsNew();
 }
-start();
+start().catch(rescueScreen);
 })();
 </script>
 </body>
