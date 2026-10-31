@@ -2428,7 +2428,7 @@ async function flush(){
   try { await flushCloud(); } catch (e) { ok = false; }
   saving = false;
   if (again) { again = false; return flush(); }
-  if (ok) { setSync('ok'); closingGuard(false); scheduleBotSync(); }
+  if (ok) { setSync('ok'); closingGuard(false); scheduleBotSync(); if (typeof opsFlushed === 'function') opsFlushed(); }
   else { setSync('err'); saveTimer = setTimeout(flush, 6000); }
 }
 function applyLoaded(r){
@@ -2441,9 +2441,11 @@ function applyLoaded(r){
 async function refreshFromCloud(){
   if (!useCloud || !cloudReady || saving || saveTimer || refreshing || stack.length || Date.now() - lastRefresh < 3000) return;
   refreshing = true; lastRefresh = Date.now();
+  const rev0 = rev;
   try {
     const r = await cloudLoad();
-    if (saving || saveTimer || stack.length || r.bad) return;
+    /* anything changed in the app while we were reading the cloud? then the cloud copy is older — keep ours */
+    if (rev !== rev0 || saving || saveTimer || stack.length || r.bad) return;
     const a = Object.keys(r.raw), b = Object.keys(saved);
     if (a.length !== b.length || a.some(k => r.raw[k] !== saved[k])) {
       state = r.state; saved = r.raw; ptrs = r.P;
@@ -4392,9 +4394,11 @@ function studentNotes(){
 }
 
 /* ================= Bot input: text & voice → data (actions queued on the server) ================= */
-let botAi = lsGetK('vs_ai') === '1', opsBusy = false, opsAck = [];
+let botAi = lsGetK('vs_ai') === '1', opsBusy = false, opsAck = [], opsWait = [], opsToastAt = 0;
 try { opsAck = JSON.parse(lsGetK('vs_ack') || '[]').filter(x => typeof x === 'string').slice(-100); } catch (e) {}
 const saveAck = () => lsSetK('vs_ack', JSON.stringify(opsAck.slice(-100)));
+/* the server forgets bot changes only after they are safely saved in the Telegram cloud */
+function opsFlushed(){ if (!opsWait.length) return; opsWait.forEach(id => { if (!opsAck.includes(id)) opsAck.push(id); }); opsWait = []; saveAck(); setTimeout(pollOps, 300); }
 function botCtx(){
   const t = today(), lo = ymd(addDays(parseD(t), -7)), hi = ymd(addDays(parseD(t), 30));
   const up = state.lessons.filter(l => l.date >= lo && l.date <= hi).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).slice(0, 40)
@@ -4554,21 +4558,27 @@ function applyOps(ops){
   if (!ready || !Array.isArray(ops) || !ops.length) return;
   const done = Array.isArray(state.settings.opsDone) ? state.settings.opsDone : [];
   const fresh = ops.filter(o => o && o.id && Array.isArray(o.acts) && !done.includes(o.id));
-  ops.forEach(o => { if (o && o.id && !opsAck.includes(o.id)) opsAck.push(o.id); }); saveAck();
-  if (!fresh.length) return;
+  const waitAck = id => { if (useCloud) { if (!opsWait.includes(id)) opsWait.push(id); } else if (!opsAck.includes(id)) opsAck.push(id); };
+  ops.forEach(o => { if (o && o.id && done.includes(o.id)) waitAck(o.id); });
+  saveAck();
+  if (!fresh.length) { if (opsWait.length && !saveTimer && !saving) opsFlushed(); return; }
   const out = [], touched = new Set();
-  fresh.forEach(o => { o.acts.forEach(a => { try { applyAct(a, out, touched); } catch (e) {} }); done.push(o.id); });
+  fresh.forEach(o => { o.acts.forEach(a => { try { applyAct(a, out, touched); } catch (e) {} }); done.push(o.id); waitAck(o.id); });
   state.settings.opsDone = done.slice(-80);
   touched.forEach(sid => applyPackages(sid));
   save(); render(); if (stack.length) refreshSheet(); hapticOk();
+  opsToastAt = Date.now();
   toast('🤖 ' + T.bx.title + '\n' + out.slice(0, 8).join('\n') + (out.length > 8 ? '\n…' : ''), 3000 + 900 * Math.min(out.length, 6));
   setTimeout(pollOps, 1500);
 }
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 7;
+const APP_VER = 8;
 const CHANGES = [
+  { v: 8, name: '6.2', date: '2026-11-01',
+    ru: { add: [], better: ['Исправили: данные из бота иногда не появлялись в приложении, если в этот момент оно обновлялось из облака. Теперь бот удаляет у себя данные только после того, как они надёжно сохранены'], removed: [] },
+    en: { add: [], better: ['Fixed: bot changes sometimes did not show up if the app was refreshing from the cloud at that moment. The bot now forgets them only after they are safely saved'], removed: [] } },
   { v: 7, name: '6.1', date: '2026-10-31',
     ru: {
       add: ['Резервные копии: каждый день и перед каждым обновлением на телефоне, раз в неделю — файлом в чат с ботом. В настройках можно вернуть любую копию или восстановить из файла',
@@ -5317,7 +5327,7 @@ const A = {
     if (!API_RE.test(v)) return toast(T.ntBadApi, 3000);
     state.settings.api = v; save(); refreshSheet(); A.botSyncNow();
   },
-  botSyncNow: async () => { toast(T.ntSyncing, 1500); await botSync(true); toast(botStatus === 'ok' ? T.ntSynced : T.ntErr, 2600); },
+  botSyncNow: async () => { toast(T.ntSyncing, 1500); await botSync(true); if (Date.now() - opsToastAt > 3000) toast(botStatus === 'ok' ? T.ntSynced : T.ntErr, 2600); },
   botTest: async () => {
     const send = () => botPost({ a: 'test', x: T.ntTestMsg(userName()) });
     try { await send(); toast(T.ntTestOk, 3000); }
