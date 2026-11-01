@@ -2540,6 +2540,9 @@ const X2D = {
     copyLink: 'Скопировать', addIphone: 'В iPhone', addGoogle: 'Добавить в Google Календарь', addIphone2: 'Добавить в календарь iPhone', shareClose: 'Отправить ссылку близкому в Telegram',
     shareText: (n, g) => `Расписание ${n} — когда занята.\n📗 Google Календарь — открой и нажми «Добавить»: ${g}\n🍏 iPhone — Настройки → Календарь → Учётные записи → Добавить → Другое → «Подписной календарь» и вставь ссылку выше.`,
     calTrouble: 'Если не получилось', calTroubleHint: 'Google открывается в браузере: войди в свой аккаунт Google и нажми «Добавить». Если на телефоне не получается — открой то же самое с компьютера по ссылке ниже. События появятся в приложении Google Календарь на телефоне через несколько минут; обновляются сами (Google — раз в несколько часов, iPhone — по настройке).',
+    alarmT: 'Напоминания в календаре', alarmHint: 'Для уроков, выступлений и репетиций в твоём расписании. Можно выбрать несколько. Календарь iPhone покажет их сам; в Google — см. ниже.',
+    alarm: { 15: 'за 15 мин', 60: 'за 1 час', 120: 'за 2 часа', 1440: 'за 1 день' }, alarmGoogleT: 'Как включить напоминания в Google',
+    alarmGoogle: ['Google не берёт напоминания из календарей, добавленных по ссылке, — это правило самого Google.', 'Поэтому главное напоминание — от бота в Telegram: Настройки → уведомления → «Напоминание перед уроком» (например, за 1 час). Оно приходит со звуком.', 'В приложении Google Календарь на телефоне можно поставить напоминание на конкретное событие вручную.', 'На iPhone напоминания работают сами, если при подписке выключено «Удалять предупреждения» (Настройки iPhone → Календарь → Учётные записи → подписной календарь).'],
     copyMine: 'Ссылка: моё', copyClose: 'Ссылка: для близкого',
     howGoogle: ['Скопируй ссылку выше.', 'На компьютере открой calendar.google.com → слева «Другие календари» → «+» → «Добавить по URL».', 'Вставь ссылку → «Добавить календарь». Через несколько минут события появятся и на телефоне в Google Календаре.'],
     howIphone: ['Нажми «В iPhone» у нужной ссылки — iPhone предложит подписаться на календарь → «Подписаться».', 'Или: Настройки iPhone → Календарь → Учётные записи → Добавить → Другое → «Подписной календарь» → вставь ссылку.', 'Обновляется сама; в календаре iPhone можно выбрать частоту обновления.'],
@@ -2568,6 +2571,9 @@ const X2D = {
     copyLink: 'Copy', addIphone: 'To iPhone', addGoogle: 'Add to Google Calendar', addIphone2: 'Add to iPhone Calendar', shareClose: 'Send the link via Telegram',
     shareText: (n, g) => `${n}'s schedule — when busy.\n📗 Google Calendar — open and tap “Add”: ${g}\n🍏 iPhone — Settings → Calendar → Accounts → Add Account → Other → “Add Subscribed Calendar” and paste the link above.`,
     calTrouble: 'If it didn’t work', calTroubleHint: 'Google opens in the browser: sign in to your Google account and tap “Add”. If it doesn’t work on the phone, open the same from a computer using the link below. Events show up in the Google Calendar app within minutes and update by themselves (Google — every few hours, iPhone — per its setting).',
+    alarmT: 'Calendar reminders', alarmHint: 'For lessons, gigs and rehearsals in your schedule. Pick one or several. iPhone Calendar shows them; for Google see below.',
+    alarm: { 15: '15 min before', 60: '1 hour before', 120: '2 hours before', 1440: '1 day before' }, alarmGoogleT: 'Reminders in Google',
+    alarmGoogle: ['Google ignores reminders from calendars added by URL — that is Google’s own rule.', 'So the main reminder comes from the bot in Telegram: Settings → notifications → “Reminder before a lesson” (e.g. 1 hour). It makes a sound.', 'In the Google Calendar app you can set a reminder on a specific event manually.', 'On iPhone reminders work by themselves if “Remove Alerts” is off for the subscription (iPhone Settings → Calendar → Accounts → the subscribed calendar).'],
     copyMine: 'Link: mine', copyClose: 'Link: for someone close',
     howGoogle: ['Copy the link above.', 'On a computer open calendar.google.com → “Other calendars” → “+” → “From URL”.', 'Paste the link → “Add calendar”. Events appear in Google Calendar on your phone within minutes.'],
     howIphone: ['Tap “To iPhone” next to a link — the iPhone offers to subscribe → “Subscribe”.', 'Or: iPhone Settings → Calendar → Accounts → Add Account → Other → “Add Subscribed Calendar” → paste the link.', 'It updates by itself; you can choose how often in iPhone Calendar.'],
@@ -3289,7 +3295,7 @@ async function botPost(body, ms){
 }
 async function botSync(force){
   if (!inTG || !state.settings.api) return;
-  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ stu: stuSched(), cal: calEvents(), cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
+  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ stu: stuSched(), cal: calEvents(), calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
   if (!force && hash === lastPayload) return;
   const sentKeys = new Set(evQueue.map(e => e.k)), ack = opsAck.slice();
   try {
@@ -5042,8 +5048,11 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 15;
+const APP_VER = 16;
 const CHANGES = [
+  { v: 16, name: '7.2.2', date: '2026-11-01',
+    ru: { add: ['🔔 Напоминания в календаре телефона: за 15 минут, час, 2 часа или день до урока, выступления и репетиции — выбери в «Календаре в телефоне»'], better: [], removed: [] },
+    en: { add: ['🔔 Reminders in the phone calendar: 15 minutes, 1 hour, 2 hours or a day before lessons, gigs and rehearsals — choose in “Calendar on your phone”'], better: [], removed: [] } },
   { v: 15, name: '7.2.1', date: '2026-11-01',
     ru: { add: ['📗 Календарь в одно нажатие: «Добавить в Google Календарь» и «Добавить в календарь iPhone»; ссылку для близкого можно сразу отправить в Telegram'], better: ['Экран «Календарь в телефоне» стал проще: длинные инструкции спрятаны под «Если не получилось»'], removed: [] },
     en: { add: ['📗 Calendar in one tap: “Add to Google Calendar” and “Add to iPhone Calendar”; send the link to someone close straight to Telegram'], better: ['The “Calendar on your phone” screen is simpler: long instructions moved under “If it didn’t work”'], removed: [] } },
@@ -6670,6 +6679,8 @@ function calSheet(){
       + `<div class="calbox"><b>👩‍🎤 ${esc(X.calMine)}</b><small>${esc(X.calMineHint)}</small>
           <button class="btn" data-act="x2CalGoogle" data-v="full">📗 ${esc(X.addGoogle)}</button>
           <button class="btn ghost" data-act="x2CalIphone" data-v="full">🍏 ${esc(X.addIphone2)}</button></div>`
+      + `<div class="calbox"><b>🔔 ${esc(X.alarmT)}</b><small>${esc(X.alarmHint)}</small><div class="chipsel" style="margin-top:6px">${[15, 60, 120, 1440].map(m => { const on = (Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60]).includes(m); return `<button type="button" data-act="x2Alarm" data-v="${m}" class="${on ? 'on' : ''}">${esc(X.alarm[m])}</button>`; }).join('')}</div>
+          <details class="calmore"><summary>📗 ${esc(X.alarmGoogleT)}</summary>${X.alarmGoogle.map((x, i) => `<div class="hintline" style="text-align:left">${i + 1}. ${esc(x)}</div>`).join('')}</details></div>`
       + `<div class="calbox"><b>👨‍❤️‍👨 ${esc(X.calClose)}</b><small>${esc(X.calCloseHint)}</small>
           <button class="btn ghost" data-act="x2CalShare">📤 ${esc(X.shareClose)}</button></div>`
       + `<details class="calmore"><summary>${esc(X.calTrouble)}</summary>
@@ -6753,6 +6764,8 @@ const X2 = {
   x2CalReset: async () => { if (!await ask(T.x2.calResetQ, T.x2.calResetBtn, true)) return; try { const j = await botPost({ a: 'calReset' }); if (j.cal) state.settings.calLinks = j.cal; save(); toast('✅ ' + T.x2.calResetDone); } catch (e) { toast(T.bk.sendFail); } refreshSheet(); },
   /* Google: its own «add calendar from URL» page; you only need to be signed in and tap «Add» */
   x2CalGoogle: el => { const c = state.settings.calLinks || {}, u = c[el.dataset.v || 'full']; if (!u) return; openUrl('https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(u.replace(/^https:/, 'webcal:')), false); },
+  x2Alarm: el => { const m = +el.dataset.v; let a = Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm.slice() : [60];
+    a = a.includes(m) ? a.filter(x => x !== m) : a.concat(m).slice(-3); state.settings.calAlarm = a; save(); haptic(); refreshSheet(); scheduleBotSync(); },
   x2CalIphone: el => { const c = state.settings.calLinks || {}, u = c[el.dataset.v || 'full']; if (!u) return; openUrl(u.replace(/^https:/, 'webcal:'), false); },
   x2CalShare: () => { const c = state.settings.calLinks || {}; if (!c.busy) return;
     const g = 'https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(c.busy.replace(/^https:/, 'webcal:'));
@@ -6878,6 +6891,7 @@ const HELP_DOC = [
     'Настройки → «Календарь в телефоне». Там две ссылки: «Моё расписание» (полностью, с именами и местами) и «Для близкого» (только «Урок», «Выступление», «Занята» — без имён и денег).',
     'Google: нажми «Добавить в Google Календарь» — откроется Google; войди в свой аккаунт (если ещё не вошла) и нажми «Добавить». Всё. События появятся в Google Календаре на телефоне и компьютере.',
     'iPhone: нажми «Добавить в календарь iPhone» → «Подписаться».',
+    'Напоминания в календаре: там же выбери «за 15 мин / 1 час / 2 часа / 1 день» (можно несколько). Календарь iPhone показывает их сам (если в подписке выключено «Удалять предупреждения»). Google не берёт напоминания из календарей по ссылке — для этого есть напоминание от бота перед уроком (Настройки → уведомления).',
     'Близкому: «Отправить ссылку близкому в Telegram» — выбери, кому; в сообщении будут ссылки и для iPhone, и для Google.',
     'Если на телефоне Google не добавляет — открой «Если не получилось»: там ссылки, чтобы сделать то же с компьютера.',
     'Календарь обновляется сам (обычно раз в час; Google иногда реже). Изменения в приложении попадают туда после синхронизации.',
