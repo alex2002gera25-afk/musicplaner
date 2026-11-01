@@ -470,6 +470,29 @@ nav.tabs button[hidden]{display:none}
 .bk3 b{display:block;font-size:14px}.bk3 small{color:var(--hint);font-size:12.5px}
 .bktext pre{white-space:pre-wrap;word-wrap:break-word;font-size:11.5px;line-height:1.4;margin:0;padding:12px;max-height:50vh;overflow:auto;font-family:ui-monospace,Menlo,monospace}
 .betatag{text-align:center;font-size:11px;color:var(--hint);margin:-6px 0 10px}.demo.beta{background:#4f5fa8;color:#fff}
+/* --- 7.1 musician --- */
+.mubar{height:4px;border-radius:2px;background:var(--line);margin-top:6px;overflow:hidden}
+.mubar i{display:block;height:100%;background:var(--accent)}
+.mustages{flex-wrap:wrap}
+.muco{display:grid;grid-template-columns:1.4fr 1.2fr 64px 34px;gap:6px;align-items:center;margin:6px 0}
+.muco input,.muco select{min-width:0;width:100%;padding:9px 8px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.murels{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+.murel{display:flex;gap:10px;align-items:center;text-align:left;padding:8px 10px;border-radius:12px;background:var(--bg);color:var(--text);width:100%}
+.murel i{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-weight:700;flex:none}
+.murel.on i{background:var(--good,#4d9a6a);border-color:var(--good,#4d9a6a);color:#fff}
+.murel.on b{text-decoration:line-through;opacity:.6}
+.murel span{display:flex;flex-direction:column}.murel small{color:var(--hint);font-size:12px}
+.muver pre{white-space:pre-wrap;font-family:inherit;font-size:13.5px;margin:0;padding:0 14px 12px;color:var(--text)}
+.muoff{text-decoration:line-through;opacity:.5}
+.muadd{display:flex;gap:8px;margin:10px 0}
+.muadd input{flex:1;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.murun{background:var(--card);border-radius:20px;padding:22px 18px;text-align:center;margin-bottom:12px}
+.murun small{color:var(--hint)}
+.murun h2{font-family:var(--serif);font-weight:400;font-size:28px;margin:6px 0;color:var(--title)}
+.mukey{color:var(--hint);font-size:14px}
+.murun p{margin:12px 0 0;font-size:14.5px;line-height:1.4;white-space:pre-line}
+.mutime{margin:18px 0 8px}.mutime b{display:block;font-size:44px;font-variant-numeric:tabular-nums}.mutime span{color:var(--hint);font-size:13px}
+.munext{font-size:14px;color:var(--hint)}
 </style>
 </head>
 <body>
@@ -2395,8 +2418,8 @@ const BKH = {
 };
 const MDD = {
   ru: { title: 'Разделы приложения', hint: 'Выключи то, чем не пользуешься, — приложение станет проще. Данные не удаляются: включишь обратно — всё на месте.',
-    n: { students: 'Ученики и уроки', money: 'Деньги', studio: 'Студия', plan: 'Планер', content: 'Контент-план', rep: 'Репертуар и сет-листы', groups: 'Коллективы', people: 'Дни рождения', notes: 'Заметки', ach: 'Достижения и сюрпризы' },
-    d: { students: 'Ученики, уроки, абонементы, расписание', money: 'Доход, долги, расходы, отчёты', studio: 'Пианино, метроном, тюнер, шаблоны', plan: 'Дела, выступления, репетиции, события', content: 'Reels, посты, сторис', rep: 'Песни, тексты, сет-листы', groups: 'Группы и составы', people: 'Близкие и коллеги', notes: 'Мысли и идеи',
+    n: { students: 'Ученики и уроки', money: 'Деньги', studio: 'Студия', plan: 'Планер', content: 'Контент-план', rep: 'Репертуар и сет-листы', groups: 'Коллективы', people: 'Дни рождения', notes: 'Заметки', comps: 'Мастерская песен', artist: 'Карточка артиста и райдер', ach: 'Достижения и сюрпризы' },
+    d: { students: 'Ученики, уроки, абонементы, расписание', money: 'Доход, долги, расходы, отчёты', studio: 'Пианино, метроном, тюнер, шаблоны', plan: 'Дела, выступления, репетиции, события', content: 'Reels, посты, сторис', rep: 'Песни, тексты, сет-листы', groups: 'Группы и составы', people: 'Близкие и коллеги', notes: 'Мысли и идеи', comps: 'Свои песни, права, релизы', artist: 'Райдер, описание, контакты',
       ach: 'Достижения, призы, поздравления, пасхалки' },
     lockedT: 'Всегда включено', locked: 'Главная, Настройки, резервные копии и сохранение данных отключить нельзя — на них держится всё приложение.',
     allOn: 'Включить всё обратно', allOnDone: 'Все разделы включены', allOff: 'Все разделы выключены. Включи нужные в Настройках → «Разделы приложения».', cal: 'Календарь',
@@ -2405,8 +2428,8 @@ const MDD = {
     errors: 'Ошибки', noErrors: 'Ошибок нет 👍', snap: 'Сделать копию прямо сейчас', snapDone: 'Копия сохранена на телефоне', reload: 'Перечитать данные из облака', reloaded: 'Данные перечитаны',
     betaLine: 'Тестовая версия — её видишь только ты. Обычная: /stable в боте.', copyDiag: 'Скопировать диагностику', clearUi: 'Очистить служебный кэш (данные не трогает)', uiCleared: 'Кэш очищен', devFoot: 'Данные учеников, уроков и планера эти кнопки не удаляют.' },
   en: { title: 'App sections', hint: 'Switch off what you don’t use — the app gets simpler. Nothing is deleted: switch it back on and everything is there.',
-    n: { students: 'Students & lessons', money: 'Money', studio: 'Studio', plan: 'Planner', content: 'Content plan', rep: 'Repertoire & set lists', groups: 'Bands', people: 'Birthdays', notes: 'Notes', ach: 'Achievements & surprises' },
-    d: { students: 'Students, lessons, packages, schedule', money: 'Income, debts, expenses, reports', studio: 'Piano, metronome, tuner, templates', plan: 'Tasks, gigs, rehearsals, events', content: 'Reels, posts, stories', rep: 'Songs, lyrics, set lists', groups: 'Bands and line-ups', people: 'Family and colleagues', notes: 'Thoughts and ideas',
+    n: { students: 'Students & lessons', money: 'Money', studio: 'Studio', plan: 'Planner', content: 'Content plan', rep: 'Repertoire & set lists', groups: 'Bands', people: 'Birthdays', notes: 'Notes', comps: 'Song workshop', artist: 'Artist card & rider', ach: 'Achievements & surprises' },
+    d: { students: 'Students, lessons, packages, schedule', money: 'Income, debts, expenses, reports', studio: 'Piano, metronome, tuner, templates', plan: 'Tasks, gigs, rehearsals, events', content: 'Reels, posts, stories', rep: 'Songs, lyrics, set lists', groups: 'Bands and line-ups', people: 'Family and colleagues', notes: 'Thoughts and ideas', comps: 'Your songs, splits, releases', artist: 'Rider, bio, contacts',
       ach: 'Achievements, prizes, celebrations, easter eggs' },
     lockedT: 'Always on', locked: 'Home, Settings, backups and data storage can’t be switched off — the whole app relies on them.',
     allOn: 'Switch everything back on', allOnDone: 'All sections are on', allOff: 'All sections are off. Turn the ones you need on in Settings → “App sections”.', cal: 'Calendar',
@@ -2431,8 +2454,52 @@ const B2D = {
     driveErr: 'Google Drive is not connected yet: run driveTest once on the server and allow access.', restore: 'Restore',
     paste: 'Paste a copy as text', pasteHint: 'Paste the whole copy here (from Notes or a file) — the code at the end restores the base. The current state is saved to a copy first.' }
 };
+const MUD = {
+  ru: { workshop: 'Мастерская песен', workshopSub: 'Свои песни: от идеи до релиза', songsInWork: n => `В работе: ${n}`, workshopHint: 'Твои песни: этапы, тексты с версиями, соавторы и доли, план релиза. Идею можно надиктовать боту.',
+    st: { idea: 'Идея', lyrics: 'Текст', demo: 'Демо', arrange: 'Аранжировка', record: 'Запись', mix: 'Сведение', release: 'Релиз' },
+    nextRelease: (t, d, i) => `Ближайший релиз: «${t}» — ${d} (${i})`, empty: 'Пока ни одной песни. Запиши первую идею!', newSong: 'Новая песня', untitled: 'Без названия',
+    versionsN: n => `версий: ${n}`, versions: 'Версии текста', current: 'текущая', useVer: 'Вернуть', verRestored: 'Версия вставлена — нажми «Сохранить»',
+    title: 'Название', titlePh: 'Рабочее название', stage: 'Этап', lyrics: 'Текст', lyricsPh: 'Куплеты, припев, строчки… При каждом сохранении прошлый вариант остаётся в версиях',
+    rhymes: 'Рифмы и черновики', rhymesPh: 'Рифмы, обрывки строк, идеи образов…', notes: 'Заметки', notesPh: 'Темп, тональность, референсы, ссылки на демо…',
+    rights: 'Авторы и доли', noCo: 'Соавторов нет — песня полностью твоя.', addCo: 'Соавтор', coName: 'Имя', roles: ['музыка', 'текст', 'музыка и текст', 'аранжировка', 'продюсер', 'исполнение'],
+    reg: 'Регистрация и договоры', regPh: 'РАО/ВОИС, ISRC, дистрибьютор, договор с соавтором — где что лежит',
+    release: 'План релиза', relDate: 'Дата релиза', relHint: 'Поставь дату — появится чек-лист с датами: обложка, загрузка, питчинг, промо.', late: 'просрочено',
+    rel: { cover: 'Обложка готова', dist: 'Загрузить дистрибьютору', pitch: 'Питчинг в плейлисты', teaser: 'Тизер в сторис', announce: 'Reels-анонс', out: 'Релиз! Пост', thanks: 'Сторис-спасибо', live: 'Live / акустика' },
+    toContent: 'Добавить промо в контент-план', promoDone: n => `В контент-план добавлено: ${n}`, promoAlready: 'Промо уже в контент-плане', share: 'Скопировать текстом', delQ: 'Удалить песню из мастерской?',
+    artist: 'Карточка артиста', artistSub: 'Райдер, описание, контакты', artistFilled: 'Райдер заполнен ✓', artistHint: 'Всё, что нужно организатору: описание, контакты, технический и бытовой райдер. Отправляется в два тапа.',
+    aName: 'Сценическое имя', aBio: 'Коротко о себе', aBioPh: 'Пара строк для организаторов и афиш', aCont: 'Контакты', aContPh: 'Телефон, Telegram, Instagram',
+    tech: 'Технический райдер', techPh: 'Микрофон (радио), in-ear мониторы, кол-во каналов, минусы на флешке/ноутбуке…', hosp: 'Бытовой райдер', hospPh: 'Гримёрка, вода без газа, тёплый чай…',
+    keys: 'Тональности и заметки', keysPh: 'Песня — тональность, особенности', chkTpl: 'Что брать на концерт (шаблон)', chkTplPh: 'По одному пункту в строке',
+    chkDef: 'In-ear мониторы\nМикрофон\nФлешка с минусами\nКостюм и обувь\nКосметика\nВода и чай\nЗарядка\nСет-лист распечатан',
+    copyRider: 'Скопировать райдер', sendRider: 'Прислать райдер файлом в чат',
+    prep: 'Что взять', chkAddPh: 'Добавить пункт…', chkReset: 'Сбросить по шаблону',
+    run: 'Прогон', total: 'Всего', next: 'Дальше', last: 'Последняя песня', prev: 'Назад', nextBtn: 'Следующая', finish: 'Готово', start: 'Старт', done: t => `Прогон окончен: ${t}`,
+    org: 'Заказчик', orgPh: 'Ресторан, агентство, имя', orgPh2: 'Телефон заказчика',
+    byBand: 'Гонорары по коллективам (этот год)', byClient: 'Заказчики (этот год)', feeLine: (n, s, d) => `${n} выст. · ${s} · последнее ${d}`, owes: s => `должны ${s}` },
+  en: { workshop: 'Song workshop', workshopSub: 'Your songs: from idea to release', songsInWork: n => `In progress: ${n}`, workshopHint: 'Your songs: stages, lyrics with versions, co-writers and splits, release plan. Dictate ideas to the bot.',
+    st: { idea: 'Idea', lyrics: 'Lyrics', demo: 'Demo', arrange: 'Arrangement', record: 'Recording', mix: 'Mixing', release: 'Released' },
+    nextRelease: (t, d, i) => `Next release: “${t}” — ${d} (${i})`, empty: 'No songs yet. Write down your first idea!', newSong: 'New song', untitled: 'Untitled',
+    versionsN: n => `${n} versions`, versions: 'Lyric versions', current: 'current', useVer: 'Use', verRestored: 'Version inserted — tap Save',
+    title: 'Title', titlePh: 'Working title', stage: 'Stage', lyrics: 'Lyrics', lyricsPh: 'Verses, chorus, lines… Each save keeps the previous version',
+    rhymes: 'Rhymes & drafts', rhymesPh: 'Rhymes, line fragments, images…', notes: 'Notes', notesPh: 'Tempo, key, references, demo links…',
+    rights: 'Writers & splits', noCo: 'No co-writers — the song is all yours.', addCo: 'Co-writer', coName: 'Name', roles: ['music', 'lyrics', 'music & lyrics', 'arrangement', 'producer', 'performance'],
+    reg: 'Registration & contracts', regPh: 'PRO, ISRC, distributor, co-writer agreement — where everything is',
+    release: 'Release plan', relDate: 'Release date', relHint: 'Set a date to get a dated checklist: cover, upload, pitching, promo.', late: 'overdue',
+    rel: { cover: 'Cover ready', dist: 'Upload to distributor', pitch: 'Playlist pitching', teaser: 'Stories teaser', announce: 'Reels announcement', out: 'Release! Post', thanks: 'Thank-you stories', live: 'Live / acoustic' },
+    toContent: 'Add promo to the content plan', promoDone: n => `Added to the content plan: ${n}`, promoAlready: 'Promo is already in the content plan', share: 'Copy as text', delQ: 'Delete the song from the workshop?',
+    artist: 'Artist card', artistSub: 'Rider, bio, contacts', artistFilled: 'Rider filled in ✓', artistHint: 'Everything an organiser needs: bio, contacts, technical and hospitality rider. Sent in two taps.',
+    aName: 'Stage name', aBio: 'Short bio', aBioPh: 'A couple of lines for organisers and posters', aCont: 'Contacts', aContPh: 'Phone, Telegram, Instagram',
+    tech: 'Technical rider', techPh: 'Wireless mic, in-ear monitors, channels, backing tracks on USB/laptop…', hosp: 'Hospitality rider', hospPh: 'Dressing room, still water, warm tea…',
+    keys: 'Keys & notes', keysPh: 'Song — key, specifics', chkTpl: 'What to take to a gig (template)', chkTplPh: 'One item per line',
+    chkDef: 'In-ear monitors\nMicrophone\nUSB with backing tracks\nOutfit and shoes\nMake-up\nWater and tea\nCharger\nPrinted set list',
+    copyRider: 'Copy the rider', sendRider: 'Send the rider as a file to the chat',
+    prep: 'What to take', chkAddPh: 'Add an item…', chkReset: 'Reset from template',
+    run: 'Run-through', total: 'Total', next: 'Next', last: 'Last song', prev: 'Back', nextBtn: 'Next', finish: 'Done', start: 'Start', done: t => `Run-through finished: ${t}`,
+    org: 'Client', orgPh: 'Venue, agency, name', orgPh2: 'Client phone',
+    byBand: 'Fees by band (this year)', byClient: 'Clients (this year)', feeLine: (n, s, d) => `${n} gigs · ${s} · last ${d}`, owes: s => `owe ${s}` }
+};
 const TABP = { ru: 'Планер', en: 'Planner', es: 'Agenda', it: 'Agenda', fr: 'Agenda' };
-for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en;
+for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -2490,11 +2557,16 @@ function normalize(d){
     exercises: listOf(d.exercises).map(x => Object.assign({ title: '', text: '' }, x)),
     certs: listOf(d.certs).map(x => Object.assign({ code: '', buyer: '', to: '', svc: '', n: 1, price: 0, date: today(), until: '', used: 0 }, x)),
     /* planner (7.0): the singer's own life — gigs, rehearsals, tasks, notes, events; people's birthdays; bands; repertoire */
-    items: listOf(d.items).map(x => { const i = Object.assign({ kind: 'task', title: '', date: '', time: '', end: '', call: '', place: '', gid: '', fee: 0, paid: false, rem: -1, rep: '', done: false, note: '', at: 0, fmt: 'reels', cst: 'idea' }, x);
-      i.dd = Array.isArray(x.dd) ? x.dd.filter(s => typeof s === 'string') : []; i.set = Array.isArray(x.set) ? x.set.filter(s => typeof s === 'string') : []; return i; }),
+    items: listOf(d.items).map(x => { const i = Object.assign({ kind: 'task', title: '', date: '', time: '', end: '', call: '', place: '', gid: '', fee: 0, paid: false, rem: -1, rep: '', done: false, note: '', at: 0, fmt: 'reels', cst: 'idea', org: '', orgPh: '' }, x);
+      i.dd = Array.isArray(x.dd) ? x.dd.filter(s => typeof s === 'string') : []; i.set = Array.isArray(x.set) ? x.set.filter(s => typeof s === 'string') : []; i.chk = Array.isArray(x.chk) ? x.chk.filter(c => c && typeof c.t === 'string') : []; return i; }),
     people: listOf(d.people).map(x => Object.assign({ name: '', bday: '', who: '', note: '', rem: 0 }, x)),
     groups: listOf(d.groups).map(x => Object.assign({ name: '', color: '', members: '', note: '' }, x)),
     rep: listOf(d.rep).map(x => Object.assign({ title: '', artist: '', key: '', bpm: 0, dur: 0, link: '', lyrics: '', note: '', st: 'learn', gid: '' }, x)),
+    /* 7.1: own songs (song-writing workshop) and the artist card / riders */
+    comps: listOf(d.comps).map(x => { const c = Object.assign({ title: '', stage: 'idea', rhymes: '', note: '', reg: '', at: 0 }, x);
+      c.lyr = Array.isArray(x.lyr) ? x.lyr.filter(v => v && typeof v.x === 'string') : []; c.co = Array.isArray(x.co) ? x.co.filter(v => v && typeof v === 'object') : [];
+      c.rel = Object.assign({ date: '', done: {} }, x.rel && typeof x.rel === 'object' ? x.rel : {}); if (!c.rel.done || typeof c.rel.done !== 'object') c.rel.done = {}; return c; }),
+    artist: Object.assign({ name: '', bio: '', contacts: '', tech: '', hosp: '', keys: '', chk: '' }, d.artist && typeof d.artist === 'object' ? d.artist : {}),
     ach: d.ach && typeof d.ach === 'object' ? d.ach : null
   };
 }
@@ -2562,7 +2634,7 @@ const cs = {
 const toAscii = s => s.replace(/[\u007f-￿]/g, c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0'));
 const monthOf = l => 'M' + String(l.date).slice(0, 7).replace(/[^0-9-]/g, '');
 const chunkKeys = (b, p) => Array.from({ length: p.n }, (_, i) => `${b}_${p.g}_${i}`);
-const BKEYS = { S: ['settings', 'services', 'exercises', 'ach'], P: ['students'], K: ['packages', 'events', 'expenses', 'certs'], Q: ['items', 'people', 'groups', 'rep'] };
+const BKEYS = { S: ['settings', 'services', 'exercises', 'ach'], P: ['students'], K: ['packages', 'events', 'expenses', 'certs'], Q: ['items', 'people', 'groups', 'rep'], W: ['comps', 'artist'] };
 const bucketOrder = (a, b) => (a === 'S' ? -1 : b === 'S' ? 1 : a.localeCompare(b));
 
 function buildBuckets(s){
@@ -2571,7 +2643,8 @@ function buildBuckets(s){
     S: J({ v: 3, settings: s.settings, services: s.services, exercises: s.exercises, ach: s.ach }),
     P: J({ students: s.students }),
     K: J({ packages: s.packages, events: s.events, expenses: s.expenses, certs: s.certs }),
-    Q: J({ items: s.items, people: s.people, groups: s.groups, rep: s.rep })
+    Q: J({ items: s.items, people: s.people, groups: s.groups, rep: s.rep }),
+    W: J({ comps: s.comps, artist: s.artist })
   };
   const by = {};
   s.lessons.forEach(l => { const b = monthOf(l); (by[b] = by[b] || []).push(l); });
@@ -4770,6 +4843,7 @@ function bxLessonFor(s, a, needDate){
 
 function applyAct(a, out, touched){
   if (/^(add_item|done_task|add_person|add_rep_song)$/.test(a.type)) return safe(() => applyPlanAct(a, out));
+  if (/^(add_comp|artist_add)$/.test(a.type)) return safe(() => applyMusicAct(a, out));
   const T2 = T.bx, t = today();
   const need = () => { const s = bxFind(a.student); if (!s) out.push('⚠️ ' + T2.notFound(a.student || '?')); return s; };
   switch (a.type) {
@@ -4871,8 +4945,27 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 11;
+const APP_VER = 12;
 const CHANGES = [
+  { v: 12, name: '7.1', date: '2026-11-01', big: true,
+    ru: {
+      add: ['✍️ Мастерская песен (Планер): свои песни от идеи до релиза — этапы, текст с версиями (старые варианты не теряются), рифмы и черновики, соавторы и доли, регистрация и договоры',
+        '🚀 План релиза: ставишь дату — появляется чек-лист со сроками (обложка, загрузка, питчинг, промо), а промо-посты одной кнопкой ложатся в контент-план',
+        '🎤 Карточка артиста: описание, контакты, технический и бытовой райдер — копируется или приходит файлом в чат, чтобы сразу отправить организатору',
+        '🎒 Подготовка к концерту: у выступления свой чек-лист «что взять» (шаблон меняется в карточке артиста) и ▶️ прогон сет-листа с таймером и заметками к песням',
+        '🤝 У выступления можно указать заказчика и его телефон; в «Выступлениях» — гонорары по коллективам и по заказчикам, кто сколько должен',
+        '🎤 Бот понимает и это: «идея песни: осень в окне…», «соавтор Дима, 50 на 50», «в райдер добавь in-ear», «корпоратив, заказчик ресторан Плаза»'],
+      better: ['Новые разделы можно выключить в Настройках → «Разделы приложения»', 'Песни из мастерской и райдер попадают во все резервные копии, в том числе в текстовую'],
+      removed: ['Голосовой помощник внутри приложения — голосом теперь всё вносится через бота'] },
+    en: {
+      add: ['✍️ Song workshop (Planner): your own songs from idea to release — stages, lyrics with versions (old drafts are kept), rhymes and drafts, co-writers and splits, registration and contracts',
+        '🚀 Release plan: set a date and get a dated checklist (cover, upload, pitching, promo); promo posts go to the content plan in one tap',
+        '🎤 Artist card: bio, contacts, technical and hospitality rider — copy it or get it as a file in the chat to send to an organiser',
+        '🎒 Gig prep: each gig has its own “what to take” checklist (template in the artist card) and a ▶️ set-list run-through with a timer and song notes',
+        '🤝 Gigs can have a client and their phone; “Gigs” shows fees by band and by client, and who still owes',
+        '🎤 The bot understands it too: “song idea: autumn in the window…”, “co-writer Dima, 50/50”, “add in-ears to the rider”, “corporate gig, client Plaza restaurant”'],
+      better: ['New sections can be switched off in Settings → “App sections”', 'Workshop songs and the rider are included in every backup, including the text one'],
+      removed: ['The in-app voice assistant — voice input now goes through the bot'] } },
   { v: 11, name: '7.0', date: '2026-11-01', big: true,
     ru: {
       add: ['📒 Планер — новая вкладка: дела, выступления, репетиции, события, заметки. С датами, повторами и напоминаниями в боте; всё видно и в календаре рядом с уроками',
@@ -5134,7 +5227,7 @@ const bk = (() => {
 })();
 const BK_KEEP = { day: 30, hr: 24, upd: 8, pre: 8, man: 8 };
 let bkDayAt = 0, allowEmpty = false, loadedCounts = { n: 0, l: 0 };
-const hasData = s => s && (s.students.length || s.lessons.length || (s.items || []).length || (s.people || []).length || (s.rep || []).length);
+const hasData = s => s && (s.students.length || s.lessons.length || (s.items || []).length || (s.people || []).length || (s.rep || []).length || (s.comps || []).length);
 async function snapshot(kind, src){
   const s = src || state; if (!hasData(s)) return null;
   const at = Date.now(), id = kind === 'day' ? 'day_' + today() : kind === 'hr' ? 'hr_' + new Date(at).toISOString().slice(0, 13) : `${kind}_${at}`;
@@ -5314,6 +5407,9 @@ function backupText(s){
   if ((s.groups || []).length) { H('КОЛЛЕКТИВЫ'); s.groups.forEach(g => L.push(`● ${g.name}${g.members ? '\n  Состав: ' + g.members.replace(/\n/g, ' / ') : ''}${g.note ? '\n  ' + g.note.replace(/\n/g, ' / ') : ''}`)); }
   if ((s.rep || []).length) { H('РЕПЕРТУАР'); s.rep.forEach(r => L.push('', `● ${r.title}${r.artist ? ' — ' + r.artist : ''}${r.key ? ' · ' + r.key : ''}${+r.bpm ? ' · ' + r.bpm + ' bpm' : ''}${gname(r.gid) ? ' · ' + gname(r.gid) : ''} · ${r.st}`, r.link ? '  ' + r.link : '', r.note ? '  ' + r.note : '', r.lyrics ? r.lyrics : '')); }
   if ((s.people || []).length) { H('ДНИ РОЖДЕНИЯ'); s.people.forEach(p => L.push(`${p.name}${p.who ? ' (' + p.who + ')' : ''} · ${p.bday ? (p.bday.startsWith('1900') ? p.bday.slice(5) : p.bday) : '—'}${p.note ? ' · ' + p.note.replace(/\n/g, ' / ') : ''}`)); }
+  if ((s.comps || []).length) { H('МОИ ПЕСНИ (мастерская)'); s.comps.forEach(c => L.push('', `● ${c.title} · этап: ${c.stage}${c.rel && c.rel.date ? ' · релиз ' + c.rel.date : ''}`, (c.co || []).length ? '  Соавторы и доли: ' + c.co.map(x => `${x.n} — ${x.r}${+x.pct ? ' ' + x.pct + '%' : ''}`).join('; ') : '', c.reg ? '  Регистрация/договоры: ' + c.reg.replace(/\n/g, ' / ') : '', c.note ? '  Заметки: ' + c.note.replace(/\n/g, ' / ') : '', c.rhymes ? '  Рифмы/черновики: ' + c.rhymes.replace(/\n/g, ' / ') : '', (c.lyr || []).length ? c.lyr[c.lyr.length - 1].x : '')); }
+  const ar = s.artist || {};
+  if (ar.tech || ar.hosp || ar.bio) { H('КАРТОЧКА АРТИСТА И РАЙДЕР'); L.push(ar.name ? 'Имя: ' + ar.name : '', ar.bio, ar.contacts ? 'Контакты: ' + ar.contacts : '', ar.tech ? '\nТехнический райдер:\n' + ar.tech : '', ar.hosp ? '\nБытовой райдер:\n' + ar.hosp : '', ar.keys ? '\nТональности/заметки:\n' + ar.keys : ''); }
   if ((s.exercises || []).length) { H('УПРАЖНЕНИЯ'); s.exercises.forEach(e => L.push(`● ${e.title}\n${e.text}`)); }
   H('КОД ДЛЯ ВОССТАНОВЛЕНИЯ (не меняй — копируй вместе со всем текстом)');
   L.push('VOCALBACKUP:' + JSON.stringify(s));
@@ -5627,9 +5723,11 @@ function renderPlan(noHead){
     ['plGroups', '', '👥', T.pl.groups, state.groups.length ? state.groups.map(g => g.name).slice(0, 3).join(', ') : T.pl.groupsSub],
     ['plList', 'post', '📱', T.pl.content, (n => n ? T.pl.ideasN(n) : T.pl.contentSub)(state.items.filter(it => it.kind === 'post' && it.cst !== 'posted').length)],
     ['plRep', '', '🎼', T.pl.rep, state.rep.length ? T.pl.songsN(state.rep.length) : T.pl.repSub],
-    ['plPeople', '', '🎂', T.pl.people, state.people.length ? T.pl.peopleN(state.people.length) : T.pl.peopleSub]
+    ['plPeople', '', '🎂', T.pl.people, state.people.length ? T.pl.peopleN(state.people.length) : T.pl.peopleSub],
+    ['muWorkshop', '', '✍️', T.mu.workshop, state.comps.length ? T.mu.songsInWork(state.comps.filter(c => c.stage !== 'release').length) : T.mu.workshopSub],
+    ['muArtist', '', '🎤', T.mu.artist, state.artist.tech || state.artist.bio ? T.mu.artistFilled : T.mu.artistSub]
   ];
-  const TOOLMOD = { plGroups: 'groups', plRep: 'rep', plPeople: 'people' };
+  const TOOLMOD = { plGroups: 'groups', plRep: 'rep', plPeople: 'people', muWorkshop: 'comps', muArtist: 'artist' };
   const toolsB = `<div class="tools">${tools.filter(([a, v]) => (a !== 'plList' || v !== 'post' || mod('content')) && (!TOOLMOD[a] || mod(TOOLMOD[a]))).map(([a, v, i, b, s]) => `<button class="tool" data-act="${a}" data-v="${v}"><span class="ti">${i}</span><b>${esc(b)}</b><small>${esc(s)}</small></button>`).join('')}</div>`;
   return (noHead ? '' : header(T.tabs.plan)) + quick + tasksB + agenda + notesB + `<div class="sec"><span>${esc(T.pl.music)}</span></div>` + toolsB;
 }
@@ -5657,7 +5755,7 @@ function planMoneyBlock(m){
 /* ---------- item form ---------- */
 function itemForm(id, preset){
   const ex = id ? itemOf(id) : null;
-  const I = ex ? Object.assign({}, ex) : Object.assign({ kind: 'task', title: '', date: '', time: '', end: '', call: '', place: '', gid: '', fee: 0, paid: false, rem: -1, rep: '', done: false, note: '', set: [], dd: [], fmt: 'reels', cst: 'idea' }, preset || {});
+  const I = ex ? Object.assign({}, ex) : Object.assign({ kind: 'task', title: '', date: '', time: '', end: '', call: '', place: '', gid: '', fee: 0, paid: false, rem: -1, rep: '', done: false, note: '', set: [], dd: [], chk: [], fmt: 'reels', cst: 'idea', org: '', orgPh: '' }, preset || {});
   if (!ex && preset && preset.kind && !('rem' in preset)) I.rem = REM_DEF[preset.kind];
   if (!ex && (I.kind === 'gig' || I.kind === 'reh' || I.kind === 'event') && !I.date) I.date = today();
   if (!I.fmt) I.fmt = 'reels'; if (!I.cst) I.cst = 'idea';
@@ -5687,10 +5785,13 @@ function itemForm(id, preset){
       ${K === 'post' ? `<div class="group"><div class="field"><span class="lb">${esc(T.pl.fmtL)}</span><div class="chipsel" id="p_fmt">${FMTS.map(f => `<button type="button" data-act="plPick" data-v="${f}" class="${I.fmt === f ? 'on' : ''}">${esc(T.pl.fmt[f])}</button>`).join('')}</div></div>
         <div class="field"><span class="lb">${esc(T.pl.status)}</span><div class="chipsel" id="p_cst">${CSTS.map(f => `<button type="button" data-act="plPick" data-v="${f}" class="${I.cst === f ? 'on' : ''}">${esc(T.pl.cst[f])}</button>`).join('')}</div></div></div>` : ''}
       ${isG ? `<div class="group"><div class="two"><div class="field"><label for="p_fee">💰 ${esc(T.pl.fee(state.settings.cur || '₽'))}</label><input type="number" inputmode="numeric" min="0" id="p_fee" value="${+I.fee || ''}" placeholder="0"></div>
-        <div class="field toggle"><span>${esc(T.pl.paid)}</span><button type="button" class="sw${I.paid ? ' on' : ''}" data-act="plSw" data-v="paid" id="p_paid"></button></div></div></div>` : ''}
+        <div class="field toggle"><span>${esc(T.pl.paid)}</span><button type="button" class="sw${I.paid ? ' on' : ''}" data-act="plSw" data-v="paid" id="p_paid"></button></div></div>
+        <div class="two"><div class="field"><label for="p_org">🤝 ${esc(T.mu.org)}</label><input id="p_org" value="${esc(I.org || '')}" placeholder="${esc(T.mu.orgPh)}" autocomplete="off"></div>
+        <div class="field"><label for="p_orgph">📞 ${esc(T.mu.orgPh2)}</label><input id="p_orgph" value="${esc(I.orgPh || '')}" inputmode="tel" autocomplete="off"></div></div></div>` : ''}
       ${!isN ? `<div class="group"><div class="field"><label for="p_note">${esc(T.pl.details)}</label><textarea id="p_note" placeholder="${esc(T.pl.detailsPh[K])}">${esc(I.note)}</textarea></div></div>` : ''}
       ${clash.length ? `<div class="hintline" style="color:var(--warn)">⚠️ ${esc(T.pl.clashL(clash.map(l => (l.time || '') + ' ' + ((stu(l.sid) || {}).name || '')).join(', ')))}</div>` : ''}
-      ${isG && ex && mod('rep') ? `<button class="btn ghost" data-act="plSet" data-id="${ex.id}">🎼 ${esc(T.pl.setlist)}${ex.set.length ? ' · ' + ex.set.length : ''}</button>` : ''}
+      ${isG && ex && mod('rep') ? `<div class="pair2"><button class="btn ghost" data-act="plSet" data-id="${ex.id}">🎼 ${esc(T.pl.setlist)}${ex.set.length ? ' · ' + ex.set.length : ''}</button><button class="btn ghost" data-act="muRun" data-id="${ex.id}"${ex.set.length ? '' : ' disabled'}>▶️ ${esc(T.mu.run)}</button></div>` : ''}
+      ${(isG || isR) && ex ? `<button class="btn ghost" data-act="muPrep" data-id="${ex.id}">🎒 ${esc(T.mu.prep)}${ex.chk.length ? ' · ' + ex.chk.filter(c => c.d).length + '/' + ex.chk.length : ''}</button>` : ''}
       ${K === 'task' && ex ? `<button class="btn soft" data-act="plDone" data-id="${ex.id}" data-v="${esc(ui.planOcc || ex.date || '')}">${isDone(ex, ui.planOcc || ex.date) ? '↩️ ' + esc(T.pl.undo) : '✓ ' + esc(T.pl.markDone)}</button>` : ''}
       <button class="btn" data-act="plSave" data-id="${ex ? ex.id : ''}">${esc(T.save)}</button>
       ${ex ? `<button class="btn ghost" data-act="plShare" data-id="${ex.id}">📋 ${esc(T.pl.share)}</button><button class="btn danger" data-act="plDel" data-id="${ex.id}">${esc(T.del)}</button>` : ''}`;
@@ -5704,6 +5805,8 @@ function readItemForm(I){
   if (v('p_rem') !== undefined) I.rem = +v('p_rem');
   if (v('p_fee') !== undefined) I.fee = Math.max(0, Math.round(+v('p_fee') || 0));
   if ($('p_paid')) I.paid = $('p_paid').classList.contains('on');
+  if (v('p_org') !== undefined) I.org = v('p_org').trim().slice(0, 120);
+  if (v('p_orgph') !== undefined) I.orgPh = v('p_orgph').trim().slice(0, 40);
   if (v('p_gid') !== undefined) I.gid = v('p_gid');
   if (v('p_gnew') !== undefined && I.gid === '+') I.gnew = v('p_gnew').trim();
   const pick = id => { const b = $(id) && $(id).querySelector('.on'); return b ? b.dataset.v : undefined; };
@@ -5715,7 +5818,7 @@ function itemText(it, ds){
   const g = grp(it.gid), d = ds || it.date;
   const songs = it.set.map(repSong).filter(Boolean);
   return [`${PK[it.kind]} ${itemTitle(it)}`, d ? `📅 ${cap(F.full.format(parseD(d)))}${it.time ? ', ' + it.time + (it.end ? '–' + it.end : '') : ''}` : '',
-    it.call ? `⏰ ${T.pl.call}: ${it.call}` : '', it.place ? `📍 ${it.place}` : '', g ? `👥 ${g.name}` : '',
+    it.call ? `⏰ ${T.pl.call}: ${it.call}` : '', it.place ? `📍 ${it.place}` : '', g ? `👥 ${g.name}` : '', it.org ? `🤝 ${it.org}${it.orgPh ? ' · ' + it.orgPh : ''}` : '',
     it.note ? '\n' + it.note : '', songs.length ? `\n🎼 ${T.pl.setlist} (${fmtDur(songs.reduce((a, s) => a + (+s.dur || 0), 0))}):\n` + songs.map((s, i) => `${i + 1}. ${s.title}${s.key ? ' (' + s.key + ')' : ''}`).join('\n') : ''].filter(Boolean).join('\n');
 }
 
@@ -5749,7 +5852,7 @@ function planListSheet(kind){
       const past = all.filter(it => !it.rep && it.date && it.date < t).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 40);
       const y = t.slice(0, 4), yGigs = all.flatMap(it => occ(it, y + '-01-01', t).map(ds => ({ it, ds })));
       const sum = yGigs.reduce((a, g) => a + (+g.it.fee || 0), 0);
-      body = (kind === 'gig' && yGigs.length ? note(T.pl.yearStat(yGigs.length, money(sum))) : '')
+      body = (kind === 'gig' && yGigs.length ? note(T.pl.yearStat(yGigs.length, money(sum))) : '') + (kind === 'gig' && mod('money') ? safe(feesBlock) : '')
         + (up.length ? `<div class="card">${up.map(x => itemRow(x.it, x.ds)).join('')}</div>` : `<div class="empty">${esc(T.pl.none)}</div>`)
         + (past.length ? `<div class="sec"><span>${esc(T.pl.past)}</span></div><div class="card">${past.map(it => itemRow(it, it.date)).join('')}</div>` : '');
     }
@@ -5839,7 +5942,7 @@ function setSheet(itemId){
     const rows = songs.map((s, i) => `<div class="row"><div class="ava pava">${i + 1}</div><div class="main"><div class="name">${esc(s.title)}</div><div class="sub one">${esc([s.key, +s.dur ? fmtDur(s.dur) : '', T.pl.st[s.st]].filter(Boolean).join(' · '))}</div></div>
       <div class="right"><button class="mini" data-act="plSetMv" data-id="${it.id}" data-v="${i}:-1"${i ? '' : ' disabled'}>↑</button><button class="mini" data-act="plSetMv" data-id="${it.id}" data-v="${i}:1"${i < songs.length - 1 ? '' : ' disabled'}>↓</button><button class="mini" data-act="plSetRm" data-id="${it.id}" data-v="${s.id}">✕</button></div></div>`).join('');
     return sheetHead(T.pl.setlist) + note(`${itemTitle(it)}${it.date ? ' · ' + shortDate(it.date) : ''} · ${T.pl.setTotal(songs.length, fmtDur(total))}`)
-      + (rows ? `<div class="card">${rows}</div><button class="btn" data-act="plSetCopy" data-id="${it.id}">📋 ${esc(T.pl.share)}</button>` : `<div class="empty" style="padding:16px">${esc(T.pl.setEmpty)}</div>`)
+      + (rows ? `<div class="card">${rows}</div><div class="pair2"><button class="btn" data-act="muRun" data-id="${it.id}">▶️ ${esc(T.mu.run)}</button><button class="btn ghost" data-act="plSetCopy" data-id="${it.id}">📋 ${esc(T.pl.share)}</button></div>` : `<div class="empty" style="padding:16px">${esc(T.pl.setEmpty)}</div>`)
       + `<div class="sec"><span>${esc(T.pl.addSongs)}</span><button class="link" data-act="plSong" data-id="">+ ${esc(T.pl.songNew)}</button></div>`
       + (rest.length ? `<div class="card">${rest.map(r => `<div class="row" data-act="plSetAdd" data-id="${it.id}" data-v="${r.id}"><div class="ava pava">＋</div><div class="main"><div class="name">${esc(r.title)}</div><div class="sub one">${esc([r.artist, r.key, (grp(r.gid) || {}).name].filter(Boolean).join(' · '))}</div></div></div>`).join('')}</div>` : `<div class="hintline">${esc(T.pl.repEmpty)}</div>`);
   };
@@ -5908,7 +6011,7 @@ function planMorning(ds){
 /* what the bot should know about the planner */
 function planCtx(){
   const t = today(), to = ymd(addDays(parseD(t), 21));
-  return { groups: state.groups.map(g => g.name), rep: state.rep.map(r => r.title + (r.artist ? ' — ' + r.artist : '')).slice(0, 300), people: state.people.map(p => p.name + (p.who ? ' (' + p.who + ')' : '')),
+  return { comps: state.comps.map(c => c.title).slice(0, 100), groups: state.groups.map(g => g.name), rep: state.rep.map(r => r.title + (r.artist ? ' — ' + r.artist : '')).slice(0, 300), people: state.people.map(p => p.name + (p.who ? ' (' + p.who + ')' : '')),
     plan: state.items.filter(it => it.kind !== 'note').flatMap(it => occ(it, t, to).slice(0, 3).map(ds => `${ds} ${it.time || '--:--'} ${it.kind} ${itemTitle(it)}${it.kind === 'task' && isDone(it, ds) ? ' (done)' : ''}`))
       .concat(state.items.filter(it => it.kind === 'task' && !it.date && !it.done).map(it => `— task ${itemTitle(it)}`)).slice(0, 40) };
 }
@@ -5930,7 +6033,7 @@ function applyPlanAct(a, out){
       if (!title && !gid) return;
       const rem = REM_OPTS.includes(+a.remind) && a.remind !== undefined && a.remind !== '' ? +a.remind : date ? REM_DEF[kind] : -1;
       const it = { id: uid(), kind, title, date, time: bxTime(a.time), end: bxTime(a.end), call: bxTime(a.call), place: String(a.place || '').slice(0, 200), gid,
-        fmt: FMTS.includes(a.format) ? a.format : 'reels', cst: CSTS.includes(a.status) ? a.status : 'idea',
+        fmt: FMTS.includes(a.format) ? a.format : 'reels', cst: CSTS.includes(a.status) ? a.status : 'idea', chk: [], org: String(a.org || '').slice(0, 120), orgPh: String(a.org_phone || '').slice(0, 40),
         fee: bxNum(a.fee), paid: a.paid === true, rem: kind === 'note' ? -1 : rem, rep: ({ weekly: 'w', monthly: 'm', yearly: 'y' })[a.repeat] || '', done: false, dd: [], set: [], note: String(a.text || '').slice(0, 20000), at: Date.now() };
       state.items.push(it);
       out.push(`${PK[kind]} ${itemTitle(it)}${date ? ', ' + bxWhen(date, it.call || it.time) : ''}`); return;
@@ -5990,10 +6093,10 @@ const PL = {
     if (!I.date) { I.rep = ''; if (I.rem !== -1) I.rem = -1; }
     if (I.gid === '+') { I.gid = I.gnew ? groupByName(I.gnew, true) : ''; }
     delete I.gnew; delete I.kindPrev;
-    if (I.kind !== 'gig') { I.fee = 0; I.paid = false; I.call = ''; }
+    if (I.kind !== 'gig') { I.fee = 0; I.paid = false; I.call = ''; I.org = ''; I.orgPh = ''; }
     if (I.kind !== 'gig' && I.kind !== 'reh' && I.kind !== 'event') { I.end = ''; I.place = ''; }
     if (I.kind === 'note') { I.date = ''; I.time = ''; I.rem = -1; I.rep = ''; }
-    if (id) { const it = itemOf(id); if (it) Object.assign(it, I); } else state.items.push(Object.assign(I, { id: uid(), at: Date.now(), dd: [], set: I.set || [] }));
+    if (id) { const it = itemOf(id); if (it) Object.assign(it, I); } else state.items.push(Object.assign(I, { id: uid(), at: Date.now(), dd: [], set: I.set || [], chk: [] }));
     save(); hapticOk(); closeSheet(); render(); toast(id ? savedMsg() : T.pl.saved[I.kind], 2400);
     const it = id ? itemOf(id) : state.items[state.items.length - 1];
     if (it && it.date) { const c = lessonClash(it, it.date); if (c.length) setTimeout(() => toast('⚠️ ' + T.pl.clashL(c.map(l => (l.time || '') + ' ' + ((stu(l.sid) || {}).name || '')).join(', ')), 4500), 2500); }
@@ -6091,11 +6194,243 @@ document.addEventListener('change', e => {
 /* when lessons are switched off, the home screen is the planner */
 const planHomeLite = () => renderPlan(true);
 
+/* ================= 7.1: the musician — song-writing workshop, rights, release plan,
+   artist card & riders, concert prep (checklist + set-list run), fees by band & client ================= */
+const STAGES = ['idea', 'lyrics', 'demo', 'arrange', 'record', 'mix', 'release'];
+const STAGE_IC = { idea: '💡', lyrics: '✍️', demo: '🎙', arrange: '🎹', record: '🎧', mix: '🎚', release: '🚀' };
+/* release plan: [key, days relative to release, also a content-plan post?] */
+const REL_STEPS = [['cover', -28, 0], ['dist', -21, 0], ['pitch', -14, 0], ['teaser', -7, 'stories'], ['announce', -3, 'reels'], ['out', 0, 'post'], ['thanks', 1, 'stories'], ['live', 7, 'reels']];
+const compOf = id => state.comps.find(c => c.id === id);
+const lastLyr = c => c.lyr.length ? c.lyr[c.lyr.length - 1].x : '';
+
+/* ---------- workshop list ---------- */
+function compRow(c){
+  const i = STAGES.indexOf(c.stage), pct = Math.round(i / (STAGES.length - 1) * 100);
+  const sub = [T.mu.st[c.stage], c.rel.date ? '🚀 ' + shortDate(c.rel.date) : '', c.co.length ? '👥 ' + c.co.length : '', c.lyr.length > 1 ? T.mu.versionsN(c.lyr.length) : ''].filter(Boolean).join(' · ');
+  return `<div class="row" data-act="muComp" data-id="${c.id}"><div class="ava pava">${STAGE_IC[c.stage] || '💡'}</div>
+    <div class="main"><div class="name">${esc(c.title || T.mu.untitled)}</div><div class="sub one">${esc(sub)}</div><div class="mubar"><i style="width:${pct}%"></i></div></div><div class="right"><span class="chev">›</span></div></div>`;
+}
+function workshopSheet(){
+  return () => {
+    const f = ui.muF || '', list = state.comps.filter(c => !f || c.stage === f).sort((a, b) => (b.at || 0) - (a.at || 0));
+    const chips = [['', T.pl.allSongs]].concat(STAGES.map(s => [s, STAGE_IC[s] + ' ' + T.mu.st[s] + ' · ' + state.comps.filter(c => c.stage === s).length]));
+    const soon = state.comps.filter(c => c.rel.date && c.rel.date >= today()).sort((a, b) => a.rel.date.localeCompare(b.rel.date))[0];
+    return sheetHead(T.mu.workshop, `<button class="r" data-act="muComp" data-id="">+</button>`)
+      + (soon ? note('🚀 ' + T.mu.nextRelease(soon.title, shortDate(soon.rel.date), inDays(soon.rel.date))) : note(T.mu.workshopHint))
+      + `<div class="chipsel" style="margin:0 0 10px">${chips.map(([v, l]) => `<button type="button" data-act="muF" data-v="${v}" class="${f === v ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`
+      + (list.length ? `<div class="card">${list.map(compRow).join('')}</div>` : `<div class="empty">${esc(T.mu.empty)}<button class="btn soft" data-act="muComp" data-id="">+ ${esc(T.mu.newSong)}</button></div>`);
+  };
+}
+
+/* ---------- one song ---------- */
+let curComp = null;
+function compForm(id){
+  const ex = id ? compOf(id) : null;
+  const C = ex ? JSON.parse(JSON.stringify(ex)) : { title: '', stage: 'idea', lyr: [], rhymes: '', note: '', co: [], reg: '', rel: { date: '', done: {} } };
+  C.text = lastLyr(C);
+  curComp = { C, ex };
+  return () => {
+    const X = T.mu, co = C.co, sum = co.reduce((a, x) => a + (+x.pct || 0), 0);
+    const coRows = co.map((x, i) => `<div class="muco"><input id="co_n_${i}" value="${esc(x.n || '')}" placeholder="${esc(X.coName)}" autocomplete="off">
+      <select id="co_r_${i}">${X.roles.map(r => `<option${x.r === r ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
+      <input id="co_p_${i}" type="number" inputmode="decimal" value="${+x.pct || ''}" placeholder="%"><button type="button" class="mini" data-act="muCoRm" data-v="${i}">✕</button></div>`).join('');
+    const relDate = C.rel.date;
+    const steps = relDate ? REL_STEPS.map(([k, d]) => { const ds = ymd(addDays(parseD(relDate), d)); return `<button type="button" class="murel${C.rel.done[k] ? ' on' : ''}" data-act="muRelStep" data-v="${k}"><i>${C.rel.done[k] ? '✓' : ''}</i><span><b>${esc(X.rel[k])}</b><small>${esc(shortDate(ds))}${ds < today() && !C.rel.done[k] ? ' · ⚠️ ' + esc(X.late) : ''}</small></span></button>`; }).join('') : '';
+    return sheetHead(ex ? (C.title || X.untitled) : X.newSong) + `
+      <div class="group"><div class="field"><label for="m_title">${esc(X.title)}</label><input id="m_title" value="${esc(C.title)}" placeholder="${esc(X.titlePh)}" autocomplete="off"></div>
+        <div class="field"><span class="lb">${esc(X.stage)}</span><div class="chipsel mustages" id="m_stage">${STAGES.map(s => `<button type="button" data-act="plPick" data-v="${s}" class="${C.stage === s ? 'on' : ''}">${STAGE_IC[s]} ${esc(X.st[s])}</button>`).join('')}</div></div></div>
+      <div class="group"><div class="field"><label for="m_text">✍️ ${esc(X.lyrics)}${C.lyr.length > 1 ? ' · ' + esc(X.versionsN(C.lyr.length)) : ''}</label><textarea id="m_text" class="pbig" placeholder="${esc(X.lyricsPh)}">${esc(C.text)}</textarea></div>
+        ${C.lyr.length > 1 ? `<button type="button" class="link" data-act="muVers" style="margin:0 12px 10px">🕘 ${esc(X.versions)}</button>` : ''}
+        <div class="field"><label for="m_rhy">${esc(X.rhymes)}</label><textarea id="m_rhy" placeholder="${esc(X.rhymesPh)}">${esc(C.rhymes)}</textarea></div>
+        <div class="field"><label for="m_note">${esc(X.notes)}</label><textarea id="m_note" placeholder="${esc(X.notesPh)}">${esc(C.note)}</textarea></div></div>
+      <div class="sec"><span>📜 ${esc(X.rights)}</span><span${co.length && sum !== 100 ? ' style="color:var(--warn)"' : ''}>${co.length ? sum + ' %' : ''}</span></div>
+      <div class="group">${coRows || `<div class="hintline">${esc(X.noCo)}</div>`}<button type="button" class="btn ghost sm" data-act="muCoAdd" style="margin:6px 0">+ ${esc(X.addCo)}</button>
+        <div class="field"><label for="m_reg">${esc(X.reg)}</label><textarea id="m_reg" placeholder="${esc(X.regPh)}">${esc(C.reg)}</textarea></div></div>
+      <div class="sec"><span>🚀 ${esc(X.release)}</span></div>
+      <div class="group"><div class="field"><label for="m_rel">${esc(X.relDate)}</label><input type="date" id="m_rel" value="${esc(relDate)}"></div>
+        ${steps ? `<div class="murels">${steps}</div>` : `<div class="hintline">${esc(X.relHint)}</div>`}</div>
+      ${relDate && mod('content') && mod('plan') ? `<button class="btn ghost" data-act="muPromo">📱 ${esc(X.toContent)}</button>` : ''}
+      <button class="btn" data-act="muSave">${esc(T.save)}</button>
+      ${ex ? `<button class="btn ghost" data-act="muShare">📋 ${esc(X.share)}</button><button class="btn danger" data-act="muDel">${esc(T.del)}</button>` : ''}`;
+  };
+}
+function readCompForm(){
+  if (!curComp) return null;
+  const C = curComp.C, v = id => $(id) ? $(id).value : undefined;
+  if (v('m_title') !== undefined) C.title = v('m_title').trim().slice(0, 200);
+  const st = $('m_stage') && $('m_stage').querySelector('.on'); if (st) C.stage = st.dataset.v;
+  if (v('m_text') !== undefined) C.text = v('m_text').slice(0, 30000);
+  if (v('m_rhy') !== undefined) C.rhymes = v('m_rhy').slice(0, 10000);
+  if (v('m_note') !== undefined) C.note = v('m_note').slice(0, 10000);
+  if (v('m_reg') !== undefined) C.reg = v('m_reg').slice(0, 5000);
+  if (v('m_rel') !== undefined) C.rel.date = /^\d{4}-\d{2}-\d{2}$/.test(v('m_rel')) ? v('m_rel') : '';
+  C.co = C.co.map((x, i) => $('co_n_' + i) ? { n: $('co_n_' + i).value.trim().slice(0, 80), r: $('co_r_' + i).value, pct: Math.max(0, Math.min(100, +$('co_p_' + i).value || 0)) } : x);
+  return C;
+}
+function compText(c){
+  const X = T.mu;
+  return [`🎵 ${c.title || X.untitled}`, `${STAGE_IC[c.stage]} ${X.st[c.stage]}`, c.rel.date ? `🚀 ${X.relDate}: ${shortDate(c.rel.date)}` : '',
+    c.co.length ? '\n📜 ' + X.rights + ':\n' + c.co.map(x => `• ${x.n} — ${x.r}${+x.pct ? ', ' + x.pct + ' %' : ''}`).join('\n') : '', c.reg ? '\n' + c.reg : '',
+    lastLyr(c) ? '\n' + lastLyr(c) : ''].filter(Boolean).join('\n');
+}
+function versionsSheet(){
+  return () => {
+    const C = curComp && curComp.C; if (!C) return sheetHead(T.mu.versions);
+    return sheetHead('🕘 ' + T.mu.versions) + C.lyr.slice().reverse().map((v, k) => { const i = C.lyr.length - 1 - k;
+      return `<div class="card muver"><div class="li"><span class="tx"><b>${esc(new Date(v.at).toLocaleString(LOC, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }))}${i === C.lyr.length - 1 ? ' · ' + esc(T.mu.current) : ''}</b></span>${i < C.lyr.length - 1 ? `<button class="mini" data-act="muVerUse" data-v="${i}">${esc(T.mu.useVer)}</button>` : ''}</div><pre>${esc(v.x)}</pre></div>`; }).join('');
+  };
+}
+
+/* ---------- artist card & riders ---------- */
+function artistSheet(){
+  return () => {
+    const A0 = state.artist, X = T.mu;
+    return sheetHead('🎤 ' + X.artist) + note(X.artistHint) + `
+      <div class="group"><div class="field"><label for="a_name">${esc(X.aName)}</label><input id="a_name" value="${esc(A0.name)}" placeholder="${esc(userName())}" autocomplete="off"></div>
+        <div class="field"><label for="a_bio">${esc(X.aBio)}</label><textarea id="a_bio" placeholder="${esc(X.aBioPh)}">${esc(A0.bio)}</textarea></div>
+        <div class="field"><label for="a_cont">${esc(X.aCont)}</label><textarea id="a_cont" placeholder="${esc(X.aContPh)}">${esc(A0.contacts)}</textarea></div></div>
+      <div class="group"><div class="field"><label for="a_tech">🎛 ${esc(X.tech)}</label><textarea id="a_tech" class="pbig" placeholder="${esc(X.techPh)}">${esc(A0.tech)}</textarea></div>
+        <div class="field"><label for="a_hosp">🍽 ${esc(X.hosp)}</label><textarea id="a_hosp" placeholder="${esc(X.hospPh)}">${esc(A0.hosp)}</textarea></div>
+        <div class="field"><label for="a_keys">🎼 ${esc(X.keys)}</label><textarea id="a_keys" placeholder="${esc(X.keysPh)}">${esc(A0.keys)}</textarea></div></div>
+      <div class="group"><div class="field"><label for="a_chk">🎒 ${esc(X.chkTpl)}</label><textarea id="a_chk" placeholder="${esc(X.chkTplPh)}">${esc(A0.chk || X.chkDef)}</textarea></div></div>
+      <button class="btn" data-act="muArtistSave">${esc(T.save)}</button>
+      <button class="btn ghost" data-act="muRiderCopy">📋 ${esc(X.copyRider)}</button>
+      ${inTG && state.settings.api ? `<button class="btn ghost" data-act="muRiderSend">💬 ${esc(X.sendRider)}</button>` : ''}`;
+  };
+}
+function readArtist(){
+  const g = id => $(id) ? $(id).value : undefined, A0 = state.artist;
+  [['name', 'a_name', 80], ['bio', 'a_bio', 3000], ['contacts', 'a_cont', 1000], ['tech', 'a_tech', 6000], ['hosp', 'a_hosp', 3000], ['keys', 'a_keys', 3000], ['chk', 'a_chk', 3000]].forEach(([k, id, n]) => { const v = g(id); if (v !== undefined) A0[k] = v.slice(0, n); });
+}
+function riderText(){
+  const A0 = state.artist, X = T.mu;
+  return [`🎤 ${A0.name || userName()}`, A0.bio, A0.contacts ? '📞 ' + A0.contacts : '', A0.tech ? `\n🎛 ${X.tech.toUpperCase()}\n${A0.tech}` : '', A0.hosp ? `\n🍽 ${X.hosp.toUpperCase()}\n${A0.hosp}` : '', A0.keys ? `\n🎼 ${X.keys.toUpperCase()}\n${A0.keys}` : ''].filter(Boolean).join('\n');
+}
+
+/* ---------- concert prep: checklist and set-list run ---------- */
+const chkDefault = () => String(state.artist.chk || T.mu.chkDef).split('\n').map(x => x.trim()).filter(Boolean).slice(0, 40);
+function prepSheet(itemId){
+  return () => {
+    const it = itemOf(itemId); if (!it) return sheetHead(T.mu.prep);
+    if (!it.chk.length) it.chk = chkDefault().map(t => ({ t, d: false }));
+    const done = it.chk.filter(c => c.d).length;
+    return sheetHead('🎒 ' + T.mu.prep) + note(`${itemTitle(it)}${it.date ? ' · ' + shortDate(it.date) : ''} · ${done}/${it.chk.length}`)
+      + `<div class="card">${it.chk.map((c, i) => `<div class="row" data-act="muChk" data-id="${it.id}" data-v="${i}"><button class="pchk${c.d ? ' on' : ''}" tabindex="-1">${c.d ? '✓' : ''}</button><div class="main"><div class="name${c.d ? ' muoff' : ''}">${esc(c.t)}</div></div><div class="right"><button class="mini" data-act="muChkRm" data-id="${it.id}" data-v="${i}">✕</button></div></div>`).join('')}</div>
+      <div class="muadd"><input id="mu_chk_new" placeholder="${esc(T.mu.chkAddPh)}" autocomplete="off"><button class="mini ok" data-act="muChkAdd" data-id="${it.id}">+</button></div>
+      <button class="btn ghost" data-act="muChkReset" data-id="${it.id}">↺ ${esc(T.mu.chkReset)}</button>`;
+  };
+}
+let runT = null, runS = { id: '', i: 0, t0: 0, song0: 0 };
+function runSheet(itemId){
+  const fn = () => {
+    const it = itemOf(itemId), songs = it ? it.set.map(repSong).filter(Boolean) : [];
+    if (!songs.length) return sheetHead(T.mu.run) + `<div class="empty">${esc(T.pl.setEmpty)}</div>`;
+    const i = Math.min(runS.i, songs.length - 1), s = songs[i], nx = songs[i + 1], on = !!runS.t0;
+    const plan = songs.reduce((a, x) => a + (+x.dur || 0), 0);
+    return sheetHead('▶️ ' + T.mu.run) + `<div class="murun">
+      <small>${i + 1} / ${songs.length}</small><h2>${esc(s.title)}</h2><div class="mukey">${esc([s.key, +s.bpm ? s.bpm + ' bpm' : '', +s.dur ? fmtDur(s.dur) : ''].filter(Boolean).join(' · '))}</div>
+      ${s.note ? `<p>${esc(s.note)}</p>` : ''}
+      <div class="mutime"><b id="muSong">${on ? fmtDur((Date.now() - runS.song0) / 1000) : '0:00'}</b><span id="muAll">${T.mu.total}: ${on ? fmtDur((Date.now() - runS.t0) / 1000) : '0:00'} / ${fmtDur(plan)}</span></div>
+      ${nx ? `<div class="munext">${esc(T.mu.next)}: <b>${esc(nx.title)}</b>${nx.key ? ' · ' + esc(nx.key) : ''}</div>` : `<div class="munext">🏁 ${esc(T.mu.last)}</div>`}
+      </div><div class="pair2"><button class="btn ghost" data-act="muRunPrev" data-id="${itemId}"${i ? '' : ' disabled'}>‹ ${esc(T.mu.prev)}</button>${on ? `<button class="btn" data-act="muRunNext" data-id="${itemId}">${nx ? esc(T.mu.nextBtn) + ' ›' : '✓ ' + esc(T.mu.finish)}</button>` : `<button class="btn" data-act="muRunGo" data-id="${itemId}">▶️ ${esc(T.mu.start)}</button>`}</div>`;
+  };
+  fn.mount = () => { clearInterval(runT); runT = setInterval(() => { const a = $('muSong'), b = $('muAll'); if (!a || !runS.t0) return; a.textContent = fmtDur((Date.now() - runS.song0) / 1000); if (b) b.textContent = b.textContent.replace(/^([^:]+: )[\d:]+/, '$1' + fmtDur((Date.now() - runS.t0) / 1000)); }, 500); };
+  fn.unmount = () => { clearInterval(runT); runT = null; };
+  return fn;
+}
+
+/* ---------- fees: by band and by client ---------- */
+function feesBlock(){
+  const t = today(), y = t.slice(0, 4), gigs = state.items.filter(it => it.kind === 'gig').flatMap(it => occ(it, y + '-01-01', y + '-12-31').map(ds => ({ it, ds })));
+  if (!gigs.length) return '';
+  const agg = key => { const m = {}; gigs.forEach(g => { const k = key(g.it); if (!k) return; const o = m[k] = m[k] || { n: 0, sum: 0, owe: 0, last: '' }; o.n++; o.sum += +g.it.fee || 0; if (!g.it.paid && g.ds <= t) o.owe += +g.it.fee || 0; if (g.ds > o.last) o.last = g.ds; }); return Object.entries(m).sort((a, b) => b[1].sum - a[1].sum); };
+  const rows = (list, ic) => list.map(([k, o]) => `<div class="li"><span class="tx"><b>${ic} ${esc(k)}</b><br><small>${esc(T.mu.feeLine(o.n, money(o.sum), shortDate(o.last)))}${o.owe ? ` · <span style="color:var(--danger)">${esc(T.mu.owes(money(o.owe)))}</span>` : ''}</small></span></div>`).join('');
+  const byG = agg(it => (grp(it.gid) || {}).name || T.pl.solo), byO = agg(it => String(it.org || '').trim());
+  return `<div class="sec"><span>💰 ${esc(T.mu.byBand)}</span></div><div class="card">${rows(byG, '👥')}</div>`
+    + (byO.length ? `<div class="sec"><span>🤝 ${esc(T.mu.byClient)}</span></div><div class="card">${rows(byO, '🏢')}</div>` : '');
+}
+
+/* ---------- bot / voice ---------- */
+function applyMusicAct(a, out){
+  if (a.type === 'add_comp') {
+    const title = String(a.title || '').trim().slice(0, 200) || String(a.text || '').trim().split(/\n/)[0].slice(0, 60); if (!title) return;
+    const n = bxNorm(title); let c = state.comps.find(x => bxNorm(x.title) === n);
+    if (!c) { c = { id: uid(), title, stage: STAGES.includes(a.stage) ? a.stage : 'idea', lyr: [], rhymes: '', note: '', co: [], reg: '', rel: { date: '', done: {} }, at: Date.now() }; state.comps.push(c); }
+    else if (STAGES.includes(a.stage)) c.stage = a.stage;
+    if (a.text) c.lyr.push({ at: Date.now(), x: (lastLyr(c) ? lastLyr(c) + '\n\n' : '') + String(a.text).slice(0, 20000) });
+    if (a.note) c.note = bxAppend(c.note, String(a.note).slice(0, 2000));
+    if (bxDate(a.release)) c.rel.date = a.release;
+    if (Array.isArray(a.coauthors)) a.coauthors.slice(0, 10).forEach(x => { const nm = String(x && (x.name || x.n) || x || '').trim(); if (nm && !c.co.some(y => bxNorm(y.n) === bxNorm(nm))) c.co.push({ n: nm.slice(0, 80), r: String(x.role || T.mu.roles[0]).slice(0, 40), pct: +x.pct || 0 }); });
+    c.at = Date.now(); out.push('✍️ ' + c.title + ' · ' + T.mu.st[c.stage]); return;
+  }
+  if (a.type === 'artist_add') {
+    const f = { tech: 'tech', hosp: 'hosp', bio: 'bio', contacts: 'contacts', keys: 'keys', checklist: 'chk', chk: 'chk' }[a.field] || 'tech';
+    const x = String(a.text || '').trim(); if (!x) return;
+    state.artist[f] = bxAppend(f === 'chk' ? (state.artist.chk || T.mu.chkDef) : state.artist[f], x.slice(0, 2000));
+    out.push('🎤 ' + T.mu.artist + ': ' + x.slice(0, 60)); return;
+  }
+}
+
+/* ---------- actions ---------- */
+const MU = {
+  muWorkshop: () => { ui.muF = ''; openSheet(workshopSheet()); },
+  muF: el => { ui.muF = el.dataset.v; refreshSheet(); },
+  muComp: el => openSheet(compForm(el.dataset.id)),
+  muCoAdd: () => { const C = readCompForm(); C.co.push({ n: '', r: T.mu.roles[0], pct: 0 }); refreshSheet(); const i = $('co_n_' + (C.co.length - 1)); if (i) i.focus(); },
+  muCoRm: el => { const C = readCompForm(); C.co.splice(+el.dataset.v, 1); refreshSheet(); },
+  muRelStep: el => { const C = readCompForm(); C.rel.done[el.dataset.v] = !C.rel.done[el.dataset.v]; haptic(); refreshSheet(); },
+  muVers: () => { readCompForm(); openSheet(versionsSheet()); },
+  muVerUse: el => { const C = curComp && curComp.C; if (!C) return; C.text = C.lyr[+el.dataset.v].x; closeSheet(); toast(T.mu.verRestored); },
+  muSave: () => {
+    const C = readCompForm(); if (!C) return;
+    if (!C.title && !C.text.trim()) return toast(T.pl.needTitle);
+    if (!C.title) C.title = C.text.trim().split(/\n/)[0].slice(0, 60);
+    if (C.text.trim() && C.text !== lastLyr(C)) { C.lyr.push({ at: Date.now(), x: C.text }); C.lyr = C.lyr.slice(-30); }
+    C.co = C.co.filter(x => x.n); C.at = Date.now();
+    const data = Object.assign({}, C); delete data.text;
+    if (curComp.ex) Object.assign(curComp.ex, data); else state.comps.push(Object.assign(data, { id: uid() }));
+    save(); hapticOk(); closeSheet(); if (stack.length) refreshSheet(); render(); toast(savedMsg()); scheduleBotSync();
+  },
+  muDel: async () => {
+    if (!curComp || !curComp.ex || !await ask(T.mu.delQ, T.del, true)) return;
+    state.comps = state.comps.filter(c => c !== curComp.ex); save(); closeSheet(); if (stack.length) refreshSheet(); render(); toast(T.tDeleted);
+  },
+  muShare: async () => { const C = readCompForm(); if (!C) return; const c = Object.assign({}, C, { lyr: C.text ? C.lyr.concat({ x: C.text }) : C.lyr }); const t = compText(c); if (await copyText(t)) toast(T.tCopiedText); else showText(C.title, t); },
+  muPromo: () => {
+    const C = readCompForm(); if (!C || !C.rel.date) return;
+    let n = 0;
+    REL_STEPS.filter(s => s[2]).forEach(([k, d, fmt]) => {
+      const date = ymd(addDays(parseD(C.rel.date), d)), title = `«${C.title || T.mu.untitled}» — ${T.mu.rel[k]}`;
+      if (state.items.some(it => it.kind === 'post' && it.title === title)) return;
+      state.items.push({ id: uid(), kind: 'post', title, date, time: '', end: '', call: '', place: '', gid: '', fee: 0, paid: false, rem: -2, rep: '', done: false, dd: [], set: [], chk: [], note: '', at: Date.now(), fmt, cst: 'idea', org: '', orgPh: '' }); n++;
+    });
+    save(); scheduleBotSync(); hapticOk(); toast(n ? T.mu.promoDone(n) : T.mu.promoAlready, 3000);
+  },
+  muArtist: () => openSheet(artistSheet()),
+  muArtistSave: () => { readArtist(); save(); hapticOk(); closeSheet(); toast(savedMsg()); scheduleBotSync(); },
+  muRiderCopy: async () => { readArtist(); save(); const t = riderText(); if (await copyText(t)) toast(T.tCopiedText); else showText(T.mu.artist, t); },
+  muRiderSend: async () => {
+    readArtist(); save(); toast(T.bk.sending, 1500);
+    try { await botPost({ a: 'report', name: 'rider.txt', csv: riderText(), caption: '🎤 ' + T.mu.artist }); toast('✅ ' + T.bk.sent, 2500); } catch (e) { toast(T.bk.sendFail, 3000); }
+  },
+  muPrep: el => openSheet(prepSheet(el.dataset.id)),
+  muChk: el => { const it = itemOf(el.dataset.id); if (!it) return; const c = it.chk[+el.dataset.v]; if (!c) return; c.d = !c.d; save(); haptic(c.d ? 'medium' : 'light'); refreshSheet(); },
+  muChkRm: el => { const it = itemOf(el.dataset.id); if (!it) return; it.chk.splice(+el.dataset.v, 1); if (!it.chk.length) it.chk = [{ t: '—', d: true }]; save(); refreshSheet(); },
+  muChkAdd: el => { const it = itemOf(el.dataset.id), i = $('mu_chk_new'); if (!it || !i || !i.value.trim()) return; it.chk.push({ t: i.value.trim().slice(0, 120), d: false }); save(); refreshSheet(); const n = $('mu_chk_new'); if (n) n.focus(); },
+  muChkReset: el => { const it = itemOf(el.dataset.id); if (!it) return; it.chk = chkDefault().map(t => ({ t, d: false })); save(); refreshSheet(); },
+  muRun: el => { runS = { id: el.dataset.id, i: 0, t0: 0, song0: 0 }; openSheet(runSheet(el.dataset.id)); },
+  muRunGo: () => { runS.t0 = runS.song0 = Date.now(); haptic('medium'); refreshSheet(); },
+  muRunNext: el => { const it = itemOf(el.dataset.id), n = it ? it.set.filter(repSong).length : 0; if (runS.i >= n - 1) { toast('🏁 ' + T.mu.done(fmtDur((Date.now() - runS.t0) / 1000)), 3000); closeSheet(); return; } runS.i++; runS.song0 = Date.now(); haptic(); refreshSheet(); },
+  muRunPrev: () => { if (runS.i > 0) { runS.i--; runS.song0 = Date.now(); refreshSheet(); } }
+};
+document.addEventListener('keydown', e => { if (e.target && e.target.id === 'mu_chk_new' && e.key === 'Enter') { e.preventDefault(); const b = document.querySelector('[data-act=muChkAdd]'); if (b) b.click(); } });
+document.addEventListener('change', e => { if (e.target && e.target.id === 'm_rel' && curComp) { readCompForm(); refreshSheet(); } });
+
 /* ================= Sections on/off + developer tools =================
    Switching a section off only hides it (data stays). Home, Settings, backups and storage can't be switched off. */
 const MODS = [
   ['students', '👥'], ['money', '💰'], ['studio', '🎹'], ['plan', '📒'],
-  ['content', '📱', 'plan'], ['rep', '🎼', 'plan'], ['groups', '🎸', 'plan'], ['people', '🎂', 'plan'], ['notes', '📝', 'plan'],
+  ['content', '📱', 'plan'], ['rep', '🎼', 'plan'], ['groups', '🎸', 'plan'], ['people', '🎂', 'plan'], ['notes', '📝', 'plan'], ['comps', '✍️', 'plan'], ['artist', '🎤', 'plan'],
   ['ach', '🏆']
 ];
 const errLog = [];
@@ -6666,7 +7001,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
