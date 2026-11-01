@@ -2424,7 +2424,7 @@ const VAD = {
     apply: 'Внести', cancel: 'Отмена', done: 'Внесено', cancelled: 'Отменено',
     whoMany: r => `«${r}» — кого ты имеешь в виду?`, whoOne: (r, n) => `Не нашёл «${r}». Может, это ${n}?`, whoNew: r => `Не нашёл ученика «${r}». Это новый ученик?`, isNew: r => `Это новый ученик: ${r}`,
     noMic: 'Микрофон недоступен на этом устройстве — напиши текстом.', denied: 'Нет доступа к микрофону. Разреши его для Telegram в настройках телефона и попробуй ещё раз.', short: 'Слишком коротко — нажми 🎤, скажи и нажми ■.',
-    fail: 'Не получилось — проверь интернет и попробуй ещё раз.', noKey: 'Помощнику нужен ключ Gemini на сервере.', noCtx: 'Секунду, приложение ещё не синхронизировалось с ботом — попробуй через пару секунд.',
+    fail: 'Не получилось связаться с сервером — проверь интернет и попробуй ещё раз.', failWhy: e => `Помощник не ответил: ${e}. Попробуй ещё раз через минуту.`, noKey: 'Помощнику нужен ключ Gemini на сервере.', noCtx: 'Секунду, приложение ещё не синхронизировалось с ботом — попробуй через пару секунд.',
     ideasPrompt: 'Придумай 5 идей для Reels на ближайшую неделю для моего Инстаграма (я певица и преподаю вокал) и добавь их в банк идей' },
   en: { title: 'Assistant', newChat: 'New', intro: 'Say or type what to add, or ask for advice. I will show what I understood before adding anything.',
     examples: ['Masha tomorrow at 3 pm, paid', 'Gig on Saturday, call 5 pm, start 7 pm, fee 15000', 'How much did I earn in October and who owes me?', 'Come up with 5 Reels ideas for this week', 'Which songs are trending for covers right now?', 'Remind me on Friday to buy strings'],
@@ -2432,7 +2432,7 @@ const VAD = {
     apply: 'Add', cancel: 'Cancel', done: 'Added', cancelled: 'Cancelled',
     whoMany: r => `“${r}” — who do you mean?`, whoOne: (r, n) => `“${r}” not found. Is it ${n}?`, whoNew: r => `No student “${r}”. Is this a new student?`, isNew: r => `New student: ${r}`,
     noMic: 'No microphone on this device — please type.', denied: 'No access to the microphone. Allow it for Telegram in the phone settings and try again.', short: 'Too short — tap 🎤, speak, then tap ■.',
-    fail: 'Something went wrong — check the connection and try again.', noKey: 'The assistant needs a Gemini key on the server.', noCtx: 'One moment — the app has not synced with the bot yet. Try again in a few seconds.',
+    fail: 'Could not reach the server — check the connection and try again.', failWhy: e => `The assistant did not answer: ${e}. Try again in a minute.`, noKey: 'The assistant needs a Gemini key on the server.', noCtx: 'One moment — the app has not synced with the bot yet. Try again in a few seconds.',
     ideasPrompt: 'Come up with 5 Reels ideas for the coming week for my Instagram (I am a singer and a vocal teacher) and add them to the idea bank' }
 };
 const BKH = {
@@ -6238,7 +6238,9 @@ async function vaAsk(text, b64){
     VX.hist.push({ q: mine.x, a: (j.reply || '') + (j.lines && j.lines.length ? '\n[предложено внести: ' + j.lines.join('; ') + ']' : '') }); VX.hist = VX.hist.slice(-8);
   } catch (e) {
     mine.failed = true;
-    VX.err = String(e && e.message) === 'nokey' ? T.va.noKey : String(e && e.message) === 'noctx' ? T.va.noCtx : T.va.fail;
+    const em = String(e && e.message || '');
+    VX.err = em === 'nokey' ? T.va.noKey : em === 'noctx' ? T.va.noCtx : /abort|fetch|network|load failed/i.test(em) || !em ? T.va.fail : T.va.failWhy(em.slice(0, 160));
+    safe(() => logErr(em, 'assistant'));
   }
   VX.busy = false; vaRefresh();
 }
