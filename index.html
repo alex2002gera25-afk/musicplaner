@@ -430,6 +430,82 @@ nav.tabs button:active{transform:scale(.9)}
 .wnold{margin:16px 4px 8px;font-size:12px;color:var(--hint);text-transform:uppercase;letter-spacing:.06em}
 @keyframes wnpop{0%{transform:scale(.3) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
 .wnimp{border:1.5px solid var(--accent)}
+/* --- 7.0 planner --- */
+nav.tabs button{font-size:10px;min-width:0}
+nav.tabs button .tl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.topbtns{display:flex;gap:8px;flex:none}
+.vtop{font-size:18px}
+.pquick{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.pquick button{background:var(--card);border-radius:999px;padding:8px 12px;font-size:13.5px;color:var(--text);border:1px solid var(--line)}
+.pvoice{margin:0 0 10px}
+.pava{font-size:17px;background:var(--soft,rgba(127,127,127,.12))!important;color:var(--text)}
+.prow .pava[style*="background:#"],.prow .pava[style*="background:var(--gold)"],.prow .pava[style*="background:var(--taupe)"]{color:#fff}
+.pchk{width:40px;height:40px;flex:none;border-radius:50%;border:2px solid var(--line);background:transparent;display:grid;place-items:center;font-size:18px;font-weight:700;color:#fff}
+.pchk.on{background:var(--good,#4d9a6a);border-color:var(--good,#4d9a6a)}
+.pdone .name{text-decoration:line-through;opacity:.55}
+.psub{font-size:12px;color:var(--hint);text-transform:uppercase;letter-spacing:.05em;padding:8px 14px 2px}
+.pnotes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pnote{background:var(--card);border-radius:16px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:4px;min-height:84px;color:var(--text)}
+.pnote b{font-size:14.5px;line-height:1.25}
+.pnote small{font-size:12.5px;color:var(--hint);line-height:1.35;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}
+textarea.pbig{min-height:180px}
+.pkinds{margin:0 0 10px;flex-wrap:wrap}
+.pcolors{display:flex;gap:10px;flex-wrap:wrap;padding:4px 0}
+.pcolors button{width:32px;height:32px;border-radius:50%;border:3px solid transparent}
+.pcolors button.on{border-color:var(--text)}
+.psearch{margin:0 0 10px}
+.psearch input{width:100%}
+.rst-ready{background:var(--good,#4d9a6a)!important;color:#fff!important}
+.rst-repeat{background:var(--warn,#c9773b)!important;color:#fff!important}
+.cal-g .cd em i.pl{background:var(--link,#4f5fa8)}
+.cal-g .cd em i.pl.gig{background:#8a5bb0}
+.legend i.plg{background:var(--link,#4f5fa8)}
+.pair2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pair2 .btn{margin:0}
+/* --- assistant --- */
+.vlog{display:flex;flex-direction:column;gap:8px;margin:0 0 10px}
+.vmsg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:14.5px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
+.vmsg.me{align-self:flex-end;background:var(--accent);color:var(--accent-text,#fff);border-bottom-right-radius:6px}
+.vmsg.ai{align-self:flex-start;background:var(--card);border-bottom-left-radius:6px}
+.vlines{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.vtx+.vlines{margin-top:8px}
+.vmsg.ai>.vlines:first-child{margin-top:0;padding-top:0;border-top:0}
+.vok{margin-top:6px;font-size:13px;color:var(--hint)}
+.vsrc{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.vsrc button{text-align:left;font-size:12.5px;color:var(--link);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vbtns{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin:0 0 8px}
+.vbtns .btn{margin:0}
+.vask{display:flex;flex-direction:column;gap:6px;margin:0 0 10px}
+.vask .btn{margin:0;text-align:left}
+.vbar{display:flex;gap:8px;align-items:flex-end;position:sticky;bottom:0;background:var(--bg);padding:6px 0}
+.vmic{width:52px;height:52px;border-radius:50%;background:var(--accent);color:var(--accent-text,#fff);font-size:22px;flex:none;display:grid;place-items:center}
+.vmic.on{background:#d33;animation:vpulse 1.2s ease-in-out infinite}
+.vmic:disabled,.vsend:disabled{opacity:.45}
+@keyframes vpulse{0%,100%{box-shadow:0 0 0 0 rgba(221,51,51,.45)}50%{box-shadow:0 0 0 10px rgba(221,51,51,0)}}
+.vin{flex:1;display:flex;align-items:flex-end;background:var(--card);border-radius:22px;padding:4px 4px 4px 12px;min-height:52px}
+.vin textarea{flex:1;border:0;background:transparent;resize:none;min-height:40px;max-height:140px;padding:10px 0;font-size:15px;color:var(--text);outline:none}
+.vsend{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--accent-text,#fff);font-size:16px;flex:none}
+.vrec{display:flex;align-items:center;gap:8px;justify-content:center;font-size:13px;color:var(--hint);margin:4px 0}
+.vrec i{width:9px;height:9px;border-radius:50%;background:#d33;animation:vpulse 1.2s infinite}
+.vhints{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.vhints button{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 11px;font-size:13px;text-align:left;color:var(--text)}
+.vdots{display:inline-flex;gap:3px;vertical-align:middle}
+.vdots i{width:6px;height:6px;border-radius:50%;background:var(--hint);animation:vdot 1s infinite}
+.vdots i:nth-child(2){animation-delay:.15s}.vdots i:nth-child(3){animation-delay:.3s}
+@keyframes vdot{0%,100%{opacity:.25}50%{opacity:1}}
+.vhome{display:flex;align-items:center;gap:10px;width:100%;background:var(--card);border-radius:16px;padding:12px 14px;margin:0 0 10px;text-align:left;color:var(--text)}
+.vhome b{flex:1;font-weight:500;font-size:14.5px}
+.vhome span,.vhome i{font-size:20px;font-style:normal}
+.field.toggle span small{display:block;font-size:12px;color:var(--hint);margin-top:2px;font-weight:400}
+.field.toggle.msub{padding-left:22px}
+.field.toggle.mdis{opacity:.45}
+.kpis.two{grid-template-columns:1fr 1fr}
+nav.tabs button[hidden]{display:none}
+.bk3{display:grid;grid-template-columns:1fr;gap:6px;margin:0 0 12px}
+.bk3 div{background:var(--card);border-radius:14px;padding:10px 12px}
+.bk3 b{display:block;font-size:14px}.bk3 small{color:var(--hint);font-size:12.5px}
+.bktext pre{white-space:pre-wrap;word-wrap:break-word;font-size:11.5px;line-height:1.4;margin:0;padding:12px;max-height:50vh;overflow:auto;font-family:ui-monospace,Menlo,monospace}
+.betatag{text-align:center;font-size:11px;color:var(--hint);margin:-6px 0 10px}.demo.beta{background:#4f5fa8;color:#fff}
 </style>
 </head>
 <body>
@@ -438,6 +514,7 @@ nav.tabs button:active{transform:scale(.9)}
 <nav class="tabs" id="tabs">
   <button data-act="tab" data-v="home" class="on"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span class="tl"></span></button>
   <button data-act="tab" data-v="lessons"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg><span class="tl"></span></button>
+  <button data-act="tab" data-v="plan"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h12a3 3 0 0 1 3 3v14H7a3 3 0 0 1-3-3z"/><path d="M8 8h7M8 12h7M8 16h4"/><path d="M4 18a3 3 0 0 1 3-3h12"/></svg><span class="tl"></span></button>
   <button data-act="tab" data-v="students"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="tl"></span></button>
   <button data-act="tab" data-v="money"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg><span class="tl"></span></button>
   <button data-act="tab" data-v="studio"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span class="tl"></span></button>
@@ -478,6 +555,10 @@ const parseD = s => { const [y, m, d] = String(s).split('-').map(Number); return
 const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const today = () => ymd(new Date());
 const daysBetween = (a, b) => Math.round((parseD(b) - parseD(a)) / 86400000);
+/* run an optional feature; if it fails, the core of the app keeps working */
+const safe = (fn, dflt = '') => { try { return fn(); } catch (e) { try { console.error(e); if (typeof logErr === 'function') logErr(e, 'safe'); } catch (x) {} return dflt; } };
+/* sections the user can switch off in Settings → «Разделы приложения» (data is kept, only hidden) */
+const mod = k => { try { const m = state.settings.mods; return !(m && m[k] === 0); } catch (e) { return true; } };
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -2250,6 +2331,165 @@ const PS = { ru: 'Списать из абонемента', en: 'Take from the 
 for (const c in B) { I18N[c].bx = B[c]; I18N[c].wn = WN[c]; I18N[c].rc = RCS[c]; I18N[c].pkgSw = PS[c]; I18N[c].bk = BKS[c]; I18N[c].lk = LKS[c]; }
 }
 
+/* ================= Planner & assistant strings (ru, en; es/it/fr use English for now) ================= */
+{
+const PLD = {
+  ru: {
+    kinds: { gig: 'Выступление', reh: 'Репетиция', task: 'Дело', note: 'Заметка', event: 'Событие', post: 'Контент' },
+    lists: { gig: 'Выступления', reh: 'Репетиции', task: 'Дела', note: 'Заметки', event: 'События', post: 'Контент-план' },
+    saved: { gig: 'Выступление в планах 🎤', reh: 'Репетиция в планах 🎸', task: 'Дело записано ✅', note: 'Заметка сохранена 📝', event: 'Событие в планах 📌', post: 'В контент-плане 📱' },
+    titlePh: { gig: 'Например: Казаки — корпоратив', reh: 'Например: репетиция с Казаками', task: 'Например: купить струны', note: 'Коротко, о чём заметка', event: 'Например: съёмка клипа', post: 'Например: Reels — распевка за 30 секунд' },
+    detailsPh: { gig: 'Дресс-код, программа, контакт организатора…', reh: 'Что прогоняем, что взять с собой…', task: 'Подробности', note: '', event: 'Адрес, с кем, что взять…', post: 'Сценарий, текст поста, хэштеги, музыка…' },
+    rem: { '-1': 'Не напоминать', '0': 'В момент начала', '15': 'За 15 минут', '60': 'За час', '180': 'За 3 часа', '1440': 'За день', '-2': 'Утром в этот день' },
+    remDays: { '-1': 'Не напоминать', '0': 'В этот день утром', '1': 'За день', '3': 'За 3 дня', '7': 'За неделю' },
+    repeat: { no: 'Не повторять', w: 'Каждую неделю', m: 'Каждый месяц', y: 'Каждый год' },
+    st: { learn: 'Учу', repeat: 'Повторить', ready: 'Готово' },
+    fmt: { reels: 'Reels', post: 'Пост', stories: 'Сторис', video: 'Видео' },
+    cst: { idea: 'Идея', shoot: 'Снять', edit: 'Монтаж', ready: 'Готово', posted: 'Опубликовано' },
+    say: 'Надиктовать или спросить помощника', music: 'Музыка и жизнь', bday: 'День рождения', today: 'Сегодня', tomorrow: 'Завтра', all: 'Все',
+    tasks: 'Дела', notes: 'Заметки', gigs: 'Выступления', gigsSub: 'Концерты, корпоративы, сет-листы', groups: 'Коллективы', groupsSub: 'Группы, составы, репетиции',
+    rep: 'Репертуар', repSub: 'Песни, тональности, тексты', people: 'Дни рождения', peopleSub: 'Близкие, друзья, коллеги', content: 'Контент-план', contentSub: 'Reels, посты, сторис',
+    upcomingN: n => `Впереди: ${n}`, songsN: n => `${n} ${pl(n, ['песня', 'песни', 'песен'])}`, peopleN: n => `${n} ${pl(n, ['человек', 'человека', 'человек'])}`, ideasN: n => `В работе: ${n}`,
+    emptyAgenda: 'На ближайшие две недели в планере пусто. Добавь выступление, дело или просто скажи помощнику 🎤',
+    homeSec: 'В планах', legend: 'планер', toPlan: 'В планер', student: 'ученик',
+    callAt: t => `сбор ${t}`, bdayOn: d => `🎂 ${d}`, turns: n => `исполняется ${n}`,
+    clash: (w, t) => `Пересекается с «${w}»${t ? ' в ' + t : ''}`, clashL: s => `В это время уроки: ${s}`,
+    edit: 'Редактировать', newT: 'Новое в планере', title: 'Название', noteTitle: 'Заголовок', noteText: 'Текст заметки', notePh: 'Мысли, идеи, строчки песни, планы — всё сюда',
+    group: 'Коллектив', solo: 'Сольно / без коллектива', newGroup: 'Новый коллектив', groupName: 'Название коллектива', groupPh: 'Например: Казаки',
+    optional: 'можно без даты', start: 'Начало', call: 'Сбор', end: 'Окончание', place: 'Где', remind: 'Напомнить', repeatL: 'Повтор',
+    fee: c => `Гонорар, ${c}`, paid: 'Гонорар получен', details: 'Подробности', setlist: 'Сет-лист', undo: 'Вернуть в работу', markDone: 'Готово!', share: 'Скопировать текстом',
+    fmtL: 'Формат', status: 'Статус', pubDate: 'Дата публикации',
+    search: 'Поиск', none: 'Пока ничего нет', nothing: 'Ничего не нашлось', doneSec: n => `Выполнено · ${n}`, clear: 'Очистить', clearQ: 'Удалить все выполненные дела?',
+    past: 'Прошедшие', yearStat: (n, s) => `В этом году: ${n} · ${s}`, upcoming: 'Ближайшее', noPlans: 'Пока ничего не запланировано',
+    groupsHint: 'Коллективы, с которыми ты выступаешь. У каждого — свои выступления, репетиции и репертуар.',
+    groupStat: (n, s) => `Выступлений в этом году: ${n} · ${s}`, color: 'Цвет', members: 'Состав и контакты', membersPh: 'Кто играет, телефоны, @ники…',
+    allSongs: 'Все', repEmpty: 'Репертуар пуст. Добавь первую песню — тональность, темп, ссылку на минус и текст.', songEdit: 'Песня', songNew: 'Новая песня', songTitle: 'Название',
+    artist: 'Исполнитель / автор', key: 'Тональность', durL: 'Длительность (мин:сек)', link: 'Ссылка на минус / демо', openLink: 'Открыть минус', lyrics: 'Текст песни',
+    songNote: 'Заметки по исполнению', songNotePh: 'Где вдох, где модуляция, на что обратить внимание…',
+    setTotal: (n, d) => `${n} ${pl(n, ['песня', 'песни', 'песен'])} · ${d}`, setEmpty: 'Сет-лист пуст — выбери песни ниже.', addSongs: 'Добавить из репертуара',
+    peopleHint: 'Дни рождения близких и коллег. Ученики тоже здесь — из их карточек.', personNew: 'Новый человек', personName: 'Имя', who: 'Кто это', whoPh: 'Мама, подруга, гитарист…',
+    bdayL: 'День рождения', noYear: 'Год не знаю', gifts: 'Идеи подарков и заметки', giftsPh: 'Что любит, что подарить…',
+    delQ: 'Удалить из планера?', delGroupQ: 'Удалить коллектив? Выступления и песни останутся.', delSongQ: 'Удалить песню из репертуара?', delPersonQ: 'Удалить человека?',
+    needTitle: 'Напиши название', noTask: t => `Не нашёл дело «${t}»`,
+    gigMoney: 'Выступления', gigWait: s => `Гонораров ждём: ${s}`,
+    contentHint: 'Контент-план: идеи без даты лежат в банке идей, с датой — в календаре и напоминаниях.', askIdeas: 'Придумать идеи с помощником', scheduled: 'Запланировано', ideaBank: 'Банк идей',
+    nbToday: 'сегодня', nbOn: d => d, nbBdayToday: n => `Сегодня день рождения: ${n}`, nbBdaySoon: (n, d) => `Скоро день рождения: ${n} — ${d}`, nbPlans: 'В планах на день:'
+  },
+  en: {
+    kinds: { gig: 'Gig', reh: 'Rehearsal', task: 'Task', note: 'Note', event: 'Event', post: 'Content' },
+    lists: { gig: 'Gigs', reh: 'Rehearsals', task: 'Tasks', note: 'Notes', event: 'Events', post: 'Content plan' },
+    saved: { gig: 'Gig planned 🎤', reh: 'Rehearsal planned 🎸', task: 'Task saved ✅', note: 'Note saved 📝', event: 'Event planned 📌', post: 'Added to the content plan 📱' },
+    titlePh: { gig: 'E.g. corporate party', reh: 'E.g. band rehearsal', task: 'E.g. buy strings', note: 'What is it about', event: 'E.g. video shoot', post: 'E.g. Reels — a 30-second warm-up' },
+    detailsPh: { gig: 'Dress code, programme, organiser contact…', reh: 'What we run, what to bring…', task: 'Details', note: '', event: 'Address, who, what to bring…', post: 'Script, caption, hashtags, music…' },
+    rem: { '-1': 'No reminder', '0': 'At start', '15': '15 minutes before', '60': '1 hour before', '180': '3 hours before', '1440': '1 day before', '-2': 'That morning' },
+    remDays: { '-1': 'No reminder', '0': 'That morning', '1': '1 day before', '3': '3 days before', '7': '1 week before' },
+    repeat: { no: 'Does not repeat', w: 'Every week', m: 'Every month', y: 'Every year' },
+    st: { learn: 'Learning', repeat: 'Brush up', ready: 'Ready' },
+    fmt: { reels: 'Reels', post: 'Post', stories: 'Stories', video: 'Video' },
+    cst: { idea: 'Idea', shoot: 'To shoot', edit: 'Editing', ready: 'Ready', posted: 'Posted' },
+    say: 'Dictate or ask the assistant', music: 'Music & life', bday: 'Birthday', today: 'Today', tomorrow: 'Tomorrow', all: 'All',
+    tasks: 'Tasks', notes: 'Notes', gigs: 'Gigs', gigsSub: 'Concerts, events, set lists', groups: 'Bands', groupsSub: 'Line-ups, rehearsals',
+    rep: 'Repertoire', repSub: 'Songs, keys, lyrics', people: 'Birthdays', peopleSub: 'Family, friends, colleagues', content: 'Content plan', contentSub: 'Reels, posts, stories',
+    upcomingN: n => `Upcoming: ${n}`, songsN: n => `${n} ${n === 1 ? 'song' : 'songs'}`, peopleN: n => `${n} ${n === 1 ? 'person' : 'people'}`, ideasN: n => `In progress: ${n}`,
+    emptyAgenda: 'Nothing planned for the next two weeks. Add a gig or a task, or just tell the assistant 🎤',
+    homeSec: 'Plans', legend: 'planner', toPlan: 'To planner', student: 'student',
+    callAt: t => `call ${t}`, bdayOn: d => `🎂 ${d}`, turns: n => `turns ${n}`,
+    clash: (w, t) => `Clashes with “${w}”${t ? ' at ' + t : ''}`, clashL: s => `Lessons at that time: ${s}`,
+    edit: 'Edit', newT: 'New in planner', title: 'Title', noteTitle: 'Heading', noteText: 'Note', notePh: 'Thoughts, ideas, lyrics, plans — all here',
+    group: 'Band', solo: 'Solo / no band', newGroup: 'New band', groupName: 'Band name', groupPh: 'E.g. The Cossacks',
+    optional: 'date optional', start: 'Start', call: 'Call time', end: 'End', place: 'Where', remind: 'Remind', repeatL: 'Repeat',
+    fee: c => `Fee, ${c}`, paid: 'Fee received', details: 'Details', setlist: 'Set list', undo: 'Back to to-do', markDone: 'Done!', share: 'Copy as text',
+    fmtL: 'Format', status: 'Status', pubDate: 'Publish date',
+    search: 'Search', none: 'Nothing yet', nothing: 'Nothing found', doneSec: n => `Done · ${n}`, clear: 'Clear', clearQ: 'Delete all completed tasks?',
+    past: 'Past', yearStat: (n, s) => `This year: ${n} · ${s}`, upcoming: 'Coming up', noPlans: 'Nothing planned yet',
+    groupsHint: 'Bands you perform with. Each has its own gigs, rehearsals and repertoire.',
+    groupStat: (n, s) => `Gigs this year: ${n} · ${s}`, color: 'Colour', members: 'Line-up & contacts', membersPh: 'Who plays, phones, @handles…',
+    allSongs: 'All', repEmpty: 'The repertoire is empty. Add your first song — key, tempo, backing track link and lyrics.', songEdit: 'Song', songNew: 'New song', songTitle: 'Title',
+    artist: 'Artist / author', key: 'Key', durL: 'Length (min:sec)', link: 'Backing track / demo link', openLink: 'Open the track', lyrics: 'Lyrics',
+    songNote: 'Performance notes', songNotePh: 'Where to breathe, key change, things to watch…',
+    setTotal: (n, d) => `${n} ${n === 1 ? 'song' : 'songs'} · ${d}`, setEmpty: 'The set list is empty — pick songs below.', addSongs: 'Add from repertoire',
+    peopleHint: 'Birthdays of family and colleagues. Students are here too — from their cards.', personNew: 'New person', personName: 'Name', who: 'Who is it', whoPh: 'Mum, friend, guitarist…',
+    bdayL: 'Birthday', noYear: 'Year unknown', gifts: 'Gift ideas & notes', giftsPh: 'What they love, what to give…',
+    delQ: 'Delete from the planner?', delGroupQ: 'Delete the band? Gigs and songs stay.', delSongQ: 'Delete the song?', delPersonQ: 'Delete this person?',
+    needTitle: 'Add a title', noTask: t => `Task “${t}” not found`,
+    gigMoney: 'Gigs', gigWait: s => `Fees still to come: ${s}`,
+    contentHint: 'Content plan: ideas without a date live in the idea bank; dated ones go to the calendar and reminders.', askIdeas: 'Brainstorm ideas with the assistant', scheduled: 'Scheduled', ideaBank: 'Idea bank',
+    nbToday: 'today', nbOn: d => d, nbBdayToday: n => `Birthday today: ${n}`, nbBdaySoon: (n, d) => `Birthday soon: ${n} — ${d}`, nbPlans: 'Plans for the day:'
+  }
+};
+const VAD = {
+  ru: { title: 'Помощник', newChat: 'Новый', intro: 'Я твой помощник: вношу уроки и планы, отвечаю на вопросы о твоих учениках и деньгах, ищу в интернете, придумываю идеи для Reels. Скажи 🎤 или напиши. Перед тем как что-то внести, покажу и спрошу.',
+    examples: ['Маша завтра в 15:00, оплатила', 'В субботу Казаки, сбор в 17, начало в 19, гонорар 15 тысяч', 'Сколько я заработала в октябре и кто мне должен?', 'Придумай 5 идей для Reels на неделю', 'Какие песни сейчас в трендах для каверов?', 'Напомни в пятницу купить струны'],
+    thinking: 'Думаю…', listening: 'Слушаю… нажми ■, когда закончишь', typePh: 'Напиши или нажми 🎤', tapStop: 'нажми ■, чтобы отправить', voiceMsg: 'Голосовое…',
+    apply: 'Внести', cancel: 'Отмена', done: 'Внесено', cancelled: 'Отменено',
+    whoMany: r => `«${r}» — кого ты имеешь в виду?`, whoOne: (r, n) => `Не нашёл «${r}». Может, это ${n}?`, whoNew: r => `Не нашёл ученика «${r}». Это новый ученик?`, isNew: r => `Это новый ученик: ${r}`,
+    noMic: 'Микрофон недоступен на этом устройстве — напиши текстом.', denied: 'Нет доступа к микрофону. Разреши его для Telegram в настройках телефона и попробуй ещё раз.', short: 'Слишком коротко — нажми 🎤, скажи и нажми ■.',
+    fail: 'Не получилось связаться с сервером — проверь интернет и попробуй ещё раз.', failWhy: e => `Помощник не ответил: ${e}. Попробуй ещё раз через минуту.`, noKey: 'Помощнику нужен ключ Gemini на сервере.', noCtx: 'Секунду, приложение ещё не синхронизировалось с ботом — попробуй через пару секунд.',
+    ideasPrompt: 'Придумай 5 идей для Reels на ближайшую неделю для моего Инстаграма (я певица и преподаю вокал) и добавь их в банк идей' },
+  en: { title: 'Assistant', newChat: 'New', intro: 'Say or type what to add, or ask for advice. I will show what I understood before adding anything.',
+    examples: ['Masha tomorrow at 3 pm, paid', 'Gig on Saturday, call 5 pm, start 7 pm, fee 15000', 'How much did I earn in October and who owes me?', 'Come up with 5 Reels ideas for this week', 'Which songs are trending for covers right now?', 'Remind me on Friday to buy strings'],
+    thinking: 'Thinking…', listening: 'Listening… tap ■ when done', typePh: 'Type or tap 🎤', tapStop: 'tap ■ to send', voiceMsg: 'Voice message…',
+    apply: 'Add', cancel: 'Cancel', done: 'Added', cancelled: 'Cancelled',
+    whoMany: r => `“${r}” — who do you mean?`, whoOne: (r, n) => `“${r}” not found. Is it ${n}?`, whoNew: r => `No student “${r}”. Is this a new student?`, isNew: r => `New student: ${r}`,
+    noMic: 'No microphone on this device — please type.', denied: 'No access to the microphone. Allow it for Telegram in the phone settings and try again.', short: 'Too short — tap 🎤, speak, then tap ■.',
+    fail: 'Could not reach the server — check the connection and try again.', failWhy: e => `The assistant did not answer: ${e}. Try again in a minute.`, noKey: 'The assistant needs a Gemini key on the server.', noCtx: 'One moment — the app has not synced with the bot yet. Try again in a few seconds.',
+    ideasPrompt: 'Come up with 5 Reels ideas for the coming week for my Instagram (I am a singer and a vocal teacher) and add them to the idea bank' }
+};
+const BKH = {
+  ru: { hr: 'за час работы', howT: 'Если что-то пропало — как вернуть',
+    hint: 'Копии делаются сами в трёх местах и двух видах — кодом (для восстановления в один тап) и текстом (читается где угодно). Из любой копии можно вернуть всё.',
+    how: ['Без паники: данные не удаляются сразу — есть копии на телефоне и файлы в чате с ботом.', 'Здесь, в списке «На этом телефоне», нажми на копию до того момента, когда всё было в порядке → «Заменить». Текущее состояние перед этим само сохранится в копию «перед изменением».',
+      'Если телефон новый или копий на телефоне нет: «Копии на Google Диске» → «Восстановить» у нужной копии.', 'Или открой чат с ботом, найди последний файл 🛟 ucheniki-backup-….json → «Сохранить в Файлы» → здесь «Восстановить из файла».', 'Есть только текст (заметка или файл …-tekst.txt)? «Вставить копию текстом» и вставь его целиком — код в конце всё вернёт.',
+      'Если экран приложения не грузится вообще — нажми «Скопировать данные» на экране ошибки и пришли текст Саше: из него всё восстановится.'] },
+  en: { hr: 'hourly', howT: 'If something is lost — how to get it back',
+    hint: 'Copies are made automatically: on the phone every hour of work (last 24), every day (30 days) and before each update; as a file in the bot chat every day with changes (silently). Everything can be restored from any copy.',
+    how: ['Don’t panic: nothing is lost at once — there are copies on the phone and files in the bot chat.', 'Here, under “On this phone”, tap a copy from before the problem → “Replace”. The current state is saved first as a “before a change” copy.',
+      'New phone or the app won’t open: open the bot chat, find the latest 🛟 ucheniki-backup-….json file, tap it → “Save to Files”.', 'Open the app → Settings → Backups → “Restore from file” and pick that file.',
+      'If the app screen doesn’t load at all, tap “Copy data” on the error screen and send the text to whoever set up the app — everything can be restored from it.'] }
+};
+const MDD = {
+  ru: { title: 'Разделы приложения', hint: 'Выключи то, чем не пользуешься, — приложение станет проще. Данные не удаляются: включишь обратно — всё на месте.',
+    n: { students: 'Ученики и уроки', money: 'Деньги', studio: 'Студия', plan: 'Планер', content: 'Контент-план', rep: 'Репертуар и сет-листы', groups: 'Коллективы', people: 'Дни рождения', notes: 'Заметки', ai: 'ИИ-помощник', ach: 'Достижения и сюрпризы' },
+    d: { students: 'Ученики, уроки, абонементы, расписание', money: 'Доход, долги, расходы, отчёты', studio: 'Пианино, метроном, тюнер, шаблоны', plan: 'Дела, выступления, репетиции, события', content: 'Reels, посты, сторис', rep: 'Песни, тексты, сет-листы', groups: 'Группы и составы', people: 'Близкие и коллеги', notes: 'Мысли и идеи',
+      ai: 'Голос и вопросы в приложении (бот в Telegram работает отдельно)', ach: 'Достижения, призы, поздравления, пасхалки' },
+    lockedT: 'Всегда включено', locked: 'Главная, Настройки, резервные копии и сохранение данных отключить нельзя — на них держится всё приложение.',
+    allOn: 'Включить всё обратно', allOnDone: 'Все разделы включены', allOff: 'Все разделы выключены. Включи нужные в Настройках → «Разделы приложения».', cal: 'Календарь',
+    dev: 'Для разработчика', devHint: 'Диагностика и служебные действия. Нужен пароль.', pw: 'Пароль', open: 'Открыть', wrong: 'Неверный пароль',
+    ver: 'Версия', store: 'Хранение', local: 'на телефоне', size: 'Размер базы', parts: 'частей', mirror: 'Копия на телефоне', counts: 'Записи', sync: 'Синхронизация', bot: 'бот', ai: 'Помощник', yes: 'доступен', no: 'выключен или нет связи с сервером',
+    errors: 'Ошибки', noErrors: 'Ошибок нет 👍', snap: 'Сделать копию прямо сейчас', snapDone: 'Копия сохранена на телефоне', reload: 'Перечитать данные из облака', reloaded: 'Данные перечитаны',
+    betaLine: 'Тестовая версия — её видишь только ты. Обычная: /stable в боте.', copyDiag: 'Скопировать диагностику', clearUi: 'Очистить служебный кэш (данные не трогает)', uiCleared: 'Кэш очищен', devFoot: 'Данные учеников, уроков и планера эти кнопки не удаляют.' },
+  en: { title: 'App sections', hint: 'Switch off what you don’t use — the app gets simpler. Nothing is deleted: switch it back on and everything is there.',
+    n: { students: 'Students & lessons', money: 'Money', studio: 'Studio', plan: 'Planner', content: 'Content plan', rep: 'Repertoire & set lists', groups: 'Bands', people: 'Birthdays', notes: 'Notes', ai: 'AI assistant', ach: 'Achievements & surprises' },
+    d: { students: 'Students, lessons, packages, schedule', money: 'Income, debts, expenses, reports', studio: 'Piano, metronome, tuner, templates', plan: 'Tasks, gigs, rehearsals, events', content: 'Reels, posts, stories', rep: 'Songs, lyrics, set lists', groups: 'Bands and line-ups', people: 'Family and colleagues', notes: 'Thoughts and ideas',
+      ai: 'Voice and questions in the app (the Telegram bot works separately)', ach: 'Achievements, prizes, celebrations, easter eggs' },
+    lockedT: 'Always on', locked: 'Home, Settings, backups and data storage can’t be switched off — the whole app relies on them.',
+    allOn: 'Switch everything back on', allOnDone: 'All sections are on', allOff: 'All sections are off. Turn the ones you need on in Settings → “App sections”.', cal: 'Calendar',
+    dev: 'Developer', devHint: 'Diagnostics and service actions. Password required.', pw: 'Password', open: 'Open', wrong: 'Wrong password',
+    ver: 'Version', store: 'Storage', local: 'on the phone', size: 'Data size', parts: 'parts', mirror: 'Copy on the phone', counts: 'Records', sync: 'Sync', bot: 'bot', ai: 'Assistant', yes: 'available', no: 'off or no server connection',
+    errors: 'Errors', noErrors: 'No errors 👍', snap: 'Make a copy right now', snapDone: 'Copy saved on the phone', reload: 'Reload data from the cloud', reloaded: 'Data reloaded',
+    betaLine: 'Test version — only you see it. Back to normal: /stable in the bot.', copyDiag: 'Copy diagnostics', clearUi: 'Clear service cache (data untouched)', uiCleared: 'Cache cleared', devFoot: 'These buttons never delete students, lessons or planner data.' }
+};
+const B2D = {
+  ru: { three: [['📱 На телефоне', 'каждый час работы, каждый день и перед обновлениями'], ['☁️ Google Диск', 'код + текст, через пару минут после изменений'], ['💬 Чат с ботом', 'код + текст раз в день, без звука']],
+    asText: 'Вся база текстом', asTextHint: kb => `Огромная читаемая заметка со всеми данными (${kb} КБ). Её можно вставить в Заметки на iPhone; код в конце позволяет всё восстановить.`,
+    copy: 'Скопировать весь текст', copied: 'Скопировано — вставь в Заметки или куда угодно', toChat: 'Прислать файлами в чат с ботом',
+    drive: 'Копии на Google Диске', driveHint: 'Каждые несколько минут после изменений сюда сами сохраняются два файла: код для восстановления и вся база текстом. Хранятся 60 последних.',
+    driveNow: 'Сохранить на Диск сейчас', driveDone: 'Сохранено на Google Диск', driveNone: 'Пока копий нет — появятся после первого сохранения.', driveOpen: 'Открыть папку на Диске',
+    driveErr: 'Google Диск пока не подключён: на сервере нужно один раз запустить driveTest и разрешить доступ.', restore: 'Восстановить',
+    paste: 'Вставить копию текстом', pasteHint: 'Вставь сюда весь текст копии (из Заметок, из файла) — код в конце текста восстановит базу. Текущее состояние сначала само сохранится в копию.' },
+  en: { three: [['📱 On the phone', 'every hour of work, every day and before updates'], ['☁️ Google Drive', 'code + text, a few minutes after changes'], ['💬 Bot chat', 'code + text once a day, silently']],
+    asText: 'Whole base as text', asTextHint: kb => `A huge readable note with all your data (${kb} KB). Paste it into Notes; the code at the end restores everything.`,
+    copy: 'Copy all the text', copied: 'Copied — paste it into Notes or anywhere', toChat: 'Send as files to the bot chat',
+    drive: 'Copies on Google Drive', driveHint: 'A few minutes after any change two files are saved here automatically: restore code and the whole base as text. The last 60 are kept.',
+    driveNow: 'Save to Drive now', driveDone: 'Saved to Google Drive', driveNone: 'No copies yet — they appear after the first save.', driveOpen: 'Open the Drive folder',
+    driveErr: 'Google Drive is not connected yet: run driveTest once on the server and allow access.', restore: 'Restore',
+    paste: 'Paste a copy as text', pasteHint: 'Paste the whole copy here (from Notes or a file) — the code at the end restores the base. The current state is saved to a copy first.' }
+};
+const TABP = { ru: 'Планер', en: 'Planner', es: 'Agenda', it: 'Agenda', fr: 'Agenda' };
+for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].va = VAD[c] || VAD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en;
+  const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
+}
+
 /* ================= Quotes & language ================= */
 let quotePool = [], quoteIdx = 0;
 function buildQuotes(){
@@ -2285,6 +2525,7 @@ function normalize(d){
   settings.eggs = Array.isArray(s0.eggs) ? s0.eggs.filter(x => typeof x === 'string') : [];
   settings.prizes = s0.prizes && typeof s0.prizes === 'object' ? s0.prizes : {};
   settings.caps = Array.isArray(s0.caps) ? s0.caps : [];
+  settings.mods = s0.mods && typeof s0.mods === 'object' ? s0.mods : {};
   const students = listOf(d.students).map(x => {
     const s = Object.assign({ name: '', phone: '', tg: '', price: 0, svc: '', bday: '', src: '', note: '', archived: false }, x);
     s.range = Object.assign({ lo: '', hi: '' }, x.range && typeof x.range === 'object' ? x.range : {});
@@ -2302,6 +2543,12 @@ function normalize(d){
     events: listOf(d.events).map(x => { const e = Object.assign({ title: '', date: today(), time: '', place: '', program: '' }, x); e.sids = Array.isArray(x.sids) ? x.sids : []; return e; }),
     exercises: listOf(d.exercises).map(x => Object.assign({ title: '', text: '' }, x)),
     certs: listOf(d.certs).map(x => Object.assign({ code: '', buyer: '', to: '', svc: '', n: 1, price: 0, date: today(), until: '', used: 0 }, x)),
+    /* planner (7.0): the singer's own life — gigs, rehearsals, tasks, notes, events; people's birthdays; bands; repertoire */
+    items: listOf(d.items).map(x => { const i = Object.assign({ kind: 'task', title: '', date: '', time: '', end: '', call: '', place: '', gid: '', fee: 0, paid: false, rem: -1, rep: '', done: false, note: '', at: 0, fmt: 'reels', cst: 'idea' }, x);
+      i.dd = Array.isArray(x.dd) ? x.dd.filter(s => typeof s === 'string') : []; i.set = Array.isArray(x.set) ? x.set.filter(s => typeof s === 'string') : []; return i; }),
+    people: listOf(d.people).map(x => Object.assign({ name: '', bday: '', who: '', note: '', rem: 0 }, x)),
+    groups: listOf(d.groups).map(x => Object.assign({ name: '', color: '', members: '', note: '' }, x)),
+    rep: listOf(d.rep).map(x => Object.assign({ title: '', artist: '', key: '', bpm: 0, dur: 0, link: '', lyrics: '', note: '', st: 'learn', gid: '' }, x)),
     ach: d.ach && typeof d.ach === 'object' ? d.ach : null
   };
 }
@@ -2369,7 +2616,7 @@ const cs = {
 const toAscii = s => s.replace(/[\u007f-￿]/g, c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0'));
 const monthOf = l => 'M' + String(l.date).slice(0, 7).replace(/[^0-9-]/g, '');
 const chunkKeys = (b, p) => Array.from({ length: p.n }, (_, i) => `${b}_${p.g}_${i}`);
-const BKEYS = { S: ['settings', 'services', 'exercises', 'ach'], P: ['students'], K: ['packages', 'events', 'expenses', 'certs'] };
+const BKEYS = { S: ['settings', 'services', 'exercises', 'ach'], P: ['students'], K: ['packages', 'events', 'expenses', 'certs'], Q: ['items', 'people', 'groups', 'rep'] };
 const bucketOrder = (a, b) => (a === 'S' ? -1 : b === 'S' ? 1 : a.localeCompare(b));
 
 function buildBuckets(s){
@@ -2377,7 +2624,8 @@ function buildBuckets(s){
   const out = {
     S: J({ v: 3, settings: s.settings, services: s.services, exercises: s.exercises, ach: s.ach }),
     P: J({ students: s.students }),
-    K: J({ packages: s.packages, events: s.events, expenses: s.expenses, certs: s.certs })
+    K: J({ packages: s.packages, events: s.events, expenses: s.expenses, certs: s.certs }),
+    Q: J({ items: s.items, people: s.people, groups: s.groups, rep: s.rep })
   };
   const by = {};
   s.lessons.forEach(l => { const b = monthOf(l); (by[b] = by[b] || []).push(l); });
@@ -2448,7 +2696,8 @@ async function flushCloud(){
     if (prev) cs.del(chunkKeys(b, prev)).catch(() => {});
   }
   for (const b of Object.keys(saved)) {
-    if (b in B) continue;
+    /* never delete a part this version doesn't know (it may belong to a newer / test version of the app) */
+    if (b in B || !(b in BKEYS || b.charAt(0) === 'M')) continue;
     const prev = ptrs[b];
     await cs.del(['p_' + b]);
     delete saved[b]; delete ptrs[b];
@@ -2693,7 +2942,7 @@ function freeSlots(days = 7){
     const d = addDays(now, k);
     if (!w.days.includes(d.getDay())) continue;
     const ds = ymd(d);
-    const busy = state.lessons.filter(l => l.date === ds && l.st !== 'miss' && l.time).map(l => { const s = toMin(l.time); return [s, s + (+l.dur || dur)]; });
+    const busy = state.lessons.filter(l => l.date === ds && l.st !== 'miss' && l.time).map(l => { const s = toMin(l.time); return [s, s + (+l.dur || dur)]; }).concat(safe(() => busyPlan(ds), []));
     const slots = [];
     for (let s = from; s + dur <= to; s += 60) {
       if (k === 0 && s < nowMin + 60) continue;
@@ -2779,7 +3028,7 @@ function achCtx(){
 const PRIZE = ['group', 'hat', 'l10', 'k10', 'pkg1', 'event', 'goal', 'record', 'nomiss', 'l50', 'k50', 'ten', 'l100', 'k100'];
 let achQueue = [], curCeleb = null;
 function checkAch(){
-  if (!ready) return;
+  if (!ready || !mod('ach')) return;
   const silent = state.ach === null;
   if (silent) state.ach = {};
   const c = achCtx();
@@ -2829,6 +3078,7 @@ function showNextCeleb(){
 }
 let celebLog = [];
 function celebrate(o){
+  if (!mod('ach') && typeof o === 'object' && !o.manual) return;
   const n = Date.now(); celebLog = celebLog.filter(t => n - t < 600000);
   if (typeof o === 'object' && !o.manual && (celebLog.length >= 2 || achQueue.length)) return achPop({ icon: o.icon, label: o.label || T.newAch, title: o.title, prize: !!o.hearts });
   if (typeof o === 'object' && !o.manual) celebLog.push(n);
@@ -2867,24 +3117,26 @@ function buildNotes(){
   if (!nt.on) return out;
   const name = sid => (stu(sid) || {}).name || T.removed;
   const dayIdx = Math.floor(atTime(today(), 0) / 86400000);
-  const debtors = state.students.map(s => ({ s, d: studentStats(s.id).debt })).filter(x => x.d > 0).sort((a, b) => b.d - a.d);
+  const LS = mod('students');
+  const debtors = LS && mod('money') ? state.students.map(s => ({ s, d: studentStats(s.id).debt })).filter(x => x.d > 0).sort((a, b) => b.d - a.d) : [];
   const debtTotal = debtors.reduce((a, x) => a + x.d, 0);
   const bunch = ls => { const g = {}; ls.forEach(l => { const k = l.grp || l.id; (g[k] = g[k] || []).push(l); }); return Object.values(g); };
   const morningH = nt.morning >= 0 ? nt.morning : 9;
   for (let k = 0; k < H; k++) {
     const d = addDays(now, k), ds = ymd(d), next = ymd(addDays(d, 1));
-    const ls = state.lessons.filter(l => l.date === ds && l.st !== 'miss').sort(byDateAsc);
+    const ls = LS ? state.lessons.filter(l => l.date === ds && l.st !== 'miss').sort(byDateAsc) : [];
     const planned = ls.filter(l => l.st === 'plan');
     const evs = state.events.filter(e => e.date === ds);
     const bds = state.students.filter(s => !s.archived && s.bday && s.bday.slice(5) === ds.slice(5));
     if (nt.morning >= 0) {
       const pay = l => l.pkg ? ' 🎟' : l.paid ? ' ✅' : ' 💳';
       const lines = bunch(ls).map(g => `• ${g[0].time || '—'} ${g.map(l => name(l.sid) + pay(l)).join(', ')}${g[0].online ? ' 💻' : ''}${g.length > 1 ? ' 👯' : ''}`);
-      let x = T.nb.morning(nm) + '\n' + (lines.length ? T.nb.list(lines.length) + '\n' + lines.join('\n') + '\n' + T.nb.daySum(money(vsum(ls)), money(vsum(ls.filter(l => !l.paid)))) : T.nb.free);
+      let x = !LS ? T.nb.morning(nm) : T.nb.morning(nm) + '\n' + (lines.length ? T.nb.list(lines.length) + '\n' + lines.join('\n') + '\n' + T.nb.daySum(money(vsum(ls)), money(vsum(ls.filter(l => !l.paid)))) : T.nb.free);
       if (debtTotal) x += '\n' + T.nb.debtLine(money(debtTotal));
-      if (d.getDay() === 1) x += '\n\n' + weekDigest(d);
+      if (LS && d.getDay() === 1) x += '\n\n' + weekDigest(d);
       evs.forEach(e => { x += `\n🎭 ${e.time ? e.time + ' ' : ''}${e.title || T.evTitle}`; });
       bds.forEach(s => { x += `\n🎂 ${T.nb.bday(s.name)}`; });
+      if (mod('plan')) x += safe(() => planMorning(ds));
       x += `\n\n${withName(T.motiv[(dayIdx + k) % T.motiv.length])}\n— ${T.nb.sign}`;
       const at = atTime(ds, nt.morning * 60);
       out.push({ k: 'm_' + ds, at, u: at + 4 * HR, x });
@@ -2905,21 +3157,22 @@ function buildNotes(){
       const at = atTime(ds, (nt.evening >= 0 ? nt.evening : 20) * 60 + 1);
       out.push({ k: 'd_' + ds, at, u: at + 3 * HR, x: '💸 ' + T.nb.debts(money(debtTotal)) + '\n' + debtors.slice(0, 6).map(({ s, d: v }) => `• ${s.name} — ${money(v)}`).join('\n') });
     }
-    if (nt.monthly && d.getDate() === 1) {
+    if (LS && nt.monthly && d.getDate() === 1) {
       const pm = shiftMonth(ds.slice(0, 7), -1), st = monthStats(pm), at = atTime(ds, morningH * 60 + 2);
       out.push({ k: 'mo_' + pm, at, u: at + 12 * HR, x: '📊 ' + T.nb.month(monthName(+pm.slice(5) - 1), st.n, money(st.earned)) + '\n' + praise() });
     }
   }
   const last = ymd(addDays(now, H - 1)), at = atTime(last, (morningH + 1) * 60);
   out.push({ k: 'x_' + last, at, u: at + 12 * HR, x: T.nb.refresh });
+  if (mod('plan')) safe(() => planNotes(H, morningH), []).forEach(n => out.push(n));
   evQueue.forEach(e => out.push(Object.assign({ k: e.k, at: e.at, u: e.at + 3 * HR, x: e.x }, e.to ? { to: e.to } : {})));
   studentNotes().forEach(n => out.push(n));
   return out.slice(0, 400);
 }
 function scheduleBotSync(){ if (!inTG || !state.settings.api || !ready) return; clearTimeout(syncTimer); syncTimer = setTimeout(() => botSync(false), 2500); }
-async function botPost(body){
+async function botPost(body, ms){
   const ctl = window.AbortController ? new AbortController() : null;
-  const tm = setTimeout(() => { try { ctl && ctl.abort(); } catch (e) {} }, 30000);
+  const tm = setTimeout(() => { try { ctl && ctl.abort(); } catch (e) {} }, ms || 30000);
   try {
     const r = await fetch(state.settings.api, { method: 'POST', body: JSON.stringify(Object.assign({ init: tg.initData, url: appUrl(), lang: L, tz: tzName(), v: typeof APP_VER === 'number' ? APP_VER : 0 }, body)), signal: ctl ? ctl.signal : undefined });
     const j = await r.json();
@@ -3072,11 +3325,12 @@ const CATS = ['rent', 'ads', 'notes', 'equip', 'edu', 'transport', 'other'];
 const CAT_IC = { rent: '🏠', ads: '📣', notes: '🎼', equip: '🎧', edu: '🎓', transport: '🚕', other: '🧾' };
 const SRCS = ['ig', 'site', 'ref', 'tt', 'vk', 'avito', 'other'];
 const syncLine = () => `<div class="sync"><i class="dot" id="syncDot"></i><span id="syncTxt"></span></div>`;
-const footer = () => `<div class="madeby" data-act="sanya">${esc(T.madeBy)}</div>`;
-const demoBanner = () => isDemo() ? `<div class="demo">${esc(T.demo)}</div>` : '';
+const IS_BETA = /\/beta\//.test(location.pathname);
+const footer = () => `<div class="madeby" data-act="sanya">${esc(T.madeBy)}</div>${IS_BETA ? `<div class="betatag">🧪 β · ${esc(CHANGES[0].name)}</div>` : ''}`;
+const demoBanner = () => (isDemo() ? `<div class="demo">${esc(T.demo)}</div>` : '') + (/\/beta\//.test(location.pathname) ? `<div class="demo beta">🧪 ${esc(T.md.betaLine)}</div>` : '');
 function header(title){
-  return `<div class="top"><div><h1>${esc(title)}</h1>${syncLine()}</div>
-    <button class="icon-btn" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div>${demoBanner()}`;
+  return `<div class="top"><div><h1>${esc(title)}</h1>${syncLine()}</div><div class="topbtns">
+    ${safe(voiceOk, false) ? `<button class="icon-btn vtop" data-act="voice" aria-label="🎤">🎤</button>` : ''}<button class="icon-btn" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>${demoBanner()}`;
 }
 const monthNav = (m, act) => `<div class="month"><button data-act="${act}" data-v="-1" aria-label="${esc(T.prev)}">‹</button><b>${esc(monthTitle(m))}</b><button data-act="${act}" data-v="1" aria-label="${esc(T.next)}">›</button></div>`;
 const welcome = () => `<div class="empty"><div class="big">🎤</div><b>${esc(T.welcome)}</b>${esc(T.welcomeText)}<button class="btn" data-act="addStudent">${esc(T.addStudent)}</button></div>`;
@@ -3152,18 +3406,19 @@ function renderHome(){
   const h = now.getHours(), gi = h < 5 ? 0 : h < 12 ? 1 : h < 18 ? 2 : 3;
   const hello = `<div class="hello"><div class="hello-top"><div><small>${esc(F.full.format(now))}</small>
       <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
-      <button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div>
-    <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
+      <div class="topbtns">${safe(voiceOk, false) ? `<button class="icon-btn light vtop" data-act="voice" aria-label="🎤">🎤</button>` : ''}<button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>
+    <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}${safe(voiceOk, false) ? `<button class="vhome" data-act="voice"><span>🤖</span><b>${esc(T.pl.say)}</b><i>🎤</i></button>` : ''}`;
   const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
+  if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
   if (!state.students.length) return hello + quote + reqBlock() + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
   const active = state.students.filter(s => !s.archived).length;
   const debtAll = vsum(state.lessons.filter(l => counts(l) && !l.paid));
-  const kpis = `<div class="kpis">
+  const kpis = `<div class="kpis${mod('money') ? '' : ' two'}">
     <div class="kpi" data-act="tab" data-v="students"><small>${esc(T.kStudents)}</small><b>${active}</b><span>${esc(T.kActive(active))}</span></div>
     <div class="kpi" data-act="tab" data-v="lessons"><small>${esc(T.kLessonsIn(mi))}</small><b>${st.n}</b><span>${esc(st.ahead ? T.kAhead(st.ahead) : T.kHeld)}</span></div>
-    <div class="kpi" data-act="tab" data-v="money"><small>${esc(T.kEarned)}</small><b>${money(st.earned)}</b><span>${esc(T.kFor(mi))}</span></div>
-    <div class="kpi${debtAll ? ' debt' : ''}" data-act="tab" data-v="money"><small>${esc(T.kDebts)}</small><b>${money(debtAll)}</b><span>${esc(debtAll ? T.kAllDebts : T.kAllPaid)}</span></div></div>`;
+    ${mod('money') ? `<div class="kpi" data-act="tab" data-v="money"><small>${esc(T.kEarned)}</small><b>${money(st.earned)}</b><span>${esc(T.kFor(mi))}</span></div>
+    <div class="kpi${debtAll ? ' debt' : ''}" data-act="tab" data-v="money"><small>${esc(T.kDebts)}</small><b>${money(debtAll)}</b><span>${esc(debtAll ? T.kAllDebts : T.kAllPaid)}</span></div>` : ''}</div>`;
   const mon = addDays(now, -((now.getDay() + 6) % 7));
   const week = `<div class="week">${Array.from({ length: 7 }, (_, i) => {
       const d = addDays(mon, i), ds = ymd(d), n = state.lessons.filter(l => l.date === ds && l.st !== 'miss').length;
@@ -3173,8 +3428,9 @@ function renderHome(){
   const unmarked = state.lessons.filter(l => l.st === 'plan' && l.date < t).sort(byDateDesc);
   const upcoming = state.lessons.filter(l => l.st === 'plan' && l.date > t).sort(byDateAsc).slice(0, 5);
   const al = reqBlock() + (wrapSeason() ? `<div class="alerts" style="margin-bottom:8px"><div class="alert" data-act="wrap"><span class="ai">🎉</span><span class="at">${esc(T.wrapAlert)}</span><span class="chev">›</span></div></div>` : '') + alertsBlock();
-  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + goalBlock(st.earned) + achRow()
+  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
     + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week;
+  if (mod('plan')) out += safe(planHomeBlock);
   out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${money(vsum(todays.filter(counts)))}</span>` : ''}</div>`
     + (todays.length ? `<div class="card">${todays.map(l => lessonRow(l)).join('')}</div>`
       : `<div class="empty" style="margin-top:0;padding:20px">${esc(T.freeDay)}<button class="btn soft" data-act="addLessonDay" data-v="${t}">${esc(T.addToday)}</button></div>`);
@@ -3195,8 +3451,13 @@ function monthJournal(st, m){
   return body;
 }
 function renderCalendar(){
-  if (!state.students.length) return header(T.tabs.lessons) + welcome();
-  const m = ui.month, st = monthStats(m), t = today();
+  const LS = mod('students'), PLN = mod('plan');
+  if (LS && !state.students.length && !(PLN && state.items.length)) return header(T.tabs.lessons) + welcome();
+  const m = ui.month, st0 = monthStats(m), t = today();
+  const st = LS ? st0 : Object.assign({}, st0, { list: [] });
+  const plBy = {};
+  if (PLN) safe(() => { state.items.forEach(it => { if (it.kind !== 'note') occ(it, m + '-01', m + '-31').forEach(ds => { (plBy[ds] = plBy[ds] || []).push(it); }); });
+    bdaysIn(m + '-01', m + '-31').forEach(b => { (plBy[b.ds] = plBy[b.ds] || []).push({ kind: 'bday' }); }); });
   if (!ui.selDay.startsWith(m)) ui.selDay = t.startsWith(m) ? t : m + '-01';
   const [y, mm] = m.split('-').map(Number);
   const lead = (new Date(y, mm - 1, 1).getDay() + 6) % 7, days = new Date(y, mm, 0).getDate();
@@ -3206,29 +3467,32 @@ function renderCalendar(){
   for (let i = 0; i < lead; i++) cells += '<span class="cd empty"></span>';
   for (let d = 1; d <= days; d++) {
     const ds = `${m}-${pad(d)}`, ls = (by[ds] || []).sort(byDateAsc);
-    const dots = (evBy[ds] ? '<i class="ev"></i>' : '') + ls.slice(0, evBy[ds] ? 3 : 4).map(l => `<i class="${esc(l.st)}"></i>`).join('');
+    const pl = plBy[ds] || [], extra = (evBy[ds] ? 1 : 0) + (pl.length ? 1 : 0);
+    const dots = (evBy[ds] ? '<i class="ev"></i>' : '') + (pl.length ? `<i class="pl${pl.some(x => x.kind === 'gig') ? ' gig' : ''}"></i>` : '') + ls.slice(0, 4 - extra).map(l => `<i class="${esc(l.st)}"></i>`).join('');
     cells += `<button class="cd${ds === t ? ' today' : ''}${ds === ui.selDay ? ' sel' : ''}" data-act="calDay" data-v="${ds}"><span>${d}</span><em>${dots}</em></button>`;
   }
   const heads = Array.from({ length: 7 }, (_, i) => `<span>${esc(wdShort(new Date(2024, 0, 1 + i)))}</span>`).join('');
   const cal = `<div class="cal"><div class="cal-h">${heads}</div><div class="cal-g">${cells}</div>
-    <div class="legend"><span><i></i>${esc(T.legend[0])}</span><span><i class="done"></i>${esc(T.legend[1])}</span><span><i class="miss"></i>${esc(T.legend[2])}</span><span><i style="background:var(--gold)"></i>${esc(T.legendEv)}</span></div></div>`;
+    <div class="legend"><span><i></i>${esc(T.legend[0])}</span><span><i class="done"></i>${esc(T.legend[1])}</span><span><i class="miss"></i>${esc(T.legend[2])}</span><span><i style="background:var(--gold)"></i>${esc(T.legendEv)}</span><span><i class="plg"></i>${esc(T.pl.legend)}</span></div></div>`;
   const toMark = st.list.filter(l => l.st === 'plan' && l.date <= t).length;
   let list;
   if (ui.calMode === 'day') {
     const ls = (by[ui.selDay] || []).sort(byDateAsc), c = ls.filter(counts), evs = evBy[ui.selDay] || [];
+    ui.planDay = ui.selDay; const pr = PLN ? safe(() => dayAgenda(ui.selDay), []) : []; ui.planDay = '';
     list = `<div class="sec"><span>${esc(dayLabel(ui.selDay))}</span><span>${c.length ? money(vsum(c)) : ''}</span></div>`
       + (evs.length ? `<div class="card" style="margin-bottom:8px">${evs.map(evRow).join('')}</div>` : '')
-      + (ls.length ? `<div class="card">${ls.map(l => lessonRow(l)).join('')}</div>` : evs.length ? '' : `<div class="empty" style="margin-top:0;padding:20px">${esc(T.noLessons)}</div>`)
-      + `<button class="btn soft" data-act="addLessonDay" data-v="${ui.selDay}">${esc(T.addOn(dayMonth(ui.selDay)))}</button>`
-      + `<button class="btn ghost" data-act="slots">🗓 ${esc(T.stSlots)}</button>`;
+      + (pr.length ? `<div class="card" style="margin-bottom:8px">${pr.join('')}</div>` : '')
+      + (ls.length ? `<div class="card">${ls.map(l => lessonRow(l)).join('')}</div>` : evs.length || pr.length ? '' : `<div class="empty" style="margin-top:0;padding:20px">${esc(LS ? T.noLessons : T.pl.none)}</div>`)
+      + `<div class="${LS && PLN ? 'pair2' : ''}">${LS ? `<button class="btn soft" data-act="addLessonDay" data-v="${ui.selDay}">${esc(T.addOn(dayMonth(ui.selDay)))}</button>` : ''}${PLN ? `<button class="btn ghost" data-act="plNewDay" data-v="${ui.selDay}">📒 ${esc(T.pl.toPlan)}</button>` : ''}</div>`
+      + (LS ? `<button class="btn ghost" data-act="slots">🗓 ${esc(T.stSlots)}</button>` : '');
   } else list = monthJournal(st, m);
-  return header(T.tabs.lessons) + monthNav(m, 'month') + cal + `
+  return header(T.tabs.lessons) + monthNav(m, 'month') + cal + (LS ? `
     <div class="stats">
       <div class="stat"><small>${esc(T.sHeld)}</small><b>${st.n}</b></div>
-      <div class="stat"><small>${esc(T.sEarned)}</small><b>${money(st.earned)}</b></div>
-      <div class="stat${st.debt ? ' debt' : ''}"><small>${esc(T.sUnpaid)}</small><b>${money(st.debt)}</b></div>
-    </div>`
-    + (toMark ? `<div class="hintline">${esc(T.toMark(toMark))}</div>` : '')
+      ${mod('money') ? `<div class="stat"><small>${esc(T.sEarned)}</small><b>${money(st.earned)}</b></div>
+      <div class="stat${st.debt ? ' debt' : ''}"><small>${esc(T.sUnpaid)}</small><b>${money(st.debt)}</b></div>` : ''}
+    </div>` : '')
+    + (toMark && LS ? `<div class="hintline">${esc(T.toMark(toMark))}</div>` : '')
     + `<div class="segtabs"><button data-act="calMode" data-v="day" class="${ui.calMode === 'day' ? 'on' : ''}">${esc(T.day)}</button><button data-act="calMode" data-v="month" class="${ui.calMode === 'month' ? 'on' : ''}">${esc(T.wholeMonth)}</button></div>`
     + list;
 }
@@ -3340,6 +3604,7 @@ function renderMoney(){
     <div class="sec"><span>${esc(T.finSec)}</span></div>${fin}
     <div class="sec"><span>${esc(T.expSec)}</span><button class="link" data-act="addExpense">+ ${esc(T.add)}</button></div>
     ${expRows ? `<div class="card">${expRows}</div>` : `<div class="hintline" style="margin-top:0">${esc(T.noExp)}</div>`}
+    ${mod('plan') ? safe(() => planMoneyBlock(m)) : ''}
     ${pkRows ? `<div class="sec"><span>🎟 ${esc(T.pkgSec)}</span><span>${money(pks.reduce((a, p) => a + pkgTotal(p), 0))}</span></div><div class="card">${pkRows}</div>` : ''}
     <div class="sec"><span>${esc(T.halfYear)}</span></div><div class="card"><div class="bars">${bars}</div></div>
     ${rows ? `<div class="sec"><span>${esc(T.byStudent)}</span></div><div class="card">${rows}</div>` : ''}
@@ -3374,17 +3639,19 @@ function renderStudio(){
 }
 
 /* ---------- Shell ---------- */
+const tabOn = v => v === 'home' || (v === 'lessons' ? mod('students') || mod('plan') : v === 'students' ? mod('students') : mod(v));
 function renderNav(){
-  document.querySelectorAll('#tabs button').forEach(b => { b.classList.toggle('on', b.dataset.v === ui.tab); b.querySelector('.tl').textContent = T.tabs[b.dataset.v]; });
+  document.querySelectorAll('#tabs button').forEach(b => { b.hidden = !tabOn(b.dataset.v); b.classList.toggle('on', b.dataset.v === ui.tab); b.querySelector('.tl').textContent = b.dataset.v === 'lessons' && !mod('students') ? T.md.cal : T.tabs[b.dataset.v]; });
   $('fab').setAttribute('aria-label', T.add);
 }
 function render(){
   if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
   applyTheme();
-  const fn = { home: renderHome, lessons: renderCalendar, students: renderStudents, money: renderMoney, studio: renderStudio }[ui.tab] || renderHome;
+  if (!tabOn(ui.tab)) ui.tab = 'home';
+  const fn = { home: renderHome, lessons: renderCalendar, students: renderStudents, money: renderMoney, studio: renderStudio, plan: () => safe(renderPlan, header(T.tabs.plan) + `<div class="empty">⚠️ ${esc(T.bk.oops)}</div>`) }[ui.tab] || renderHome;
   $('app').innerHTML = fn() + footer();
   renderNav();
-  $('fab').hidden = ui.tab === 'money' || ui.tab === 'studio' || (ui.tab !== 'students' && !state.students.length);
+  $('fab').hidden = ui.tab === 'money' || ui.tab === 'studio' || (!mod('students') ? !mod('plan') : (ui.tab !== 'students' && ui.tab !== 'plan' && !state.students.length));
   setSync(syncState);
   const se = $('search');
   if (se) se.oninput = e => { ui.q = e.target.value; $('slist').innerHTML = studentsList(); };
@@ -3713,6 +3980,7 @@ function settingsSheet(){
       <div class="sec" style="margin-top:0"><span>${esc(T.theme)}</span></div>
       <div class="chipsel" style="margin:0 0 10px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${S.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>
       <button class="btn ghost" data-act="look" style="margin:0 0 10px">🎨 ${esc(T.lk.btn)}</button>
+      <button class="btn ghost" data-act="mods" style="margin:0 0 10px">🧩 ${esc(T.md.title)}</button>
       <div class="group" style="margin-bottom:14px"><div class="field toggle"><span>🔊 ${esc(T.lk.fx)}</span><button type="button" class="sw${S.fx === 0 ? '' : ' on'}" data-act="fxSw"></button></div></div>
       <div class="group"><div class="field"><label for="o_name">${esc(T.fCallMe)}</label><input id="o_name" value="${esc(userName())}" placeholder="${esc(T.fCallMePh)}" autocomplete="off"></div>
         <div class="field"><label for="o_brand">✍️ ${esc(T.lk.brand)}</label><input id="o_brand" value="${esc(S.brand || '')}" placeholder="${esc(T.brand)}" maxlength="60" autocomplete="off"></div>
@@ -3742,7 +4010,8 @@ function settingsSheet(){
       <button class="btn ghost" data-act="restore">${esc(T.restoreBtn)}</button>
       <div class="hintline center">${esc(T.dbCount(state.students.length, state.lessons.length))}</div>
       <div class="sec"><span>${esc(T.aboutSec)}</span></div>
-      <div class="about" data-act="sanya"><div class="sig">${esc(T.madeBy)}</div><p>${esc(T.about)}</p></div>`;
+      <div class="about" data-act="sanya"><div class="sig">${esc(T.madeBy)}</div><p>${esc(T.about)}</p></div>
+      <button class="btn ghost sm" data-act="dev" style="margin-top:10px;opacity:.7">🛠 ${esc(T.md.dev)}</button>`;
   };
   fn.isSettings = true;
   fn.mount = () => {
@@ -4481,7 +4750,7 @@ function botCtx(){
   return { students: state.students.map(s => Object.assign({ id: s.id, n: s.name }, s.phone ? { ph: s.phone } : {}, s.archived ? { a: 1 } : {})),
     svcs: state.services.map(s => Object.assign({ id: s.id, n: s.name, p: priceFor('', s.id) }, s.online ? { on: 1 } : {})), up, dur: +state.settings.dur || 60, price: +state.settings.price || 0, cur: state.settings.cur || '₽',
     pk: state.students.filter(s => !s.archived).map(s => { const ss = studentStats(s.id); return ss.pkg ? `${s.name}: ${ss.left}` : ''; }).filter(Boolean),
-    work: `${state.settings.work.from}-${state.settings.work.to}` };
+    work: `${state.settings.work.from}-${state.settings.work.to}`, ...safe(planCtx, {}) };
 }
 async function pollOps(){
   if (!inTG || !state.settings.api || !ready || opsBusy || document.hidden) return;
@@ -4554,6 +4823,7 @@ function bxLessonFor(s, a, needDate){
 }
 
 function applyAct(a, out, touched){
+  if (/^(add_item|done_task|add_person|add_rep_song)$/.test(a.type)) return safe(() => applyPlanAct(a, out));
   const T2 = T.bx, t = today();
   const need = () => { const s = bxFind(a.student); if (!s) out.push('⚠️ ' + T2.notFound(a.student || '?')); return s; };
   switch (a.type) {
@@ -4655,8 +4925,31 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 10;
+const APP_VER = 11;
 const CHANGES = [
+  { v: 11, name: '7.0', date: '2026-11-01', big: true,
+    ru: {
+      add: ['📒 Планер — новая вкладка: дела, выступления, репетиции, события, заметки. С датами, повторами и напоминаниями в боте; всё видно и в календаре рядом с уроками',
+        '🤖 Личный ИИ-помощник прямо в приложении: нажми 🎤 и скажи или напиши. Вносит уроки и планы, отвечает на вопросы о твоих учениках и деньгах, ищет в интернете, придумывает идеи. Перед тем как внести, всегда спрашивает',
+        '📱 Контент-план для Инстаграма: Reels, посты, сторис — от идеи до публикации',
+        '🎸 Коллективы, 🎼 репертуар с сет-листами (длительность считается сама), 🎂 дни рождения близких с напоминаниями',
+        '🎤 Гонорары за выступления — во вкладке «Деньги»; приложение предупреждает, если урок пересекается с концертом',
+        '🧩 Настройки → «Разделы приложения»: можно выключить всё, чем не пользуешься, — хоть оставить один простой планер',
+        'Бот тоже понимает планер: «в субботу Казаки, сбор в 17», «напомни купить струны», «у мамы день рождения 12 марта»'],
+      better: ['Резервные копии чаще: на телефоне каждый час работы и каждый день, файлом в чат с ботом — каждый день, когда были изменения (без звука). В «Резервных копиях» есть пошаговая инструкция, как всё вернуть',
+        'Надёжность: если помощник, интернет или бот недоступны, всё остальное работает как обычно — вносить и смотреть можно руками'],
+      removed: [] },
+    en: {
+      add: ['📒 Planner — a new tab: tasks, gigs, rehearsals, events, notes. Dates, repeats and reminders in the bot; everything also shows in the calendar next to lessons',
+        '🤖 A personal AI assistant inside the app: tap 🎤 and speak or type. It adds lessons and plans, answers questions about your students and money, searches the web, brainstorms ideas. It always asks before adding',
+        '📱 Instagram content plan: Reels, posts, stories — from idea to published',
+        '🎸 Bands, 🎼 repertoire with set lists (length is counted automatically), 🎂 birthdays with reminders',
+        '🎤 Gig fees in the Money tab; the app warns when a lesson clashes with a gig',
+        '🧩 Settings → “App sections”: switch off anything you don’t use — even keep just a simple planner',
+        'The bot understands the planner too: “gig on Saturday, call at 5”, “remind me to buy strings”, “Mum’s birthday is March 12”'],
+      better: ['More frequent backups: on the phone every hour of work and every day, as a file in the bot chat every day with changes (silently). Backups now include a step-by-step restore guide',
+        'Reliability: if the assistant, the internet or the bot is unavailable, everything else keeps working — you can add and view everything by hand'],
+      removed: [] } },
   { v: 10, name: '6.4', date: '2026-11-01',
     ru: {
       add: ['Переключатель «Звуки и вибрация» в Настройках — можно сделать приложение полностью тихим'],
@@ -4895,12 +5188,12 @@ const bk = (() => {
   const tx = (mode, fn) => open().then(db => new Promise((res, rej) => { const t = db.transaction('b', mode), st = t.objectStore('b'), r = fn(st); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }));
   return { put: o => tx('readwrite', st => st.put(o)), del: id => tx('readwrite', st => st.delete(id)), all: () => tx('readonly', st => st.getAll()).then(a => a || []) };
 })();
-const BK_KEEP = { day: 14, upd: 6, pre: 6, man: 6 };
+const BK_KEEP = { day: 30, hr: 24, upd: 8, pre: 8, man: 8 };
 let bkDayAt = 0, allowEmpty = false, loadedCounts = { n: 0, l: 0 };
-const hasData = s => s && (s.students.length || s.lessons.length);
+const hasData = s => s && (s.students.length || s.lessons.length || (s.items || []).length || (s.people || []).length || (s.rep || []).length);
 async function snapshot(kind, src){
   const s = src || state; if (!hasData(s)) return null;
-  const at = Date.now(), id = kind === 'day' ? 'day_' + today() : `${kind}_${at}`;
+  const at = Date.now(), id = kind === 'day' ? 'day_' + today() : kind === 'hr' ? 'hr_' + new Date(at).toISOString().slice(0, 13) : `${kind}_${at}`;
   const o = { id, kind, at, ver: typeof APP_VER === 'number' ? APP_VER : 0, n: s.students.length, l: s.lessons.length, data: JSON.stringify(s) };
   try {
     await bk.put(o);
@@ -4910,21 +5203,34 @@ async function snapshot(kind, src){
   if (kind === 'day') bkDayAt = at;
   return o;
 }
-/* today's snapshot is refreshed at most every 15 minutes while you work */
-function bkTouch(){ if (ready && hasData(state) && Date.now() - bkDayAt > 15 * 60000) { bkDayAt = Date.now(); setTimeout(() => snapshot('day'), 1500); } }
+/* today's snapshot is refreshed at most every 15 minutes while you work; plus one copy per hour of work (last 24 kept) */
+let bkHrAt = 0;
+function bkTouch(){
+  if (!ready || !hasData(state)) return;
+  const n = Date.now();
+  if (n - bkDayAt > 15 * 60000) { bkDayAt = n; setTimeout(() => snapshot('day'), 1500); }
+  if (n - bkHrAt > 60 * 60000) { bkHrAt = n; setTimeout(() => snapshot('hr'), 4000); }
+}
 async function chatBackup(reason){
   if (!inTG || !state.settings.api || !hasData(state)) return false;
   try {
     const d = today();
-    await botPost({ a: 'report', name: `ucheniki-backup-${d}.json`, csv: 'VOCALBACKUP:' + JSON.stringify(state),
+    await botPost({ a: 'report', name: `ucheniki-backup-${d}.json`, csv: 'VOCALBACKUP:' + JSON.stringify(state), txt: safe(backupText),
       caption: '🛟 ' + T.bk.cap(state.students.length, state.lessons.length, shortDate(d)) + (reason ? ' · ' + reason : '') });
     state.settings.bkAt = Date.now(); save();
     return true;
   } catch (e) { return false; }
 }
-function bkWeekly(){ if (Date.now() - (+state.settings.bkAt || 0) > 7 * 86400000) setTimeout(() => chatBackup(''), 8000); }
+/* a file copy goes to the bot chat (silently) once a day if anything changed, and at least once a week */
+const bkSig = () => [state.students.length, state.lessons.length, state.items.length, state.packages.length, state.expenses.length, JSON.stringify(state).length].join('.');
+function bkWeekly(){
+  const since = Date.now() - (+state.settings.bkAt || 0);
+  if (since > 7 * 86400000 || (since > 20 * 3600000 && state.settings.bkSig !== bkSig())) setTimeout(async () => { if (await chatBackup('')) { state.settings.bkSig = bkSig(); save(); } }, 8000);
+}
+setInterval(() => { if (ready && !document.hidden) bkWeekly(); }, 3 * 3600000);
 function parseBackup(txt){
-  const t = String(txt || '').replace(/^﻿/, '').trim().replace(/^VOCALBACKUP:/, '');
+  let t = String(txt || '').replace(/^﻿/, '').trim();
+  const at = t.lastIndexOf('VOCALBACKUP:'); if (at >= 0) t = t.slice(at + 12).trim();
   const d = JSON.parse(t);
   if (!d || !Array.isArray(d.students) || !Array.isArray(d.lessons)) throw new Error('bad');
   return d;
@@ -4942,10 +5248,15 @@ function bkSheet(){
   const fn = () => {
     const kinds = T.bk.kinds, list = (fn.items || []).slice().sort((a, b) => b.at - a.at);
     return sheetHead('🛟 ' + T.bk.title) + `<div class="hintline" style="margin:0 6px 10px">${esc(T.bk.hint)}</div>`
-      + (inTG && state.settings.api ? `<button class="btn" data-act="bkChat">📦 ${esc(T.bk.sendNow)}</button>` : '')
+      + `<div class="bk3">${T.b2.three.map(x => `<div><b>${esc(x[0])}</b><small>${esc(x[1])}</small></div>`).join('')}</div>`
+      + `<button class="btn" data-act="bkText">📝 ${esc(T.b2.asText)}</button>`
+      + (inTG && state.settings.api ? `<button class="btn ghost" data-act="bkDrive">☁️ ${esc(T.b2.drive)}${state.settings.driveAt ? ' · ' + esc(new Date(+state.settings.driveAt).toLocaleString(LOC, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) : ''}</button>
+        <button class="btn ghost" data-act="bkChat">💬 ${esc(T.bk.sendNow)}</button>` : '')
       + `<button class="btn ghost" data-act="bkFile">📂 ${esc(T.bk.fromFile)}</button>`
+      + `<button class="btn ghost" data-act="bkPaste">📋 ${esc(T.b2.paste)}</button>`
       + `<div class="sec"><span>📱 ${esc(T.bk.onPhone)}</span></div>`
       + (fn.loading ? `<div class="empty">…</div>` : list.length ? `<div class="card">${list.map(x => `<div class="li"><span class="tx"><b>${esc(shortDate(new Date(x.at).toISOString().slice(0, 10)))} ${esc(new Date(x.at).toTimeString().slice(0, 5))}</b> · ${esc(kinds[x.kind] || x.kind)}<br><small>${esc(T.dbCount(x.n, x.l))}</small></span><button class="mini" data-act="bkRestore" data-id="${esc(x.id)}">${esc(T.bk.restore)}</button></div>`).join('')}</div>` : `<div class="empty">${esc(T.bk.none)}</div>`)
+      + `<div class="sec"><span>🧭 ${esc(T.bk.howT)}</span></div><div class="card bkhow">${T.bk.how.map((x, i) => `<div class="li"><span class="tx"><b>${i + 1}.</b> ${esc(x)}</span></div>`).join('')}</div>`
       + `<div class="hintline center">${esc(state.settings.bkAt ? T.bk.lastChat(shortDate(new Date(+state.settings.bkAt).toISOString().slice(0, 10))) : T.bk.noChat)}</div>`;
   };
   fn.loading = true; fn.items = [];
@@ -4990,7 +5301,7 @@ function emptyGuard(){
 }
 /* An error in one place must not take the whole app down. */
 function showOops(e){
-  try { console.error(e); } catch (x) {}
+  try { console.error(e); if (typeof logErr === 'function') logErr(e, 'action'); } catch (x) {}
   toast('⚠️ ' + T.bk.oops, 3500);
 }
 function rescueScreen(e){
@@ -5006,6 +5317,120 @@ window.addEventListener('unhandledrejection', ev => { if (ready) showOops(ev.rea
   const baseSheet = showSheet;
   showSheet = function(){ try { return baseSheet.apply(this, arguments); } catch (e) { showOops(e); } };
 }
+
+/* ================= Backups in three forms, three places =================
+   1) phone: IndexedDB snapshots (hourly / daily / before updates)            — js_safe.js
+   2) Google Drive (via the server): code (JSON) + readable text, a few minutes after every change
+   3) bot chat: the same two files once a day when something changed (silently)
+   The readable text is a full, human «note» of everything; its last block is the restore code,
+   so pasting the whole note back into the app restores it. */
+function backupText(s){
+  s = s || state;
+  const L = [], cur = s.settings.cur || '₽', nm = id => { const x = s.students.find(y => y.id === id); return x ? x.name : '—'; };
+  const svc = id => { const x = s.services.find(y => y.id === id); return x ? x.name : ''; };
+  const yes = b => b ? 'да' : 'нет', line = (k, v) => v || v === 0 ? `  ${k}: ${v}` : '';
+  const H = t => { L.push('', '════════ ' + t + ' ════════'); };
+  L.push('РЕЗЕРВНАЯ КОПИЯ «МОИ УЧЕНИКИ»', `Сохранено: ${new Date().toLocaleString('ru-RU')} · версия приложения ${typeof APP_VER === 'number' ? APP_VER : ''}`,
+    `Учеников: ${s.students.length} · уроков: ${s.lessons.length} · записей в планере: ${(s.items || []).length}`,
+    'Как восстановить: Настройки → Резервные копии → «Вставить копию текстом» и вставить ВЕСЬ этот текст (или выбрать этот файл в «Восстановить из файла»).');
+  H('УЧЕНИКИ');
+  (s.students || []).slice().sort((a, b) => a.name.localeCompare(b.name, 'ru')).forEach(x => {
+    const les = s.lessons.filter(l => l.sid === x.id), held = les.filter(l => l.st === 'done' || l.st === 'misspaid');
+    L.push('', `● ${x.name}${x.archived ? ' (архив)' : ''}`,
+      line('Телефон', x.phone), line('Telegram', x.tg ? '@' + x.tg : ''), line('День рождения', x.bday), line('Цена урока', +x.price ? x.price + ' ' + cur : ''), line('Услуга', svc(x.svc)),
+      line('Откуда', x.src), line('Диапазон', x.range && (x.range.lo || x.range.hi) ? `${x.range.lo || '?'}–${x.range.hi || '?'}` : ''), line('Уроков всего', les.length + ', проведено ' + held.length),
+      line('Заметки', x.note ? x.note.replace(/\n/g, ' / ') : ''),
+      (x.songs || []).length ? '  Песни: ' + x.songs.map(g => g.t + (g.key ? ' (' + g.key + ')' : '') + (g.done ? ' ✓' : '')).join('; ') : '',
+      (x.warm || []).length ? '  Распевки: ' + x.warm.map(g => g.t + (g.done ? ' ✓' : '')).join('; ') : '',
+      (x.hw || []).length ? '  Домашка: ' + x.hw.map(g => g.t + (g.done ? ' ✓' : '')).join('; ') : '');
+  });
+  H('УРОКИ (по месяцам)');
+  const ST = { plan: 'запланирован', done: 'проведён', miss: 'пропуск', misspaid: 'пропуск оплачен' };
+  const byM = {}; s.lessons.forEach(l => { (byM[String(l.date).slice(0, 7)] = byM[String(l.date).slice(0, 7)] || []).push(l); });
+  Object.keys(byM).sort().forEach(m => {
+    L.push('', `— ${m} —`);
+    byM[m].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).forEach(l => L.push(`${l.date} ${l.time || '--:--'} · ${nm(l.sid)} · ${ST[l.st] || l.st} · ${(+l.price || 0) + (+l.rent || 0)} ${cur} · оплачен: ${l.pkg ? 'абонемент' : yes(l.paid)}${l.online ? ' · онлайн' : ''}${svc(l.svc) ? ' · ' + svc(l.svc) : ''}${l.note ? ' · ' + l.note.replace(/\n/g, ' / ') : ''}`));
+  });
+  H('АБОНЕМЕНТЫ');
+  s.packages.slice().sort((a, b) => String(a.date).localeCompare(b.date)).forEach(p => L.push(`${p.date} · ${nm(p.sid)} · ${p.n} занятий · ${(+p.price || 0) * (+p.n || 0) + (+p.rent || 0) * (+p.n || 0)} ${cur}${p.note ? ' · ' + p.note : ''}`));
+  H('РАСХОДЫ');
+  s.expenses.slice().sort((a, b) => String(a.date).localeCompare(b.date)).forEach(e => L.push(`${e.date} · ${e.cat} · ${e.amount} ${cur}${e.note ? ' · ' + e.note : ''}`));
+  H('УСЛУГИ И ЦЕНЫ');
+  s.services.forEach(v => L.push(`${v.name}: ${v.price} ${cur}${+v.rent ? ' + аренда ' + v.rent : ''}${+v.p4 ? ' · 4 занятия ' + v.p4 : ''}${+v.p8 ? ' · 8 занятий ' + v.p8 : ''}${v.online ? ' · онлайн' : ''}`));
+  if ((s.events || []).length) { H('МЕРОПРИЯТИЯ УЧЕНИКОВ'); s.events.forEach(e => L.push(`${e.date} ${e.time || ''} · ${e.title}${e.place ? ' · ' + e.place : ''}${(e.sids || []).length ? ' · ' + e.sids.map(nm).join(', ') : ''}${e.program ? '\n  Программа: ' + e.program.replace(/\n/g, ' / ') : ''}`)); }
+  if ((s.certs || []).length) { H('СЕРТИФИКАТЫ'); s.certs.forEach(c => L.push(`${c.code} · ${c.to || c.buyer} · ${c.n} занятий, использовано ${c.used} · ${c.price} ${cur} · до ${c.until || '—'}`)); }
+  const items = s.items || [], gname = id => ((s.groups || []).find(g => g.id === id) || {}).name || '';
+  const KN = { gig: 'Выступление', reh: 'Репетиция', task: 'Дело', note: 'Заметка', event: 'Событие', post: 'Контент' };
+  if (items.length) {
+    H('ПЛАНЕР');
+    items.filter(it => it.kind !== 'note').sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999')).forEach(it => L.push(`${it.date || 'без даты'} ${it.call ? 'сбор ' + it.call + ' ' : ''}${it.time || ''}${it.end ? '–' + it.end : ''} · ${KN[it.kind] || it.kind}: ${it.title}${gname(it.gid) ? ' · ' + gname(it.gid) : ''}${it.place ? ' · ' + it.place : ''}${+it.fee ? ' · гонорар ' + it.fee + (it.paid ? ' (получен)' : '') : ''}${it.rep ? ' · повтор ' + it.rep : ''}${it.kind === 'task' ? ' · ' + (it.done ? 'выполнено' : 'не выполнено') : ''}${it.kind === 'post' ? ' · ' + it.fmt + ' / ' + it.cst : ''}${it.note ? '\n  ' + it.note.replace(/\n/g, '\n  ') : ''}`));
+    const notes = items.filter(it => it.kind === 'note');
+    if (notes.length) { H('ЗАМЕТКИ'); notes.forEach(it => L.push('', `● ${it.title}`, it.note)); }
+  }
+  if ((s.groups || []).length) { H('КОЛЛЕКТИВЫ'); s.groups.forEach(g => L.push(`● ${g.name}${g.members ? '\n  Состав: ' + g.members.replace(/\n/g, ' / ') : ''}${g.note ? '\n  ' + g.note.replace(/\n/g, ' / ') : ''}`)); }
+  if ((s.rep || []).length) { H('РЕПЕРТУАР'); s.rep.forEach(r => L.push('', `● ${r.title}${r.artist ? ' — ' + r.artist : ''}${r.key ? ' · ' + r.key : ''}${+r.bpm ? ' · ' + r.bpm + ' bpm' : ''}${gname(r.gid) ? ' · ' + gname(r.gid) : ''} · ${r.st}`, r.link ? '  ' + r.link : '', r.note ? '  ' + r.note : '', r.lyrics ? r.lyrics : '')); }
+  if ((s.people || []).length) { H('ДНИ РОЖДЕНИЯ'); s.people.forEach(p => L.push(`${p.name}${p.who ? ' (' + p.who + ')' : ''} · ${p.bday ? (p.bday.startsWith('1900') ? p.bday.slice(5) : p.bday) : '—'}${p.note ? ' · ' + p.note.replace(/\n/g, ' / ') : ''}`)); }
+  if ((s.exercises || []).length) { H('УПРАЖНЕНИЯ'); s.exercises.forEach(e => L.push(`● ${e.title}\n${e.text}`)); }
+  H('КОД ДЛЯ ВОССТАНОВЛЕНИЯ (не меняй — копируй вместе со всем текстом)');
+  L.push('VOCALBACKUP:' + JSON.stringify(s));
+  return L.filter(x => x !== '').join('\n');
+}
+
+/* ---------- Google Drive: a few minutes after any change, in the background ---------- */
+let driveRev = -1, driveBusy = false, driveFailAt = 0;
+async function driveSync(force){
+  if (!inTG || !state.settings.api || !ready || driveBusy || !hasData(state)) return;
+  if (!force && (rev === driveRev || Date.now() - (+state.settings.driveAt || 0) < 4 * 60000 || Date.now() - driveFailAt < 30 * 60000)) return;
+  driveBusy = true; const r0 = rev;
+  try {
+    const j = await botPost({ a: 'drive', json: 'VOCALBACKUP:' + JSON.stringify(state), txt: backupText() }, 60000);
+    driveRev = r0; state.settings.driveAt = j.at || Date.now(); state.settings.driveErr = ''; lsSetK('vs_driveAt', String(state.settings.driveAt));
+  } catch (e) { driveFailAt = Date.now(); state.settings.driveErr = String(e && e.message || 'err').slice(0, 120); if (force) throw e; }
+  finally { driveBusy = false; }
+}
+setInterval(() => { if (!document.hidden) safe(() => driveSync(false)); }, 60000);
+document.addEventListener('visibilitychange', () => { if (document.hidden) safe(() => driveSync(false)); });
+
+function driveSheet(){
+  const fn = () => {
+    const X = T.b2;
+    return sheetHead('☁️ ' + X.drive) + note(X.driveHint)
+      + `<button class="btn" data-act="bkDriveNow">☁️ ${esc(X.driveNow)}</button>`
+      + (fn.err ? `<div class="hintline" style="color:var(--danger)">${esc(X.driveErr)}</div>` : '')
+      + (fn.loading ? `<div class="empty">…</div>` : fn.files && fn.files.length ? `<div class="card">${fn.files.map(f => `<div class="li"><span class="tx"><b>${esc(new Date(f.at).toLocaleString(LOC, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }))}</b><br><small>${Math.round(f.s / 1024)} KB</small></span><button class="mini" data-act="bkDriveGet" data-id="${esc(f.id)}">${esc(T.b2.restore)}</button></div>`).join('')}</div>`
+        : fn.err ? '' : `<div class="hintline">${esc(X.driveNone)}</div>`)
+      + (fn.url ? `<button class="btn ghost" data-act="plLink" data-v="${esc(fn.url)}">📂 ${esc(X.driveOpen)}</button>` : '');
+  };
+  fn.loading = true;
+  fn.mount = () => { if (fn.loaded) return; fn.loaded = 1; botPost({ a: 'driveList' }, 40000).then(j => { fn.files = j.files || []; fn.url = j.url || ''; fn.loading = false; refreshSheet(); }).catch(e => { fn.err = String(e && e.message); fn.loading = false; refreshSheet(); }); };
+  return fn;
+}
+function pasteSheet(){
+  return () => sheetHead('📋 ' + T.b2.paste) + note(T.b2.pasteHint) + `<div class="group"><div class="field"><textarea id="bk_paste" class="pbig" placeholder="VOCALBACKUP:…"></textarea></div></div>
+    <button class="btn" data-act="bkPasteGo">${esc(T.b2.restore)}</button>`;
+}
+function textSheet(){
+  const txt = backupText();
+  return () => sheetHead('📝 ' + T.b2.asText) + note(T.b2.asTextHint(Math.round(txt.length / 1024)))
+    + `<button class="btn" data-act="bkTextCopy">📋 ${esc(T.b2.copy)}</button>`
+    + (inTG && state.settings.api ? `<button class="btn ghost" data-act="bkChat">💬 ${esc(T.b2.toChat)}</button>` : '')
+    + `<div class="card bktext"><pre>${esc(txt.slice(0, 6000))}${txt.length > 6000 ? '\n…' : ''}</pre></div>`;
+}
+const BK2 = {
+  bkDrive: () => openSheet(driveSheet()),
+  bkDriveNow: async () => {
+    toast(T.bk.sending, 1500);
+    try { await driveSync(true); toast('✅ ' + T.b2.driveDone, 2500); const top = stack[stack.length - 1]; if (top) { top.loaded = 0; top.loading = true; top.mount(); refreshSheet(); } }
+    catch (e) { toast('⚠️ ' + T.b2.driveErr, 5000); }
+  },
+  bkDriveGet: async el => {
+    try { const j = await botPost({ a: 'driveGet', id: el.dataset.id }, 60000); await restoreFrom(parseBackup(j.json)); } catch (e) { toast(T.tNotBackup); }
+  },
+  bkPaste: () => openSheet(pasteSheet()),
+  bkPasteGo: async () => { let d; try { d = parseBackup($('bk_paste').value); } catch (e) { return toast(T.tNotBackup, 3000); } restoreFrom(d); },
+  bkText: () => openSheet(textSheet()),
+  bkTextCopy: async () => { if (await copyText(backupText())) toast('✅ ' + T.b2.copied, 3500); else showText(T.b2.asText, backupText()); }
+};
 
 /* ================= Look: palettes, own colours, fonts, size (per account, synced) ================= */
 const LOOK_DEF = { pal: 'bordo', accent: '', bg: '', head: 'ruslan', body: 'system', sign: 'marck', size: 100 };
@@ -5140,6 +5565,824 @@ document.addEventListener('change', e => {
   lookSet(id === 'lk_accent' ? 'accent' : 'bg', e.target.value);
 });
 
+/* ================= Planner 7.0: the singer's own life =================
+   items  — gig (выступление), reh (репетиция), task (дело), note (заметка), event (событие)
+   people — birthdays of anyone who is not a student
+   groups — bands / collectives
+   rep    — her own repertoire; a gig can carry a set list (item.set = [song ids]) */
+const PK = { gig: '🎤', reh: '🎸', task: '✅', note: '📝', event: '📌', post: '📱' };
+const PK_ORDER = ['gig', 'reh', 'task', 'event', 'post', 'note'];
+const FMTS = ['reels', 'post', 'stories', 'video'], CSTS = ['idea', 'shoot', 'edit', 'ready', 'posted'];
+const REM_OPTS = [-1, 0, 15, 60, 180, 1440, -2];
+const REM_DEF = { gig: 1440, reh: 60, task: -2, event: 60, note: -1, post: -2 };
+const GCOLORS = ['#b4485a', '#c9773b', '#c9a227', '#4d9a6a', '#3d8aa8', '#4f5fa8', '#8a5bb0', '#7a7a7a'];
+const REP_ST = ['learn', 'repeat', 'ready'];
+const kindOn = k => k === 'post' ? mod('content') : k === 'note' ? mod('notes') : true;
+const grp = id => state.groups.find(g => g.id === id);
+const repSong = id => state.rep.find(r => r.id === id);
+const itemOf = id => state.items.find(i => i.id === id);
+const personOf = id => state.people.find(p => p.id === id);
+const fmtDur = s => { s = Math.max(0, Math.round(+s || 0)); return `${Math.floor(s / 60)}:${pad(s % 60)}`; };
+const parseDur = v => { const m = String(v || '').trim().match(/^(\d{1,3})(?:[:.](\d{1,2}))?$/); return m ? +m[1] * 60 + (+m[2] || 0) : 0; };
+const bdayKnownYear = b => /^\d{4}/.test(b) && +b.slice(0, 4) > 1900;
+
+/* ---------- occurrences: repeating items expand on the fly ---------- */
+function occ(it, from, to){
+  if (!it.date || !/^\d{4}-\d{2}-\d{2}$/.test(it.date)) return [];
+  if (!it.rep) return it.date >= from && it.date <= to ? [it.date] : [];
+  const out = [], d0 = parseD(it.date);
+  for (let k = 0; k < 800 && out.length < 400; k++) {
+    const d = it.rep === 'w' ? addDays(d0, 7 * k) : it.rep === 'm' ? new Date(d0.getFullYear(), d0.getMonth() + k, d0.getDate()) : new Date(d0.getFullYear() + k, d0.getMonth(), d0.getDate());
+    if (it.rep !== 'w' && d.getDate() !== d0.getDate()) continue;   // 31st in a short month
+    const ds = ymd(d); if (ds > to) break;
+    if (ds >= from) out.push(ds);
+  }
+  return out;
+}
+const isDone = (it, ds) => it.rep ? it.dd.includes(ds) : !!it.done;
+/* the next birthday date (YYYY-MM-DD) on or after `from` */
+function nextBday(b, from){
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(b || ''))) return '';
+  const y = +from.slice(0, 4);
+  for (const yy of [y, y + 1]) { const ds = yy + b.slice(4); if (ds >= from && !isNaN(parseD(ds))) return ds; }
+  return '';
+}
+function bdaysIn(from, to){
+  const out = [];
+  if (mod('people')) state.people.forEach(p => { const ds = nextBday(p.bday, from); if (ds && ds <= to) out.push({ ds, p, age: bdayKnownYear(p.bday) ? +ds.slice(0, 4) - +p.bday.slice(0, 4) : 0 }); });
+  if (mod('students')) state.students.filter(s => !s.archived).forEach(s => { const ds = nextBday(s.bday, from); if (ds && ds <= to) out.push({ ds, s, age: 0 }); });
+  return out;
+}
+/* busy time of an item on a day, in minutes (for clash checks and free slots) */
+function itemSpan(it){
+  const t = it.call || it.time; if (!t || (it.kind !== 'gig' && it.kind !== 'reh' && it.kind !== 'event')) return null;
+  const a = toMin(t), b = it.end ? toMin(it.end) : toMin(it.time || t) + (it.kind === 'gig' ? 180 : it.kind === 'reh' ? 120 : 60);
+  return [a, Math.max(b, a + 30)];
+}
+function busyPlan(ds){ return state.items.filter(it => occ(it, ds, ds).length).map(itemSpan).filter(Boolean); }
+function planClash(ds, time, dur){
+  if (!time) return;
+  const a = toMin(time), b = a + (+dur || +state.settings.dur || 60);
+  const hit = state.items.filter(it => occ(it, ds, ds).length).find(it => { const s = itemSpan(it); return s && a < s[1] && b > s[0]; });
+  if (hit) setTimeout(() => toast('⚠️ ' + T.pl.clash(itemTitle(hit), hit.call || hit.time), 4200), 2700);
+}
+function lessonClash(it, ds){
+  const s = itemSpan(it); if (!s) return [];
+  return state.lessons.filter(l => l.date === ds && l.st !== 'miss' && l.time).filter(l => { const a = toMin(l.time), b = a + (+l.dur || 60); return a < s[1] && b > s[0]; });
+}
+const itemTitle = it => it.title || (grp(it.gid) || {}).name || T.pl.kinds[it.kind];
+
+/* ---------- agenda: everything on a day, in time order ---------- */
+function dayAgenda(ds){
+  const rows = [];
+  state.items.forEach(it => { if (it.kind !== 'note' && kindOn(it.kind) && occ(it, ds, ds).length) rows.push({ t: it.call || it.time || '99', h: itemRow(it, ds) }); });
+  bdaysIn(ds, ds).forEach(b => rows.push({ t: '00', h: bdayRow(b) }));
+  return rows.sort((a, b) => a.t.localeCompare(b.t)).map(r => r.h);
+}
+function itemRow(it, ds){
+  const g = grp(it.gid), done = it.kind === 'task' && isDone(it, ds || it.date);
+  const when = [ds && ds !== today() && !ui.planDay ? shortDate(ds) : '', it.call ? T.pl.callAt(it.call) : '', it.time ? (it.end ? it.time + '–' + it.end : it.time) : ''].filter(Boolean).join(' · ');
+  const sub = [it.kind === 'post' ? T.pl.fmt[it.fmt] + ' · ' + T.pl.cst[it.cst] : '', when, it.place, g ? g.name : '', it.kind === 'gig' && it.set.length ? '🎼 ' + it.set.length : '', it.rep ? '🔁' : '', it.rem >= 0 || it.rem === -2 ? '🔔' : ''].filter(Boolean).join(' · ');
+  const posted = it.kind === 'post' && it.cst === 'posted';
+  const chk = it.kind === 'task' ? `<button class="pchk${done ? ' on' : ''}" data-act="plDone" data-id="${it.id}" data-v="${esc(ds || '')}" aria-label="✓">${done ? '✓' : ''}</button>` : `<div class="ava pava"${g && g.color ? ` style="background:${esc(g.color)}"` : ''}>${PK[it.kind] || '📌'}</div>`;
+  const fee = it.kind === 'gig' && +it.fee ? `<span class="chip${it.paid ? '' : ' debt'}">${money(it.fee)}</span>` : '';
+  return `<div class="row prow${done || posted ? ' pdone' : ''}" data-act="plOpen" data-id="${it.id}" data-v="${esc(ds || '')}">${chk}
+    <div class="main"><div class="name">${esc(itemTitle(it))}</div>${sub ? `<div class="sub one">${esc(sub)}</div>` : ''}</div><div class="right">${fee}<span class="chev">›</span></div></div>`;
+}
+function bdayRow(b){
+  const nm = b.p ? b.p.name : b.s.name, who = b.p ? b.p.who : T.pl.student;
+  const act = b.p ? `data-act="plPerson" data-id="${b.p.id}"` : `data-act="openStudent" data-id="${b.s.id}"`;
+  return `<div class="row prow" ${act}><div class="ava pava" style="background:var(--gold)">🎂</div>
+    <div class="main"><div class="name">${esc(nm)}</div><div class="sub one">${esc([T.pl.bdayOn(dayMonth(b.ds)) + (b.age ? ' · ' + T.pl.turns(b.age) : ''), who].filter(Boolean).join(' · '))}</div></div>
+    <div class="right"><span class="chip">${esc(b.ds === today() ? T.pl.today : inDays(b.ds))}</span></div></div>`;
+}
+
+/* ---------- the Planner tab ---------- */
+function renderPlan(noHead){
+  const t = today(), to = ymd(addDays(parseD(t), 13));
+  ui.planDay = '';
+  const quick = `<div class="pquick">${['gig', 'reh', 'task', 'post', 'note', 'event'].filter(kindOn).map(k => `<button data-act="plNew" data-v="${k}">${PK[k]} ${esc(T.pl.kinds[k])}</button>`).join('')}${mod('people') ? `<button data-act="plPersonNew">🎂 ${esc(T.pl.bday)}</button>` : ''}</div>`;
+  const voice = voiceOk() ? `<button class="btn soft pvoice" data-act="voice">🎤 ${esc(T.pl.say)}</button>` : '';
+  let agenda = '';
+  for (let k = 0; k < 14; k++) {
+    const ds = ymd(addDays(parseD(t), k)), rows = dayAgenda(ds);
+    const nL = mod('students') ? state.lessons.filter(l => l.date === ds && l.st !== 'miss').length : 0;
+    if (!rows.length && !(k < 2 && nL)) continue;
+    const lessons = nL ? `<div class="row prow" data-act="goDay" data-v="${ds}"><div class="ava pava" style="background:var(--taupe)">🎵</div><div class="main"><div class="name">${esc(lessonsW(nL))}</div></div><div class="right"><span class="chev">›</span></div></div>` : '';
+    agenda += `<div class="sec"><span>${esc(k === 0 ? T.pl.today : dayLabel(ds))}</span></div><div class="card">${lessons}${rows.join('')}</div>`;
+  }
+  if (!agenda) agenda = `<div class="empty" style="margin-top:6px;padding:20px">${esc(T.pl.emptyAgenda)}</div>`;
+  const overdue = state.items.filter(it => it.kind === 'task' && !it.rep && it.date && it.date < t && !it.done);
+  const undated = state.items.filter(it => it.kind === 'task' && !it.date && !it.done);
+  const tasks = overdue.concat(undated);
+  const tasksB = tasks.length ? `<div class="sec"><span>✅ ${esc(T.pl.tasks)}</span><button class="link" data-act="plList" data-v="task">${esc(T.pl.all)}</button></div><div class="card">${tasks.slice(0, 8).map(it => itemRow(it, it.date)).join('')}</div>` : '';
+  const notes = state.items.filter(it => it.kind === 'note').sort((a, b) => (b.at || 0) - (a.at || 0));
+  const notesB = notes.length && mod('notes') ? `<div class="sec"><span>📝 ${esc(T.pl.notes)}</span><button class="link" data-act="plList" data-v="note">${esc(T.pl.all)}</button></div><div class="pnotes">${notes.slice(0, 4).map(noteCard).join('')}</div>` : '';
+  const upG = state.items.filter(it => it.kind === 'gig' && occ(it, t, '9999-12-31').length).length;
+  const tools = [
+    ['plList', 'gig', '🎤', T.pl.gigs, upG ? T.pl.upcomingN(upG) : T.pl.gigsSub],
+    ['plGroups', '', '👥', T.pl.groups, state.groups.length ? state.groups.map(g => g.name).slice(0, 3).join(', ') : T.pl.groupsSub],
+    ['plList', 'post', '📱', T.pl.content, (n => n ? T.pl.ideasN(n) : T.pl.contentSub)(state.items.filter(it => it.kind === 'post' && it.cst !== 'posted').length)],
+    ['plRep', '', '🎼', T.pl.rep, state.rep.length ? T.pl.songsN(state.rep.length) : T.pl.repSub],
+    ['plPeople', '', '🎂', T.pl.people, state.people.length ? T.pl.peopleN(state.people.length) : T.pl.peopleSub]
+  ];
+  const TOOLMOD = { plGroups: 'groups', plRep: 'rep', plPeople: 'people' };
+  const toolsB = `<div class="tools">${tools.filter(([a, v]) => (a !== 'plList' || v !== 'post' || mod('content')) && (!TOOLMOD[a] || mod(TOOLMOD[a]))).map(([a, v, i, b, s]) => `<button class="tool" data-act="${a}" data-v="${v}"><span class="ti">${i}</span><b>${esc(b)}</b><small>${esc(s)}</small></button>`).join('')}</div>`;
+  return (noHead ? '' : header(T.tabs.plan)) + (noHead && voiceOk() ? '' : voice) + quick + tasksB + agenda + notesB + `<div class="sec"><span>${esc(T.pl.music)}</span></div>` + toolsB;
+}
+function noteCard(it){
+  return `<button class="pnote" data-act="plOpen" data-id="${it.id}"><b>${esc(it.title || T.pl.kinds.note)}</b><small>${esc(String(it.note || '').slice(0, 140))}</small></button>`;
+}
+/* small block on the home screen: what's on today and soon (not lessons — those are already there) */
+function planHomeBlock(){
+  const t = today(), tm = ymd(addDays(parseD(t), 1));
+  const rows = dayAgenda(t), next = dayAgenda(tm);
+  const soonB = bdaysIn(ymd(addDays(parseD(t), 2)), ymd(addDays(parseD(t), 4))).map(bdayRow);
+  if (!rows.length && !next.length && !soonB.length) return '';
+  return `<div class="sec"><span>📒 ${esc(T.pl.homeSec)}</span><button class="link" data-act="tab" data-v="plan">${esc(T.tabs.plan)}</button></div><div class="card">`
+    + rows.join('') + (next.length ? `<div class="psub">${esc(T.pl.tomorrow)}</div>` + next.join('') : '') + soonB.join('') + '</div>';
+}
+/* gigs in the money tab */
+function planMoneyBlock(m){
+  const gigs = state.items.filter(it => it.kind === 'gig' && +it.fee).flatMap(it => occ(it, m + '-01', m + '-31').map(ds => ({ it, ds })));
+  if (!gigs.length) return '';
+  const sum = gigs.reduce((a, g) => a + (+g.it.fee || 0), 0), got = gigs.filter(g => g.it.paid).reduce((a, g) => a + (+g.it.fee || 0), 0);
+  return `<div class="sec"><span>🎤 ${esc(T.pl.gigMoney)}</span><span>${money(sum)}</span></div><div class="card">${gigs.sort((a, b) => a.ds.localeCompare(b.ds)).map(g => itemRow(g.it, g.ds)).join('')}</div>`
+    + (sum > got ? `<div class="hintline">${esc(T.pl.gigWait(money(sum - got)))}</div>` : '');
+}
+
+/* ---------- item form ---------- */
+function itemForm(id, preset){
+  const ex = id ? itemOf(id) : null;
+  const I = ex ? Object.assign({}, ex) : Object.assign({ kind: 'task', title: '', date: '', time: '', end: '', call: '', place: '', gid: '', fee: 0, paid: false, rem: -1, rep: '', done: false, note: '', set: [], dd: [], fmt: 'reels', cst: 'idea' }, preset || {});
+  if (!ex && preset && preset.kind && !('rem' in preset)) I.rem = REM_DEF[preset.kind];
+  if (!ex && (I.kind === 'gig' || I.kind === 'reh' || I.kind === 'event') && !I.date) I.date = today();
+  if (!I.fmt) I.fmt = 'reels'; if (!I.cst) I.cst = 'idea';
+  let kind = I.kind;
+  I.kindPrev = I.kind;
+  /* the kind chips switch the form in place, keeping what was typed */
+  const setKind = k => { readItemForm(I); if (!ex && +I.rem === REM_DEF[I.kindPrev || 'task']) I.rem = REM_DEF[k]; kind = k; I.kind = k; I.kindPrev = k;
+    if ((k === 'gig' || k === 'reh' || k === 'event') && !I.date) I.date = today(); };
+  itemForm.cur = { setKind, I };
+  return () => {
+    const K = kind, isG = K === 'gig', isR = K === 'reh', isN = K === 'note', timed = K !== 'note';
+    const groups = state.groups.slice().sort((a, b) => a.name.localeCompare(b.name, LOC));
+    const remSel = `<select id="p_rem">${REM_OPTS.map(v => `<option value="${v}"${+I.rem === v ? ' selected' : ''}>${esc(T.pl.rem[String(v)])}</option>`).join('')}</select>`;
+    const repSel = `<select id="p_rep">${['', 'w', 'm', 'y'].map(v => `<option value="${v}"${I.rep === v ? ' selected' : ''}>${esc(T.pl.repeat[v || 'no'])}</option>`).join('')}</select>`;
+    const clash = ex && I.date ? lessonClash(ex, ui.planOcc || I.date) : [];
+    return sheetHead(ex ? T.pl.edit : T.pl.newT) + `
+      <div class="chipsel pkinds">${PK_ORDER.filter(k => kindOn(k) || k === K).map(k => `<button type="button" data-act="plKind" data-v="${k}" class="${k === K ? 'on' : ''}">${PK[k]} ${esc(T.pl.kinds[k])}</button>`).join('')}</div>
+      <div class="group"><div class="field"><label for="p_title">${esc(isN ? T.pl.noteTitle : T.pl.title)}</label><input id="p_title" value="${esc(I.title)}" placeholder="${esc(T.pl.titlePh[K])}" autocomplete="off"></div>
+        ${isN ? `<div class="field"><label for="p_note">${esc(T.pl.noteText)}</label><textarea id="p_note" class="pbig" placeholder="${esc(T.pl.notePh)}">${esc(I.note)}</textarea></div>` : ''}</div>
+      ${(isG || isR) && mod('groups') ? `<div class="group"><div class="field"><label for="p_gid">👥 ${esc(T.pl.group)}</label><select id="p_gid"><option value="">${esc(T.pl.solo)}</option>${groups.map(g => `<option value="${g.id}"${I.gid === g.id ? ' selected' : ''}>${esc(g.name)}</option>`).join('')}<option value="+">➕ ${esc(T.pl.newGroup)}</option></select></div>
+        <div class="field" id="p_gnew_f" hidden><label for="p_gnew">${esc(T.pl.groupName)}</label><input id="p_gnew" autocomplete="off"></div></div>` : ''}
+      ${timed ? `<div class="group"><div class="two"><div class="field"><label for="p_date">${esc(K === 'post' ? T.pl.pubDate : T.fDate)}${K === 'task' || K === 'post' ? ' · ' + esc(T.pl.optional) : ''}</label><input type="date" id="p_date" value="${esc(I.date)}"></div>
+        <div class="field"><label for="p_time">${esc(isG ? T.pl.start : T.fTime)}</label><input type="time" id="p_time" value="${esc(I.time)}"></div></div>
+        ${isG || isR || K === 'event' ? `<div class="two">${isG ? `<div class="field"><label for="p_call">${esc(T.pl.call)}</label><input type="time" id="p_call" value="${esc(I.call)}"></div>` : ''}<div class="field"><label for="p_end">${esc(T.pl.end)}</label><input type="time" id="p_end" value="${esc(I.end)}"></div></div>
+        <div class="field"><label for="p_place">📍 ${esc(T.pl.place)}</label><input id="p_place" value="${esc(I.place)}" autocomplete="off"></div>` : ''}
+        <div class="two"><div class="field"><label for="p_rem">🔔 ${esc(T.pl.remind)}</label>${remSel}</div><div class="field"><label for="p_rep">🔁 ${esc(T.pl.repeatL)}</label>${repSel}</div></div></div>` : ''}
+      ${K === 'post' ? `<div class="group"><div class="field"><span class="lb">${esc(T.pl.fmtL)}</span><div class="chipsel" id="p_fmt">${FMTS.map(f => `<button type="button" data-act="plPick" data-v="${f}" class="${I.fmt === f ? 'on' : ''}">${esc(T.pl.fmt[f])}</button>`).join('')}</div></div>
+        <div class="field"><span class="lb">${esc(T.pl.status)}</span><div class="chipsel" id="p_cst">${CSTS.map(f => `<button type="button" data-act="plPick" data-v="${f}" class="${I.cst === f ? 'on' : ''}">${esc(T.pl.cst[f])}</button>`).join('')}</div></div></div>` : ''}
+      ${isG ? `<div class="group"><div class="two"><div class="field"><label for="p_fee">💰 ${esc(T.pl.fee(state.settings.cur || '₽'))}</label><input type="number" inputmode="numeric" min="0" id="p_fee" value="${+I.fee || ''}" placeholder="0"></div>
+        <div class="field toggle"><span>${esc(T.pl.paid)}</span><button type="button" class="sw${I.paid ? ' on' : ''}" data-act="plSw" data-v="paid" id="p_paid"></button></div></div></div>` : ''}
+      ${!isN ? `<div class="group"><div class="field"><label for="p_note">${esc(T.pl.details)}</label><textarea id="p_note" placeholder="${esc(T.pl.detailsPh[K])}">${esc(I.note)}</textarea></div></div>` : ''}
+      ${clash.length ? `<div class="hintline" style="color:var(--warn)">⚠️ ${esc(T.pl.clashL(clash.map(l => (l.time || '') + ' ' + ((stu(l.sid) || {}).name || '')).join(', ')))}</div>` : ''}
+      ${isG && ex && mod('rep') ? `<button class="btn ghost" data-act="plSet" data-id="${ex.id}">🎼 ${esc(T.pl.setlist)}${ex.set.length ? ' · ' + ex.set.length : ''}</button>` : ''}
+      ${K === 'task' && ex ? `<button class="btn soft" data-act="plDone" data-id="${ex.id}" data-v="${esc(ui.planOcc || ex.date || '')}">${isDone(ex, ui.planOcc || ex.date) ? '↩️ ' + esc(T.pl.undo) : '✓ ' + esc(T.pl.markDone)}</button>` : ''}
+      <button class="btn" data-act="plSave" data-id="${ex ? ex.id : ''}">${esc(T.save)}</button>
+      ${ex ? `<button class="btn ghost" data-act="plShare" data-id="${ex.id}">📋 ${esc(T.pl.share)}</button><button class="btn danger" data-act="plDel" data-id="${ex.id}">${esc(T.del)}</button>` : ''}`;
+  };
+}
+function readItemForm(I){
+  const v = id => $(id) ? $(id).value : undefined;
+  if (v('p_title') !== undefined) I.title = v('p_title').trim().slice(0, 200);
+  if (v('p_note') !== undefined) I.note = v('p_note').slice(0, 20000);
+  ['date', 'time', 'end', 'call', 'place', 'rep'].forEach(k => { if (v('p_' + k) !== undefined) I[k] = v('p_' + k).trim(); });
+  if (v('p_rem') !== undefined) I.rem = +v('p_rem');
+  if (v('p_fee') !== undefined) I.fee = Math.max(0, Math.round(+v('p_fee') || 0));
+  if ($('p_paid')) I.paid = $('p_paid').classList.contains('on');
+  if (v('p_gid') !== undefined) I.gid = v('p_gid');
+  if (v('p_gnew') !== undefined && I.gid === '+') I.gnew = v('p_gnew').trim();
+  const pick = id => { const b = $(id) && $(id).querySelector('.on'); return b ? b.dataset.v : undefined; };
+  if (pick('p_fmt')) I.fmt = pick('p_fmt');
+  if (pick('p_cst')) I.cst = pick('p_cst');
+  return I;
+}
+function itemText(it, ds){
+  const g = grp(it.gid), d = ds || it.date;
+  const songs = it.set.map(repSong).filter(Boolean);
+  return [`${PK[it.kind]} ${itemTitle(it)}`, d ? `📅 ${cap(F.full.format(parseD(d)))}${it.time ? ', ' + it.time + (it.end ? '–' + it.end : '') : ''}` : '',
+    it.call ? `⏰ ${T.pl.call}: ${it.call}` : '', it.place ? `📍 ${it.place}` : '', g ? `👥 ${g.name}` : '',
+    it.note ? '\n' + it.note : '', songs.length ? `\n🎼 ${T.pl.setlist} (${fmtDur(songs.reduce((a, s) => a + (+s.dur || 0), 0))}):\n` + songs.map((s, i) => `${i + 1}. ${s.title}${s.key ? ' (' + s.key + ')' : ''}`).join('\n') : ''].filter(Boolean).join('\n');
+}
+
+/* ---------- lists ---------- */
+function planListSheet(kind){
+  return () => {
+    const t = today(), q = String(ui.plQ || '').toLowerCase();
+    let body = '';
+    if (kind === 'note') {
+      const list = state.items.filter(it => it.kind === 'note' && (!q || (it.title + ' ' + it.note).toLowerCase().includes(q))).sort((a, b) => (b.at || 0) - (a.at || 0));
+      body = `<div class="field psearch"><input id="pl_q" value="${esc(ui.plQ || '')}" placeholder="🔎 ${esc(T.pl.search)}" autocomplete="off"></div>`
+        + (list.length ? `<div class="pnotes">${list.map(noteCard).join('')}</div>` : `<div class="empty">${esc(T.pl.none)}</div>`);
+    } else if (kind === 'post') {
+      const all = state.items.filter(it => it.kind === 'post');
+      const ideas = all.filter(it => !it.date && it.cst !== 'posted').sort((a, b) => (b.at || 0) - (a.at || 0));
+      const plan = all.filter(it => it.date && it.cst !== 'posted').sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+      const done = all.filter(it => it.cst === 'posted').sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 30);
+      const by = CSTS.slice(0, 4).map(c => `${T.pl.cst[c]}: ${all.filter(it => it.cst === c).length}`).join(' · ');
+      body = (all.length ? note(by) : note(T.pl.contentHint))
+        + (voiceOk() ? `<button class="btn soft" data-act="voice" data-v="ideas">💡 ${esc(T.pl.askIdeas)}</button>` : '')
+        + `<div class="sec"><span>🗓 ${esc(T.pl.scheduled)}</span></div>` + (plan.length ? `<div class="card">${plan.map(it => itemRow(it, it.date)).join('')}</div>` : `<div class="hintline">${esc(T.pl.none)}</div>`)
+        + `<div class="sec"><span>💡 ${esc(T.pl.ideaBank)}</span></div>` + (ideas.length ? `<div class="card">${ideas.map(it => itemRow(it, '')).join('')}</div>` : `<div class="hintline">${esc(T.pl.none)}</div>`)
+        + (done.length ? `<div class="sec"><span>✅ ${esc(T.pl.cst.posted)}</span></div><div class="card">${done.map(it => itemRow(it, it.date)).join('')}</div>` : '');
+    } else if (kind === 'task') {
+      const open = state.items.filter(it => it.kind === 'task' && !(it.rep ? false : it.done)).sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'));
+      const done = state.items.filter(it => it.kind === 'task' && !it.rep && it.done).slice(-30).reverse();
+      body = (open.length ? `<div class="card">${open.map(it => itemRow(it, it.rep ? (occ(it, t, '9999-12-31')[0] || it.date) : it.date)).join('')}</div>` : `<div class="empty">${esc(T.pl.none)}</div>`)
+        + (done.length ? `<div class="sec"><span>${esc(T.pl.doneSec(done.length))}</span><button class="link" data-act="plClearDone">${esc(T.pl.clear)}</button></div><div class="card">${done.map(it => itemRow(it, it.date)).join('')}</div>` : '');
+    } else {
+      const all = state.items.filter(it => it.kind === kind);
+      const up = all.flatMap(it => occ(it, t, ymd(addDays(parseD(t), 366))).slice(0, 12).map(ds => ({ it, ds }))).sort((a, b) => (a.ds + (a.it.time || '')).localeCompare(b.ds + (b.it.time || '')));
+      const past = all.filter(it => !it.rep && it.date && it.date < t).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 40);
+      const y = t.slice(0, 4), yGigs = all.flatMap(it => occ(it, y + '-01-01', t).map(ds => ({ it, ds })));
+      const sum = yGigs.reduce((a, g) => a + (+g.it.fee || 0), 0);
+      body = (kind === 'gig' && yGigs.length ? note(T.pl.yearStat(yGigs.length, money(sum))) : '')
+        + (up.length ? `<div class="card">${up.map(x => itemRow(x.it, x.ds)).join('')}</div>` : `<div class="empty">${esc(T.pl.none)}</div>`)
+        + (past.length ? `<div class="sec"><span>${esc(T.pl.past)}</span></div><div class="card">${past.map(it => itemRow(it, it.date)).join('')}</div>` : '');
+    }
+    return sheetHead(T.pl.lists[kind], `<button class="r" data-act="plNew" data-v="${kind}">+</button>`) + body;
+  };
+}
+
+/* ---------- groups ---------- */
+function groupsSheet(){
+  return () => {
+    const t = today();
+    const rows = state.groups.slice().sort((a, b) => a.name.localeCompare(b.name, LOC)).map(g => {
+      const next = state.items.filter(it => it.gid === g.id && (it.kind === 'gig' || it.kind === 'reh')).flatMap(it => occ(it, t, '9999-12-31').slice(0, 1).map(ds => ({ it, ds }))).sort((a, b) => a.ds.localeCompare(b.ds))[0];
+      return `<div class="row" data-act="plGroup" data-id="${g.id}"><div class="ava" style="background:${esc(g.color || GCOLORS[0])}">👥</div>
+        <div class="main"><div class="name">${esc(g.name)}</div><div class="sub one">${esc(next ? `${PK[next.it.kind]} ${shortDate(next.ds)}${next.it.time ? ' ' + next.it.time : ''}` : T.pl.noPlans)}</div></div><div class="right"><span class="chev">›</span></div></div>`;
+    }).join('');
+    return sheetHead(T.pl.groups, `<button class="r" data-act="plGroup" data-id="">+</button>`) + note(T.pl.groupsHint)
+      + (rows ? `<div class="card">${rows}</div>` : `<div class="empty">${esc(T.pl.none)}<button class="btn soft" data-act="plGroup" data-id="">+ ${esc(T.pl.newGroup)}</button></div>`);
+  };
+}
+function groupForm(id){
+  const ex = id ? grp(id) : null;
+  const G = ex ? Object.assign({}, ex) : { name: '', color: GCOLORS[state.groups.length % GCOLORS.length], members: '', note: '' };
+  return () => {
+    let stats = '';
+    if (ex) {
+      const t = today(), y = t.slice(0, 4);
+      const its = state.items.filter(it => it.gid === ex.id);
+      const up = its.flatMap(it => occ(it, t, ymd(addDays(parseD(t), 180))).slice(0, 8).map(ds => ({ it, ds }))).sort((a, b) => a.ds.localeCompare(b.ds)).slice(0, 8);
+      const yg = its.filter(it => it.kind === 'gig').flatMap(it => occ(it, y + '-01-01', t).map(ds => ({ it, ds })));
+      const songs = state.rep.filter(r => r.gid === ex.id);
+      stats = note(T.pl.groupStat(yg.length, money(yg.reduce((a, g) => a + (+g.it.fee || 0), 0))))
+        + `<div class="sec"><span>${esc(T.pl.upcoming)}</span><button class="link" data-act="plNewIn" data-v="${ex.id}">+ ${esc(T.add)}</button></div>`
+        + (up.length ? `<div class="card">${up.map(x => itemRow(x.it, x.ds)).join('')}</div>` : `<div class="hintline">${esc(T.pl.noPlans)}</div>`)
+        + (songs.length ? `<div class="sec"><span>🎼 ${esc(T.pl.rep)} · ${songs.length}</span></div><div class="card">${songs.map(songRow).join('')}</div>` : '');
+    }
+    return sheetHead(ex ? ex.name : T.pl.newGroup) + `
+      <div class="group"><div class="field"><label for="g_name">${esc(T.pl.groupName)}</label><input id="g_name" value="${esc(G.name)}" placeholder="${esc(T.pl.groupPh)}" autocomplete="off"></div>
+        <div class="field"><span class="lb">${esc(T.pl.color)}</span><div class="pcolors" id="g_color">${GCOLORS.map(c => `<button type="button" data-act="plColor" data-v="${c}" class="${G.color === c ? 'on' : ''}" style="background:${c}" aria-label="${c}"></button>`).join('')}</div></div>
+        <div class="field"><label for="g_mem">${esc(T.pl.members)}</label><textarea id="g_mem" placeholder="${esc(T.pl.membersPh)}">${esc(G.members)}</textarea></div>
+        <div class="field"><label for="g_note">${esc(T.pl.details)}</label><textarea id="g_note">${esc(G.note)}</textarea></div></div>
+      <button class="btn" data-act="plGroupSave" data-id="${ex ? ex.id : ''}">${esc(T.save)}</button>${stats}
+      ${ex ? `<button class="btn danger" data-act="plGroupDel" data-id="${ex.id}">${esc(T.del)}</button>` : ''}`;
+  };
+}
+
+/* ---------- repertoire & set lists ---------- */
+function songRow(r){
+  const g = grp(r.gid);
+  return `<div class="row" data-act="plSong" data-id="${r.id}"><div class="ava pava rst-${esc(r.st)}">${r.st === 'ready' ? '✓' : r.st === 'repeat' ? '↻' : '♪'}</div>
+    <div class="main"><div class="name">${esc(r.title)}</div><div class="sub one">${esc([r.artist, r.key, +r.bpm ? r.bpm + ' bpm' : '', +r.dur ? fmtDur(r.dur) : '', g ? g.name : ''].filter(Boolean).join(' · '))}</div></div><div class="right"><span class="chev">›</span></div></div>`;
+}
+function repSheet(){
+  return () => {
+    const q = String(ui.plQ || '').toLowerCase(), f = ui.repF || '';
+    const list = state.rep.filter(r => (!f || r.st === f || r.gid === f) && (!q || [r.title, r.artist, r.key].join(' ').toLowerCase().includes(q))).sort((a, b) => a.title.localeCompare(b.title, LOC));
+    const chips = [['', T.pl.allSongs]].concat(REP_ST.map(s => [s, T.pl.st[s]]), state.groups.map(g => [g.id, g.name]));
+    return sheetHead(T.pl.rep, `<button class="r" data-act="plSong" data-id="">+</button>`)
+      + `<div class="field psearch"><input id="pl_q" value="${esc(ui.plQ || '')}" placeholder="🔎 ${esc(T.pl.search)}" autocomplete="off"></div>`
+      + `<div class="chipsel" style="margin:0 0 10px">${chips.map(([v, l]) => `<button type="button" data-act="plRepF" data-v="${esc(v)}" class="${f === v ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`
+      + (list.length ? `<div class="card">${list.map(songRow).join('')}</div>` : `<div class="empty">${esc(state.rep.length ? T.pl.nothing : T.pl.repEmpty)}</div>`);
+  };
+}
+function repSongForm(id){
+  const ex = id ? repSong(id) : null;
+  const R = ex ? Object.assign({}, ex) : { title: '', artist: '', key: '', bpm: 0, dur: 0, link: '', lyrics: '', note: '', st: 'learn', gid: ui.repF && grp(ui.repF) ? ui.repF : '' };
+  return () => sheetHead(ex ? T.pl.songEdit : T.pl.songNew) + `
+    <div class="group"><div class="field"><label for="r_title">${esc(T.pl.songTitle)}</label><input id="r_title" value="${esc(R.title)}" autocomplete="off"></div>
+      <div class="field"><label for="r_artist">${esc(T.pl.artist)}</label><input id="r_artist" value="${esc(R.artist)}" autocomplete="off"></div>
+      <div class="two"><div class="field"><label for="r_key">${esc(T.pl.key)}</label><input id="r_key" value="${esc(R.key)}" maxlength="12" placeholder="Am" autocomplete="off"></div>
+        <div class="field"><label for="r_bpm">BPM</label><input type="number" inputmode="numeric" id="r_bpm" value="${+R.bpm || ''}"></div></div>
+      <div class="two"><div class="field"><label for="r_dur">${esc(T.pl.durL)}</label><input id="r_dur" value="${+R.dur ? fmtDur(R.dur) : ''}" placeholder="3:30" inputmode="numeric" autocomplete="off"></div>
+        <div class="field"><label for="r_gid">👥 ${esc(T.pl.group)}</label><select id="r_gid"><option value="">—</option>${state.groups.map(g => `<option value="${g.id}"${R.gid === g.id ? ' selected' : ''}>${esc(g.name)}</option>`).join('')}</select></div></div>
+      <div class="field"><span class="lb">${esc(T.pl.status)}</span><div class="chipsel" id="r_st">${REP_ST.map(s => `<button type="button" data-act="plRepSt" data-v="${s}" class="${R.st === s ? 'on' : ''}">${esc(T.pl.st[s])}</button>`).join('')}</div></div>
+      <div class="field"><label for="r_link">🔗 ${esc(T.pl.link)}</label><input id="r_link" value="${esc(R.link)}" placeholder="https://" inputmode="url" autocomplete="off"></div></div>
+    ${/^https?:\/\//.test(R.link) ? `<button class="btn ghost" data-act="plLink" data-v="${esc(R.link)}">▶️ ${esc(T.pl.openLink)}</button>` : ''}
+    <div class="group"><div class="field"><label for="r_lyr">${esc(T.pl.lyrics)}</label><textarea id="r_lyr" class="pbig">${esc(R.lyrics)}</textarea></div>
+      <div class="field"><label for="r_note">${esc(T.pl.songNote)}</label><textarea id="r_note" placeholder="${esc(T.pl.songNotePh)}">${esc(R.note)}</textarea></div></div>
+    <button class="btn" data-act="plSongSave" data-id="${ex ? ex.id : ''}">${esc(T.save)}</button>
+    ${ex ? `<button class="btn danger" data-act="plSongDel" data-id="${ex.id}">${esc(T.del)}</button>` : ''}`;
+}
+function setSheet(itemId){
+  return () => {
+    const it = itemOf(itemId); if (!it) return sheetHead(T.pl.setlist);
+    const songs = it.set.map(repSong).filter(Boolean), total = songs.reduce((a, s) => a + (+s.dur || 0), 0);
+    const rest = state.rep.filter(r => !it.set.includes(r.id)).sort((a, b) => (a.gid === it.gid ? 0 : 1) - (b.gid === it.gid ? 0 : 1) || a.title.localeCompare(b.title, LOC));
+    const rows = songs.map((s, i) => `<div class="row"><div class="ava pava">${i + 1}</div><div class="main"><div class="name">${esc(s.title)}</div><div class="sub one">${esc([s.key, +s.dur ? fmtDur(s.dur) : '', T.pl.st[s.st]].filter(Boolean).join(' · '))}</div></div>
+      <div class="right"><button class="mini" data-act="plSetMv" data-id="${it.id}" data-v="${i}:-1"${i ? '' : ' disabled'}>↑</button><button class="mini" data-act="plSetMv" data-id="${it.id}" data-v="${i}:1"${i < songs.length - 1 ? '' : ' disabled'}>↓</button><button class="mini" data-act="plSetRm" data-id="${it.id}" data-v="${s.id}">✕</button></div></div>`).join('');
+    return sheetHead(T.pl.setlist) + note(`${itemTitle(it)}${it.date ? ' · ' + shortDate(it.date) : ''} · ${T.pl.setTotal(songs.length, fmtDur(total))}`)
+      + (rows ? `<div class="card">${rows}</div><button class="btn" data-act="plSetCopy" data-id="${it.id}">📋 ${esc(T.pl.share)}</button>` : `<div class="empty" style="padding:16px">${esc(T.pl.setEmpty)}</div>`)
+      + `<div class="sec"><span>${esc(T.pl.addSongs)}</span><button class="link" data-act="plSong" data-id="">+ ${esc(T.pl.songNew)}</button></div>`
+      + (rest.length ? `<div class="card">${rest.map(r => `<div class="row" data-act="plSetAdd" data-id="${it.id}" data-v="${r.id}"><div class="ava pava">＋</div><div class="main"><div class="name">${esc(r.title)}</div><div class="sub one">${esc([r.artist, r.key, (grp(r.gid) || {}).name].filter(Boolean).join(' · '))}</div></div></div>`).join('')}</div>` : `<div class="hintline">${esc(T.pl.repEmpty)}</div>`);
+  };
+}
+
+/* ---------- people (birthdays) ---------- */
+function peopleSheet(){
+  return () => {
+    const t = today();
+    const all = bdaysIn(t, ymd(addDays(parseD(t), 366))).sort((a, b) => a.ds.localeCompare(b.ds));
+    const noDate = state.people.filter(p => !p.bday);
+    return sheetHead(T.pl.people, `<button class="r" data-act="plPersonNew">+</button>`) + note(T.pl.peopleHint)
+      + (all.length ? `<div class="card">${all.map(bdayRow).join('')}</div>` : `<div class="empty">${esc(T.pl.none)}</div>`)
+      + (noDate.length ? `<div class="card" style="margin-top:8px">${noDate.map(p => `<div class="row" data-act="plPerson" data-id="${p.id}"><div class="ava pava">👤</div><div class="main"><div class="name">${esc(p.name)}</div><div class="sub one">${esc(p.who || '')}</div></div></div>`).join('')}</div>` : '');
+  };
+}
+function personForm(id){
+  const ex = id ? personOf(id) : null;
+  const P = ex || { name: '', bday: '', who: '', note: '', rem: 0 };
+  const noYear = P.bday && !bdayKnownYear(P.bday);
+  return () => sheetHead(ex ? P.name : T.pl.personNew) + `
+    <div class="group"><div class="field"><label for="h_name">${esc(T.pl.personName)}</label><input id="h_name" value="${esc(P.name)}" autocomplete="off"></div>
+      <div class="field"><label for="h_who">${esc(T.pl.who)}</label><input id="h_who" value="${esc(P.who)}" placeholder="${esc(T.pl.whoPh)}" autocomplete="off"></div>
+      <div class="two"><div class="field"><label for="h_bday">🎂 ${esc(T.pl.bdayL)}</label><input type="date" id="h_bday" value="${esc(P.bday && noYear ? '2000' + P.bday.slice(4) : P.bday)}"></div>
+        <div class="field toggle"><span>${esc(T.pl.noYear)}</span><button type="button" class="sw${noYear ? ' on' : ''}" data-act="plSw" data-v="noyear" id="h_noyear"></button></div></div>
+      <div class="field"><label for="h_rem">🔔 ${esc(T.pl.remind)}</label><select id="h_rem">${[-1, 0, 1, 3, 7].map(v => `<option value="${v}"${+P.rem === v ? ' selected' : ''}>${esc(T.pl.remDays[String(v)])}</option>`).join('')}</select></div>
+      <div class="field"><label for="h_note">${esc(T.pl.gifts)}</label><textarea id="h_note" placeholder="${esc(T.pl.giftsPh)}">${esc(P.note)}</textarea></div></div>
+    <button class="btn" data-act="plPersonSave" data-id="${ex ? ex.id : ''}">${esc(T.save)}</button>
+    ${ex ? `<button class="btn danger" data-act="plPersonDel" data-id="${ex.id}">${esc(T.del)}</button>` : ''}`;
+}
+
+/* ---------- reminders & morning summary for the bot ---------- */
+function planNotes(H, morningH){
+  const out = [], HR = 3600000, now = new Date(), from = today(), to = ymd(addDays(now, H - 1));
+  state.items.forEach(it => {
+    if (it.kind === 'note' || !kindOn(it.kind) || it.rem === -1 || it.rem == null) return;
+    occ(it, from, to).forEach(ds => {
+      if ((it.kind === 'task' && isDone(it, ds)) || (it.kind === 'post' && it.cst === 'posted')) return;
+      const t = it.call || it.time, start = t ? atTime(ds, toMin(t)) : atTime(ds, morningH * 60);
+      const at = it.rem === -2 ? atTime(ds, morningH * 60) : t ? start - it.rem * 60000 : start - (it.rem >= 1440 ? 1440 * 60000 : 0);
+      const g = grp(it.gid);
+      const when = it.rem === -2 || ymd(new Date(at)) === ds ? T.pl.nbToday : T.pl.nbOn(dayMonth(ds));
+      const x = `${it.kind === 'task' ? '🔔' : PK[it.kind]} ${itemTitle(it)} — ${when}${it.time ? ' ' + it.time : ''}`
+        + (it.call ? `\n⏰ ${T.pl.call}: ${it.call}` : '') + (it.place ? `\n📍 ${it.place}` : '') + (g && it.title ? `\n👥 ${g.name}` : '')
+        + (it.set.length ? `\n🎼 ${T.pl.setlist}: ${it.set.map(repSong).filter(Boolean).map(s => s.title).join(', ')}` : '') + (it.note && it.kind !== 'task' ? '\n📝 ' + it.note.slice(0, 300) : '');
+      out.push({ k: `r_pl_${it.id}_${ds}_${it.rem}`, at, u: Math.max(at + 3 * HR, t ? start : at + 6 * HR), x });
+    });
+  });
+  if (mod('people')) state.people.forEach(p => {
+    if (p.rem < 0 || !p.bday) return;
+    const ds = nextBday(p.bday, ymd(addDays(now, +p.rem || 0))); if (!ds) return;
+    const on = ymd(addDays(parseD(ds), -(+p.rem || 0))); if (on > to) return;
+    const at = atTime(on, morningH * 60), age = bdayKnownYear(p.bday) ? +ds.slice(0, 4) - +p.bday.slice(0, 4) : 0;
+    out.push({ k: `r_bd_${p.id}_${ds}_${p.rem}`, at, u: at + 12 * HR,
+      x: `🎂 ${on === ds ? T.pl.nbBdayToday(p.name) : T.pl.nbBdaySoon(p.name, dayMonth(ds))}${age ? ' · ' + T.pl.turns(age) : ''}${p.who ? ' (' + p.who + ')' : ''}${p.note ? '\n🎁 ' + p.note.slice(0, 300) : ''}` });
+  });
+  return out;
+}
+function planMorning(ds){
+  const lines = [];
+  state.items.forEach(it => { if (it.kind !== 'note' && kindOn(it.kind) && occ(it, ds, ds).length && !(it.kind === 'task' && isDone(it, ds))) lines.push({ t: it.call || it.time || '99', x: `${PK[it.kind]} ${it.call || it.time ? (it.call || it.time) + ' ' : ''}${itemTitle(it)}${it.place ? ' · ' + it.place : ''}` }); });
+  if (mod('people')) state.people.forEach(p => { if (p.bday && p.bday.slice(5) === ds.slice(5)) lines.push({ t: '00', x: '🎂 ' + T.pl.nbBdayToday(p.name) }); });
+  if (!lines.length) return '';
+  return `\n\n📒 ${T.pl.nbPlans}\n` + lines.sort((a, b) => a.t.localeCompare(b.t)).map(l => l.x).join('\n');
+}
+/* what the bot should know about the planner */
+function planCtx(){
+  const t = today(), to = ymd(addDays(parseD(t), 21));
+  return { groups: state.groups.map(g => g.name), rep: state.rep.map(r => r.title + (r.artist ? ' — ' + r.artist : '')).slice(0, 300), people: state.people.map(p => p.name + (p.who ? ' (' + p.who + ')' : '')),
+    plan: state.items.filter(it => it.kind !== 'note').flatMap(it => occ(it, t, to).slice(0, 3).map(ds => `${ds} ${it.time || '--:--'} ${it.kind} ${itemTitle(it)}${it.kind === 'task' && isDone(it, ds) ? ' (done)' : ''}`))
+      .concat(state.items.filter(it => it.kind === 'task' && !it.date && !it.done).map(it => `— task ${itemTitle(it)}`)).slice(0, 40) };
+}
+
+/* ---------- bot / voice actions for the planner ---------- */
+const PL_KIND = { gig: 'gig', rehearsal: 'reh', reh: 'reh', task: 'task', note: 'note', event: 'event', post: 'post', content: 'post', reels: 'post' };
+function groupByName(name, create){
+  const n = bxNorm(name); if (!n) return '';
+  let g = state.groups.find(x => bxNorm(x.name) === n) || state.groups.find(x => bxNorm(x.name).startsWith(n) || n.startsWith(bxNorm(x.name)));
+  if (!g && create) { g = { id: uid(), name: String(name).trim().slice(0, 60), color: GCOLORS[state.groups.length % GCOLORS.length], members: '', note: '' }; state.groups.push(g); }
+  return g ? g.id : '';
+}
+function applyPlanAct(a, out){
+  switch (a.type) {
+    case 'add_item': {
+      const kind = PL_KIND[a.what] || 'task', date = bxDate(a.date);
+      const title = String(a.title || '').trim().slice(0, 200) || (kind === 'note' ? String(a.text || '').trim().split(/[.!?\n]/)[0].slice(0, 60) : '');
+      const gid = a.group ? groupByName(a.group, true) : '';
+      if (!title && !gid) return;
+      const rem = REM_OPTS.includes(+a.remind) && a.remind !== undefined && a.remind !== '' ? +a.remind : date ? REM_DEF[kind] : -1;
+      const it = { id: uid(), kind, title, date, time: bxTime(a.time), end: bxTime(a.end), call: bxTime(a.call), place: String(a.place || '').slice(0, 200), gid,
+        fmt: FMTS.includes(a.format) ? a.format : 'reels', cst: CSTS.includes(a.status) ? a.status : 'idea',
+        fee: bxNum(a.fee), paid: a.paid === true, rem: kind === 'note' ? -1 : rem, rep: ({ weekly: 'w', monthly: 'm', yearly: 'y' })[a.repeat] || '', done: false, dd: [], set: [], note: String(a.text || '').slice(0, 20000), at: Date.now() };
+      state.items.push(it);
+      out.push(`${PK[kind]} ${itemTitle(it)}${date ? ', ' + bxWhen(date, it.call || it.time) : ''}`); return;
+    }
+    case 'done_task': {
+      const n = bxNorm(a.title); if (!n) return;
+      const t = today(), cands = state.items.filter(it => it.kind === 'task' && !isDone(it, it.rep ? t : it.date));
+      const it = cands.find(x => bxNorm(x.title) === n) || cands.find(x => bxNorm(x.title).includes(n) || n.includes(bxNorm(x.title)));
+      if (!it) { const was = state.items.find(x => x.kind === 'task' && bxNorm(x.title).includes(n)); return out.push(was ? '☑️ ' + itemTitle(was) : '⚠️ ' + T.pl.noTask(a.title)); }
+      if (it.rep) it.dd.push(t); else it.done = true;
+      out.push('☑️ ' + itemTitle(it)); return;
+    }
+    case 'add_person': {
+      const name = String(a.name || '').trim().slice(0, 80); if (!name) return;
+      const b = bxDate(a.bday) || (/^\d{2}-\d{2}$/.test(String(a.bday || '')) ? '1900-' + a.bday : '');
+      let p = state.people.find(x => bxNorm(x.name) === bxNorm(name));
+      if (p) { if (b) p.bday = b; if (a.who) p.who = String(a.who).slice(0, 80); if (a.note) p.note = bxAppend(p.note, String(a.note).slice(0, 1000)); }
+      else { p = { id: uid(), name, bday: b, who: String(a.who || '').slice(0, 80), note: String(a.note || '').slice(0, 1000), rem: 1 }; state.people.push(p); }
+      out.push('🎂 ' + name + (b ? ', ' + dayMonth(ymd(parseD(b))) : '')); return;
+    }
+    case 'add_rep_song': {
+      const title = String(a.title || '').trim().slice(0, 200); if (!title) return;
+      if (state.rep.some(r => bxNorm(r.title) === bxNorm(title))) return out.push('🎼 ' + title + ' ✓');
+      state.rep.push({ id: uid(), title, artist: String(a.artist || '').slice(0, 120), key: String(a.key || '').slice(0, 12), bpm: bxNum(a.bpm), dur: parseDur(a.dur), link: /^https?:\/\//.test(a.link || '') ? String(a.link).slice(0, 500) : '',
+        lyrics: '', note: String(a.note || '').slice(0, 2000), st: 'learn', gid: a.group ? groupByName(a.group, true) : '' });
+      out.push('🎼 ' + title); return;
+    }
+  }
+}
+
+/* ---------- actions ---------- */
+let curItemForm = null;
+function openItem(id, preset, occDate){
+  ui.planOcc = occDate || '';
+  const f = itemForm(id, preset); curItemForm = itemForm.cur; openSheet(f);
+}
+function itemFromForm(id){
+  const I = id ? Object.assign({}, itemOf(id)) : Object.assign({}, curItemForm ? curItemForm.I : {});
+  if (curItemForm) Object.assign(I, { kind: curItemForm.I.kind });
+  readItemForm(I);
+  return I;
+}
+const PL = {
+  plNew: el => { if (stack.length && $('sheetIn').querySelector('.pkinds')) closeSheet(); openItem('', { kind: el.dataset.v || 'task', date: el.dataset.v === 'task' || el.dataset.v === 'note' ? '' : (ui.tab === 'lessons' ? ui.selDay : '') }); },
+  plNewDay: el => openItem('', { kind: 'event', date: el.dataset.v }),
+  plNewIn: el => openItem('', { kind: 'gig', gid: el.dataset.v }),
+  plOpen: el => openItem(el.dataset.id, null, el.dataset.v),
+  plKind: el => { if (!curItemForm) return; curItemForm.setKind(el.dataset.v); refreshSheet(); haptic(); },
+  plSw: el => { el.classList.toggle('on'); haptic(); },
+  plPick: el => { el.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el)); haptic(); },
+  plSave: el => {
+    const id = el.dataset.id, I = itemFromForm(id);
+    if (!I.title && !(I.kind === 'note' && I.note.trim()) && !(I.gid && I.gid !== '+')) return toast(T.pl.needTitle);
+    if (I.kind === 'note' && !I.title) I.title = I.note.trim().split(/\n/)[0].slice(0, 60);
+    if ((I.kind === 'gig' || I.kind === 'reh' || I.kind === 'event') && !/^\d{4}-\d{2}-\d{2}$/.test(I.date)) return toast(T.tDate);
+    if (I.date && !/^\d{4}-\d{2}-\d{2}$/.test(I.date)) I.date = '';
+    if (!I.date) { I.rep = ''; if (I.rem !== -1) I.rem = -1; }
+    if (I.gid === '+') { I.gid = I.gnew ? groupByName(I.gnew, true) : ''; }
+    delete I.gnew; delete I.kindPrev;
+    if (I.kind !== 'gig') { I.fee = 0; I.paid = false; I.call = ''; }
+    if (I.kind !== 'gig' && I.kind !== 'reh' && I.kind !== 'event') { I.end = ''; I.place = ''; }
+    if (I.kind === 'note') { I.date = ''; I.time = ''; I.rem = -1; I.rep = ''; }
+    if (id) { const it = itemOf(id); if (it) Object.assign(it, I); } else state.items.push(Object.assign(I, { id: uid(), at: Date.now(), dd: [], set: I.set || [] }));
+    save(); hapticOk(); closeSheet(); render(); toast(id ? savedMsg() : T.pl.saved[I.kind], 2400);
+    const it = id ? itemOf(id) : state.items[state.items.length - 1];
+    if (it && it.date) { const c = lessonClash(it, it.date); if (c.length) setTimeout(() => toast('⚠️ ' + T.pl.clashL(c.map(l => (l.time || '') + ' ' + ((stu(l.sid) || {}).name || '')).join(', ')), 4500), 2500); }
+    scheduleBotSync();
+  },
+  plDel: async el => {
+    if (!await ask(T.pl.delQ, T.del, true)) return;
+    state.items = state.items.filter(x => x.id !== el.dataset.id); save(); closeSheet(); render(); toast(T.tDeleted); scheduleBotSync();
+  },
+  plDone: el => {
+    const it = itemOf(el.dataset.id); if (!it) return;
+    const ds = el.dataset.v || it.date || today();
+    if (it.rep) { if (it.dd.includes(ds)) it.dd = it.dd.filter(x => x !== ds); else it.dd.push(ds); } else it.done = !it.done;
+    const done = isDone(it, ds);
+    save(); haptic(done ? 'medium' : 'light'); if (done) toast('✓ ' + itemTitle(it), 1600);
+    if (stack.length && $('sheetIn').querySelector('.pkinds')) closeSheet();
+    render(); if (stack.length) refreshSheet(); scheduleBotSync();
+  },
+  plClearDone: async () => { if (!await ask(T.pl.clearQ, T.del, true)) return; state.items = state.items.filter(it => !(it.kind === 'task' && !it.rep && it.done)); save(); refreshSheet(); render(); },
+  plShare: async el => {
+    const it = itemOf(el.dataset.id); if (!it) return;
+    const txt = itemText(it, ui.planOcc); if (await copyText(txt)) toast(T.tCopiedText); else showText(T.pl.share, txt);
+  },
+  plList: el => { ui.plQ = ''; openSheet(planListSheet(el.dataset.v)); },
+  plGroups: () => openSheet(groupsSheet()),
+  plGroup: el => openSheet(groupForm(el.dataset.id)),
+  plColor: el => { $('g_color').querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el)); haptic(); },
+  plGroupSave: el => {
+    const name = $('g_name').value.trim(); if (!name) return toast(T.pl.needTitle);
+    const on = $('g_color').querySelector('.on'), data = { name: name.slice(0, 60), color: on ? on.dataset.v : GCOLORS[0], members: $('g_mem').value.slice(0, 3000), note: $('g_note').value.slice(0, 3000) };
+    const id = el.dataset.id;
+    if (id) Object.assign(grp(id), data); else state.groups.push(Object.assign({ id: uid() }, data));
+    save(); hapticOk(); closeSheet(); render(); if (stack.length) refreshSheet(); toast(savedMsg()); scheduleBotSync();
+  },
+  plGroupDel: async el => {
+    if (!await ask(T.pl.delGroupQ, T.del, true)) return;
+    const id = el.dataset.id; state.groups = state.groups.filter(g => g.id !== id);
+    state.items.forEach(it => { if (it.gid === id) it.gid = ''; }); state.rep.forEach(r => { if (r.gid === id) r.gid = ''; });
+    save(); closeSheet(); render(); if (stack.length) refreshSheet(); toast(T.tDeleted);
+  },
+  plRep: () => { ui.plQ = ''; ui.repF = ''; openSheet(repSheet()); },
+  plRepF: el => { ui.repF = el.dataset.v; refreshSheet(); },
+  plSong: el => openSheet(repSongForm(el.dataset.id)),
+  plRepSt: el => { $('r_st').querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el)); haptic(); },
+  plLink: el => { try { tg && tg.openLink ? tg.openLink(el.dataset.v) : window.open(el.dataset.v, '_blank'); } catch (e) { window.open(el.dataset.v, '_blank'); } },
+  plSongSave: el => {
+    const title = $('r_title').value.trim(); if (!title) return toast(T.pl.needTitle);
+    const on = $('r_st').querySelector('.on'), link = $('r_link').value.trim();
+    const data = { title: title.slice(0, 200), artist: $('r_artist').value.trim().slice(0, 120), key: $('r_key').value.trim().slice(0, 12), bpm: Math.max(0, Math.round(+$('r_bpm').value || 0)),
+      dur: parseDur($('r_dur').value), link: /^https?:\/\//.test(link) ? link.slice(0, 500) : '', lyrics: $('r_lyr').value.slice(0, 20000), note: $('r_note').value.slice(0, 3000), st: on ? on.dataset.v : 'learn', gid: $('r_gid').value };
+    const id = el.dataset.id;
+    if (id) Object.assign(repSong(id), data); else state.rep.push(Object.assign({ id: uid() }, data));
+    save(); hapticOk(); closeSheet(); if (stack.length) refreshSheet(); render(); toast(savedMsg()); scheduleBotSync();
+  },
+  plSongDel: async el => {
+    if (!await ask(T.pl.delSongQ, T.del, true)) return;
+    const id = el.dataset.id; state.rep = state.rep.filter(r => r.id !== id); state.items.forEach(it => { it.set = it.set.filter(x => x !== id); });
+    save(); closeSheet(); if (stack.length) refreshSheet(); render(); toast(T.tDeleted);
+  },
+  plSet: el => openSheet(setSheet(el.dataset.id)),
+  plSetAdd: el => { const it = itemOf(el.dataset.id); if (!it) return; it.set.push(el.dataset.v); save(); haptic(); refreshSheet(); },
+  plSetRm: el => { const it = itemOf(el.dataset.id); if (!it) return; it.set = it.set.filter(x => x !== el.dataset.v); save(); haptic(); refreshSheet(); },
+  plSetMv: el => {
+    const it = itemOf(el.dataset.id); if (!it) return;
+    const [i, d] = el.dataset.v.split(':').map(Number), j = i + d; if (j < 0 || j >= it.set.length) return;
+    const s = it.set.slice(); [s[i], s[j]] = [s[j], s[i]]; it.set = s; save(); haptic(); refreshSheet();
+  },
+  plSetCopy: async el => { const it = itemOf(el.dataset.id); if (!it) return; const txt = itemText(it, it.date); if (await copyText(txt)) toast(T.tCopiedText); else showText(T.pl.setlist, txt); },
+  plPeople: () => openSheet(peopleSheet()),
+  plPersonNew: () => openSheet(personForm('')),
+  plPerson: el => openSheet(personForm(el.dataset.id)),
+  plPersonSave: el => {
+    const name = $('h_name').value.trim(); if (!name) return toast(T.pl.needTitle);
+    let b = $('h_bday').value; if (b && !/^\d{4}-\d{2}-\d{2}$/.test(b)) b = '';
+    if (b && $('h_noyear').classList.contains('on')) b = '1900' + b.slice(4);
+    const data = { name: name.slice(0, 80), who: $('h_who').value.trim().slice(0, 80), bday: b, rem: +$('h_rem').value, note: $('h_note').value.slice(0, 2000) };
+    const id = el.dataset.id;
+    if (id) Object.assign(personOf(id), data); else state.people.push(Object.assign({ id: uid() }, data));
+    save(); hapticOk(); closeSheet(); if (stack.length) refreshSheet(); render(); toast(savedMsg()); scheduleBotSync();
+  },
+  plPersonDel: async el => {
+    if (!await ask(T.pl.delPersonQ, T.del, true)) return;
+    state.people = state.people.filter(p => p.id !== el.dataset.id); save(); closeSheet(); if (stack.length) refreshSheet(); render(); toast(T.tDeleted);
+  }
+};
+/* live search in planner lists and the group picker «➕ new» */
+document.addEventListener('input', e => {
+  if (e.target && e.target.id === 'pl_q') { ui.plQ = e.target.value; const p = e.target.selectionStart; refreshSheet(); const n = $('pl_q'); if (n) { n.focus(); try { n.setSelectionRange(p, p); } catch (x) {} } }
+});
+document.addEventListener('change', e => {
+  if (e.target && e.target.id === 'p_gid') { const f = $('p_gnew_f'); if (f) { f.hidden = e.target.value !== '+'; if (!f.hidden) $('p_gnew').focus(); } }
+  if (e.target && e.target.id === 'p_date' && curItemForm && !e.target.value) { const r = $('p_rem'); if (r) r.value = '-1'; }
+});
+
+/* when lessons are switched off, the home screen is the planner */
+const planHomeLite = () => renderPlan(true);
+
+/* ================= Personal assistant inside the app: voice 🎤 or text =================
+   Record → WAV (16 kHz mono, works in every Telegram webview) → server → Gemini → «here is what I'll add» → ✅ → applied locally.
+   It also answers questions and brainstorms (ideas for Reels, preparation plans…) and can offer to save them. */
+const VX = { rec: null, chunks: [], t0: 0, timer: null, busy: false, log: [], pend: null, hist: [], err: '' };
+const voiceOk = () => mod('ai') && inTG && !!state.settings.api && botAi;
+function assistantSheet(prefill){
+  VX.draft = prefill || '';
+  return () => {
+    const draft = VX.draft || '';
+    const X = T.va;
+    const log = VX.log.slice(-6).map(m => m.me
+      ? `<div class="vmsg me">${m.audio ? '🎤 ' : ''}${esc(m.x)}</div>`
+      : `<div class="vmsg ai">${m.x ? `<div class="vtx">${esc(m.x)}</div>` : ''}${m.lines && m.lines.length ? `<div class="vlines">${m.lines.map(l => `<div>${esc(l)}</div>`).join('')}</div>` : ''}${m.src && m.src.length ? `<div class="vsrc">${m.src.map(s => `<button data-act="plLink" data-v="${esc(s.u)}">🔗 ${esc(s.t)}</button>`).join('')}</div>` : ''}${m.state === 'done' ? `<div class="vok">✅ ${esc(X.done)}</div>` : m.state === 'cancel' ? `<div class="vok">✖️ ${esc(X.cancelled)}</div>` : ''}</div>`).join('');
+    const p = VX.pend;
+    const ask = p && p.ask ? `<div class="vask"><b>🤔 ${esc(p.ask.cands.length > 1 ? X.whoMany(p.ask.ref) : p.ask.cands.length ? X.whoOne(p.ask.ref, p.ask.cands[0].n) : X.whoNew(p.ask.ref))}</b>
+        ${p.ask.cands.map((c, i) => `<button class="btn ghost sm" data-act="vaPick" data-v="${i}">👤 ${esc(c.n)}</button>`).join('')}
+        <button class="btn ghost sm" data-act="vaPick" data-v="new">➕ ${esc(X.isNew(p.ask.ref))}</button></div>` : '';
+    const confirm = p && !p.ask && p.acts.length ? `<div class="vbtns"><button class="btn" data-act="vaApply">✅ ${esc(X.apply)}</button><button class="btn ghost" data-act="vaCancel">✖️ ${esc(X.cancel)}</button></div>` : '';
+    const recOn = !!VX.rec;
+    const hints = !VX.log.length ? `<div class="vhints">${X.examples.map(e => `<button data-act="vaHint">${esc(e)}</button>`).join('')}</div>` : '';
+    return sheetHead('🤖 ' + X.title, VX.log.length && !VX.busy ? `<button class="r" data-act="vaNew">${esc(X.newChat)}</button>` : '') + (VX.log.length ? '' : note(X.intro)) + `<div class="vlog" id="vaLog">${log}${VX.busy ? `<div class="vmsg ai"><span class="vdots"><i></i><i></i><i></i></span> ${esc(X.thinking)}</div>` : ''}</div>`
+      + ask + confirm + (VX.err ? `<div class="hintline" style="color:var(--danger)">${esc(VX.err)}</div>` : '')
+      + `<div class="vbar"><button class="vmic${recOn ? ' on' : ''}" data-act="vaMic" aria-label="🎤"${VX.busy ? ' disabled' : ''}>${recOn ? '■' : '🎤'}</button>
+         <div class="vin"><textarea id="va_text" rows="1" placeholder="${esc(recOn ? X.listening : X.typePh)}"${recOn || VX.busy ? ' disabled' : ''}>${esc(draft)}</textarea><button class="vsend" data-act="vaSend"${VX.busy ? ' disabled' : ''} aria-label="→">➤</button></div></div>`
+      + (recOn ? `<div class="vrec"><i></i><span id="vaTime">0:00</span> · ${esc(X.tapStop)}</div>` : '') + hints;
+  };
+}
+function vaRefresh(){ const top = stack[stack.length - 1]; if (top && top.isVa) { const t = $('va_text'); if (t && !t.disabled) VX.draft = t.value; refreshSheet(); const l = $('vaLog'); if (l) l.scrollIntoView({ block: 'end' }); } }
+async function vaStart(){
+  VX.err = '';
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { VX.err = T.va.noMic; return vaRefresh(); }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+    const C = window.AudioContext || window.webkitAudioContext, ctx = new C();
+    const src = ctx.createMediaStreamSource(stream), proc = ctx.createScriptProcessor(4096, 1, 1);
+    VX.chunks = []; VX.rate = ctx.sampleRate;
+    proc.onaudioprocess = e => { VX.chunks.push(new Float32Array(e.inputBuffer.getChannelData(0))); };
+    src.connect(proc); proc.connect(ctx.destination);
+    VX.rec = { stream, ctx, src, proc }; VX.t0 = Date.now(); haptic('medium');
+    VX.timer = setInterval(() => { const s = Math.round((Date.now() - VX.t0) / 1000); const el = $('vaTime'); if (el) el.textContent = fmtDur(s); if (s >= 120) vaStop(); }, 500);
+    vaRefresh();
+  } catch (e) { VX.err = /NotAllowed|Permission|denied/i.test(String(e && (e.name || e.message))) ? T.va.denied : T.va.noMic; vaRefresh(); }
+}
+function vaStop(){
+  const r = VX.rec; if (!r) return;
+  clearInterval(VX.timer); VX.rec = null;
+  try { r.proc.disconnect(); r.src.disconnect(); r.stream.getTracks().forEach(t => t.stop()); r.ctx.close(); } catch (e) {}
+  const secs = (Date.now() - VX.t0) / 1000;
+  if (secs < 0.8) { VX.err = T.va.short; return vaRefresh(); }
+  const wav = encodeWav(VX.chunks, VX.rate, 16000); VX.chunks = [];
+  haptic('light'); vaAsk('', wav);
+}
+function encodeWav(chunks, rate, out){
+  let n = 0; chunks.forEach(c => { n += c.length; });
+  const ratio = rate / out, len = Math.floor(n / ratio), pcm = new Int16Array(len);
+  const all = new Float32Array(n); let o = 0; chunks.forEach(c => { all.set(c, o); o += c.length; });
+  for (let i = 0; i < len; i++) {
+    const a = Math.floor(i * ratio), b = Math.min(n, Math.floor((i + 1) * ratio)); let s = 0, k = 0;
+    for (let j = a; j < b; j++) { s += all[j]; k++; }
+    const v = Math.max(-1, Math.min(1, k ? s / k : 0)); pcm[i] = v < 0 ? v * 0x8000 : v * 0x7fff;
+  }
+  const buf = new ArrayBuffer(44 + pcm.length * 2), d = new DataView(buf);
+  const w = (p, s) => { for (let i = 0; i < s.length; i++) d.setUint8(p + i, s.charCodeAt(i)); };
+  w(0, 'RIFF'); d.setUint32(4, 36 + pcm.length * 2, true); w(8, 'WAVE'); w(12, 'fmt '); d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true);
+  d.setUint32(24, out, true); d.setUint32(28, out * 2, true); d.setUint16(32, 2, true); d.setUint16(34, 16, true); w(36, 'data'); d.setUint32(40, pcm.length * 2, true);
+  new Int16Array(buf, 44).set(pcm);
+  const bytes = new Uint8Array(buf); let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+async function vaAsk(text, b64){
+  if (VX.busy) return;
+  VX.err = ''; VX.busy = true;
+  const prev = VX.pend && VX.pend.acts.length ? VX.pend.acts : null;
+  if (text) VX.log.push({ me: true, x: text });
+  else VX.log.push({ me: true, x: T.va.voiceMsg, audio: true });
+  const mine = VX.log[VX.log.length - 1];
+  vaRefresh();
+  try {
+    const j = await botPost(Object.assign({ a: 'ai', ctx: Object.assign(botCtx(), { sum: aiSummary() }), hist: VX.hist.slice(-8) }, text ? { text } : { b64, mime: 'audio/wav' }, prev ? { prev } : {}), 90000);
+    if (!j || !j.ok) throw new Error(j && j.err || 'err');
+    if (j.heard && mine.audio) mine.x = j.heard;
+    if (VX.pend) { const last = VX.log.filter(m => !m.me && m.state === 'wait').pop(); if (last) last.state = prev ? 'replaced' : last.state; }
+    const acts = Array.isArray(j.acts) ? j.acts : [];
+    VX.log.push({ me: false, x: j.reply || '', lines: j.lines || [], state: acts.length ? 'wait' : '', src: Array.isArray(j.src) ? j.src.filter(s => s && /^https?:\/\//.test(s.u)) : [] });
+    VX.pend = acts.length ? { acts, ask: j.ask || null, lines: j.lines || [] } : null;
+    VX.hist.push({ q: mine.x, a: (j.reply || '') + (j.lines && j.lines.length ? '\n[предложено внести: ' + j.lines.join('; ') + ']' : '') }); VX.hist = VX.hist.slice(-8);
+  } catch (e) {
+    mine.failed = true;
+    const em = String(e && e.message || '');
+    VX.err = em === 'nokey' ? T.va.noKey : em === 'noctx' ? T.va.noCtx : /abort|fetch|network|load failed/i.test(em) || !em ? T.va.fail : T.va.failWhy(em.slice(0, 160));
+    safe(() => logErr(em, 'assistant'));
+  }
+  VX.busy = false; vaRefresh();
+}
+function applyLocal(acts){
+  const out = [], touched = new Set();
+  acts.forEach(a => { try { applyAct(a, out, touched); } catch (e) {} });
+  touched.forEach(sid => applyPackages(sid));
+  save(); render(); hapticOk(); scheduleBotSync();
+  return out;
+}
+const VA = {
+  voice: el => {
+    VX.err = ''; const pre = el && el.dataset.v === 'ideas' ? T.va.ideasPrompt : '';
+    const f = assistantSheet(pre); f.isVa = true;
+    f.unmount = () => { const r = VX.rec; if (!r) return; clearInterval(VX.timer); VX.rec = null; try { r.proc.disconnect(); r.src.disconnect(); r.stream.getTracks().forEach(t => t.stop()); r.ctx.close(); } catch (e) {} };
+    openSheet(f);
+  },
+  vaMic: () => { if (VX.rec) vaStop(); else vaStart(); },
+  vaSend: () => { const el = $('va_text'); const x = el ? el.value.trim() : ''; if (!x) return el && el.focus(); el.value = ''; VX.draft = ''; vaAsk(x.slice(0, 4000), ''); },
+  vaHint: el => { const t = $('va_text'); if (t) { t.value = el.textContent; t.focus(); } },
+  vaApply: () => {
+    const p = VX.pend; if (!p || p.ask) return;
+    const out = applyLocal(p.acts);
+    const last = VX.log.filter(m => !m.me && m.state === 'wait').pop(); if (last) { last.state = 'done'; if (out.length) last.lines = out; }
+    VX.pend = null; vaRefresh(); toast('🤖 ' + T.va.done, 1800);
+  },
+  vaNew: () => { VX.log = []; VX.hist = []; VX.pend = null; VX.err = ''; VX.draft = ''; vaRefresh(); },
+  vaCancel: () => { const last = VX.log.filter(m => !m.me && m.state === 'wait').pop(); if (last) last.state = 'cancel'; VX.pend = null; vaRefresh(); },
+  vaPick: el => {
+    const p = VX.pend; if (!p || !p.ask) return;
+    const ref = p.ask.ref, same = a => a.student && bxNorm(a.student) === bxNorm(ref), v = el.dataset.v;
+    if (v === 'new') {
+      const nm = ref.replace(/(^|\s)(\S)/g, (m, a, b) => a + b.toUpperCase());
+      if (!p.acts.some(a => a.type === 'add_student' && bxNorm(a.name) === bxNorm(ref))) p.acts.unshift({ type: 'add_student', name: nm });
+      p.acts.forEach(a => { if (same(a)) a.student = nm; });
+    } else { const c = p.ask.cands[+v]; if (!c) return; p.acts.forEach(a => { if (same(a)) a.student = c.id; }); }
+    /* any other unknown name will be created by the app; one question is enough */
+    p.ask = null; haptic(); vaRefresh();
+  }
+};
+document.addEventListener('keydown', e => { if (e.target && e.target.id === 'va_text' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); VA.vaSend(); } });
+
+/* A compact picture of her data, so the assistant can answer «how much did I earn», «who owes me», «what's on this weekend». */
+function aiSummary(){
+  const t = today(), m = t.slice(0, 7), pm = shiftMonth(m, -1), st = monthStats(m), ps = monthStats(pm), cur = state.settings.cur || '₽';
+  const L1 = [];
+  L1.push(`Этот месяц (${m}): проведено уроков ${st.n}, заработано ${Math.round(st.earned)} ${cur}, получено ${Math.round(st.got)}, ждём оплаты ${Math.round(st.debt)}, расходы ${Math.round(st.exp)}, чистыми ${Math.round(st.net)}; впереди уроков ${st.ahead || 0}.`);
+  L1.push(`Прошлый месяц (${pm}): уроков ${ps.n}, заработано ${Math.round(ps.earned)} ${cur}.`);
+  for (let k = 2; k <= 6; k++) { const mm = shiftMonth(m, -k), x = monthStats(mm); if (x.n) L1.push(`${mm}: уроков ${x.n}, заработано ${Math.round(x.earned)}.`); }
+  const g = +state.settings.goal || 0; if (g) L1.push(`Цель на месяц: ${g} ${cur}.`);
+  const act = state.students.filter(s => !s.archived);
+  L1.push(`Учеников активных: ${act.length}, в архиве: ${state.students.length - act.length}.`);
+  const rows = act.map(s => { const ss = studentStats(s.id); return `${s.name}: уроков ${ss.n}${ss.debt ? ', долг ' + Math.round(ss.debt) : ''}${ss.pkg ? ', в абонементе осталось ' + ss.left : ''}${ss.last ? ', был ' + ss.last.date : ''}${ss.next ? ', следующий ' + ss.next.date + ' ' + (ss.next.time || '') : ''}${s.bday ? ', др ' + s.bday.slice(5) : ''}`; });
+  L1.push('По ученикам: ' + rows.slice(0, 80).join('; '));
+  const gigs = state.items.filter(it => it.kind === 'gig').flatMap(it => occ(it, m + '-01', m + '-31').map(() => it));
+  if (gigs.length) L1.push(`Выступлений в этом месяце: ${gigs.length}, гонорары ${gigs.reduce((a, it) => a + (+it.fee || 0), 0)} ${cur} (не получено ${gigs.filter(it => !it.paid).reduce((a, it) => a + (+it.fee || 0), 0)}).`);
+  const posts = state.items.filter(it => it.kind === 'post' && it.cst !== 'posted');
+  if (posts.length) L1.push('Контент-план: ' + posts.slice(0, 30).map(it => `${it.date || 'без даты'} ${it.fmt} «${it.title}» (${it.cst})`).join('; '));
+  const notes = state.items.filter(it => it.kind === 'note').slice(-10);
+  if (notes.length) L1.push('Заметки: ' + notes.map(it => `«${it.title}»: ${String(it.note).slice(0, 160)}`).join(' | '));
+  const ex = state.expenses.filter(e => String(e.date).startsWith(m));
+  if (ex.length) L1.push('Расходы месяца: ' + ex.map(e => `${e.date} ${e.cat} ${e.amount}${e.note ? ' (' + e.note + ')' : ''}`).join('; '));
+  if (state.rep.length) L1.push('Репертуар: ' + state.rep.slice(0, 80).map(r => `${r.title}${r.key ? ' (' + r.key + ')' : ''}${(grp(r.gid) || {}).name ? ' [' + grp(r.gid).name + ']' : ''} — ${r.st}`).join('; '));
+  return L1.join('\n').slice(0, 7900);
+}
+
+/* ================= Sections on/off + developer tools =================
+   Switching a section off only hides it (data stays). Home, Settings, backups and storage can't be switched off. */
+const MODS = [
+  ['students', '👥'], ['money', '💰'], ['studio', '🎹'], ['plan', '📒'],
+  ['content', '📱', 'plan'], ['rep', '🎼', 'plan'], ['groups', '🎸', 'plan'], ['people', '🎂', 'plan'], ['notes', '📝', 'plan'],
+  ['ai', '🤖'], ['ach', '🏆']
+];
+const errLog = [];
+const logErr = (e, where) => { try { errLog.push({ at: Date.now(), w: String(where || ''), x: String((e && (e.stack || e.message)) || e).slice(0, 400) }); if (errLog.length > 30) errLog.shift(); } catch (x) {} };
+window.addEventListener('error', e => logErr(e.error || e.message, 'window'));
+window.addEventListener('unhandledrejection', e => logErr(e.reason, 'promise'));
+function modsSheet(){
+  return () => {
+    const X = T.md, row = ([k, ic, parent]) => {
+      const dis = parent && !mod(parent);
+      return `<div class="field toggle${parent ? ' msub' : ''}${dis ? ' mdis' : ''}"><span>${ic} ${esc(X.n[k])}<small>${esc(X.d[k])}</small></span><button type="button" class="sw${mod(k) ? ' on' : ''}" data-act="modSw" data-v="${k}"${dis ? ' disabled' : ''}></button></div>`;
+    };
+    return sheetHead(X.title) + note(X.hint) + `<div class="group">${MODS.map(row).join('')}</div>`
+      + `<div class="sec"><span>🔒 ${esc(X.lockedT)}</span></div><div class="hintline" style="margin-top:0">${esc(X.locked)}</div>`
+      + `<button class="btn ghost" data-act="modAll">↩️ ${esc(X.allOn)}</button>`;
+  };
+}
+let devOpen = false;
+function devSheet(){
+  return () => {
+    const X = T.md;
+    if (!devOpen) return sheetHead('🛠 ' + X.dev) + note(X.devHint) + `<div class="group"><div class="field"><label for="dev_pw">${esc(X.pw)}</label><input id="dev_pw" type="password" inputmode="numeric" autocomplete="off"></div></div>
+      <button class="btn" data-act="devUnlock">${esc(X.open)}</button>`;
+    const B = safe(() => buildBuckets(state), {}), size = Object.values(B).reduce((a, v) => a + v.length, 0);
+    const lsSize = safe(() => (lsGet() || '').length, 0);
+    const rows = [
+      [X.ver, (typeof CHANGES !== 'undefined' && CHANGES[0] ? CHANGES[0].name : '') + ' (v' + APP_VER + ')'],
+      [X.store, useCloud ? 'Telegram Cloud + ' + X.local : X.local],
+      [X.size, Math.round(size / 1024) + ' KB · ' + Object.keys(B).length + ' ' + X.parts],
+      [X.mirror, Math.round(lsSize / 1024) + ' KB'],
+      [X.counts, `👥 ${state.students.length} · 📅 ${state.lessons.length} · 📒 ${state.items.length} · 🎼 ${state.rep.length} · 🎂 ${state.people.length}`],
+      [X.sync, syncState + (botLast ? ' · ' + X.bot + ' ' + new Date(botLast).toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' }) : '')],
+      [X.ai, safe(voiceOk, false) ? X.yes : X.no],
+      ['UA', navigator.userAgent.slice(0, 120)]
+    ];
+    return sheetHead('🛠 ' + X.dev) + `<div class="card">${rows.map(([a, b]) => `<div class="li"><span class="tx"><b>${esc(a)}</b><br><small>${esc(b)}</small></span></div>`).join('')}</div>`
+      + `<div class="sec"><span>⚠️ ${esc(X.errors)} · ${errLog.length}</span></div>`
+      + (errLog.length ? `<div class="card">${errLog.slice().reverse().map(e => `<div class="li"><span class="tx"><small>${esc(new Date(e.at).toLocaleTimeString(LOC))} · ${esc(e.w)}<br>${esc(e.x)}</small></span></div>`).join('')}</div>` : `<div class="hintline">${esc(X.noErrors)}</div>`)
+      + `<button class="btn" data-act="devSnap">💾 ${esc(X.snap)}</button>`
+      + `<button class="btn ghost" data-act="devReload">☁️ ${esc(X.reload)}</button>`
+      + `<button class="btn ghost" data-act="devCopy">📋 ${esc(X.copyDiag)}</button>`
+      + `<button class="btn ghost" data-act="modAll">↩️ ${esc(X.allOn)}</button>`
+      + `<button class="btn ghost" data-act="devUi">🧹 ${esc(X.clearUi)}</button>`
+      + `<div class="hintline">${esc(X.devFoot)}</div>`;
+  };
+}
+const MD = {
+  mods: () => openSheet(modsSheet()),
+  modSw: el => {
+    const k = el.dataset.v, m = Object.assign({}, state.settings.mods || {});
+    m[k] = mod(k) ? 0 : 1; state.settings.mods = m;
+    save(); haptic(); render(); refreshSheet(); scheduleBotSync();
+  },
+  modAll: () => { state.settings.mods = {}; save(); render(); if (stack.length) refreshSheet(); toast('✅ ' + T.md.allOnDone); scheduleBotSync(); },
+  dev: () => openSheet(devSheet()),
+  devUnlock: () => {
+    const v = ($('dev_pw') || {}).value || '';
+    if (v.trim() === '20102002') { devOpen = true; haptic('medium'); refreshSheet(); } else { toast(T.md.wrong); const i = $('dev_pw'); if (i) { i.value = ''; i.focus(); } }
+  },
+  devSnap: async () => { const o = await snapshot('man'); toast(o ? '✅ ' + T.md.snapDone : T.bk.none); },
+  devReload: async () => { closeSheet(true); lastRefresh = 0; try { await refreshFromCloud(); toast('✅ ' + T.md.reloaded); } catch (e) { logErr(e, 'reload'); toast('⚠️ ' + T.bk.oops); } },
+  devCopy: async () => {
+    const txt = JSON.stringify({ v: APP_VER, ua: navigator.userAgent, cloud: useCloud, sync: syncState, n: [state.students.length, state.lessons.length, state.items.length], mods: state.settings.mods, errors: errLog }, null, 1);
+    if (await copyText(txt)) toast(T.tCopiedText); else showText('Diag', txt);
+  },
+  devUi: () => {
+    try { Object.keys(localStorage).forEach(k => { if (/^vs_(egg_|reqs|caps|voices|evq|evdone|rcHint)/.test(k)) localStorage.removeItem(k); }); } catch (e) {}
+    toast('✅ ' + T.md.uiCleared);
+  }
+};
+
 /* ================= Dialogs ================= */
 let toastT;
 function toast(msg, ms = 2200){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
@@ -5234,7 +6477,7 @@ const A = {
     helloTaps = helloTaps.filter(t => now - t < 3000).concat(now); haptic();
     if (helloTaps.length >= 5) { helloTaps = []; eggFound('hello5'); confetti('hearts'); toast(pick(T.egg.hello), 3500); }
   },
-  fab: () => ui.tab === 'students' ? A.addStudent() : A.addLesson(),
+  fab: () => !mod('students') || ui.tab === 'plan' ? openItem('', { kind: 'task', date: ui.tab === 'lessons' ? ui.selDay : '' }) : ui.tab === 'students' ? A.addStudent() : A.addLesson(),
   addLesson: () => {
     if (!state.students.some(s => !s.archived)) { toast(T.tAddFirst); return A.addStudent(); }
     openSheet(lessonForm(null, ui.tab === 'lessons' && ui.calMode === 'day' ? { date: ui.selDay } : {}));
@@ -5296,7 +6539,7 @@ const A = {
     if (f.rep && !id) toast(T.tSavedRep(f.rep));
     else if (newlyDone) { toast(praise(), 2600); dayWin(); }
     else toast(savedMsg());
-    coffeeCheck();
+    coffeeCheck(); safe(() => planClash(f.date, f.time, f.dur));
   },
   resched: el => {
     const l = state.lessons.find(x => x.id === el.dataset.id); if (!l) return;
@@ -5640,7 +6883,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, VA, MD, BK2);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
