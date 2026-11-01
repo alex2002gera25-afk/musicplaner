@@ -515,6 +515,9 @@ nav.tabs button[hidden]{display:none}
 .calbox .btn{margin:6px 0 0}
 .calmore{margin:6px 0 10px}
 .calmore summary{cursor:pointer;color:var(--link);padding:10px 4px;font-size:14px}
+.gkind{margin:8px 0}.gkind>span{display:block;font-size:13px;color:var(--hint);margin:0 0 4px}
+.gkind .chipsel{flex-wrap:wrap}
+.gbox .sec{margin:12px 2px 2px}
 </style>
 </head>
 <body>
@@ -2588,8 +2591,30 @@ const X2D = {
     cancelled: (n, w) => `${n} cancelled the lesson ${w}`, cancelLate: (n, w) => `${n} cancelled late ${w} — counts as a no-show`, lateNote: 'Late cancellation by the student', moved: (n, a, b) => `${n} moved the lesson: ${a} → ${b}`,
     recs: 'Melody recordings', recHint: 'Sing to the bot in a voice message — the recording is saved here (say the song title or just sing).', cancelH: 'A student can cancel/move a lesson themselves no later than', cancelHOff: 'any time', loading: 'Loading…', playFail: 'Can’t play it here — the recording is in the bot chat.' }
 };
+const GCD = {
+  ru: { title: 'Google Календарь с напоминаниями', pitch: 'Войди в свой Google — приложение само создаст календари «Уроки», «Выступления», «Репетиции», «Дела», «Дни рождения», «Оплаты» и будет вести их: переносы и отмены повторяются там сразу, у каждого события настоящие напоминания Google — как ты настроишь.',
+    connect: 'Подключить Google Календарь', unverified: 'Google может показать «Приложение не проверено» — нажми «Дополнительно» → «Перейти». Доступ только к календарям, которые создаст приложение; остальной твой календарь, почта и файлы недоступны.',
+    opening: 'Открываю Google — войди и нажми «Разрешить», потом вернись сюда', synced: t => `обновлено в ${t}`, queue: n => `в очереди: ${n}`,
+    remsTitle: 'Напоминания по умолчанию (до 3)', kinds: { lesson: '🎵 Уроки', gig: '🎤 Выступления', reh: '🎸 Репетиции', plan: '✅ Дела и события', bday: '🎂 Дни рождения', pay: '💳 Оплаты (на следующий день в 12:00)' },
+    perLesson: 'У конкретного урока своё напоминание — в форме урока, поле «🔔 Напоминание». У выступлений и дел — их поле «Напомнить».',
+    syncNow: 'Обновить сейчас', disconnect: 'Отключить', syncing: 'Обновляю Google Календарь…', done: 'Google Календарь обновлён',
+    offQ: 'Отключить Google Календарь? Приложение перестанет туда писать.', delQ: 'Удалить и календари приложения из Google («Уроки», «Выступления»…)? Если нет — они останутся как есть.', delYes: 'Удалить', offDone: 'Google Календарь отключён',
+    byLink: 'Календарь по ссылке (без своих напоминаний Google) и для близкого',
+    lessonRem: 'Напоминание', asUsual: s => `как обычно (${s})`, none: 'без напоминания', atStart: 'в момент начала', mins: n => `за ${n} мин`, hours: n => `за ${n} ч`, days: n => n === 1 ? 'за 1 день' : `за ${n} дн.`,
+    dayBeforeAt: (d, t) => d === 1 ? `накануне в ${t}` : `за ${d} дн. в ${t}`, payTitle: (n, d, s) => `${n} — оплата за урок ${d} (${s})` },
+  en: { title: 'Google Calendar with reminders', pitch: 'Sign in with Google and the app creates calendars “Lessons”, “Gigs”, “Rehearsals”, “Tasks”, “Birthdays”, “Payments” and keeps them up to date: moves and cancellations are mirrored right away, every event has real Google reminders the way you set them.',
+    connect: 'Connect Google Calendar', unverified: 'Google may say “App not verified” — tap “Advanced” → “Go to…”. Access is limited to the calendars the app creates; the rest of your calendar, mail and files stay private.',
+    opening: 'Opening Google — sign in and tap “Allow”, then come back here', synced: t => `updated at ${t}`, queue: n => `queued: ${n}`,
+    remsTitle: 'Default reminders (up to 3)', kinds: { lesson: '🎵 Lessons', gig: '🎤 Gigs', reh: '🎸 Rehearsals', plan: '✅ Tasks & events', bday: '🎂 Birthdays', pay: '💳 Payments (next day at 12:00)' },
+    perLesson: 'A specific lesson can have its own reminder — the “🔔 Reminder” field in the lesson form. Gigs and tasks use their “Remind” field.',
+    syncNow: 'Update now', disconnect: 'Disconnect', syncing: 'Updating Google Calendar…', done: 'Google Calendar updated',
+    offQ: 'Disconnect Google Calendar? The app will stop writing to it.', delQ: 'Also delete the app’s calendars from Google (“Lessons”, “Gigs”…)? If not, they stay as they are.', delYes: 'Delete', offDone: 'Google Calendar disconnected',
+    byLink: 'Calendar by link (no Google reminders of its own) and for someone close',
+    lessonRem: 'Reminder', asUsual: s => `as usual (${s})`, none: 'no reminder', atStart: 'at start', mins: n => `${n} min before`, hours: n => `${n} h before`, days: n => n === 1 ? '1 day before' : `${n} days before`,
+    dayBeforeAt: (d, t) => d === 1 ? `the day before at ${t}` : `${d} days before at ${t}`, payTitle: (n, d, s) => `${n} — payment for the lesson on ${d} (${s})` }
+};
 const TABP = { ru: 'Планер', en: 'Planner', es: 'Agenda', it: 'Agenda', fr: 'Agenda' };
-for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en;
+for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -3295,7 +3320,7 @@ async function botPost(body, ms){
 }
 async function botSync(force){
   if (!inTG || !state.settings.api) return;
-  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ stu: stuSched(), cal: calEvents(), calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
+  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ stu: stuSched(), cal: calEvents(), gev: state.settings.gcal && state.settings.gcal.on ? gEvents() : undefined, calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
   if (!force && hash === lastPayload) return;
   const sentKeys = new Set(evQueue.map(e => e.k)), ack = opsAck.slice();
   try {
@@ -3880,7 +3905,8 @@ function lessonForm(id, preset = {}){
       ${ex && ex.st !== 'miss' ? rcBlock('l', ex) : ''}
       ${!ex ? `<div class="group"><div class="field"><label for="f_rep">${esc(T.fRepeat)}</label><select id="f_rep">
         ${[0, 3, 7, 11].map((v, i) => `<option value="${v}">${esc(T.rep[i])}</option>`).join('')}</select></div></div>` : ''}
-      <div class="group"><div class="field"><label for="f_note">${esc(T.fNote)}</label><textarea id="f_note" placeholder="${esc(T.fNotePh)}">${esc(L0.note)}</textarea></div></div>
+      <div class="group"><div class="field"><label for="f_note">${esc(T.fNote)}</label><textarea id="f_note" placeholder="${esc(T.fNotePh)}">${esc(L0.note)}</textarea></div>
+        ${safe(() => lessonRemField(L0))}</div>
       <button class="btn" data-act="saveLesson" data-id="${ex ? ex.id : ''}">${esc(T.save)}</button>
       ${ex && ex.st === 'plan' ? `<div class="sec"><span>${esc(T.resched)}</span></div><div class="btnrow"><button class="btn ghost" data-act="resched" data-id="${ex.id}" data-v="1">${esc(T.plusDay)}</button><button class="btn ghost" data-act="resched" data-id="${ex.id}" data-v="7">${esc(T.plusWeek)}</button></div>` : ''}
       ${ex && ex.online && ex.link ? `<button class="btn ghost" data-act="openLink" data-v="${esc(ex.link)}">💻 ${esc(T.openLinkBtn)}</button>` : ''}
@@ -3910,7 +3936,8 @@ function readLessonForm(){
     dur: Math.max(0, Math.round(+$('f_dur').value || 0)), price: Math.max(0, +$('f_price').value || 0),
     rent: online ? 0 : Math.max(0, +$('f_rent').value || 0), online, link: online ? $('f_link').value.trim() : '',
     st, paid: st !== 'miss' && !$('paidRow').hidden && swOn('f_paid'), note: $('f_note').value.trim(), rep: $('f_rep') ? +$('f_rep').value : 0,
-    pkgMode: $('pkgInfo') && !$('pkgInfo').hidden ? (swOn('f_pkg') ? 'on' : 'off') : ''
+    pkgMode: $('pkgInfo') && !$('pkgInfo').hidden ? (swOn('f_pkg') ? 'on' : 'off') : '',
+    rem: $('f_rem') ? ($('f_rem').value === '' ? undefined : +$('f_rem').value) : undefined
   };
 }
 
@@ -4399,6 +4426,7 @@ const isBooking = startParam === 'book';
 let requests = [];
 try { requests = JSON.parse(lsGetK('vs_reqs') || '[]'); } catch (e) {}
 function handleServer(j){
+  if (j.gcal && typeof j.gcal === 'object' && JSON.stringify(j.gcal) !== JSON.stringify(state.settings.gcal || {})) { state.settings.gcal = j.gcal; save(); const top = stack[stack.length - 1]; if (top && top.isCal) setTimeout(refreshSheet, 50); }
   if (j.cal && j.cal.full && (!state.settings.calLinks || state.settings.calLinks.full !== j.cal.full)) { state.settings.calLinks = j.cal; save(); }
   if (j.bot) { botUser = j.bot; lsSetK('vs_bot', j.bot); }
   if (Array.isArray(j.voices)) { voices = j.voices.filter(v => /^https:\/\//.test(v)); lsSetK('vs_voices', JSON.stringify(voices)); }
@@ -5048,8 +5076,21 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 16;
+const APP_VER = 17;
 const CHANGES = [
+  { v: 17, name: '7.3', date: '2026-11-01', big: true,
+    ru: {
+      add: ['📗 Google Календарь с настоящими напоминаниями: каждый подключает свой аккаунт Google — уроки, выступления, репетиции, дела, дни рождения и оплаты появляются в отдельных цветных календарях и обновляются сами',
+        '🔔 Напоминания как ты настроишь: по умолчанию для каждого вида (до 3) и своё у любого урока — «за 30 мин», «за 2,5 ч», «за день» или без',
+        '💳 Напоминание об оплате: если урок не оплачен — на следующий день в календаре «Оплаты»',
+        'В описании событий — домашка и песни ученика, сет-лист, заказчик и гонорар'],
+      better: ['Календарь по ссылке и календарь для близкого работают как раньше'], removed: [] },
+    en: {
+      add: ['📗 Google Calendar with real reminders: each user connects their own Google account — lessons, gigs, rehearsals, tasks, birthdays and payments appear in separate coloured calendars and stay updated',
+        '🔔 Reminders your way: defaults per type (up to 3) and a custom one on any lesson — “30 min”, “2.5 h”, “a day” or none',
+        '💳 Payment reminders: an unpaid lesson shows up in “Payments” the next day',
+        'Event descriptions include the student’s homework and songs, the set list, the client and the fee'],
+      better: ['The calendar by link and the one for someone close work as before'], removed: [] } },
   { v: 16, name: '7.2.2', date: '2026-11-01',
     ru: { add: ['🔔 Напоминания в календаре телефона: за 15 минут, час, 2 часа или день до урока, выступления и репетиции — выбери в «Календаре в телефоне»'], better: [], removed: [] },
     en: { add: ['🔔 Reminders in the phone calendar: 15 minutes, 1 hour, 2 hours or a day before lessons, gigs and rehearsals — choose in “Calendar on your phone”'], better: [], removed: [] } },
@@ -6672,12 +6713,13 @@ function calEvents(){
   return out.slice(0, 600);
 }
 function calSheet(){
-  return () => {
+  const fn = () => {
     const c = state.settings.calLinks || {}, X = T.x2;
     if (!c.full) return sheetHead('📆 ' + X.cal) + note(X.calWait) + `<button class="btn" data-act="x2CalSync">↻ ${esc(X.calGet)}</button>`;
-    return sheetHead('📆 ' + X.cal) + note(X.calHint)
+    const gb = safe(gcalBlock);
+    return sheetHead('📆 ' + X.cal) + gb + (gb ? `<div class="sec"><span>🔗 ${esc(T.gc.byLink)}</span></div>` : '') + note(X.calHint)
       + `<div class="calbox"><b>👩‍🎤 ${esc(X.calMine)}</b><small>${esc(X.calMineHint)}</small>
-          <button class="btn" data-act="x2CalGoogle" data-v="full">📗 ${esc(X.addGoogle)}</button>
+          ${state.settings.gcal && state.settings.gcal.on ? '' : `<button class="btn" data-act="x2CalGoogle" data-v="full">📗 ${esc(X.addGoogle)}</button>`}
           <button class="btn ghost" data-act="x2CalIphone" data-v="full">🍏 ${esc(X.addIphone2)}</button></div>`
       + `<div class="calbox"><b>🔔 ${esc(X.alarmT)}</b><small>${esc(X.alarmHint)}</small><div class="chipsel" style="margin-top:6px">${[15, 60, 120, 1440].map(m => { const on = (Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60]).includes(m); return `<button type="button" data-act="x2Alarm" data-v="${m}" class="${on ? 'on' : ''}">${esc(X.alarm[m])}</button>`; }).join('')}</div>
           <details class="calmore"><summary>📗 ${esc(X.alarmGoogleT)}</summary>${X.alarmGoogle.map((x, i) => `<div class="hintline" style="text-align:left">${i + 1}. ${esc(x)}</div>`).join('')}</details></div>`
@@ -6690,6 +6732,8 @@ function calSheet(){
           <div class="pair2" style="margin-top:10px"><button class="btn ghost sm" data-act="x2Copy" data-v="${esc(c.full)}">📋 ${esc(X.copyMine)}</button><button class="btn ghost sm" data-act="x2Copy" data-v="${esc(c.busy)}">📋 ${esc(X.copyClose)}</button></div>
           <button class="btn ghost" data-act="x2CalReset">🔄 ${esc(X.calReset)}</button><div class="hintline">${esc(X.calResetHint)}</div></details>`;
   };
+  fn.isCal = true;
+  return fn;
 }
 
 /* ---------- students in the bot ---------- */
@@ -6783,6 +6827,101 @@ const X2 = {
   x2Play: el => playTg(el.dataset.v)
 };
 document.addEventListener('change', e => { if (e.target && e.target.id === 'o_cancelh') { state.settings.cancelH = +e.target.value; save(); scheduleBotSync(); } });
+
+/* ================= 7.3: Google Calendar with real Google reminders (each user signs in with their own Google) ================= */
+const G_KINDS = ['lesson', 'gig', 'reh', 'plan', 'bday', 'pay'];
+const G_DEF = { lesson: [60], gig: [1440, 180], reh: [120], plan: [60], bday: [900], pay: [0] };
+const G_OPTS = { lesson: [15, 30, 60, 120, 150, 1440], gig: [60, 180, 300, 1440, 2880], reh: [30, 60, 120, 180, 1440], plan: [0, 15, 60, 180, 1440], bday: [360, 900, 2340, 9540], pay: [0] };
+const gRems = k => { const g = state.settings.gRem; return g && Array.isArray(g[k]) ? g[k] : G_DEF[k]; };
+const REM_LESSON = [-1, 15, 30, 60, 90, 120, 150, 180, 1440];
+function lessonRemField(L0){
+  if (!(state.settings.gcal && state.settings.gcal.on) && !mod('plan')) return '';
+  const cur = L0.rem === undefined || L0.rem === null ? '' : String(L0.rem);
+  return `<div class="field"><label for="f_rem">🔔 ${esc(T.gc.lessonRem)}</label><select id="f_rem"><option value=""${cur === '' ? ' selected' : ''}>${esc(T.gc.asUsual(gRems('lesson').map(remLabel).join(', ') || T.gc.none))}</option>${REM_LESSON.map(m => `<option value="${m}"${cur === String(m) ? ' selected' : ''}>${esc(m < 0 ? T.gc.none : remLabel(m))}</option>`).join('')}</select></div>`;
+}
+function remLabel(m){
+  m = +m; if (m === 0) return T.gc.atStart;
+  if (m % 1440 === 0) return T.gc.days(m / 1440);
+  if (m >= 60 && m % 60 === 0) return T.gc.hours(m / 60);
+  if (m > 60 && m % 30 === 0) return T.gc.hours((m / 60).toFixed(1).replace('.', ','));
+  return T.gc.mins(m);
+}
+/* all-day reminders in Google are counted from midnight: 360 = 18:00 the evening before, 900 = 9:00 the day before … */
+function remLabelAllDay(m){ m = +m; const d = Math.ceil(m / 1440), hh = (d * 1440 - m) / 60; return T.gc.dayBeforeAt(d, pad(Math.floor(hh)) + ':' + pad(Math.round((hh % 1) * 60))); }
+function gEvents(){
+  const t = today(), from = ymd(addDays(parseD(t), -1)), to = ymd(addDays(parseD(t), 90)), out = [];
+  const iso = (ds, tm) => { const d = parseD(ds); const [h, mi] = String(tm || '0:0').split(':').map(Number); d.setHours(h || 0, mi || 0, 0, 0); return d.toISOString().replace(/\.\d{3}Z$/, 'Z'); };
+  const nextDay = ds => ymd(addDays(parseD(ds), 1));
+  if (mod('students')) {
+    state.lessons.filter(l => l.date >= from && l.date <= to && l.st !== 'miss' && l.time).forEach(l => {
+      const s = stu(l.sid), end = fromMin(toMin(l.time) + (+l.dur || +state.settings.dur || 60)), sv = svcOf(l.svc);
+      const hw = s ? s.hw.filter(h => !h.done).map(h => '• ' + h.t) : [], songs = s ? s.songs.filter(g => !g.done).map(g => '• ' + g.t + (g.key ? ' (' + g.key + ')' : '')) : [];
+      const rem = l.rem === undefined || l.rem === null ? gRems('lesson') : +l.rem < 0 ? [] : [+l.rem];
+      out.push({ id: 'l' + l.id, k: 'lesson', s: '🎵 ' + (s ? s.name : T.x2.calLesson) + (l.online ? ' 💻' : ''), a: iso(l.date, l.time), b: iso(l.date, end), o: l.online ? (l.link || 'online') : '',
+        n: [sv ? sv.name : '', mod('money') ? money(val(l)) + (l.pkg ? ' · ' + T.chPkg : l.paid ? ' · ✅' : '') : '', l.note, hw.length ? T.dHw + ':\n' + hw.join('\n') : '', songs.length ? T.dSongs + ':\n' + songs.join('\n') : ''].filter(Boolean).join('\n\n'), r: rem });
+    });
+    if (mod('money')) state.lessons.filter(l => counts(l) && !l.paid && !l.pkg && l.date >= ymd(addDays(parseD(t), -30)) && l.date <= t).forEach(l => {
+      const s = stu(l.sid), d = nextDay(l.date) < t ? t : nextDay(l.date);
+      out.push({ id: 'p' + l.id, k: 'pay', s: '💳 ' + T.gc.payTitle(s ? s.name : '—', shortDate(l.date), money(val(l))), a: iso(d, '12:00'), b: iso(d, '12:15'), r: gRems('pay') });
+    });
+  }
+  if (mod('plan')) state.items.filter(it => it.kind !== 'note' && (it.kind !== 'post' || mod('content')) && !(it.kind === 'post' && it.cst === 'posted')).forEach(it => occ(it, from, to).forEach(ds => {
+    if (it.kind === 'task' && isDone(it, ds)) return;
+    const k = it.kind === 'gig' ? 'gig' : it.kind === 'reh' ? 'reh' : 'plan', st = it.call || it.time, g = grp(it.gid), span = itemSpan(it);
+    const songs = it.set.map(repSong).filter(Boolean);
+    const n = [g ? '👥 ' + g.name : '', it.call ? T.pl.call + ': ' + it.call + (it.time ? ' · ' + T.pl.start + ': ' + it.time : '') : '', it.org ? '🤝 ' + it.org + (it.orgPh ? ' ' + it.orgPh : '') : '', +it.fee && mod('money') ? '💰 ' + money(it.fee) + (it.paid ? ' ✅' : '') : '',
+      songs.length ? '🎼 ' + T.pl.setlist + ':\n' + songs.map((x, i) => `${i + 1}. ${x.title}${x.key ? ' (' + x.key + ')' : ''}`).join('\n') : '', it.note].filter(Boolean).join('\n\n');
+    const def = gRems(k);
+    if (st) {
+      const startMin = toMin(st);
+      const rem = it.rem === undefined || it.rem === null ? def : it.rem === -1 ? [] : it.rem === -2 ? [Math.max(0, startMin - 9 * 60)] : [+it.rem];
+      out.push({ id: 'i' + it.id + ds, k, s: `${PK[it.kind] || ''} ${itemTitle(it)}`, a: iso(ds, st), b: iso(ds, span ? fromMin(span[1]) : fromMin(startMin + 60)), o: it.place, n, r: rem });
+    } else {
+      const rem = it.rem === -1 ? [] : it.rem >= 1440 ? [1440 - 540] : [360];
+      out.push({ id: 'i' + it.id + ds, k, s: `${PK[it.kind] || ''} ${itemTitle(it)}`, d: ds, e2: nextDay(ds), n, r: rem });
+    }
+  }));
+  bdaysIn(t, to).forEach(b => {
+    const p = b.p, name = p ? p.name : b.s.name, rd = p ? +p.rem : 1;
+    const rem = p && rd < 0 ? [] : p && rd === 0 ? [360] : p ? [rd * 1440 - 540] : gRems('bday');
+    out.push({ id: 'b' + (p ? p.id : b.s.id) + b.ds, k: 'bday', s: '🎂 ' + name + (b.age ? ' · ' + T.pl.turns(b.age) : ''), d: b.ds, e2: nextDay(b.ds), n: p ? [p.who, p.note].filter(Boolean).join('\n') : T.pl.student, r: rem });
+  });
+  return out.slice(0, 800);
+}
+function gcalBlock(){
+  const g = state.settings.gcal || {}, X = T.gc;
+  if (!g.avail) return '';
+  if (!g.on) return `<div class="calbox gbox"><b>📗 ${esc(X.title)}</b><small>${esc(X.pitch)}</small><button class="btn" data-act="gcConnect">📗 ${esc(X.connect)}</button><div class="hintline" style="text-align:left">${esc(X.unverified)}</div></div>`;
+  const kinds = G_KINDS.filter(k => k !== 'pay' || mod('money')).filter(k => k === 'lesson' || k === 'pay' ? mod('students') : k === 'bday' ? true : mod('plan'));
+  return `<div class="calbox gbox"><b>📗 ${esc(X.title)} ✓</b><small>${esc(g.email || '')}${g.at ? ' · ' + esc(X.synced(new Date(g.at).toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' }))) : ''}${g.left ? ' · ' + esc(X.queue(g.left)) : ''}</small>
+    ${g.err ? `<div class="hintline" style="color:var(--danger);text-align:left">⚠️ ${esc(g.err)}</div>` : ''}
+    <div class="sec" style="margin-top:8px"><span>🔔 ${esc(X.remsTitle)}</span></div>
+    ${kinds.map(k => `<div class="gkind"><span>${esc(X.kinds[k])}</span><div class="chipsel">${(k === 'bday' ? G_OPTS.bday : G_OPTS[k]).map(m => `<button type="button" data-act="gcRem" data-k="${k}" data-v="${m}" class="${gRems(k).includes(m) ? 'on' : ''}">${esc(k === 'bday' ? remLabelAllDay(m) : remLabel(m))}</button>`).join('')}</div></div>`).join('')}
+    <div class="hintline" style="text-align:left">${esc(X.perLesson)}</div>
+    <div class="pair2"><button class="btn ghost sm" data-act="gcNow">↻ ${esc(X.syncNow)}</button><button class="btn ghost sm" data-act="gcOff">${esc(X.disconnect)}</button></div></div>`;
+}
+const GC = {
+  gcConnect: async () => {
+    try { const j = await botPost({ a: 'gcalStart' }); if (!j.url) throw new Error('nourl'); openUrl(j.url, false); toast(T.gc.opening, 4000); }
+    catch (e) { toast(T.bk.sendFail, 3000); }
+  },
+  gcRem: el => {
+    const k = el.dataset.k, m = +el.dataset.v, g = Object.assign({}, state.settings.gRem || {});
+    let a = gRems(k).slice(); a = a.includes(m) ? a.filter(x => x !== m) : a.concat(m).sort((x, y) => y - x).slice(0, 3);
+    g[k] = a; state.settings.gRem = g; save(); haptic(); refreshSheet(); scheduleBotSync();
+  },
+  gcNow: async () => {
+    toast('↻ ' + T.gc.syncing, 1500); lastPayload = ''; await botSync(true);
+    try { const j = await botPost({ a: 'gcalNow' }, 60000); if (j.gcal) { state.settings.gcal = j.gcal; save(); } toast(j.left ? T.gc.queue(j.left) : '✅ ' + T.gc.done, 2500); } catch (e) { toast(T.bk.sendFail, 3000); }
+    refreshSheet();
+  },
+  gcOff: async () => {
+    if (!await ask(T.gc.offQ, T.gc.disconnect, true)) return;
+    const del = await ask(T.gc.delQ, T.gc.delYes, true);
+    try { const j = await botPost({ a: 'gcalOff', del }); if (j.gcal) state.settings.gcal = j.gcal; save(); toast('✅ ' + T.gc.offDone, 2500); } catch (e) { toast(T.bk.sendFail, 3000); }
+    refreshSheet();
+  }
+};
 
 /* ================= Help: the full guide + «ask about the app» =================
    HELP_DOC is the single source: assemble.py also publishes it as help.json, and the bot reads it from there
@@ -6887,6 +7026,15 @@ const HELP_DOC = [
     'Студия → «Лист ожидания»: кто хочет заниматься, какое время ему удобно, контакт.',
     'Когда урок отменяется (тобой или учеником через бота), на Главной появится подсказка: освободилось такое-то время, первая в листе — такая-то. Нажми — откроется список с кнопкой «Написать».',
     '«Сделать учеником» — переносит человека из листа в ученики со всеми заметками.' ] },
+  { id: 'gcal', ic: '📗', t: 'Google Календарь с напоминаниями', p: [
+    'Настройки → «Календарь в телефоне» → «Подключить Google Календарь». Откроется Google: войди в свой аккаунт и нажми «Разрешить». Если Google напишет «Приложение не проверено» — «Дополнительно» → «Перейти».',
+    'Приложение создаст в твоём Google отдельные календари с цветами: «🎵 Уроки», «🎤 Выступления», «🎸 Репетиции», «✅ Дела и события», «🎂 Дни рождения», «💳 Оплаты» — и будет их вести само: новые, перенесённые и отменённые уроки и события повторяются там в течение пары минут.',
+    'Напоминания — настоящие напоминания Google (на телефоне, часах, компьютере). По умолчанию для каждого вида — там же, до 3 штук (например, выступления: за день и за 3 часа).',
+    'Своё напоминание у конкретного урока: открой урок → поле «🔔 Напоминание» (за 15 мин, 30 мин, 1 ч, 2,5 ч, день или без). У выступлений, репетиций и дел — их поле «Напомнить».',
+    '💳 Оплаты: если урок прошёл и не оплачен — на следующий день в 12:00 в календаре «Оплаты» будет напоминание; отметишь оплату — событие исчезнет.',
+    'В описании события: домашка и песни ученика, сет-лист, заказчик и телефон, гонорар.',
+    'Менять события нужно в приложении — изменения, сделанные прямо в Google, перезапишутся.',
+    'Доступ только к календарям, которые создаёт приложение; остальной календарь, почта и файлы недоступны. «Отключить» — убирает доступ (по желанию и календари).' ] },
   { id: 'calendar', ic: '📆', t: 'Календарь в телефоне (Google и iPhone)', p: [
     'Настройки → «Календарь в телефоне». Там две ссылки: «Моё расписание» (полностью, с именами и местами) и «Для близкого» (только «Урок», «Выступление», «Занята» — без имён и денег).',
     'Google: нажми «Добавить в Google Календарь» — откроется Google; войди в свой аккаунт (если ещё не вошла) и нажми «Добавить». Всё. События появятся в Google Календаре на телефоне и компьютере.',
@@ -7171,7 +7319,7 @@ const A = {
     if (!f.sids.length) return toast(f.grp ? T.tChooseSome : T.tChoose);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(f.date)) return toast(T.tDate);
     const id = el.dataset.id, t = today(), touched = new Set();
-    const base = { svc: f.svc, date: f.date, time: f.time, dur: f.dur, price: f.price, rent: f.rent, online: f.online, link: f.link, st: f.st, paid: f.paid, note: f.note };
+    const base = { svc: f.svc, date: f.date, time: f.time, dur: f.dur, price: f.price, rent: f.rent, online: f.online, link: f.link, st: f.st, paid: f.paid, note: f.note, rem: f.rem };
     if (f.pkgMode === 'on') Object.assign(base, { noPkg: false, pkgForce: true, paid: false });
     else if (f.pkgMode === 'off') Object.assign(base, { noPkg: true, pkgForce: false });
     const paidAt = l => l.paid ? (l.paidAt || (l.date < t ? l.date : t)) : '';
@@ -7554,7 +7702,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
