@@ -2346,7 +2346,7 @@ const PLD = {
     st: { learn: 'Учу', repeat: 'Повторить', ready: 'Готово' },
     fmt: { reels: 'Reels', post: 'Пост', stories: 'Сторис', video: 'Видео' },
     cst: { idea: 'Идея', shoot: 'Снять', edit: 'Монтаж', ready: 'Готово', posted: 'Опубликовано' },
-    say: 'Надиктовать или спросить помощника', sayBot: 'Надиктовать боту — он сам внесёт в планер', music: 'Музыка и жизнь', bday: 'День рождения', today: 'Сегодня', tomorrow: 'Завтра', all: 'Все',
+    say: 'Надиктовать или спросить помощника', sayBot: 'Надиктовать боту — он сам внесёт в планер', toBot: 'Открываю чат с ботом — запиши голосовое', music: 'Музыка и жизнь', bday: 'День рождения', today: 'Сегодня', tomorrow: 'Завтра', all: 'Все',
     tasks: 'Дела', notes: 'Заметки', gigs: 'Выступления', gigsSub: 'Концерты, корпоративы, сет-листы', groups: 'Коллективы', groupsSub: 'Группы, составы, репетиции',
     rep: 'Репертуар', repSub: 'Песни, тональности, тексты', people: 'Дни рождения', peopleSub: 'Близкие, друзья, коллеги', content: 'Контент-план', contentSub: 'Reels, посты, сторис',
     upcomingN: n => `Впереди: ${n}`, songsN: n => `${n} ${pl(n, ['песня', 'песни', 'песен'])}`, peopleN: n => `${n} ${pl(n, ['человек', 'человека', 'человек'])}`, ideasN: n => `В работе: ${n}`,
@@ -2387,7 +2387,7 @@ const PLD = {
     st: { learn: 'Learning', repeat: 'Brush up', ready: 'Ready' },
     fmt: { reels: 'Reels', post: 'Post', stories: 'Stories', video: 'Video' },
     cst: { idea: 'Idea', shoot: 'To shoot', edit: 'Editing', ready: 'Ready', posted: 'Posted' },
-    say: 'Dictate or ask the assistant', sayBot: 'Dictate to the bot — it adds to the planner', music: 'Music & life', bday: 'Birthday', today: 'Today', tomorrow: 'Tomorrow', all: 'All',
+    say: 'Dictate or ask the assistant', sayBot: 'Dictate to the bot — it adds to the planner', toBot: 'Opening the bot chat — record a voice message', music: 'Music & life', bday: 'Birthday', today: 'Today', tomorrow: 'Tomorrow', all: 'All',
     tasks: 'Tasks', notes: 'Notes', gigs: 'Gigs', gigsSub: 'Concerts, events, set lists', groups: 'Bands', groupsSub: 'Line-ups, rehearsals',
     rep: 'Repertoire', repSub: 'Songs, keys, lyrics', people: 'Birthdays', peopleSub: 'Family, friends, colleagues', content: 'Content plan', contentSub: 'Reels, posts, stories',
     upcomingN: n => `Upcoming: ${n}`, songsN: n => `${n} ${n === 1 ? 'song' : 'songs'}`, peopleN: n => `${n} ${n === 1 ? 'person' : 'people'}`, ideasN: n => `In progress: ${n}`,
@@ -5660,7 +5660,7 @@ function renderPlan(noHead){
   const t = today(), to = ymd(addDays(parseD(t), 13));
   ui.planDay = '';
   const quick = `<div class="pquick">${['gig', 'reh', 'task', 'post', 'note', 'event'].filter(kindOn).map(k => `<button data-act="plNew" data-v="${k}">${PK[k]} ${esc(T.pl.kinds[k])}</button>`).join('')}${mod('people') ? `<button data-act="plPersonNew">🎂 ${esc(T.pl.bday)}</button>` : ''}</div>`;
-  const voice = inTG && state.settings.api && botUser ? `<button class="btn soft pvoice" data-act="plBot">🎤 ${esc(T.pl.sayBot)}</button>` : '';
+  const voice = '';
   let agenda = '';
   for (let k = 0; k < 14; k++) {
     const ds = ymd(addDays(parseD(t), k)), rows = dayAgenda(ds);
@@ -6036,7 +6036,12 @@ const PL = {
   plOpen: el => openItem(el.dataset.id, null, el.dataset.v),
   plKind: el => { if (!curItemForm) return; curItemForm.setKind(el.dataset.v); refreshSheet(); haptic(); },
   plSw: el => { el.classList.toggle('on'); haptic(); },
-  plBot: () => openUrl('https://t.me/' + String(botUser).replace(/^@/, ''), true),
+  /* the app is usually opened from the bot chat itself: just save and close it — the user lands right in the chat with the bot */
+  plBot: async () => {
+    toast('🎤 ' + T.pl.toBot, 1500);
+    try { clearTimeout(saveTimer); saveTimer = null; await flush(); } catch (e) {}
+    setTimeout(() => { try { if (inTG && tg.close) tg.close(); else openUrl('https://t.me/' + String(botUser).replace(/^@/, ''), true); } catch (e) { openUrl('https://t.me/' + String(botUser).replace(/^@/, ''), true); } }, 600);
+  },
   plPick: el => { el.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el)); haptic(); },
   plSave: el => {
     const id = el.dataset.id, I = itemFromForm(id);
