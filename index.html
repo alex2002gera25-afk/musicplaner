@@ -434,10 +434,8 @@ nav.tabs button:active{transform:scale(.9)}
 nav.tabs button{font-size:10px;min-width:0}
 nav.tabs button .tl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .topbtns{display:flex;gap:8px;flex:none}
-.vtop{font-size:18px}
 .pquick{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
 .pquick button{background:var(--card);border-radius:999px;padding:8px 12px;font-size:13.5px;color:var(--text);border:1px solid var(--line)}
-.pvoice{margin:0 0 10px}
 .pava{font-size:17px;background:var(--soft,rgba(127,127,127,.12))!important;color:var(--text)}
 .prow .pava[style*="background:#"],.prow .pava[style*="background:var(--gold)"],.prow .pava[style*="background:var(--taupe)"]{color:#fff}
 .pchk{width:40px;height:40px;flex:none;border-radius:50%;border:2px solid var(--line);background:transparent;display:grid;place-items:center;font-size:18px;font-weight:700;color:#fff}
@@ -462,40 +460,6 @@ textarea.pbig{min-height:180px}
 .legend i.plg{background:var(--link,#4f5fa8)}
 .pair2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pair2 .btn{margin:0}
-/* --- assistant --- */
-.vlog{display:flex;flex-direction:column;gap:8px;margin:0 0 10px}
-.vmsg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:14.5px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
-.vmsg.me{align-self:flex-end;background:var(--accent);color:var(--accent-text,#fff);border-bottom-right-radius:6px}
-.vmsg.ai{align-self:flex-start;background:var(--card);border-bottom-left-radius:6px}
-.vlines{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px;font-size:13.5px}
-.vtx+.vlines{margin-top:8px}
-.vmsg.ai>.vlines:first-child{margin-top:0;padding-top:0;border-top:0}
-.vok{margin-top:6px;font-size:13px;color:var(--hint)}
-.vsrc{display:flex;flex-direction:column;gap:4px;margin-top:8px}
-.vsrc button{text-align:left;font-size:12.5px;color:var(--link);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.vbtns{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin:0 0 8px}
-.vbtns .btn{margin:0}
-.vask{display:flex;flex-direction:column;gap:6px;margin:0 0 10px}
-.vask .btn{margin:0;text-align:left}
-.vbar{display:flex;gap:8px;align-items:flex-end;position:sticky;bottom:0;background:var(--bg);padding:6px 0}
-.vmic{width:52px;height:52px;border-radius:50%;background:var(--accent);color:var(--accent-text,#fff);font-size:22px;flex:none;display:grid;place-items:center}
-.vmic.on{background:#d33;animation:vpulse 1.2s ease-in-out infinite}
-.vmic:disabled,.vsend:disabled{opacity:.45}
-@keyframes vpulse{0%,100%{box-shadow:0 0 0 0 rgba(221,51,51,.45)}50%{box-shadow:0 0 0 10px rgba(221,51,51,0)}}
-.vin{flex:1;display:flex;align-items:flex-end;background:var(--card);border-radius:22px;padding:4px 4px 4px 12px;min-height:52px}
-.vin textarea{flex:1;border:0;background:transparent;resize:none;min-height:40px;max-height:140px;padding:10px 0;font-size:15px;color:var(--text);outline:none}
-.vsend{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--accent-text,#fff);font-size:16px;flex:none}
-.vrec{display:flex;align-items:center;gap:8px;justify-content:center;font-size:13px;color:var(--hint);margin:4px 0}
-.vrec i{width:9px;height:9px;border-radius:50%;background:#d33;animation:vpulse 1.2s infinite}
-.vhints{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.vhints button{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 11px;font-size:13px;text-align:left;color:var(--text)}
-.vdots{display:inline-flex;gap:3px;vertical-align:middle}
-.vdots i{width:6px;height:6px;border-radius:50%;background:var(--hint);animation:vdot 1s infinite}
-.vdots i:nth-child(2){animation-delay:.15s}.vdots i:nth-child(3){animation-delay:.3s}
-@keyframes vdot{0%,100%{opacity:.25}50%{opacity:1}}
-.vhome{display:flex;align-items:center;gap:10px;width:100%;background:var(--card);border-radius:16px;padding:12px 14px;margin:0 0 10px;text-align:left;color:var(--text)}
-.vhome b{flex:1;font-weight:500;font-size:14.5px}
-.vhome span,.vhome i{font-size:20px;font-style:normal}
 .field.toggle span small{display:block;font-size:12px;color:var(--hint);margin-top:2px;font-weight:400}
 .field.toggle.msub{padding-left:22px}
 .field.toggle.mdis{opacity:.45}
@@ -2346,7 +2310,7 @@ const PLD = {
     st: { learn: 'Учу', repeat: 'Повторить', ready: 'Готово' },
     fmt: { reels: 'Reels', post: 'Пост', stories: 'Сторис', video: 'Видео' },
     cst: { idea: 'Идея', shoot: 'Снять', edit: 'Монтаж', ready: 'Готово', posted: 'Опубликовано' },
-    say: 'Надиктовать или спросить помощника', sayBot: 'Надиктовать боту — он сам внесёт в планер', toBot: 'Открываю чат с ботом — запиши голосовое', music: 'Музыка и жизнь', bday: 'День рождения', today: 'Сегодня', tomorrow: 'Завтра', all: 'Все',
+    music: 'Музыка и жизнь', bday: 'День рождения', today: 'Сегодня', tomorrow: 'Завтра', all: 'Все',
     tasks: 'Дела', notes: 'Заметки', gigs: 'Выступления', gigsSub: 'Концерты, корпоративы, сет-листы', groups: 'Коллективы', groupsSub: 'Группы, составы, репетиции',
     rep: 'Репертуар', repSub: 'Песни, тональности, тексты', people: 'Дни рождения', peopleSub: 'Близкие, друзья, коллеги', content: 'Контент-план', contentSub: 'Reels, посты, сторис',
     upcomingN: n => `Впереди: ${n}`, songsN: n => `${n} ${pl(n, ['песня', 'песни', 'песен'])}`, peopleN: n => `${n} ${pl(n, ['человек', 'человека', 'человек'])}`, ideasN: n => `В работе: ${n}`,
@@ -2372,7 +2336,7 @@ const PLD = {
     delQ: 'Удалить из планера?', delGroupQ: 'Удалить коллектив? Выступления и песни останутся.', delSongQ: 'Удалить песню из репертуара?', delPersonQ: 'Удалить человека?',
     needTitle: 'Напиши название', noTask: t => `Не нашёл дело «${t}»`,
     gigMoney: 'Выступления', gigWait: s => `Гонораров ждём: ${s}`,
-    contentHint: 'Контент-план: идеи без даты лежат в банке идей, с датой — в календаре и напоминаниях. Идеи можно надиктовать боту.', askIdeas: 'Придумать идеи с помощником', scheduled: 'Запланировано', ideaBank: 'Банк идей',
+    contentHint: 'Контент-план: идеи без даты лежат в банке идей, с датой — в календаре и напоминаниях. Идеи можно надиктовать боту.', scheduled: 'Запланировано', ideaBank: 'Банк идей',
     nbToday: 'сегодня', nbOn: d => d, nbBdayToday: n => `Сегодня день рождения: ${n}`, nbBdaySoon: (n, d) => `Скоро день рождения: ${n} — ${d}`, nbPlans: 'В планах на день:'
   },
   en: {
@@ -2387,7 +2351,7 @@ const PLD = {
     st: { learn: 'Learning', repeat: 'Brush up', ready: 'Ready' },
     fmt: { reels: 'Reels', post: 'Post', stories: 'Stories', video: 'Video' },
     cst: { idea: 'Idea', shoot: 'To shoot', edit: 'Editing', ready: 'Ready', posted: 'Posted' },
-    say: 'Dictate or ask the assistant', sayBot: 'Dictate to the bot — it adds to the planner', toBot: 'Opening the bot chat — record a voice message', music: 'Music & life', bday: 'Birthday', today: 'Today', tomorrow: 'Tomorrow', all: 'All',
+    music: 'Music & life', bday: 'Birthday', today: 'Today', tomorrow: 'Tomorrow', all: 'All',
     tasks: 'Tasks', notes: 'Notes', gigs: 'Gigs', gigsSub: 'Concerts, events, set lists', groups: 'Bands', groupsSub: 'Line-ups, rehearsals',
     rep: 'Repertoire', repSub: 'Songs, keys, lyrics', people: 'Birthdays', peopleSub: 'Family, friends, colleagues', content: 'Content plan', contentSub: 'Reels, posts, stories',
     upcomingN: n => `Upcoming: ${n}`, songsN: n => `${n} ${n === 1 ? 'song' : 'songs'}`, peopleN: n => `${n} ${n === 1 ? 'person' : 'people'}`, ideasN: n => `In progress: ${n}`,
@@ -2413,27 +2377,9 @@ const PLD = {
     delQ: 'Delete from the planner?', delGroupQ: 'Delete the band? Gigs and songs stay.', delSongQ: 'Delete the song?', delPersonQ: 'Delete this person?',
     needTitle: 'Add a title', noTask: t => `Task “${t}” not found`,
     gigMoney: 'Gigs', gigWait: s => `Fees still to come: ${s}`,
-    contentHint: 'Content plan: ideas without a date live in the idea bank; dated ones go to the calendar and reminders.', askIdeas: 'Brainstorm ideas with the assistant', scheduled: 'Scheduled', ideaBank: 'Idea bank',
+    contentHint: 'Content plan: ideas without a date live in the idea bank; dated ones go to the calendar and reminders.', scheduled: 'Scheduled', ideaBank: 'Idea bank',
     nbToday: 'today', nbOn: d => d, nbBdayToday: n => `Birthday today: ${n}`, nbBdaySoon: (n, d) => `Birthday soon: ${n} — ${d}`, nbPlans: 'Plans for the day:'
   }
-};
-const VAD = {
-  ru: { title: 'Помощник', newChat: 'Новый', intro: 'Я твой помощник: вношу уроки и планы, отвечаю на вопросы о твоих учениках и деньгах, ищу в интернете, придумываю идеи для Reels. Скажи 🎤 или напиши. Перед тем как что-то внести, покажу и спрошу.',
-    examples: ['Маша завтра в 15:00, оплатила', 'В субботу Казаки, сбор в 17, начало в 19, гонорар 15 тысяч', 'Сколько я заработала в октябре и кто мне должен?', 'Придумай 5 идей для Reels на неделю', 'Какие песни сейчас в трендах для каверов?', 'Напомни в пятницу купить струны'],
-    thinking: 'Думаю…', listening: 'Слушаю… нажми ■, когда закончишь', typePh: 'Напиши или нажми 🎤', tapStop: 'нажми ■, чтобы отправить', voiceMsg: 'Голосовое…',
-    apply: 'Внести', cancel: 'Отмена', done: 'Внесено', cancelled: 'Отменено',
-    whoMany: r => `«${r}» — кого ты имеешь в виду?`, whoOne: (r, n) => `Не нашёл «${r}». Может, это ${n}?`, whoNew: r => `Не нашёл ученика «${r}». Это новый ученик?`, isNew: r => `Это новый ученик: ${r}`,
-    noMic: 'Микрофон недоступен на этом устройстве — напиши текстом.', denied: 'Нет доступа к микрофону. Разреши его для Telegram в настройках телефона и попробуй ещё раз.', short: 'Слишком коротко — нажми 🎤, скажи и нажми ■.',
-    fail: 'Не получилось связаться с сервером — проверь интернет и попробуй ещё раз.', failWhy: e => `Помощник не ответил: ${e}. Попробуй ещё раз через минуту.`, noKey: 'Помощнику нужен ключ Gemini на сервере.', noCtx: 'Секунду, приложение ещё не синхронизировалось с ботом — попробуй через пару секунд.',
-    ideasPrompt: 'Придумай 5 идей для Reels на ближайшую неделю для моего Инстаграма (я певица и преподаю вокал) и добавь их в банк идей' },
-  en: { title: 'Assistant', newChat: 'New', intro: 'Say or type what to add, or ask for advice. I will show what I understood before adding anything.',
-    examples: ['Masha tomorrow at 3 pm, paid', 'Gig on Saturday, call 5 pm, start 7 pm, fee 15000', 'How much did I earn in October and who owes me?', 'Come up with 5 Reels ideas for this week', 'Which songs are trending for covers right now?', 'Remind me on Friday to buy strings'],
-    thinking: 'Thinking…', listening: 'Listening… tap ■ when done', typePh: 'Type or tap 🎤', tapStop: 'tap ■ to send', voiceMsg: 'Voice message…',
-    apply: 'Add', cancel: 'Cancel', done: 'Added', cancelled: 'Cancelled',
-    whoMany: r => `“${r}” — who do you mean?`, whoOne: (r, n) => `“${r}” not found. Is it ${n}?`, whoNew: r => `No student “${r}”. Is this a new student?`, isNew: r => `New student: ${r}`,
-    noMic: 'No microphone on this device — please type.', denied: 'No access to the microphone. Allow it for Telegram in the phone settings and try again.', short: 'Too short — tap 🎤, speak, then tap ■.',
-    fail: 'Could not reach the server — check the connection and try again.', failWhy: e => `The assistant did not answer: ${e}. Try again in a minute.`, noKey: 'The assistant needs a Gemini key on the server.', noCtx: 'One moment — the app has not synced with the bot yet. Try again in a few seconds.',
-    ideasPrompt: 'Come up with 5 Reels ideas for the coming week for my Instagram (I am a singer and a vocal teacher) and add them to the idea bank' }
 };
 const BKH = {
   ru: { hr: 'за час работы', howT: 'Если что-то пропало — как вернуть',
@@ -2449,23 +2395,23 @@ const BKH = {
 };
 const MDD = {
   ru: { title: 'Разделы приложения', hint: 'Выключи то, чем не пользуешься, — приложение станет проще. Данные не удаляются: включишь обратно — всё на месте.',
-    n: { students: 'Ученики и уроки', money: 'Деньги', studio: 'Студия', plan: 'Планер', content: 'Контент-план', rep: 'Репертуар и сет-листы', groups: 'Коллективы', people: 'Дни рождения', notes: 'Заметки', ai: 'ИИ-помощник', ach: 'Достижения и сюрпризы' },
+    n: { students: 'Ученики и уроки', money: 'Деньги', studio: 'Студия', plan: 'Планер', content: 'Контент-план', rep: 'Репертуар и сет-листы', groups: 'Коллективы', people: 'Дни рождения', notes: 'Заметки', ach: 'Достижения и сюрпризы' },
     d: { students: 'Ученики, уроки, абонементы, расписание', money: 'Доход, долги, расходы, отчёты', studio: 'Пианино, метроном, тюнер, шаблоны', plan: 'Дела, выступления, репетиции, события', content: 'Reels, посты, сторис', rep: 'Песни, тексты, сет-листы', groups: 'Группы и составы', people: 'Близкие и коллеги', notes: 'Мысли и идеи',
-      ai: 'Голос и вопросы в приложении (бот в Telegram работает отдельно)', ach: 'Достижения, призы, поздравления, пасхалки' },
+      ach: 'Достижения, призы, поздравления, пасхалки' },
     lockedT: 'Всегда включено', locked: 'Главная, Настройки, резервные копии и сохранение данных отключить нельзя — на них держится всё приложение.',
     allOn: 'Включить всё обратно', allOnDone: 'Все разделы включены', allOff: 'Все разделы выключены. Включи нужные в Настройках → «Разделы приложения».', cal: 'Календарь',
     dev: 'Для разработчика', devHint: 'Диагностика и служебные действия. Нужен пароль.', pw: 'Пароль', open: 'Открыть', wrong: 'Неверный пароль',
-    ver: 'Версия', store: 'Хранение', local: 'на телефоне', size: 'Размер базы', parts: 'частей', mirror: 'Копия на телефоне', counts: 'Записи', sync: 'Синхронизация', bot: 'бот', ai: 'Помощник', yes: 'доступен', no: 'выключен или нет связи с сервером',
+    ver: 'Версия', store: 'Хранение', local: 'на телефоне', size: 'Размер базы', parts: 'частей', mirror: 'Копия на телефоне', counts: 'Записи', sync: 'Синхронизация', bot: 'бот',
     errors: 'Ошибки', noErrors: 'Ошибок нет 👍', snap: 'Сделать копию прямо сейчас', snapDone: 'Копия сохранена на телефоне', reload: 'Перечитать данные из облака', reloaded: 'Данные перечитаны',
     betaLine: 'Тестовая версия — её видишь только ты. Обычная: /stable в боте.', copyDiag: 'Скопировать диагностику', clearUi: 'Очистить служебный кэш (данные не трогает)', uiCleared: 'Кэш очищен', devFoot: 'Данные учеников, уроков и планера эти кнопки не удаляют.' },
   en: { title: 'App sections', hint: 'Switch off what you don’t use — the app gets simpler. Nothing is deleted: switch it back on and everything is there.',
-    n: { students: 'Students & lessons', money: 'Money', studio: 'Studio', plan: 'Planner', content: 'Content plan', rep: 'Repertoire & set lists', groups: 'Bands', people: 'Birthdays', notes: 'Notes', ai: 'AI assistant', ach: 'Achievements & surprises' },
+    n: { students: 'Students & lessons', money: 'Money', studio: 'Studio', plan: 'Planner', content: 'Content plan', rep: 'Repertoire & set lists', groups: 'Bands', people: 'Birthdays', notes: 'Notes', ach: 'Achievements & surprises' },
     d: { students: 'Students, lessons, packages, schedule', money: 'Income, debts, expenses, reports', studio: 'Piano, metronome, tuner, templates', plan: 'Tasks, gigs, rehearsals, events', content: 'Reels, posts, stories', rep: 'Songs, lyrics, set lists', groups: 'Bands and line-ups', people: 'Family and colleagues', notes: 'Thoughts and ideas',
-      ai: 'Voice and questions in the app (the Telegram bot works separately)', ach: 'Achievements, prizes, celebrations, easter eggs' },
+      ach: 'Achievements, prizes, celebrations, easter eggs' },
     lockedT: 'Always on', locked: 'Home, Settings, backups and data storage can’t be switched off — the whole app relies on them.',
     allOn: 'Switch everything back on', allOnDone: 'All sections are on', allOff: 'All sections are off. Turn the ones you need on in Settings → “App sections”.', cal: 'Calendar',
     dev: 'Developer', devHint: 'Diagnostics and service actions. Password required.', pw: 'Password', open: 'Open', wrong: 'Wrong password',
-    ver: 'Version', store: 'Storage', local: 'on the phone', size: 'Data size', parts: 'parts', mirror: 'Copy on the phone', counts: 'Records', sync: 'Sync', bot: 'bot', ai: 'Assistant', yes: 'available', no: 'off or no server connection',
+    ver: 'Version', store: 'Storage', local: 'on the phone', size: 'Data size', parts: 'parts', mirror: 'Copy on the phone', counts: 'Records', sync: 'Sync', bot: 'bot',
     errors: 'Errors', noErrors: 'No errors 👍', snap: 'Make a copy right now', snapDone: 'Copy saved on the phone', reload: 'Reload data from the cloud', reloaded: 'Data reloaded',
     betaLine: 'Test version — only you see it. Back to normal: /stable in the bot.', copyDiag: 'Copy diagnostics', clearUi: 'Clear service cache (data untouched)', uiCleared: 'Cache cleared', devFoot: 'These buttons never delete students, lessons or planner data.' }
 };
@@ -2486,7 +2432,7 @@ const B2D = {
     paste: 'Paste a copy as text', pasteHint: 'Paste the whole copy here (from Notes or a file) — the code at the end restores the base. The current state is saved to a copy first.' }
 };
 const TABP = { ru: 'Планер', en: 'Planner', es: 'Agenda', it: 'Agenda', fr: 'Agenda' };
-for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].va = VAD[c] || VAD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en;
+for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -3330,7 +3276,7 @@ const footer = () => `<div class="madeby" data-act="sanya">${esc(T.madeBy)}</div
 const demoBanner = () => (isDemo() ? `<div class="demo">${esc(T.demo)}</div>` : '') + (/\/beta\//.test(location.pathname) ? `<div class="demo beta">🧪 ${esc(T.md.betaLine)}</div>` : '');
 function header(title){
   return `<div class="top"><div><h1>${esc(title)}</h1>${syncLine()}</div><div class="topbtns">
-    ${safe(voiceOk, false) ? `<button class="icon-btn vtop" data-act="voice" aria-label="🎤">🎤</button>` : ''}<button class="icon-btn" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>${demoBanner()}`;
+    <button class="icon-btn" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>${demoBanner()}`;
 }
 const monthNav = (m, act) => `<div class="month"><button data-act="${act}" data-v="-1" aria-label="${esc(T.prev)}">‹</button><b>${esc(monthTitle(m))}</b><button data-act="${act}" data-v="1" aria-label="${esc(T.next)}">›</button></div>`;
 const welcome = () => `<div class="empty"><div class="big">🎤</div><b>${esc(T.welcome)}</b>${esc(T.welcomeText)}<button class="btn" data-act="addStudent">${esc(T.addStudent)}</button></div>`;
@@ -3406,8 +3352,8 @@ function renderHome(){
   const h = now.getHours(), gi = h < 5 ? 0 : h < 12 ? 1 : h < 18 ? 2 : 3;
   const hello = `<div class="hello"><div class="hello-top"><div><small>${esc(F.full.format(now))}</small>
       <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
-      <div class="topbtns">${safe(voiceOk, false) ? `<button class="icon-btn light vtop" data-act="voice" aria-label="🎤">🎤</button>` : ''}<button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>
-    <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}${safe(voiceOk, false) ? `<button class="vhome" data-act="voice"><span>🤖</span><b>${esc(T.pl.say)}</b><i>🎤</i></button>` : ''}`;
+      <div class="topbtns"><button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>
+    <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
   const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
   if (!state.students.length) return hello + quote + reqBlock() + welcome() + achRow();
@@ -5660,7 +5606,6 @@ function renderPlan(noHead){
   const t = today(), to = ymd(addDays(parseD(t), 13));
   ui.planDay = '';
   const quick = `<div class="pquick">${['gig', 'reh', 'task', 'post', 'note', 'event'].filter(kindOn).map(k => `<button data-act="plNew" data-v="${k}">${PK[k]} ${esc(T.pl.kinds[k])}</button>`).join('')}${mod('people') ? `<button data-act="plPersonNew">🎂 ${esc(T.pl.bday)}</button>` : ''}</div>`;
-  const voice = '';
   let agenda = '';
   for (let k = 0; k < 14; k++) {
     const ds = ymd(addDays(parseD(t), k)), rows = dayAgenda(ds);
@@ -5686,7 +5631,7 @@ function renderPlan(noHead){
   ];
   const TOOLMOD = { plGroups: 'groups', plRep: 'rep', plPeople: 'people' };
   const toolsB = `<div class="tools">${tools.filter(([a, v]) => (a !== 'plList' || v !== 'post' || mod('content')) && (!TOOLMOD[a] || mod(TOOLMOD[a]))).map(([a, v, i, b, s]) => `<button class="tool" data-act="${a}" data-v="${v}"><span class="ti">${i}</span><b>${esc(b)}</b><small>${esc(s)}</small></button>`).join('')}</div>`;
-  return (noHead ? '' : header(T.tabs.plan)) + (noHead && voiceOk() ? '' : voice) + quick + tasksB + agenda + notesB + `<div class="sec"><span>${esc(T.pl.music)}</span></div>` + toolsB;
+  return (noHead ? '' : header(T.tabs.plan)) + quick + tasksB + agenda + notesB + `<div class="sec"><span>${esc(T.pl.music)}</span></div>` + toolsB;
 }
 function noteCard(it){
   return `<button class="pnote" data-act="plOpen" data-id="${it.id}"><b>${esc(it.title || T.pl.kinds.note)}</b><small>${esc(String(it.note || '').slice(0, 140))}</small></button>`;
@@ -5790,7 +5735,6 @@ function planListSheet(kind){
       const done = all.filter(it => it.cst === 'posted').sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 30);
       const by = CSTS.slice(0, 4).map(c => `${T.pl.cst[c]}: ${all.filter(it => it.cst === c).length}`).join(' · ');
       body = (all.length ? note(by) : note(T.pl.contentHint))
-        + (voiceOk() ? `<button class="btn soft" data-act="voice" data-v="ideas">💡 ${esc(T.pl.askIdeas)}</button>` : '')
         + `<div class="sec"><span>🗓 ${esc(T.pl.scheduled)}</span></div>` + (plan.length ? `<div class="card">${plan.map(it => itemRow(it, it.date)).join('')}</div>` : `<div class="hintline">${esc(T.pl.none)}</div>`)
         + `<div class="sec"><span>💡 ${esc(T.pl.ideaBank)}</span></div>` + (ideas.length ? `<div class="card">${ideas.map(it => itemRow(it, '')).join('')}</div>` : `<div class="hintline">${esc(T.pl.none)}</div>`)
         + (done.length ? `<div class="sec"><span>✅ ${esc(T.pl.cst.posted)}</span></div><div class="card">${done.map(it => itemRow(it, it.date)).join('')}</div>` : '');
@@ -6036,12 +5980,6 @@ const PL = {
   plOpen: el => openItem(el.dataset.id, null, el.dataset.v),
   plKind: el => { if (!curItemForm) return; curItemForm.setKind(el.dataset.v); refreshSheet(); haptic(); },
   plSw: el => { el.classList.toggle('on'); haptic(); },
-  /* the app is usually opened from the bot chat itself: just save and close it — the user lands right in the chat with the bot */
-  plBot: async () => {
-    toast('🎤 ' + T.pl.toBot, 1500);
-    try { clearTimeout(saveTimer); saveTimer = null; await flush(); } catch (e) {}
-    setTimeout(() => { try { if (inTG && tg.close) tg.close(); else openUrl('https://t.me/' + String(botUser).replace(/^@/, ''), true); } catch (e) { openUrl('https://t.me/' + String(botUser).replace(/^@/, ''), true); } }, 600);
-  },
   plPick: el => { el.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el)); haptic(); },
   plSave: el => {
     const id = el.dataset.id, I = itemFromForm(id);
@@ -6152,164 +6090,6 @@ document.addEventListener('change', e => {
 
 /* when lessons are switched off, the home screen is the planner */
 const planHomeLite = () => renderPlan(true);
-
-/* ================= Personal assistant inside the app: voice 🎤 or text =================
-   Record → WAV (16 kHz mono, works in every Telegram webview) → server → Gemini → «here is what I'll add» → ✅ → applied locally.
-   It also answers questions and brainstorms (ideas for Reels, preparation plans…) and can offer to save them. */
-const VX = { rec: null, chunks: [], t0: 0, timer: null, busy: false, log: [], pend: null, hist: [], err: '' };
-const voiceOk = () => false;   // 7.0: voice/text input lives in the Telegram bot only
-function assistantSheet(prefill){
-  VX.draft = prefill || '';
-  return () => {
-    const draft = VX.draft || '';
-    const X = T.va;
-    const log = VX.log.slice(-6).map(m => m.me
-      ? `<div class="vmsg me">${m.audio ? '🎤 ' : ''}${esc(m.x)}</div>`
-      : `<div class="vmsg ai">${m.x ? `<div class="vtx">${esc(m.x)}</div>` : ''}${m.lines && m.lines.length ? `<div class="vlines">${m.lines.map(l => `<div>${esc(l)}</div>`).join('')}</div>` : ''}${m.src && m.src.length ? `<div class="vsrc">${m.src.map(s => `<button data-act="plLink" data-v="${esc(s.u)}">🔗 ${esc(s.t)}</button>`).join('')}</div>` : ''}${m.state === 'done' ? `<div class="vok">✅ ${esc(X.done)}</div>` : m.state === 'cancel' ? `<div class="vok">✖️ ${esc(X.cancelled)}</div>` : ''}</div>`).join('');
-    const p = VX.pend;
-    const ask = p && p.ask ? `<div class="vask"><b>🤔 ${esc(p.ask.cands.length > 1 ? X.whoMany(p.ask.ref) : p.ask.cands.length ? X.whoOne(p.ask.ref, p.ask.cands[0].n) : X.whoNew(p.ask.ref))}</b>
-        ${p.ask.cands.map((c, i) => `<button class="btn ghost sm" data-act="vaPick" data-v="${i}">👤 ${esc(c.n)}</button>`).join('')}
-        <button class="btn ghost sm" data-act="vaPick" data-v="new">➕ ${esc(X.isNew(p.ask.ref))}</button></div>` : '';
-    const confirm = p && !p.ask && p.acts.length ? `<div class="vbtns"><button class="btn" data-act="vaApply">✅ ${esc(X.apply)}</button><button class="btn ghost" data-act="vaCancel">✖️ ${esc(X.cancel)}</button></div>` : '';
-    const recOn = !!VX.rec;
-    const hints = !VX.log.length ? `<div class="vhints">${X.examples.map(e => `<button data-act="vaHint">${esc(e)}</button>`).join('')}</div>` : '';
-    return sheetHead('🤖 ' + X.title, VX.log.length && !VX.busy ? `<button class="r" data-act="vaNew">${esc(X.newChat)}</button>` : '') + (VX.log.length ? '' : note(X.intro)) + `<div class="vlog" id="vaLog">${log}${VX.busy ? `<div class="vmsg ai"><span class="vdots"><i></i><i></i><i></i></span> ${esc(X.thinking)}</div>` : ''}</div>`
-      + ask + confirm + (VX.err ? `<div class="hintline" style="color:var(--danger)">${esc(VX.err)}</div>` : '')
-      + `<div class="vbar"><button class="vmic${recOn ? ' on' : ''}" data-act="vaMic" aria-label="🎤"${VX.busy ? ' disabled' : ''}>${recOn ? '■' : '🎤'}</button>
-         <div class="vin"><textarea id="va_text" rows="1" placeholder="${esc(recOn ? X.listening : X.typePh)}"${recOn || VX.busy ? ' disabled' : ''}>${esc(draft)}</textarea><button class="vsend" data-act="vaSend"${VX.busy ? ' disabled' : ''} aria-label="→">➤</button></div></div>`
-      + (recOn ? `<div class="vrec"><i></i><span id="vaTime">0:00</span> · ${esc(X.tapStop)}</div>` : '') + hints;
-  };
-}
-function vaRefresh(){ const top = stack[stack.length - 1]; if (top && top.isVa) { const t = $('va_text'); if (t && !t.disabled) VX.draft = t.value; refreshSheet(); const l = $('vaLog'); if (l) l.scrollIntoView({ block: 'end' }); } }
-async function vaStart(){
-  VX.err = '';
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { VX.err = T.va.noMic; return vaRefresh(); }
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
-    const C = window.AudioContext || window.webkitAudioContext, ctx = new C();
-    const src = ctx.createMediaStreamSource(stream), proc = ctx.createScriptProcessor(4096, 1, 1);
-    VX.chunks = []; VX.rate = ctx.sampleRate;
-    proc.onaudioprocess = e => { VX.chunks.push(new Float32Array(e.inputBuffer.getChannelData(0))); };
-    src.connect(proc); proc.connect(ctx.destination);
-    VX.rec = { stream, ctx, src, proc }; VX.t0 = Date.now(); haptic('medium');
-    VX.timer = setInterval(() => { const s = Math.round((Date.now() - VX.t0) / 1000); const el = $('vaTime'); if (el) el.textContent = fmtDur(s); if (s >= 120) vaStop(); }, 500);
-    vaRefresh();
-  } catch (e) { VX.err = /NotAllowed|Permission|denied/i.test(String(e && (e.name || e.message))) ? T.va.denied : T.va.noMic; vaRefresh(); }
-}
-function vaStop(){
-  const r = VX.rec; if (!r) return;
-  clearInterval(VX.timer); VX.rec = null;
-  try { r.proc.disconnect(); r.src.disconnect(); r.stream.getTracks().forEach(t => t.stop()); r.ctx.close(); } catch (e) {}
-  const secs = (Date.now() - VX.t0) / 1000;
-  if (secs < 0.8) { VX.err = T.va.short; return vaRefresh(); }
-  const wav = encodeWav(VX.chunks, VX.rate, 16000); VX.chunks = [];
-  haptic('light'); vaAsk('', wav);
-}
-function encodeWav(chunks, rate, out){
-  let n = 0; chunks.forEach(c => { n += c.length; });
-  const ratio = rate / out, len = Math.floor(n / ratio), pcm = new Int16Array(len);
-  const all = new Float32Array(n); let o = 0; chunks.forEach(c => { all.set(c, o); o += c.length; });
-  for (let i = 0; i < len; i++) {
-    const a = Math.floor(i * ratio), b = Math.min(n, Math.floor((i + 1) * ratio)); let s = 0, k = 0;
-    for (let j = a; j < b; j++) { s += all[j]; k++; }
-    const v = Math.max(-1, Math.min(1, k ? s / k : 0)); pcm[i] = v < 0 ? v * 0x8000 : v * 0x7fff;
-  }
-  const buf = new ArrayBuffer(44 + pcm.length * 2), d = new DataView(buf);
-  const w = (p, s) => { for (let i = 0; i < s.length; i++) d.setUint8(p + i, s.charCodeAt(i)); };
-  w(0, 'RIFF'); d.setUint32(4, 36 + pcm.length * 2, true); w(8, 'WAVE'); w(12, 'fmt '); d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true);
-  d.setUint32(24, out, true); d.setUint32(28, out * 2, true); d.setUint16(32, 2, true); d.setUint16(34, 16, true); w(36, 'data'); d.setUint32(40, pcm.length * 2, true);
-  new Int16Array(buf, 44).set(pcm);
-  const bytes = new Uint8Array(buf); let bin = '';
-  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
-  return btoa(bin);
-}
-async function vaAsk(text, b64){
-  if (VX.busy) return;
-  VX.err = ''; VX.busy = true;
-  const prev = VX.pend && VX.pend.acts.length ? VX.pend.acts : null;
-  if (text) VX.log.push({ me: true, x: text });
-  else VX.log.push({ me: true, x: T.va.voiceMsg, audio: true });
-  const mine = VX.log[VX.log.length - 1];
-  vaRefresh();
-  try {
-    const j = await botPost(Object.assign({ a: 'ai', ctx: Object.assign(botCtx(), { sum: aiSummary() }), hist: VX.hist.slice(-8) }, text ? { text } : { b64, mime: 'audio/wav' }, prev ? { prev } : {}), 90000);
-    if (!j || !j.ok) throw new Error(j && j.err || 'err');
-    if (j.heard && mine.audio) mine.x = j.heard;
-    if (VX.pend) { const last = VX.log.filter(m => !m.me && m.state === 'wait').pop(); if (last) last.state = prev ? 'replaced' : last.state; }
-    const acts = Array.isArray(j.acts) ? j.acts : [];
-    VX.log.push({ me: false, x: j.reply || '', lines: j.lines || [], state: acts.length ? 'wait' : '', src: Array.isArray(j.src) ? j.src.filter(s => s && /^https?:\/\//.test(s.u)) : [] });
-    VX.pend = acts.length ? { acts, ask: j.ask || null, lines: j.lines || [] } : null;
-    VX.hist.push({ q: mine.x, a: (j.reply || '') + (j.lines && j.lines.length ? '\n[предложено внести: ' + j.lines.join('; ') + ']' : '') }); VX.hist = VX.hist.slice(-8);
-  } catch (e) {
-    mine.failed = true;
-    const em = String(e && e.message || '');
-    VX.err = em === 'nokey' ? T.va.noKey : em === 'noctx' ? T.va.noCtx : /abort|fetch|network|load failed/i.test(em) || !em ? T.va.fail : T.va.failWhy(em.slice(0, 160));
-    safe(() => logErr(em, 'assistant'));
-  }
-  VX.busy = false; vaRefresh();
-}
-function applyLocal(acts){
-  const out = [], touched = new Set();
-  acts.forEach(a => { try { applyAct(a, out, touched); } catch (e) {} });
-  touched.forEach(sid => applyPackages(sid));
-  save(); render(); hapticOk(); scheduleBotSync();
-  return out;
-}
-const VA = {
-  voice: el => {
-    VX.err = ''; const pre = el && el.dataset.v === 'ideas' ? T.va.ideasPrompt : '';
-    const f = assistantSheet(pre); f.isVa = true;
-    f.unmount = () => { const r = VX.rec; if (!r) return; clearInterval(VX.timer); VX.rec = null; try { r.proc.disconnect(); r.src.disconnect(); r.stream.getTracks().forEach(t => t.stop()); r.ctx.close(); } catch (e) {} };
-    openSheet(f);
-  },
-  vaMic: () => { if (VX.rec) vaStop(); else vaStart(); },
-  vaSend: () => { const el = $('va_text'); const x = el ? el.value.trim() : ''; if (!x) return el && el.focus(); el.value = ''; VX.draft = ''; vaAsk(x.slice(0, 4000), ''); },
-  vaHint: el => { const t = $('va_text'); if (t) { t.value = el.textContent; t.focus(); } },
-  vaApply: () => {
-    const p = VX.pend; if (!p || p.ask) return;
-    const out = applyLocal(p.acts);
-    const last = VX.log.filter(m => !m.me && m.state === 'wait').pop(); if (last) { last.state = 'done'; if (out.length) last.lines = out; }
-    VX.pend = null; vaRefresh(); toast('🤖 ' + T.va.done, 1800);
-  },
-  vaNew: () => { VX.log = []; VX.hist = []; VX.pend = null; VX.err = ''; VX.draft = ''; vaRefresh(); },
-  vaCancel: () => { const last = VX.log.filter(m => !m.me && m.state === 'wait').pop(); if (last) last.state = 'cancel'; VX.pend = null; vaRefresh(); },
-  vaPick: el => {
-    const p = VX.pend; if (!p || !p.ask) return;
-    const ref = p.ask.ref, same = a => a.student && bxNorm(a.student) === bxNorm(ref), v = el.dataset.v;
-    if (v === 'new') {
-      const nm = ref.replace(/(^|\s)(\S)/g, (m, a, b) => a + b.toUpperCase());
-      if (!p.acts.some(a => a.type === 'add_student' && bxNorm(a.name) === bxNorm(ref))) p.acts.unshift({ type: 'add_student', name: nm });
-      p.acts.forEach(a => { if (same(a)) a.student = nm; });
-    } else { const c = p.ask.cands[+v]; if (!c) return; p.acts.forEach(a => { if (same(a)) a.student = c.id; }); }
-    /* any other unknown name will be created by the app; one question is enough */
-    p.ask = null; haptic(); vaRefresh();
-  }
-};
-document.addEventListener('keydown', e => { if (e.target && e.target.id === 'va_text' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); VA.vaSend(); } });
-
-/* A compact picture of her data, so the assistant can answer «how much did I earn», «who owes me», «what's on this weekend». */
-function aiSummary(){
-  const t = today(), m = t.slice(0, 7), pm = shiftMonth(m, -1), st = monthStats(m), ps = monthStats(pm), cur = state.settings.cur || '₽';
-  const L1 = [];
-  L1.push(`Этот месяц (${m}): проведено уроков ${st.n}, заработано ${Math.round(st.earned)} ${cur}, получено ${Math.round(st.got)}, ждём оплаты ${Math.round(st.debt)}, расходы ${Math.round(st.exp)}, чистыми ${Math.round(st.net)}; впереди уроков ${st.ahead || 0}.`);
-  L1.push(`Прошлый месяц (${pm}): уроков ${ps.n}, заработано ${Math.round(ps.earned)} ${cur}.`);
-  for (let k = 2; k <= 6; k++) { const mm = shiftMonth(m, -k), x = monthStats(mm); if (x.n) L1.push(`${mm}: уроков ${x.n}, заработано ${Math.round(x.earned)}.`); }
-  const g = +state.settings.goal || 0; if (g) L1.push(`Цель на месяц: ${g} ${cur}.`);
-  const act = state.students.filter(s => !s.archived);
-  L1.push(`Учеников активных: ${act.length}, в архиве: ${state.students.length - act.length}.`);
-  const rows = act.map(s => { const ss = studentStats(s.id); return `${s.name}: уроков ${ss.n}${ss.debt ? ', долг ' + Math.round(ss.debt) : ''}${ss.pkg ? ', в абонементе осталось ' + ss.left : ''}${ss.last ? ', был ' + ss.last.date : ''}${ss.next ? ', следующий ' + ss.next.date + ' ' + (ss.next.time || '') : ''}${s.bday ? ', др ' + s.bday.slice(5) : ''}`; });
-  L1.push('По ученикам: ' + rows.slice(0, 80).join('; '));
-  const gigs = state.items.filter(it => it.kind === 'gig').flatMap(it => occ(it, m + '-01', m + '-31').map(() => it));
-  if (gigs.length) L1.push(`Выступлений в этом месяце: ${gigs.length}, гонорары ${gigs.reduce((a, it) => a + (+it.fee || 0), 0)} ${cur} (не получено ${gigs.filter(it => !it.paid).reduce((a, it) => a + (+it.fee || 0), 0)}).`);
-  const posts = state.items.filter(it => it.kind === 'post' && it.cst !== 'posted');
-  if (posts.length) L1.push('Контент-план: ' + posts.slice(0, 30).map(it => `${it.date || 'без даты'} ${it.fmt} «${it.title}» (${it.cst})`).join('; '));
-  const notes = state.items.filter(it => it.kind === 'note').slice(-10);
-  if (notes.length) L1.push('Заметки: ' + notes.map(it => `«${it.title}»: ${String(it.note).slice(0, 160)}`).join(' | '));
-  const ex = state.expenses.filter(e => String(e.date).startsWith(m));
-  if (ex.length) L1.push('Расходы месяца: ' + ex.map(e => `${e.date} ${e.cat} ${e.amount}${e.note ? ' (' + e.note + ')' : ''}`).join('; '));
-  if (state.rep.length) L1.push('Репертуар: ' + state.rep.slice(0, 80).map(r => `${r.title}${r.key ? ' (' + r.key + ')' : ''}${(grp(r.gid) || {}).name ? ' [' + grp(r.gid).name + ']' : ''} — ${r.st}`).join('; '));
-  return L1.join('\n').slice(0, 7900);
-}
 
 /* ================= Sections on/off + developer tools =================
    Switching a section off only hides it (data stays). Home, Settings, backups and storage can't be switched off. */
@@ -6886,7 +6666,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, VA, MD, BK2);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
