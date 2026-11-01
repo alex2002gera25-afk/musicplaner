@@ -2593,21 +2593,21 @@ const X2D = {
 };
 const GCD = {
   ru: { title: 'Google Календарь с напоминаниями', pitch: 'Войди в свой Google — приложение само создаст календари «Уроки», «Выступления», «Репетиции», «Дела», «Дни рождения», «Оплаты» и будет вести их: переносы и отмены повторяются там сразу, у каждого события настоящие напоминания Google — как ты настроишь.',
-    connect: 'Подключить Google Календарь', unverified: 'Google может показать «Приложение не проверено» — нажми «Дополнительно» → «Перейти». Доступ только к календарям, которые создаст приложение; остальной твой календарь, почта и файлы недоступны.',
-    opening: 'Открываю Google — войди и нажми «Разрешить», потом вернись сюда', synced: t => `обновлено в ${t}`, queue: n => `в очереди: ${n}`,
+    connect: 'Подключить Google Календарь', unverified: 'Бесплатно. Google спросит разрешение и может показать «Приложение не проверено» — это нормально для личных приложений: «Дополнительно» → «Перейти» → «Разрешить». Приложение работает внутри твоего же аккаунта и трогает только свои календари; почта и файлы ему недоступны.',
+    opening: 'Открываю Google — войди, нажми «Разрешить» и вернись в Telegram. События появятся в течение 5 минут', synced: t => `обновлено в ${t}`, queue: n => `в очереди: ${n}`,
     remsTitle: 'Напоминания по умолчанию (до 3)', kinds: { lesson: '🎵 Уроки', gig: '🎤 Выступления', reh: '🎸 Репетиции', plan: '✅ Дела и события', bday: '🎂 Дни рождения', pay: '💳 Оплаты (на следующий день в 12:00)' },
     perLesson: 'У конкретного урока своё напоминание — в форме урока, поле «🔔 Напоминание». У выступлений и дел — их поле «Напомнить».',
-    syncNow: 'Обновить сейчас', disconnect: 'Отключить', syncing: 'Обновляю Google Календарь…', done: 'Google Календарь обновлён',
-    offQ: 'Отключить Google Календарь? Приложение перестанет туда писать.', delQ: 'Удалить и календари приложения из Google («Уроки», «Выступления»…)? Если нет — они останутся как есть.', delYes: 'Удалить', offDone: 'Google Календарь отключён',
+    syncNow: 'Обновить сейчас', disconnect: 'Отключить', syncing: 'Проверяю Google Календарь…', done: 'Изменения попадут в Google Календарь в течение 5 минут',
+    offQ: 'Отключить Google Календарь? Приложение перестанет туда писать (в течение 5 минут).', delQ: 'Удалить и календари приложения из Google («Уроки», «Выступления»…)? Если нет — они останутся как есть.', delYes: 'Удалить', offDone: 'Google Календарь отключён',
     byLink: 'Календарь по ссылке (без своих напоминаний Google) и для близкого',
     lessonRem: 'Напоминание', asUsual: s => `как обычно (${s})`, none: 'без напоминания', atStart: 'в момент начала', mins: n => `за ${n} мин`, hours: n => `за ${n} ч`, days: n => n === 1 ? 'за 1 день' : `за ${n} дн.`,
     dayBeforeAt: (d, t) => d === 1 ? `накануне в ${t}` : `за ${d} дн. в ${t}`, payTitle: (n, d, s) => `${n} — оплата за урок ${d} (${s})` },
   en: { title: 'Google Calendar with reminders', pitch: 'Sign in with Google and the app creates calendars “Lessons”, “Gigs”, “Rehearsals”, “Tasks”, “Birthdays”, “Payments” and keeps them up to date: moves and cancellations are mirrored right away, every event has real Google reminders the way you set them.',
-    connect: 'Connect Google Calendar', unverified: 'Google may say “App not verified” — tap “Advanced” → “Go to…”. Access is limited to the calendars the app creates; the rest of your calendar, mail and files stay private.',
-    opening: 'Opening Google — sign in and tap “Allow”, then come back here', synced: t => `updated at ${t}`, queue: n => `queued: ${n}`,
+    connect: 'Connect Google Calendar', unverified: 'Free. Google asks for permission and may say “App not verified” — that’s normal for personal apps: “Advanced” → “Go to…” → “Allow”. It runs inside your own account and touches only its own calendars; your mail and files stay private.',
+    opening: 'Opening Google — sign in, tap “Allow” and come back to Telegram. Events appear within 5 minutes', synced: t => `updated at ${t}`, queue: n => `queued: ${n}`,
     remsTitle: 'Default reminders (up to 3)', kinds: { lesson: '🎵 Lessons', gig: '🎤 Gigs', reh: '🎸 Rehearsals', plan: '✅ Tasks & events', bday: '🎂 Birthdays', pay: '💳 Payments (next day at 12:00)' },
     perLesson: 'A specific lesson can have its own reminder — the “🔔 Reminder” field in the lesson form. Gigs and tasks use their “Remind” field.',
-    syncNow: 'Update now', disconnect: 'Disconnect', syncing: 'Updating Google Calendar…', done: 'Google Calendar updated',
+    syncNow: 'Update now', disconnect: 'Disconnect', syncing: 'Checking Google Calendar…', done: 'Changes reach Google Calendar within 5 minutes',
     offQ: 'Disconnect Google Calendar? The app will stop writing to it.', delQ: 'Also delete the app’s calendars from Google (“Lessons”, “Gigs”…)? If not, they stay as they are.', delYes: 'Delete', offDone: 'Google Calendar disconnected',
     byLink: 'Calendar by link (no Google reminders of its own) and for someone close',
     lessonRem: 'Reminder', asUsual: s => `as usual (${s})`, none: 'no reminder', atStart: 'at start', mins: n => `${n} min before`, hours: n => `${n} h before`, days: n => n === 1 ? '1 day before' : `${n} days before`,
@@ -5076,8 +5076,11 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 17;
+const APP_VER = 18;
 const CHANGES = [
+  { v: 18, name: '7.3.1', date: '2026-11-01',
+    ru: { better: ['📗 Google Календарь подключается бесплатно — без Google Cloud и без карты: помощник работает внутри твоего аккаунта и раз в 5 минут переносит изменения', '🎨 Календари создаются только для того, что у тебя есть'] },
+    en: { better: ['📗 Google Calendar connects for free — no Google Cloud, no card: a helper runs inside your own account and copies changes every 5 minutes', '🎨 Calendars are created only for what you actually use'] } },
   { v: 17, name: '7.3', date: '2026-11-01', big: true,
     ru: {
       add: ['📗 Google Календарь с настоящими напоминаниями: каждый подключает свой аккаунт Google — уроки, выступления, репетиции, дела, дни рождения и оплаты появляются в отдельных цветных календарях и обновляются сами',
@@ -7027,14 +7030,14 @@ const HELP_DOC = [
     'Когда урок отменяется (тобой или учеником через бота), на Главной появится подсказка: освободилось такое-то время, первая в листе — такая-то. Нажми — откроется список с кнопкой «Написать».',
     '«Сделать учеником» — переносит человека из листа в ученики со всеми заметками.' ] },
   { id: 'gcal', ic: '📗', t: 'Google Календарь с напоминаниями', p: [
-    'Настройки → «Календарь в телефоне» → «Подключить Google Календарь». Откроется Google: войди в свой аккаунт и нажми «Разрешить». Если Google напишет «Приложение не проверено» — «Дополнительно» → «Перейти».',
-    'Приложение создаст в твоём Google отдельные календари с цветами: «🎵 Уроки», «🎤 Выступления», «🎸 Репетиции», «✅ Дела и события», «🎂 Дни рождения», «💳 Оплаты» — и будет их вести само: новые, перенесённые и отменённые уроки и события повторяются там в течение пары минут.',
+    'Это бесплатно, карта и Google Cloud не нужны. Настройки → «Календарь в телефоне» → «Подключить Google Календарь». Откроется Google: войди в свой аккаунт и нажми «Разрешить». Если Google напишет «Приложение не проверено» — это нормально для личных приложений: «Дополнительно» → «Перейти» → «Разрешить». Бот напишет «📗 Google Календарь подключён».',
+    'Приложение создаст в твоём Google отдельные календари с цветами: «🎵 Уроки», «🎤 Выступления», «🎸 Репетиции», «✅ Дела и события», «🎂 Дни рождения», «💳 Оплаты» — и будет их вести само: новые, перенесённые и отменённые уроки и события повторяются там в течение 5 минут. Календари создаются только для того, что у тебя есть (нет выступлений — не будет и календаря «Выступления»).',
     'Напоминания — настоящие напоминания Google (на телефоне, часах, компьютере). По умолчанию для каждого вида — там же, до 3 штук (например, выступления: за день и за 3 часа).',
     'Своё напоминание у конкретного урока: открой урок → поле «🔔 Напоминание» (за 15 мин, 30 мин, 1 ч, 2,5 ч, день или без). У выступлений, репетиций и дел — их поле «Напомнить».',
     '💳 Оплаты: если урок прошёл и не оплачен — на следующий день в 12:00 в календаре «Оплаты» будет напоминание; отметишь оплату — событие исчезнет.',
     'В описании события: домашка и песни ученика, сет-лист, заказчик и телефон, гонорар.',
     'Менять события нужно в приложении — изменения, сделанные прямо в Google, перезапишутся.',
-    'Доступ только к календарям, которые создаёт приложение; остальной календарь, почта и файлы недоступны. «Отключить» — убирает доступ (по желанию и календари).' ] },
+    'Как это устроено: маленький помощник работает внутри твоего же Google-аккаунта и раз в 5 минут переносит изменения в календари приложения. Почта и файлы ему недоступны, чужие события он не трогает. «Отключить» — помощник выключится (по желанию удалит и календари приложения). Совсем убрать доступ можно и в Google: myaccount.google.com → Безопасность → Сторонние приложения → «Musicplaner Календарь».' ] },
   { id: 'calendar', ic: '📆', t: 'Календарь в телефоне (Google и iPhone)', p: [
     'Настройки → «Календарь в телефоне». Там две ссылки: «Моё расписание» (полностью, с именами и местами) и «Для близкого» (только «Урок», «Выступление», «Занята» — без имён и денег).',
     'Google: нажми «Добавить в Google Календарь» — откроется Google; войди в свой аккаунт (если ещё не вошла) и нажми «Добавить». Всё. События появятся в Google Календаре на телефоне и компьютере.',
