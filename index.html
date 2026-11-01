@@ -2346,11 +2346,11 @@ const PLD = {
     st: { learn: 'Учу', repeat: 'Повторить', ready: 'Готово' },
     fmt: { reels: 'Reels', post: 'Пост', stories: 'Сторис', video: 'Видео' },
     cst: { idea: 'Идея', shoot: 'Снять', edit: 'Монтаж', ready: 'Готово', posted: 'Опубликовано' },
-    say: 'Надиктовать или спросить помощника', music: 'Музыка и жизнь', bday: 'День рождения', today: 'Сегодня', tomorrow: 'Завтра', all: 'Все',
+    say: 'Надиктовать или спросить помощника', sayBot: 'Надиктовать боту — он сам внесёт в планер', music: 'Музыка и жизнь', bday: 'День рождения', today: 'Сегодня', tomorrow: 'Завтра', all: 'Все',
     tasks: 'Дела', notes: 'Заметки', gigs: 'Выступления', gigsSub: 'Концерты, корпоративы, сет-листы', groups: 'Коллективы', groupsSub: 'Группы, составы, репетиции',
     rep: 'Репертуар', repSub: 'Песни, тональности, тексты', people: 'Дни рождения', peopleSub: 'Близкие, друзья, коллеги', content: 'Контент-план', contentSub: 'Reels, посты, сторис',
     upcomingN: n => `Впереди: ${n}`, songsN: n => `${n} ${pl(n, ['песня', 'песни', 'песен'])}`, peopleN: n => `${n} ${pl(n, ['человек', 'человека', 'человек'])}`, ideasN: n => `В работе: ${n}`,
-    emptyAgenda: 'На ближайшие две недели в планере пусто. Добавь выступление, дело или просто скажи помощнику 🎤',
+    emptyAgenda: 'На ближайшие две недели в планере пусто. Добавь выступление или дело — кнопками выше или голосовым боту.',
     homeSec: 'В планах', legend: 'планер', toPlan: 'В планер', student: 'ученик',
     callAt: t => `сбор ${t}`, bdayOn: d => `🎂 ${d}`, turns: n => `исполняется ${n}`,
     clash: (w, t) => `Пересекается с «${w}»${t ? ' в ' + t : ''}`, clashL: s => `В это время уроки: ${s}`,
@@ -2372,7 +2372,7 @@ const PLD = {
     delQ: 'Удалить из планера?', delGroupQ: 'Удалить коллектив? Выступления и песни останутся.', delSongQ: 'Удалить песню из репертуара?', delPersonQ: 'Удалить человека?',
     needTitle: 'Напиши название', noTask: t => `Не нашёл дело «${t}»`,
     gigMoney: 'Выступления', gigWait: s => `Гонораров ждём: ${s}`,
-    contentHint: 'Контент-план: идеи без даты лежат в банке идей, с датой — в календаре и напоминаниях.', askIdeas: 'Придумать идеи с помощником', scheduled: 'Запланировано', ideaBank: 'Банк идей',
+    contentHint: 'Контент-план: идеи без даты лежат в банке идей, с датой — в календаре и напоминаниях. Идеи можно надиктовать боту.', askIdeas: 'Придумать идеи с помощником', scheduled: 'Запланировано', ideaBank: 'Банк идей',
     nbToday: 'сегодня', nbOn: d => d, nbBdayToday: n => `Сегодня день рождения: ${n}`, nbBdaySoon: (n, d) => `Скоро день рождения: ${n} — ${d}`, nbPlans: 'В планах на день:'
   },
   en: {
@@ -2387,11 +2387,11 @@ const PLD = {
     st: { learn: 'Learning', repeat: 'Brush up', ready: 'Ready' },
     fmt: { reels: 'Reels', post: 'Post', stories: 'Stories', video: 'Video' },
     cst: { idea: 'Idea', shoot: 'To shoot', edit: 'Editing', ready: 'Ready', posted: 'Posted' },
-    say: 'Dictate or ask the assistant', music: 'Music & life', bday: 'Birthday', today: 'Today', tomorrow: 'Tomorrow', all: 'All',
+    say: 'Dictate or ask the assistant', sayBot: 'Dictate to the bot — it adds to the planner', music: 'Music & life', bday: 'Birthday', today: 'Today', tomorrow: 'Tomorrow', all: 'All',
     tasks: 'Tasks', notes: 'Notes', gigs: 'Gigs', gigsSub: 'Concerts, events, set lists', groups: 'Bands', groupsSub: 'Line-ups, rehearsals',
     rep: 'Repertoire', repSub: 'Songs, keys, lyrics', people: 'Birthdays', peopleSub: 'Family, friends, colleagues', content: 'Content plan', contentSub: 'Reels, posts, stories',
     upcomingN: n => `Upcoming: ${n}`, songsN: n => `${n} ${n === 1 ? 'song' : 'songs'}`, peopleN: n => `${n} ${n === 1 ? 'person' : 'people'}`, ideasN: n => `In progress: ${n}`,
-    emptyAgenda: 'Nothing planned for the next two weeks. Add a gig or a task, or just tell the assistant 🎤',
+    emptyAgenda: 'Nothing planned for the next two weeks. Add a gig or a task — with the buttons above or by voice to the bot.',
     homeSec: 'Plans', legend: 'planner', toPlan: 'To planner', student: 'student',
     callAt: t => `call ${t}`, bdayOn: d => `🎂 ${d}`, turns: n => `turns ${n}`,
     clash: (w, t) => `Clashes with “${w}”${t ? ' at ' + t : ''}`, clashL: s => `Lessons at that time: ${s}`,
@@ -4930,25 +4930,23 @@ const CHANGES = [
   { v: 11, name: '7.0', date: '2026-11-01', big: true,
     ru: {
       add: ['📒 Планер — новая вкладка: дела, выступления, репетиции, события, заметки. С датами, повторами и напоминаниями в боте; всё видно и в календаре рядом с уроками',
-        '🤖 Личный ИИ-помощник прямо в приложении: нажми 🎤 и скажи или напиши. Вносит уроки и планы, отвечает на вопросы о твоих учениках и деньгах, ищет в интернете, придумывает идеи. Перед тем как внести, всегда спрашивает',
         '📱 Контент-план для Инстаграма: Reels, посты, сторис — от идеи до публикации',
         '🎸 Коллективы, 🎼 репертуар с сет-листами (длительность считается сама), 🎂 дни рождения близких с напоминаниями',
         '🎤 Гонорары за выступления — во вкладке «Деньги»; приложение предупреждает, если урок пересекается с концертом',
         '🧩 Настройки → «Разделы приложения»: можно выключить всё, чем не пользуешься, — хоть оставить один простой планер',
-        'Бот тоже понимает планер: «в субботу Казаки, сбор в 17», «напомни купить струны», «у мамы день рождения 12 марта»'],
+        '🎤 Бот понимает и планер: скажи или напиши «в субботу Казаки, сбор в 17, гонорар 15 тысяч», «напомни в пятницу купить струны», «идея для Reels: распевка за 30 секунд», «у мамы день рождения 12 марта» — он покажет, что понял, и после ✅ всё появится в приложении'],
       better: ['Резервные копии чаще: на телефоне каждый час работы и каждый день, файлом в чат с ботом — каждый день, когда были изменения (без звука). В «Резервных копиях» есть пошаговая инструкция, как всё вернуть',
-        'Надёжность: если помощник, интернет или бот недоступны, всё остальное работает как обычно — вносить и смотреть можно руками'],
+        'Надёжность: если интернет или бот недоступны, всё остальное работает как обычно — вносить и смотреть можно руками'],
       removed: [] },
     en: {
       add: ['📒 Planner — a new tab: tasks, gigs, rehearsals, events, notes. Dates, repeats and reminders in the bot; everything also shows in the calendar next to lessons',
-        '🤖 A personal AI assistant inside the app: tap 🎤 and speak or type. It adds lessons and plans, answers questions about your students and money, searches the web, brainstorms ideas. It always asks before adding',
         '📱 Instagram content plan: Reels, posts, stories — from idea to published',
         '🎸 Bands, 🎼 repertoire with set lists (length is counted automatically), 🎂 birthdays with reminders',
         '🎤 Gig fees in the Money tab; the app warns when a lesson clashes with a gig',
         '🧩 Settings → “App sections”: switch off anything you don’t use — even keep just a simple planner',
-        'The bot understands the planner too: “gig on Saturday, call at 5”, “remind me to buy strings”, “Mum’s birthday is March 12”'],
+        '🎤 The bot understands the planner: “gig on Saturday, call at 5, fee 15000”, “remind me on Friday to buy strings”, “Reels idea: a 30-second warm-up”, “Mum’s birthday is March 12” — it shows what it understood and after ✅ it appears in the app'],
       better: ['More frequent backups: on the phone every hour of work and every day, as a file in the bot chat every day with changes (silently). Backups now include a step-by-step restore guide',
-        'Reliability: if the assistant, the internet or the bot is unavailable, everything else keeps working — you can add and view everything by hand'],
+        'Reliability: if the internet or the bot is unavailable, everything else keeps working — you can add and view everything by hand'],
       removed: [] } },
   { v: 10, name: '6.4', date: '2026-11-01',
     ru: {
@@ -5662,7 +5660,7 @@ function renderPlan(noHead){
   const t = today(), to = ymd(addDays(parseD(t), 13));
   ui.planDay = '';
   const quick = `<div class="pquick">${['gig', 'reh', 'task', 'post', 'note', 'event'].filter(kindOn).map(k => `<button data-act="plNew" data-v="${k}">${PK[k]} ${esc(T.pl.kinds[k])}</button>`).join('')}${mod('people') ? `<button data-act="plPersonNew">🎂 ${esc(T.pl.bday)}</button>` : ''}</div>`;
-  const voice = voiceOk() ? `<button class="btn soft pvoice" data-act="voice">🎤 ${esc(T.pl.say)}</button>` : '';
+  const voice = inTG && state.settings.api && botUser ? `<button class="btn soft pvoice" data-act="plBot">🎤 ${esc(T.pl.sayBot)}</button>` : '';
   let agenda = '';
   for (let k = 0; k < 14; k++) {
     const ds = ymd(addDays(parseD(t), k)), rows = dayAgenda(ds);
@@ -6038,6 +6036,7 @@ const PL = {
   plOpen: el => openItem(el.dataset.id, null, el.dataset.v),
   plKind: el => { if (!curItemForm) return; curItemForm.setKind(el.dataset.v); refreshSheet(); haptic(); },
   plSw: el => { el.classList.toggle('on'); haptic(); },
+  plBot: () => openUrl('https://t.me/' + String(botUser).replace(/^@/, ''), true),
   plPick: el => { el.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el)); haptic(); },
   plSave: el => {
     const id = el.dataset.id, I = itemFromForm(id);
@@ -6153,7 +6152,7 @@ const planHomeLite = () => renderPlan(true);
    Record → WAV (16 kHz mono, works in every Telegram webview) → server → Gemini → «here is what I'll add» → ✅ → applied locally.
    It also answers questions and brainstorms (ideas for Reels, preparation plans…) and can offer to save them. */
 const VX = { rec: null, chunks: [], t0: 0, timer: null, busy: false, log: [], pend: null, hist: [], err: '' };
-const voiceOk = () => mod('ai') && inTG && !!state.settings.api && botAi;
+const voiceOk = () => false;   // 7.0: voice/text input lives in the Telegram bot only
 function assistantSheet(prefill){
   VX.draft = prefill || '';
   return () => {
@@ -6312,7 +6311,7 @@ function aiSummary(){
 const MODS = [
   ['students', '👥'], ['money', '💰'], ['studio', '🎹'], ['plan', '📒'],
   ['content', '📱', 'plan'], ['rep', '🎼', 'plan'], ['groups', '🎸', 'plan'], ['people', '🎂', 'plan'], ['notes', '📝', 'plan'],
-  ['ai', '🤖'], ['ach', '🏆']
+  ['ach', '🏆']
 ];
 const errLog = [];
 const logErr = (e, where) => { try { errLog.push({ at: Date.now(), w: String(where || ''), x: String((e && (e.stack || e.message)) || e).slice(0, 400) }); if (errLog.length > 30) errLog.shift(); } catch (x) {} };
@@ -6344,7 +6343,6 @@ function devSheet(){
       [X.mirror, Math.round(lsSize / 1024) + ' KB'],
       [X.counts, `👥 ${state.students.length} · 📅 ${state.lessons.length} · 📒 ${state.items.length} · 🎼 ${state.rep.length} · 🎂 ${state.people.length}`],
       [X.sync, syncState + (botLast ? ' · ' + X.bot + ' ' + new Date(botLast).toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' }) : '')],
-      [X.ai, safe(voiceOk, false) ? X.yes : X.no],
       ['UA', navigator.userAgent.slice(0, 120)]
     ];
     return sheetHead('🛠 ' + X.dev) + `<div class="card">${rows.map(([a, b]) => `<div class="li"><span class="tx"><b>${esc(a)}</b><br><small>${esc(b)}</small></span></div>`).join('')}</div>`
