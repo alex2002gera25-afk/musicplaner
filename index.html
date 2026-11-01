@@ -406,6 +406,29 @@ nav.tabs button:active{transform:scale(.9)}
 .snack.on{transform:none;opacity:1;pointer-events:auto}
 .snack button{border:0;border-radius:10px;padding:9px 14px;background:var(--card);color:var(--title);font-weight:600;font-size:14px;font-family:inherit}
 .rcrow .btn{margin-top:8px}
+/* --- appearance sheet --- */
+.lkpals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+.lkpal{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);font:inherit;font-size:13px}
+.lkpal i{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.lkpal.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.lkcol{display:flex;align-items:center;gap:6px}
+.lkcol input[type=color]{width:46px;height:32px;border:1px solid var(--line);border-radius:10px;padding:2px;background:var(--card)}
+.lkfonts{flex-wrap:wrap}
+.lkfonts button{white-space:nowrap}
+.lkprev .hero small{opacity:.8;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+/* --- full-screen update window --- */
+.wnbig{position:fixed;inset:0;z-index:96;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;transform:scale(1.03);transition:opacity .3s,transform .3s}
+.wnbig.on{opacity:1;transform:none}
+.wnbig-in{max-width:560px;margin:0 auto;padding:calc(14px + var(--tg-content-safe-area-inset-top,0px)) 16px calc(28px + env(safe-area-inset-bottom))}
+.wnhero{background:linear-gradient(150deg,var(--accent),var(--accent-2));color:var(--accent-text);border-radius:22px;padding:26px 20px 22px;text-align:center;margin-bottom:14px}
+.wnemoji{font-size:54px;line-height:1;animation:wnpop .7s cubic-bezier(.2,1.6,.4,1) both}
+.wnhero small{display:block;margin-top:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.wnhero h2{font-family:var(--serif);font-weight:400;font-size:30px;margin:6px 0 0;text-transform:uppercase}
+.wnsec{background:var(--card);border-radius:16px;padding:12px 16px;margin-bottom:10px}
+.wnsec h3{margin:0 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--title)}
+.wnsec p{margin:6px 0;line-height:1.45}
+.wnold{margin:16px 4px 8px;font-size:12px;color:var(--hint);text-transform:uppercase;letter-spacing:.06em}
+@keyframes wnpop{0%{transform:scale(.3) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
 </style>
 </head>
 <body>
@@ -2120,11 +2143,11 @@ const B = {
     hint: b => `Écris ou envoie un vocal au bot${b ? ' @' + b : ''} : il ajoute élèves, cours, paiements et chansons`, hintOff: 'Saisie vocale via le bot : demande à Sasha d’ajouter la clé Gemini au script' }
 };
 const WN = {
-  ru: { title: 'Вышло обновление!', history: 'Что нового', ver: (v, d) => `Версия ${v} · ${d}`, add: 'Добавили', better: 'Улучшили', removed: 'Убрали', ok: 'Понятно' },
-  en: { title: 'Update is out!', history: 'What’s new', ver: (v, d) => `Version ${v} · ${d}`, add: 'Added', better: 'Improved', removed: 'Removed', ok: 'Got it' },
-  es: { title: '¡Nueva actualización!', history: 'Novedades', ver: (v, d) => `Versión ${v} · ${d}`, add: 'Añadido', better: 'Mejorado', removed: 'Eliminado', ok: 'Entendido' },
-  it: { title: 'Nuovo aggiornamento!', history: 'Novità', ver: (v, d) => `Versione ${v} · ${d}`, add: 'Aggiunto', better: 'Migliorato', removed: 'Rimosso', ok: 'Ho capito' },
-  fr: { title: 'Nouvelle mise à jour !', history: 'Nouveautés', ver: (v, d) => `Version ${v} · ${d}`, add: 'Ajouté', better: 'Amélioré', removed: 'Supprimé', ok: 'Compris' }
+  ru: { title: 'Вышло обновление!', history: 'Что нового', ver: (v, d) => `Версия ${v} · ${d}`, add: 'Добавили', better: 'Улучшили', removed: 'Убрали', ok: 'Понятно', go: 'Отлично, поехали!' },
+  en: { title: 'Update is out!', history: 'What’s new', ver: (v, d) => `Version ${v} · ${d}`, add: 'Added', better: 'Improved', removed: 'Removed', ok: 'Got it', go: 'Great, let’s go!' },
+  es: { title: '¡Nueva actualización!', history: 'Novedades', ver: (v, d) => `Versión ${v} · ${d}`, add: 'Añadido', better: 'Mejorado', removed: 'Eliminado', ok: 'Entendido', go: '¡Genial, vamos!' },
+  it: { title: 'Nuovo aggiornamento!', history: 'Novità', ver: (v, d) => `Versione ${v} · ${d}`, add: 'Aggiunto', better: 'Migliorato', removed: 'Rimosso', ok: 'Ho capito', go: 'Ottimo, andiamo!' },
+  fr: { title: 'Nouvelle mise à jour !', history: 'Nouveautés', ver: (v, d) => `Version ${v} · ${d}`, add: 'Ajouté', better: 'Amélioré', removed: 'Supprimé', ok: 'Compris', go: 'Super, c’est parti !' }
 };
 const RCS = {
   ru: { attach: 'Прикрепить чек', attachShort: 'Чек', optional: 'по желанию', open: 'Чек прикреплён — открыть', title: 'Чек об оплате', replace: 'Заменить', del: 'Удалить',
@@ -2190,8 +2213,35 @@ const BKS = {
     guard: 'La base est soudain devenue vide : je ne l’ai pas enregistrée. Tes données sont en sécurité, regarde « Sauvegardes ».',
     oops: 'Un problème est survenu, mais tes données sont en sécurité', crash: 'L’appli n’a pas pu s’ouvrir', crashText: 'Tes données sont en sécurité. Touche « Réessayer » ou copie les données.', copyData: 'Copier les données' }
 };
+const LKS = {
+  ru: { title: 'Оформление', btn: 'Оформление: цвета, шрифты, размер', preview: 'Так будет выглядеть', sample: 'Пример карточки', sampleText: 'Обычный текст, кнопки и цифры в приложении', palette: 'Цветовая тема', own: 'Свои цвета',
+    accent: 'Главный цвет', bg: 'Фон', bgHint: 'Свой фон меняется в светлой теме; в тёмной остаётся тёмным, чтобы не слепило', head: 'Шрифт заголовков', body: 'Шрифт текста', sign: 'Шрифт подписи', size: 'Размер всего',
+    system: 'Системный', plain: 'Обычный', reset: 'Вернуть всё как было', resetDone: 'Оформление сброшено', brand: 'Подпись на главном экране',
+    brandHint: 'Например: «Студия вокала Lumière» или «Мария · фортепиано». Пусто — стандартная подпись, «-» — без подписи.',
+    pals: { bordo: 'Бордо', rose: 'Роза', peach: 'Персик', gold: 'Золото', mint: 'Мята', ocean: 'Океан', navy: 'Ночь', lavender: 'Лаванда', graphite: 'Графит' } },
+  en: { title: 'Appearance', btn: 'Appearance: colours, fonts, size', preview: 'Preview', sample: 'Sample card', sampleText: 'Regular text, buttons and numbers in the app', palette: 'Colour theme', own: 'Your colours',
+    accent: 'Main colour', bg: 'Background', bgHint: 'A custom background applies to the light theme; the dark theme stays dark', head: 'Heading font', body: 'Text font', sign: 'Signature font', size: 'Overall size',
+    system: 'System', plain: 'Plain', reset: 'Reset to default', resetDone: 'Appearance reset', brand: 'Line on the home screen',
+    brandHint: 'E.g. “Lumière vocal studio” or “Maria · piano”. Empty — default line, “-” — no line.',
+    pals: { bordo: 'Bordeaux', rose: 'Rose', peach: 'Peach', gold: 'Gold', mint: 'Mint', ocean: 'Ocean', navy: 'Night', lavender: 'Lavender', graphite: 'Graphite' } },
+  es: { title: 'Apariencia', btn: 'Apariencia: colores, fuentes, tamaño', preview: 'Vista previa', sample: 'Tarjeta de ejemplo', sampleText: 'Texto normal, botones y números de la app', palette: 'Tema de color', own: 'Tus colores',
+    accent: 'Color principal', bg: 'Fondo', bgHint: 'El fondo propio se aplica al tema claro; el oscuro sigue oscuro', head: 'Fuente de títulos', body: 'Fuente del texto', sign: 'Fuente de la firma', size: 'Tamaño',
+    system: 'Del sistema', plain: 'Normal', reset: 'Restablecer', resetDone: 'Apariencia restablecida', brand: 'Línea en la pantalla principal',
+    brandHint: 'Por ejemplo: «Estudio vocal Lumière» o «María · piano». Vacío — la línea estándar, «-» — sin línea.',
+    pals: { bordo: 'Burdeos', rose: 'Rosa', peach: 'Melocotón', gold: 'Oro', mint: 'Menta', ocean: 'Océano', navy: 'Noche', lavender: 'Lavanda', graphite: 'Grafito' } },
+  it: { title: 'Aspetto', btn: 'Aspetto: colori, caratteri, dimensione', preview: 'Anteprima', sample: 'Scheda di esempio', sampleText: 'Testo normale, pulsanti e numeri nell’app', palette: 'Tema di colore', own: 'I tuoi colori',
+    accent: 'Colore principale', bg: 'Sfondo', bgHint: 'Lo sfondo personalizzato vale per il tema chiaro; quello scuro resta scuro', head: 'Carattere dei titoli', body: 'Carattere del testo', sign: 'Carattere della firma', size: 'Dimensione',
+    system: 'Di sistema', plain: 'Normale', reset: 'Ripristina', resetDone: 'Aspetto ripristinato', brand: 'Riga nella schermata principale',
+    brandHint: 'Ad esempio: «Studio vocale Lumière» o «Maria · pianoforte». Vuoto — riga standard, «-» — nessuna riga.',
+    pals: { bordo: 'Bordeaux', rose: 'Rosa', peach: 'Pesca', gold: 'Oro', mint: 'Menta', ocean: 'Oceano', navy: 'Notte', lavender: 'Lavanda', graphite: 'Grafite' } },
+  fr: { title: 'Apparence', btn: 'Apparence : couleurs, polices, taille', preview: 'Aperçu', sample: 'Carte d’exemple', sampleText: 'Texte, boutons et chiffres de l’appli', palette: 'Thème de couleur', own: 'Vos couleurs',
+    accent: 'Couleur principale', bg: 'Fond', bgHint: 'Le fond personnalisé s’applique au thème clair ; le thème sombre reste sombre', head: 'Police des titres', body: 'Police du texte', sign: 'Police de la signature', size: 'Taille',
+    system: 'Système', plain: 'Normale', reset: 'Réinitialiser', resetDone: 'Apparence réinitialisée', brand: 'Ligne sur l’écran d’accueil',
+    brandHint: 'Par ex. « Studio vocal Lumière » ou « Maria · piano ». Vide — ligne standard, « - » — aucune ligne.',
+    pals: { bordo: 'Bordeaux', rose: 'Rose', peach: 'Pêche', gold: 'Or', mint: 'Menthe', ocean: 'Océan', navy: 'Nuit', lavender: 'Lavande', graphite: 'Graphite' } }
+};
 const PS = { ru: 'Списать из абонемента', en: 'Take from the package', es: 'Descontar del paquete', it: 'Scala dal pacchetto', fr: 'Déduire du forfait' };
-for (const c in B) { I18N[c].bx = B[c]; I18N[c].wn = WN[c]; I18N[c].rc = RCS[c]; I18N[c].pkgSw = PS[c]; I18N[c].bk = BKS[c]; }
+for (const c in B) { I18N[c].bx = B[c]; I18N[c].wn = WN[c]; I18N[c].rc = RCS[c]; I18N[c].pkgSw = PS[c]; I18N[c].bk = BKS[c]; I18N[c].lk = LKS[c]; }
 }
 
 /* ================= Quotes & language ================= */
@@ -2261,6 +2311,8 @@ const firstName = n => String(n || '').trim().split(/\s+/)[0] || '';
 const lessonsW = n => `${n} ${pl(n, T.w.lesson)}`;
 const userName = () => String(state.settings.name || (tgUser && tgUser.first_name) || T.name).trim();
 const withName = s => String(s).replace(/\{n\}/g, userName());
+/* the line under the greeting: anyone can write their own (studio, company…); "-" hides it */
+const brandLine = () => { const b = String(state.settings.brand == null ? '' : state.settings.brand).trim(); return !b ? T.brand : b === '-' ? '' : b.slice(0, 60); };
 const quoteNow = () => withName(quotePool.length ? quotePool[quoteIdx % quotePool.length] : '');
 const praise = () => withName(pick(T.praise));
 const savedMsg = () => Math.random() < 0.3 ? T.tSavedSanya : T.tSaved;
@@ -3082,7 +3134,7 @@ function renderHome(){
   const line = !state.students.length ? T.setupLine : todays.length ? T.todayLine(todays.length, nextToday && nextToday.time) : T.noToday;
   const h = now.getHours(), gi = h < 5 ? 0 : h < 12 ? 1 : h < 18 ? 2 : 3;
   const hello = `<div class="hello"><div class="hello-top"><div><small>${esc(F.full.format(now))}</small>
-      <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1><div class="sign">${esc(T.brand)}</div></div>
+      <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
       <button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div>
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
   const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
@@ -3642,9 +3694,12 @@ function settingsSheet(){
       <div class="sec" style="margin-top:0"><span>${esc(T.lang)}</span></div>
       <div class="langs">${Object.keys(LANGS).map(c => `<button data-act="setLang" data-v="${c}" class="${c === L ? 'on' : ''}"><span class="fl">${LANGS[c].flag}</span>${esc(LANGS[c].name)}</button>`).join('')}</div>
       <div class="sec" style="margin-top:0"><span>${esc(T.theme)}</span></div>
-      <div class="chipsel" style="margin:0 0 14px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${S.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>
+      <div class="chipsel" style="margin:0 0 10px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${S.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>
+      <button class="btn ghost" data-act="look" style="margin:0 0 14px">🎨 ${esc(T.lk.btn)}</button>
       <div class="group"><div class="field"><label for="o_name">${esc(T.fCallMe)}</label><input id="o_name" value="${esc(userName())}" placeholder="${esc(T.fCallMePh)}" autocomplete="off"></div>
+        <div class="field"><label for="o_brand">✍️ ${esc(T.lk.brand)}</label><input id="o_brand" value="${esc(S.brand || '')}" placeholder="${esc(T.brand)}" maxlength="60" autocomplete="off"></div>
         <div class="field"><label for="o_bday">🎂 ${esc(T.fMyBday)}</label><input type="date" id="o_bday" value="${esc(S.bday)}"></div></div>
+      <div class="hintline" style="margin:-4px 8px 6px">${esc(T.lk.brandHint)}</div>
       <div class="sec"><span>${esc(T.moneySec)}</span></div>
       <div class="group">
         <div class="two"><div class="field"><label for="o_goal">🎯 ${esc(T.fGoal(cur))}</label><input type="number" inputmode="numeric" min="0" id="o_goal" value="${+S.goal || ''}" placeholder="0"></div>
@@ -3959,7 +4014,7 @@ function checkCapsules(){
 }
 function pubData(){
   if (!state.settings.book) return null;
-  return { name: userName(), brand: T.brand, slots: freeSlots(14).map(d => ({ ds: d.ds, slots: d.slots })),
+  return { name: userName(), brand: brandLine() || userName(), slots: freeSlots(14).map(d => ({ ds: d.ds, slots: d.slots })),
     svcs: state.services.map(s => ({ id: s.id, name: s.name, price: priceFor('', s.id) + rentFor(s.id, s.online) })), cur: state.settings.cur };
 }
 function reqBlock(){
@@ -4141,7 +4196,7 @@ function drawCard(lines, title, sub){
   x.fillStyle = g; x.fillRect(0, 0, W, H);
   x.strokeStyle = 'rgba(247,236,221,.25)'; x.lineWidth = 3; x.strokeRect(40, 40, W - 80, H - 80);
   x.fillStyle = '#F7ECDD'; x.textAlign = 'center';
-  x.font = '600 34px "PT Mono", monospace'; x.fillText(T.brand.toUpperCase(), W / 2, 130);
+  x.font = '600 34px "PT Mono", monospace'; x.fillText((brandLine() || userName()).toUpperCase(), W / 2, 130);
   x.font = '400 78px "Ruslan Display", "Playfair Display", serif'; wrapText(x, title.toUpperCase(), W / 2, 260, W - 160, 88);
   x.font = 'italic 500 44px "Playfair Display", serif'; x.fillStyle = '#E6DCCD'; x.fillText(sub, W / 2, 470);
   let y = 590;
@@ -4149,7 +4204,7 @@ function drawCard(lines, title, sub){
     x.fillStyle = '#FFFFFF'; x.font = '700 72px "Playfair Display", serif'; x.fillText(big, W / 2, y);
     x.fillStyle = '#E6DCCD'; x.font = '400 34px "PT Mono", monospace'; x.fillText(small, W / 2, y + 48); y += 150;
   });
-  x.font = '400 46px "Marck Script", cursive'; x.fillStyle = '#F7ECDD'; x.fillText(T.cardSign, W / 2, H - 90);
+  x.font = '400 46px "Marck Script", cursive'; x.fillStyle = '#F7ECDD'; x.fillText(brandLine() || userName(), W / 2, H - 90);
   return cv.toDataURL('image/png');
 }
 function wrapText(x, t, cx, y, maxW, lh){
@@ -4419,7 +4474,8 @@ async function pollOps(){
   } catch (e) {}
   opsBusy = false;
 }
-setInterval(pollOps, 15000);
+/* while the app is open it checks the bot every 5 s; right after opening — at once */
+setInterval(pollOps, 5000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(pollOps, 600); });
 
 const bxNorm = s => String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N} ]/gu, ' ').replace(/\s+/g, ' ').trim();
@@ -4574,8 +4630,21 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 8;
+const APP_VER = 9;
 const CHANGES = [
+  { v: 9, name: '6.3', date: '2026-11-01', big: true,
+    ru: {
+      add: ['Оформление под себя: 9 цветовых тем, свой главный цвет и фон, шрифты заголовков, текста и подписи, размер всего приложения — Настройки → «Оформление»',
+        'Своя подпись на главном экране вместо «Аня Энни · вокал» — для студии, компании или любого человека (Настройки)'],
+      better: ['Бот отвечает сразу: «⏳ Разбираю…», а потом в этом же сообщении показывает, что понял. Разбор стал в несколько раз быстрее',
+        'После «✅ Внести» данные появляются в открытом приложении за пару секунд'],
+      removed: [] },
+    en: {
+      add: ['Make it yours: 9 colour themes, your own main and background colours, heading, text and signature fonts, overall size — Settings → “Appearance”',
+        'Your own line on the home screen instead of “Anya Annie · vocals” — for a studio, a company or anyone (Settings)'],
+      better: ['The bot answers at once (“⏳ Working on it…”) and then shows what it understood in the same message. Parsing is several times faster',
+        'After “✅ Add” the data shows up in the open app within a couple of seconds'],
+      removed: [] } },
   { v: 8, name: '6.2', date: '2026-11-01',
     ru: { add: [], better: ['Исправили: данные из бота иногда не появлялись в приложении, если в этот момент оно обновлялось из облака. Теперь бот удаляет у себя данные только после того, как они надёжно сохранены'], removed: [] },
     en: { add: [], better: ['Fixed: bot changes sometimes did not show up if the app was refreshing from the cloud at that moment. The bot now forgets them only after they are safely saved'], removed: [] } },
@@ -4620,12 +4689,28 @@ function whatsNewSheet(list, isNew){
 function checkWhatsNew(){
   const seen = +state.settings.seenVer || +lsGetK('vs_seenVer') || 0;
   if (seen >= APP_VER) return;
-  const veteran = state.students.length || state.lessons.length;
+  /* big releases are shown full-screen to everyone who has used the app before */
+  const veteran = state.students.length || state.lessons.length || (seen > 0 && CHANGES.some(c => c.v > seen && c.big));
   state.settings.seenVer = APP_VER; lsSetK('vs_seenVer', String(APP_VER)); save();
   if (!veteran) return;
   const list = CHANGES.filter(c => c.v > seen).slice(0, 3);
-  if (list.length) setTimeout(() => { if (!stack.length) openSheet(whatsNewSheet(list, true)); }, 900);
+  if (list.length) setTimeout(() => { if (list.some(c => c.big)) bigUpdate(list); else if (!stack.length) openSheet(whatsNewSheet(list, true)); }, 900);
 }
+
+function bigUpdate(list){
+  const old = $('wnBig'); if (old) old.remove();
+  const c0 = list[0], x0 = wnText(c0);
+  const sec = (x, k, ic) => x[k] && x[k].length ? `<div class="wnsec"><h3>${ic} ${esc(T.wn[k])}</h3>${x[k].map(t => `<p>${esc(t)}</p>`).join('')}</div>` : '';
+  const el = document.createElement('div');
+  el.id = 'wnBig'; el.className = 'wnbig';
+  el.innerHTML = `<div class="wnbig-in"><div class="wnhero"><div class="wnemoji">🎉</div><small>${esc(T.wn.title)}</small><h2>${esc(T.wn.ver(c0.name, shortDate(c0.date)))}</h2></div>`
+    + list.map((c, i) => { const x = wnText(c); return (i ? `<div class="wnold">${esc(T.wn.ver(c.name, shortDate(c.date)))}</div>` : '') + sec(x, 'add', '✨') + sec(x, 'better', '⚡') + sec(x, 'removed', '🗑'); }).join('')
+    + `<button class="btn" data-act="wnClose">${esc(T.wn.go)}</button></div>`;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('on'));
+  hapticOk();
+}
+const WNX = { wnClose: () => { const el = $('wnBig'); if (!el) return; el.classList.remove('on'); setTimeout(() => el.remove(), 300); } };
 
 /* ================= Receipts: optional photo of a payment for a lesson or a package =================
    The photo is compressed on the phone, kept on this device (IndexedDB) and, when the bot server is connected,
@@ -4866,6 +4951,138 @@ window.addEventListener('unhandledrejection', ev => { if (ready) showOops(ev.rea
   const baseSheet = showSheet;
   showSheet = function(){ try { return baseSheet.apply(this, arguments); } catch (e) { showOops(e); } };
 }
+
+/* ================= Look: palettes, own colours, fonts, size (per account, synced) ================= */
+const LOOK_DEF = { pal: 'bordo', accent: '', bg: '', head: 'ruslan', body: 'system', sign: 'marck', size: 100 };
+/* palette: l = light [bg, card, accent, accent-2], d = dark [accent, accent-2, light accent for titles] */
+const PALETTES = {
+  bordo: { l: ['#EFEAE4', '#FAF6EF', '#7D1A2C', '#5E1221'], d: ['#A4243A', '#6E1424', '#EBA7B3'] },
+  rose: { l: ['#F6E9EE', '#FFF8FA', '#B0336A', '#81204B'], d: ['#C94683', '#8E2A5A', '#F2A6C8'] },
+  peach: { l: ['#F5ECE6', '#FFF9F5', '#C2563A', '#94391F'], d: ['#D46A4D', '#99412A', '#F2B19E'] },
+  gold: { l: ['#F3EEE3', '#FFFBF2', '#8A6A1F', '#604911'], d: ['#B08A2E', '#7A5F1C', '#E8CF8A'] },
+  mint: { l: ['#E8F0EA', '#F8FCF8', '#2F6B4F', '#1F4D37'], d: ['#3F8F69', '#275C43', '#9AD9B8'] },
+  ocean: { l: ['#E7EEF2', '#F8FBFC', '#1F5F7A', '#134257'], d: ['#2E86A8', '#1B5A74', '#8FCDE6'] },
+  navy: { l: ['#E9ECF5', '#F9FAFE', '#283C8A', '#1A2863'], d: ['#3D57C2', '#283C8A', '#A9B8F2'] },
+  lavender: { l: ['#EEEAF3', '#FBF9FE', '#5B3E96', '#3E2870'], d: ['#7E5CC4', '#4A3285', '#C3B0F0'] },
+  graphite: { l: ['#ECECEC', '#FAFAFA', '#2B2B2B', '#111111'], d: ['#5A5A5A', '#333333', '#DDDDDD'] }
+};
+const SYS_FONT = '-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+const FONTS = {
+  head: { ruslan: ['Ruslan Display', 'Ruslan+Display'], playfair: ['Playfair Display', 'Playfair+Display:wght@600;700'], cormorant: ['Cormorant Garamond', 'Cormorant+Garamond:wght@600;700'],
+    lobster: ['Lobster', 'Lobster'], montserrat: ['Montserrat', 'Montserrat:wght@700;800'], unbounded: ['Unbounded', 'Unbounded:wght@600'], comfortaa: ['Comfortaa', 'Comfortaa:wght@700'],
+    slab: ['Roboto Slab', 'Roboto+Slab:wght@700'], system: ['', ''] },
+  body: { system: ['', ''], inter: ['Inter', 'Inter:wght@400;600;700'], nunito: ['Nunito', 'Nunito:wght@400;600;700'], manrope: ['Manrope', 'Manrope:wght@400;600;700'],
+    ptsans: ['PT Sans', 'PT+Sans:wght@400;700'], roboto: ['Roboto', 'Roboto:wght@400;500;700'], lora: ['Lora', 'Lora:wght@400;600'] },
+  sign: { marck: ['Marck Script', 'Marck+Script'], caveat: ['Caveat', 'Caveat:wght@500;700'], badscript: ['Bad Script', 'Bad+Script'], pacifico: ['Pacifico', 'Pacifico'],
+    vibes: ['Great Vibes', 'Great+Vibes'], plain: ['', ''] }
+};
+const SIZES = [90, 100, 110, 120];
+const getLook = () => Object.assign({}, LOOK_DEF, state.settings.look && typeof state.settings.look === 'object' ? state.settings.look : {});
+const hexOk = v => /^#[0-9a-f]{6}$/i.test(String(v || ''));
+const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+const toHex = a => '#' + a.map(x => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0')).join('');
+const mix = (a, b, k) => { const x = rgb(a), y = rgb(b); return toHex(x.map((v, i) => v + (y[i] - v) * k)); };
+const rgba = (h, a) => { const [r, g, b] = rgb(h); return `rgba(${r},${g},${b},${a})`; };
+const fontStack = (kind, id) => {
+  const f = (FONTS[kind][id] || FONTS[kind][LOOK_DEF[kind]])[0];
+  if (kind === 'head') return f ? `"${f}",Georgia,serif` : SYS_FONT;
+  if (kind === 'sign') return f ? `"${f}","Segoe Script",cursive` : SYS_FONT;
+  return f ? `"${f}",${SYS_FONT}` : SYS_FONT;
+};
+function loadFonts(list, id){
+  const fam = list.filter(Boolean);
+  let el = document.getElementById(id);
+  if (!fam.length) { if (el) el.remove(); return; }
+  const href = 'https://fonts.googleapis.com/css2?' + fam.map(f => 'family=' + f).join('&') + '&display=swap';
+  if (el && el.getAttribute('href') === href) return;
+  if (!el) { el = document.createElement('link'); el.rel = 'stylesheet'; el.id = id; document.head.appendChild(el); }
+  el.setAttribute('href', href);
+}
+let lookKey = '';
+function applyLook(force){
+  const L0 = getLook(), dark = document.documentElement.dataset.theme === 'dark', key = JSON.stringify([L0, dark]);
+  if (!force && key === lookKey) return;
+  lookKey = key;
+  const p = PALETTES[L0.pal] || PALETTES.bordo, own = hexOk(L0.accent) ? L0.accent : '';
+  const la = own || p.l[2], la2 = own ? mix(own, '#000000', .28) : p.l[3];
+  const lbg = hexOk(L0.bg) ? L0.bg : p.l[0], lcard = hexOk(L0.bg) ? mix(L0.bg, '#FFFFFF', .62) : p.l[1];
+  const da = own ? mix(own, '#FFFFFF', .12) : p.d[0], da2 = own ? mix(own, '#000000', .3) : p.d[1], dt = own ? mix(own, '#FFFFFF', .55) : p.d[2];
+  const isDef = L0.pal === 'bordo' && !own && !hexOk(L0.bg);
+  let css = '';
+  if (!isDef) {
+    css += `:root[data-theme=light]{--bg:${lbg};--card:${lcard};--accent:${la};--accent-2:${la2};--head:${la};--title:${la};--link:${la};--soft:${rgba(la, .08)};--beige:${mix(lbg, la, .1)}}`;
+    css += `:root[data-theme=dark]{--accent:${da};--accent-2:${da2};--head:${dt};--title:${dt};--link:${dt};--soft:${rgba(dt, .12)}}`;
+  }
+  if (L0.head !== LOOK_DEF.head) css += `:root{--serif:${fontStack('head', L0.head)}}` + (L0.head === 'system' ? '.top h1,.hello h1{font-weight:700}' : '');
+  if (L0.body !== LOOK_DEF.body) css += `html,body,button,input,select,textarea{font-family:${fontStack('body', L0.body)}}`;
+  if (L0.sign !== LOOK_DEF.sign) css += `:root{--script:${fontStack('sign', L0.sign)}}` + (L0.sign === 'plain' ? '.sign{font-size:17px;font-style:italic}' : '');
+  const z = SIZES.includes(+L0.size) ? +L0.size / 100 : 1;
+  if (z !== 1) css += `body{zoom:${z}}.sheet{max-height:calc(var(--tg-viewport-height,100vh) * .93 / ${z})}`;
+  let st = document.getElementById('lookCss');
+  if (!st) { st = document.createElement('style'); st.id = 'lookCss'; document.head.appendChild(st); }
+  st.textContent = css;
+  loadFonts([FONTS.head[L0.head] && FONTS.head[L0.head][1], FONTS.body[L0.body] && FONTS.body[L0.body][1], FONTS.sign[L0.sign] && FONTS.sign[L0.sign][1]]
+    .filter(f => f && !/^(Ruslan\+Display|Marck\+Script)$/.test(f)), 'lookFonts');
+  const bg = dark ? '#141012' : lbg, card = dark ? '#1E191B' : lcard;
+  try { if (ver('6.9')) { tg.setHeaderColor(bg); tg.setBackgroundColor(bg); } } catch (e) {}
+  try { if (ver('7.10')) tg.setBottomBarColor(card); } catch (e) {}
+}
+{
+  const baseTheme = applyTheme;
+  applyTheme = function(){ baseTheme.apply(this, arguments); applyLook(); };
+}
+function lookSheet(){
+  const fn = () => {
+    const L0 = getLook(), X = T.lk;
+    const chip = (k, v, label, style) => `<button type="button" data-act="lkSet" data-k="${k}" data-v="${v}" class="${String(L0[k]) === String(v) ? 'on' : ''}"${style ? ` style="${style}"` : ''}>${esc(label)}</button>`;
+    const fontChips = kind => Object.keys(FONTS[kind]).map(id => chip(kind, id, FONTS[kind][id][0] || (kind === 'body' || kind === 'head' ? X.system : X.plain), `font-family:${fontStack(kind, id).replace(/"/g, '&quot;')};font-size:${kind === 'sign' ? 19 : 15}px`)).join('');
+    const sw = Object.keys(PALETTES).map(id => `<button type="button" class="lkpal${L0.pal === id && !hexOk(L0.accent) ? ' on' : ''}" data-act="lkSet" data-k="pal" data-v="${id}"><i style="background:linear-gradient(135deg,${PALETTES[id].l[2]} 50%,${PALETTES[id].l[0]} 50%)"></i><span>${esc(X.pals[id])}</span></button>`).join('');
+    return sheetHead('🎨 ' + X.title)
+      + `<div class="lkprev"><div class="hero" style="margin:0"><small>${esc(X.preview)}</small><h1 style="font-family:var(--serif);font-size:24px;font-weight:400;margin:4px 0 2px;text-transform:uppercase">${esc(T.greet ? T.greet[1] || T.greet[0] : '')}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
+        <div class="card" style="margin-top:8px;padding:12px 14px"><b>${esc(X.sample)}</b><div class="hintline" style="margin:4px 0 8px;text-align:left">${esc(X.sampleText)}</div><button type="button" class="btn" style="margin:0">${esc(T.save)}</button></div></div>`
+      + `<div class="sec"><span>${esc(X.palette)}</span></div><div class="lkpals">${sw}</div>`
+      + `<div class="sec"><span>${esc(X.own)}</span></div><div class="group">
+          <div class="field toggle"><span>${esc(X.accent)}</span><span class="lkcol"><input type="color" id="lk_accent" value="${hexOk(L0.accent) ? L0.accent : (PALETTES[L0.pal] || PALETTES.bordo).l[2]}">${hexOk(L0.accent) ? `<button type="button" class="mini" data-act="lkSet" data-k="accent" data-v="">×</button>` : ''}</span></div>
+          <div class="field toggle"><span>${esc(X.bg)}</span><span class="lkcol"><input type="color" id="lk_bg" value="${hexOk(L0.bg) ? L0.bg : (PALETTES[L0.pal] || PALETTES.bordo).l[0]}">${hexOk(L0.bg) ? `<button type="button" class="mini" data-act="lkSet" data-k="bg" data-v="">×</button>` : ''}</span></div></div>
+        <div class="hintline" style="margin:-4px 8px 4px">${esc(X.bgHint)}</div>`
+      + `<div class="sec"><span>${esc(X.head)}</span></div><div class="chipsel lkfonts">${fontChips('head')}</div>`
+      + `<div class="sec"><span>${esc(X.body)}</span></div><div class="chipsel lkfonts">${fontChips('body')}</div>`
+      + `<div class="sec"><span>${esc(X.sign)}</span></div><div class="chipsel lkfonts">${fontChips('sign')}</div>`
+      + `<div class="sec"><span>${esc(X.size)}</span></div><div class="chipsel">${SIZES.map(v => chip('size', v, v + ' %')).join('')}</div>`
+      + `<div class="sec"><span>${esc(T.theme)}</span></div><div class="chipsel" style="margin:0 0 14px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${state.settings.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>`
+      + `<button class="btn ghost" data-act="lkReset">↺ ${esc(X.reset)}</button>`;
+  };
+  fn.mount = () => {
+    /* load every font once so the buttons show how each one looks */
+    const all = k => Object.values(FONTS[k]).map(f => f[1]).filter(f => f && !/^(Ruslan\+Display|Marck\+Script)$/.test(f));
+    loadFonts(all('head').concat(all('body'), all('sign')), 'lookFontsAll');
+  };
+  fn.isLook = true;
+  return fn;
+}
+function lookSet(k, v){
+  const L0 = getLook();
+  if (k === 'size') v = +v;
+  if (k === 'pal') { L0.accent = ''; L0.bg = ''; }
+  L0[k] = v;
+  state.settings.look = L0;
+  applyLook(true); save(); haptic();
+  if (stack.length) refreshSheet();
+}
+const LK = {
+  look: () => openSheet(lookSheet()),
+  lkSet: el => lookSet(el.dataset.k, el.dataset.v),
+  lkReset: () => { state.settings.look = Object.assign({}, LOOK_DEF); applyLook(true); save(); hapticOk(); refreshSheet(); toast(T.lk.resetDone); }
+};
+/* colour pickers: live preview while dragging, saved when released */
+document.addEventListener('input', e => {
+  const id = e.target && e.target.id; if (id !== 'lk_accent' && id !== 'lk_bg') return;
+  const L0 = getLook(); L0[id === 'lk_accent' ? 'accent' : 'bg'] = e.target.value; state.settings.look = L0; applyLook(true);
+});
+document.addEventListener('change', e => {
+  const id = e.target && e.target.id; if (id !== 'lk_accent' && id !== 'lk_bg') return;
+  lookSet(id === 'lk_accent' ? 'accent' : 'bg', e.target.value);
+});
 
 /* ================= Dialogs ================= */
 let toastT;
@@ -5309,6 +5526,7 @@ const A = {
     S.name = $('o_name').value.trim();
     S.payLink = $('o_pay').value.trim();
     S.bday = $('o_bday').value;
+    if ($('o_brand')) S.brand = $('o_brand').value.trim().slice(0, 60);
     S.goal = Math.max(0, Math.round(+$('o_goal').value || 0));
     S.tax = +$('o_tax').value || 0;
     const wf = $('o_wfrom').value, wt = $('o_wto').value;
@@ -5366,7 +5584,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE);
+Object.assign(A, AX, RC, SAFE, LK, WNX);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
@@ -5417,6 +5635,7 @@ async function start(){
   checkCapsules();
   seasonFx();
   scheduleBotSync();
+  setTimeout(pollOps, 400);
   checkWhatsNew();
 }
 start().catch(rescueScreen);
