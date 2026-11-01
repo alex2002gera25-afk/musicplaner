@@ -512,6 +512,9 @@ nav.tabs button[hidden]{display:none}
 .calbox b{display:block}.calbox small{display:block;color:var(--hint);font-size:12.5px;margin:2px 0 8px}
 .calbox code{display:block;font-size:11px;word-break:break-all;background:var(--bg);border-radius:8px;padding:8px;margin-bottom:8px;color:var(--hint)}
 .calbox .btn{margin:0}
+.calbox .btn{margin:6px 0 0}
+.calmore{margin:6px 0 10px}
+.calmore summary{cursor:pointer;color:var(--link);padding:10px 4px;font-size:14px}
 </style>
 </head>
 <body>
@@ -2534,7 +2537,10 @@ const X2D = {
     cal: 'Календарь в телефоне', calHint: 'Подпишись на своё расписание в Google Календаре или календаре iPhone — уроки, выступления, репетиции и дела появятся там сами и будут обновляться.',
     calWait: 'Ссылки появятся после синхронизации с ботом (несколько секунд).', calGet: 'Получить ссылки',
     calMine: 'Моё расписание', calMineHint: 'Полностью: имена учеников, названия, места. Только для тебя.', calClose: 'Для близкого', calCloseHint: 'Только когда ты занята: «Урок», «Выступление», «Репетиция», «Занята» — без имён и денег. Можно отправить мужу, семье, коллективу.',
-    copyLink: 'Скопировать', addIphone: 'В iPhone',
+    copyLink: 'Скопировать', addIphone: 'В iPhone', addGoogle: 'Добавить в Google Календарь', addIphone2: 'Добавить в календарь iPhone', shareClose: 'Отправить ссылку близкому в Telegram',
+    shareText: (n, g) => `Расписание ${n} — когда занята.\n📗 Google Календарь — открой и нажми «Добавить»: ${g}\n🍏 iPhone — Настройки → Календарь → Учётные записи → Добавить → Другое → «Подписной календарь» и вставь ссылку выше.`,
+    calTrouble: 'Если не получилось', calTroubleHint: 'Google открывается в браузере: войди в свой аккаунт Google и нажми «Добавить». Если на телефоне не получается — открой то же самое с компьютера по ссылке ниже. События появятся в приложении Google Календарь на телефоне через несколько минут; обновляются сами (Google — раз в несколько часов, iPhone — по настройке).',
+    copyMine: 'Ссылка: моё', copyClose: 'Ссылка: для близкого',
     howGoogle: ['Скопируй ссылку выше.', 'На компьютере открой calendar.google.com → слева «Другие календари» → «+» → «Добавить по URL».', 'Вставь ссылку → «Добавить календарь». Через несколько минут события появятся и на телефоне в Google Календаре.'],
     howIphone: ['Нажми «В iPhone» у нужной ссылки — iPhone предложит подписаться на календарь → «Подписаться».', 'Или: Настройки iPhone → Календарь → Учётные записи → Добавить → Другое → «Подписной календарь» → вставь ссылку.', 'Обновляется сама; в календаре iPhone можно выбрать частоту обновления.'],
     calLesson: 'Урок', calGig: 'Выступление', calReh: 'Репетиция', calBusy: 'Занята',
@@ -2559,7 +2565,10 @@ const X2D = {
     cal: 'Calendar on your phone', calHint: 'Subscribe to your schedule in Google Calendar or the iPhone Calendar — lessons, gigs, rehearsals and tasks appear there and stay updated.',
     calWait: 'Links appear after syncing with the bot (a few seconds).', calGet: 'Get links',
     calMine: 'My schedule', calMineHint: 'Full: student names, titles, places. Just for you.', calClose: 'For someone close', calCloseHint: 'Only when you are busy: “Lesson”, “Gig”, “Rehearsal”, “Busy” — no names or money. Share with family or the band.',
-    copyLink: 'Copy', addIphone: 'To iPhone',
+    copyLink: 'Copy', addIphone: 'To iPhone', addGoogle: 'Add to Google Calendar', addIphone2: 'Add to iPhone Calendar', shareClose: 'Send the link via Telegram',
+    shareText: (n, g) => `${n}'s schedule — when busy.\n📗 Google Calendar — open and tap “Add”: ${g}\n🍏 iPhone — Settings → Calendar → Accounts → Add Account → Other → “Add Subscribed Calendar” and paste the link above.`,
+    calTrouble: 'If it didn’t work', calTroubleHint: 'Google opens in the browser: sign in to your Google account and tap “Add”. If it doesn’t work on the phone, open the same from a computer using the link below. Events show up in the Google Calendar app within minutes and update by themselves (Google — every few hours, iPhone — per its setting).',
+    copyMine: 'Link: mine', copyClose: 'Link: for someone close',
     howGoogle: ['Copy the link above.', 'On a computer open calendar.google.com → “Other calendars” → “+” → “From URL”.', 'Paste the link → “Add calendar”. Events appear in Google Calendar on your phone within minutes.'],
     howIphone: ['Tap “To iPhone” next to a link — the iPhone offers to subscribe → “Subscribe”.', 'Or: iPhone Settings → Calendar → Accounts → Add Account → Other → “Add Subscribed Calendar” → paste the link.', 'It updates by itself; you can choose how often in iPhone Calendar.'],
     calLesson: 'Lesson', calGig: 'Gig', calReh: 'Rehearsal', calBusy: 'Busy',
@@ -5033,8 +5042,11 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 14;
+const APP_VER = 15;
 const CHANGES = [
+  { v: 15, name: '7.2.1', date: '2026-11-01',
+    ru: { add: ['📗 Календарь в одно нажатие: «Добавить в Google Календарь» и «Добавить в календарь iPhone»; ссылку для близкого можно сразу отправить в Telegram'], better: ['Экран «Календарь в телефоне» стал проще: длинные инструкции спрятаны под «Если не получилось»'], removed: [] },
+    en: { add: ['📗 Calendar in one tap: “Add to Google Calendar” and “Add to iPhone Calendar”; send the link to someone close straight to Telegram'], better: ['The “Calendar on your phone” screen is simpler: long instructions moved under “If it didn’t work”'], removed: [] } },
   { v: 14, name: '7.2', date: '2026-11-01', big: true,
     ru: {
       add: ['📆 Расписание в Google Календаре и календаре iPhone: подпишись один раз — уроки, выступления, репетиции и дела будут там сами (Настройки → «Календарь в телефоне»)',
@@ -6654,14 +6666,18 @@ function calSheet(){
   return () => {
     const c = state.settings.calLinks || {}, X = T.x2;
     if (!c.full) return sheetHead('📆 ' + X.cal) + note(X.calWait) + `<button class="btn" data-act="x2CalSync">↻ ${esc(X.calGet)}</button>`;
-    const web = u => u.replace(/^https:/, 'webcal:');
-    const box = (title, u, hint) => `<div class="calbox"><b>${title}</b><small>${esc(hint)}</small><code>${esc(u)}</code>
-      <div class="pair2"><button class="btn ghost sm" data-act="x2Copy" data-v="${esc(u)}">📋 ${esc(X.copyLink)}</button><button class="btn ghost sm" data-act="plLink" data-v="${esc(web(u))}">🍏 ${esc(X.addIphone)}</button></div></div>`;
     return sheetHead('📆 ' + X.cal) + note(X.calHint)
-      + box('👩‍🎤 ' + X.calMine, c.full, X.calMineHint) + box('👨‍❤️‍👨 ' + X.calClose, c.busy, X.calCloseHint)
-      + `<div class="sec"><span>📗 Google</span></div><div class="card">${X.howGoogle.map((x, i) => `<div class="li"><span class="tx"><b>${i + 1}.</b> ${esc(x)}</span></div>`).join('')}</div>`
-      + `<div class="sec"><span>🍏 iPhone</span></div><div class="card">${X.howIphone.map((x, i) => `<div class="li"><span class="tx"><b>${i + 1}.</b> ${esc(x)}</span></div>`).join('')}</div>`
-      + `<button class="btn ghost" data-act="x2CalReset">🔄 ${esc(X.calReset)}</button><div class="hintline">${esc(X.calResetHint)}</div>`;
+      + `<div class="calbox"><b>👩‍🎤 ${esc(X.calMine)}</b><small>${esc(X.calMineHint)}</small>
+          <button class="btn" data-act="x2CalGoogle" data-v="full">📗 ${esc(X.addGoogle)}</button>
+          <button class="btn ghost" data-act="x2CalIphone" data-v="full">🍏 ${esc(X.addIphone2)}</button></div>`
+      + `<div class="calbox"><b>👨‍❤️‍👨 ${esc(X.calClose)}</b><small>${esc(X.calCloseHint)}</small>
+          <button class="btn ghost" data-act="x2CalShare">📤 ${esc(X.shareClose)}</button></div>`
+      + `<details class="calmore"><summary>${esc(X.calTrouble)}</summary>
+          <div class="hintline" style="text-align:left">${esc(X.calTroubleHint)}</div>
+          <div class="sec"><span>📗 Google</span></div><div class="card">${X.howGoogle.map((x, i) => `<div class="li"><span class="tx"><b>${i + 1}.</b> ${esc(x)}</span></div>`).join('')}</div>
+          <div class="sec"><span>🍏 iPhone</span></div><div class="card">${X.howIphone.map((x, i) => `<div class="li"><span class="tx"><b>${i + 1}.</b> ${esc(x)}</span></div>`).join('')}</div>
+          <div class="pair2" style="margin-top:10px"><button class="btn ghost sm" data-act="x2Copy" data-v="${esc(c.full)}">📋 ${esc(X.copyMine)}</button><button class="btn ghost sm" data-act="x2Copy" data-v="${esc(c.busy)}">📋 ${esc(X.copyClose)}</button></div>
+          <button class="btn ghost" data-act="x2CalReset">🔄 ${esc(X.calReset)}</button><div class="hintline">${esc(X.calResetHint)}</div></details>`;
   };
 }
 
@@ -6735,6 +6751,12 @@ const X2 = {
   x2Cal: () => openSheet(calSheet()),
   x2CalSync: async () => { await botSync(true); refreshSheet(); },
   x2CalReset: async () => { if (!await ask(T.x2.calResetQ, T.x2.calResetBtn, true)) return; try { const j = await botPost({ a: 'calReset' }); if (j.cal) state.settings.calLinks = j.cal; save(); toast('✅ ' + T.x2.calResetDone); } catch (e) { toast(T.bk.sendFail); } refreshSheet(); },
+  /* Google: its own «add calendar from URL» page; you only need to be signed in and tap «Add» */
+  x2CalGoogle: el => { const c = state.settings.calLinks || {}, u = c[el.dataset.v || 'full']; if (!u) return; openUrl('https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(u.replace(/^https:/, 'webcal:')), false); },
+  x2CalIphone: el => { const c = state.settings.calLinks || {}, u = c[el.dataset.v || 'full']; if (!u) return; openUrl(u.replace(/^https:/, 'webcal:'), false); },
+  x2CalShare: () => { const c = state.settings.calLinks || {}; if (!c.busy) return;
+    const g = 'https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(c.busy.replace(/^https:/, 'webcal:'));
+    openUrl('https://t.me/share/url?url=' + encodeURIComponent(c.busy) + '&text=' + encodeURIComponent(T.x2.shareText(userName(), g)), true); },
   x2Copy: async el => { if (await copyText(el.dataset.v)) toast(T.tCopiedText); else showText('🔗', el.dataset.v); },
   x2StuLink: async el => { const s = stu(el.dataset.id); if (!s) return; const u = stuBotLink(s); if (!u) return toast(T.x2.needBot, 3000);
     const txt = T.x2.inviteText(firstName(s.name), u, userName()); if (await copyText(txt)) toast('✅ ' + T.x2.inviteCopied, 3500); else showText('🔗', txt); },
@@ -6854,8 +6876,10 @@ const HELP_DOC = [
     '«Сделать учеником» — переносит человека из листа в ученики со всеми заметками.' ] },
   { id: 'calendar', ic: '📆', t: 'Календарь в телефоне (Google и iPhone)', p: [
     'Настройки → «Календарь в телефоне». Там две ссылки: «Моё расписание» (полностью, с именами и местами) и «Для близкого» (только «Урок», «Выступление», «Занята» — без имён и денег).',
-    'Google: скопируй ссылку → на компьютере calendar.google.com → «Другие календари» → «+» → «Добавить по URL» → вставь. Появится и в Google Календаре на телефоне.',
-    'iPhone: нажми «В iPhone» → «Подписаться». Или Настройки iPhone → Календарь → Учётные записи → Добавить → Другое → «Подписной календарь».',
+    'Google: нажми «Добавить в Google Календарь» — откроется Google; войди в свой аккаунт (если ещё не вошла) и нажми «Добавить». Всё. События появятся в Google Календаре на телефоне и компьютере.',
+    'iPhone: нажми «Добавить в календарь iPhone» → «Подписаться».',
+    'Близкому: «Отправить ссылку близкому в Telegram» — выбери, кому; в сообщении будут ссылки и для iPhone, и для Google.',
+    'Если на телефоне Google не добавляет — открой «Если не получилось»: там ссылки, чтобы сделать то же с компьютера.',
     'Календарь обновляется сам (обычно раз в час; Google иногда реже). Изменения в приложении попадают туда после синхронизации.',
     'Ссылку «Для близкого» можно отправить мужу, семье или коллективу. Если отправила не тому — «Сменить ссылки», старые перестанут работать.' ] },
   { id: 'people', ic: '🎂', t: 'Дни рождения', p: [
