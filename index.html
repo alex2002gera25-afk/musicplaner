@@ -429,6 +429,7 @@ nav.tabs button:active{transform:scale(.9)}
 .wnsec p{margin:6px 0;line-height:1.45}
 .wnold{margin:16px 4px 8px;font-size:12px;color:var(--hint);text-transform:uppercase;letter-spacing:.06em}
 @keyframes wnpop{0%{transform:scale(.3) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
+.wnimp{border:1.5px solid var(--accent)}
 </style>
 </head>
 <body>
@@ -2143,11 +2144,11 @@ const B = {
     hint: b => `Écris ou envoie un vocal au bot${b ? ' @' + b : ''} : il ajoute élèves, cours, paiements et chansons`, hintOff: 'Saisie vocale via le bot : demande à Sasha d’ajouter la clé Gemini au script' }
 };
 const WN = {
-  ru: { title: 'Вышло обновление!', history: 'Что нового', ver: (v, d) => `Версия ${v} · ${d}`, add: 'Добавили', better: 'Улучшили', removed: 'Убрали', ok: 'Понятно', go: 'Отлично, поехали!' },
-  en: { title: 'Update is out!', history: 'What’s new', ver: (v, d) => `Version ${v} · ${d}`, add: 'Added', better: 'Improved', removed: 'Removed', ok: 'Got it', go: 'Great, let’s go!' },
-  es: { title: '¡Nueva actualización!', history: 'Novedades', ver: (v, d) => `Versión ${v} · ${d}`, add: 'Añadido', better: 'Mejorado', removed: 'Eliminado', ok: 'Entendido', go: '¡Genial, vamos!' },
-  it: { title: 'Nuovo aggiornamento!', history: 'Novità', ver: (v, d) => `Versione ${v} · ${d}`, add: 'Aggiunto', better: 'Migliorato', removed: 'Rimosso', ok: 'Ho capito', go: 'Ottimo, andiamo!' },
-  fr: { title: 'Nouvelle mise à jour !', history: 'Nouveautés', ver: (v, d) => `Version ${v} · ${d}`, add: 'Ajouté', better: 'Amélioré', removed: 'Supprimé', ok: 'Compris', go: 'Super, c’est parti !' }
+  ru: { title: 'Вышло обновление!', history: 'Что нового', ver: (v, d) => `Версия ${v} · ${d}`, add: 'Добавили', better: 'Улучшили', removed: 'Убрали', ok: 'Понятно', go: 'Отлично, поехали!', imp: 'Важно, чтобы всё сохранилось', tips: ['Открывайте приложение кнопкой «Ученики» в чате с ботом — так бот знает ваших учеников, а то, что вы ему пишете, сразу попадает сюда', 'Ваши данные в безопасности: перед каждым обновлением приложение само делает резервную копию (Настройки → «Резервные копии»), а раз в неделю бот присылает копию файлом в чат', 'Если что-то выглядит странно или открылась старая версия — закройте приложение полностью и откройте снова', 'О каждом обновлении бот напишет в чат — с этим же списком изменений'] },
+  en: { title: 'Update is out!', history: 'What’s new', ver: (v, d) => `Version ${v} · ${d}`, add: 'Added', better: 'Improved', removed: 'Removed', ok: 'Got it', go: 'Great, let’s go!', imp: 'Important, so nothing is lost', tips: ['Open the app with the button at the bottom of the bot chat — this way the bot knows your students and what you send it lands here right away', 'Your data is safe: the app makes a backup before every update (Settings → Backups), and once a week the bot sends a backup file to the chat', 'If something looks odd or the old version opens, close the app completely and open it again', 'The bot will tell you about every update in the chat, with the same list of changes'] },
+  es: { title: '¡Nueva actualización!', history: 'Novedades', ver: (v, d) => `Versión ${v} · ${d}`, add: 'Añadido', better: 'Mejorado', removed: 'Eliminado', ok: 'Entendido', go: '¡Genial, vamos!', imp: 'Importante, para no perder nada', tips: ['Abre la app con el botón de abajo en el chat del bot: así el bot conoce a tus alumnos y lo que le envías aparece aquí enseguida', 'Tus datos están seguros: la app hace una copia antes de cada actualización (Ajustes → Copias) y una vez por semana el bot envía una copia al chat', 'Si algo se ve raro o se abre la versión antigua, cierra la app por completo y ábrela de nuevo', 'El bot te avisará de cada actualización en el chat, con esta misma lista de cambios'] },
+  it: { title: 'Nuovo aggiornamento!', history: 'Novità', ver: (v, d) => `Versione ${v} · ${d}`, add: 'Aggiunto', better: 'Migliorato', removed: 'Rimosso', ok: 'Ho capito', go: 'Ottimo, andiamo!', imp: 'Importante, per non perdere nulla', tips: ['Apri l’app con il pulsante in basso nella chat del bot: così il bot conosce i tuoi allievi e ciò che gli invii arriva subito qui', 'I tuoi dati sono al sicuro: l’app fa una copia prima di ogni aggiornamento (Impostazioni → Copie) e una volta a settimana il bot invia una copia in chat', 'Se qualcosa sembra strano o si apre la versione vecchia, chiudi del tutto l’app e riaprila', 'Il bot ti avviserà di ogni aggiornamento in chat, con questo stesso elenco di novità'] },
+  fr: { title: 'Nouvelle mise à jour !', history: 'Nouveautés', ver: (v, d) => `Version ${v} · ${d}`, add: 'Ajouté', better: 'Amélioré', removed: 'Supprimé', ok: 'Compris', go: 'Super, c’est parti !', imp: 'Important, pour ne rien perdre', tips: ['Ouvrez l’appli avec le bouton en bas du chat du bot : ainsi le bot connaît vos élèves et ce que vous lui envoyez arrive ici tout de suite', 'Vos données sont en sécurité : l’appli fait une sauvegarde avant chaque mise à jour (Réglages → Sauvegardes) et le bot envoie une copie dans le chat chaque semaine', 'Si quelque chose semble bizarre ou si l’ancienne version s’ouvre, fermez complètement l’appli et rouvrez-la', 'Le bot vous préviendra de chaque mise à jour dans le chat, avec cette même liste de changements'] }
 };
 const RCS = {
   ru: { attach: 'Прикрепить чек', attachShort: 'Чек', optional: 'по желанию', open: 'Чек прикреплён — открыть', title: 'Чек об оплате', replace: 'Заменить', del: 'Удалить',
@@ -4635,13 +4636,15 @@ const CHANGES = [
   { v: 9, name: '6.3', date: '2026-11-01', big: true,
     ru: {
       add: ['Оформление под себя: 9 цветовых тем, свой главный цвет и фон, шрифты заголовков, текста и подписи, размер всего приложения — Настройки → «Оформление»',
-        'Своя подпись на главном экране вместо «Аня Энни · вокал» — для студии, компании или любого человека (Настройки)'],
+        'Своя подпись на главном экране вместо «Аня Энни · вокал» — для студии, компании или любого человека (Настройки)',
+        'Бот сам пишет в чат, когда выходит обновление: что нового и что сделать, чтобы всё сохранилось'],
       better: ['Бот отвечает сразу: «⏳ Разбираю…», а потом в этом же сообщении показывает, что понял. Разбор стал в несколько раз быстрее',
         'После «✅ Внести» данные появляются в открытом приложении за пару секунд'],
       removed: [] },
     en: {
       add: ['Make it yours: 9 colour themes, your own main and background colours, heading, text and signature fonts, overall size — Settings → “Appearance”',
-        'Your own line on the home screen instead of “Anya Annie · vocals” — for a studio, a company or anyone (Settings)'],
+        'Your own line on the home screen instead of “Anya Annie · vocals” — for a studio, a company or anyone (Settings)',
+        'The bot tells you in the chat when an update is out: what’s new and what to do so everything is saved'],
       better: ['The bot answers at once (“⏳ Working on it…”) and then shows what it understood in the same message. Parsing is several times faster',
         'After “✅ Add” the data shows up in the open app within a couple of seconds'],
       removed: [] } },
@@ -4684,7 +4687,7 @@ function whatsNewSheet(list, isNew){
   return () => sheetHead(isNew ? '🎉 ' + T.wn.title : '🆕 ' + T.wn.history) + list.map(c => {
     const x = wnText(c), sec = (k, ic) => x[k] && x[k].length ? `<div class="sec"><span>${ic} ${esc(T.wn[k])}</span></div><div class="card wn">${x[k].map(t => `<div class="li"><span class="tx">${esc(t)}</span></div>`).join('')}</div>` : '';
     return `<div class="note" style="margin-top:4px">${esc(T.wn.ver(c.name, shortDate(c.date)))}</div>` + sec('add', '✨') + sec('better', '⚡') + sec('removed', '🗑');
-  }).join('') + `<button class="btn" data-act="closeSheet" style="margin-top:14px">${esc(T.wn.ok)}</button>`;
+  }).join('') + (isNew ? `<div class="sec"><span>📌 ${esc(T.wn.imp)}</span></div><div class="card wn">${T.wn.tips.map(t => `<div class="li"><span class="tx">${esc(t)}</span></div>`).join('')}</div>` : '') + `<button class="btn" data-act="closeSheet" style="margin-top:14px">${esc(T.wn.ok)}</button>`;
 }
 function checkWhatsNew(){
   const seen = +state.settings.seenVer || +lsGetK('vs_seenVer') || 0;
@@ -4705,6 +4708,7 @@ function bigUpdate(list){
   el.id = 'wnBig'; el.className = 'wnbig';
   el.innerHTML = `<div class="wnbig-in"><div class="wnhero"><div class="wnemoji">🎉</div><small>${esc(T.wn.title)}</small><h2>${esc(T.wn.ver(c0.name, shortDate(c0.date)))}</h2></div>`
     + list.map((c, i) => { const x = wnText(c); return (i ? `<div class="wnold">${esc(T.wn.ver(c.name, shortDate(c.date)))}</div>` : '') + sec(x, 'add', '✨') + sec(x, 'better', '⚡') + sec(x, 'removed', '🗑'); }).join('')
+    + `<div class="wnsec wnimp"><h3>📌 ${esc(T.wn.imp)}</h3>${T.wn.tips.map((t, i) => `<p><b>${i + 1}.</b> ${esc(t)}</p>`).join('')}</div>`
     + `<button class="btn" data-act="wnClose">${esc(T.wn.go)}</button></div>`;
   document.body.appendChild(el);
   requestAnimationFrame(() => el.classList.add('on'));
