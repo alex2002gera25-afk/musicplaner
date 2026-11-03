@@ -2755,13 +2755,15 @@ const TRD = {
       money: 'Цена и длительность подставляются в каждый новый урок. Цель — полоска прогресса на главной. Налог — сколько отложить с дохода (например, 4 % для самозанятых). Валюта — значок в суммах.',
       work: 'Рабочие дни и часы нужны, чтобы приложение показывало свободные окошки: для онлайн-записи и подсказок, куда поставить урок. Ссылка на оплату добавляется в сообщения и QR-код для учеников.',
       nt: 'Уведомления присылает бот в Telegram — даже когда приложение закрыто. ☀️ Утром — план на день: уроки, дела, дни рождения. ⏰ Перед уроком — напоминание за выбранное время. 📝 Вечером — отметить, кто пришёл и кто оплатил. 💸 Долги — кто не заплатил. 📊 Итоги месяца — 1-го числа. 🗓 Обзор недели — по воскресеньям. Всё можно включать по отдельности; «Проверить» — пришлёт тестовое сообщение.',
+      svc: 'Здесь у каждой услуги своя цена урока, аренда студии за урок и цены абонементов. Любое поле может быть 0 — например, если аренду ты не платишь. «Цена по умолчанию» выше — для уроков без услуги.',
       store: 'Данные хранятся в облаке Telegram и не пропадут при смене телефона. Резервные копии делаются сами — на телефоне, в Google Drive и в чате с ботом; из любой можно всё восстановить.' },
-    ob: { title: 'Давай познакомимся 👋', text: 'Пара вопросов — и приложение подстроится под тебя. Всё можно поменять потом в настройках.',
+    defSvc: [{ name: 'Урок', price: 0 }, { name: 'Пробный урок', price: 0, trial: true }, { name: 'Онлайн-урок', price: 0, online: true }],
+    ob: { price: 'Сколько стоит урок?', rent: 'Аренда студии за урок (если платишь)', priceHint: 'Можно оставить 0 и поменять потом: ⚙️ Настройки → «Услуги и цены». У каждой услуги и ученика может быть своя цена.', title: 'Давай познакомимся 👋', text: 'Пара вопросов — и приложение подстроится под тебя. Всё можно поменять потом в настройках.',
       name: 'Как тебя зовут?', namePh: 'Например, Маша', does: 'Чем ты занимаешься? (можно несколько)', what: 'Что преподаёшь?', other: 'Свой вариант', otherPh: 'Например, барабаны',
       brand: 'Подпись на главной — название студии или как тебя знают ученики', brandHint: 'Можно оставить пустым.', go: 'Готово — поехали!', later: 'Пропустить',
       roles: { teach: '🎓 Преподаю', perform: '🎤 Выступаю', write: '✍️ Пишу песни', smm: '📱 Веду соцсети' },
       subj: { vocal: 'Вокал', piano: 'Фортепиано', guitar: 'Гитара', other: 'Другое' }, subjShort: { vocal: 'вокал', piano: 'фортепиано', guitar: 'гитара' } },
-    guide: 'Скачать полный гайд', openBot: 'Открыть бота', botCard: ['🤖 Бот вносит всё сам', 'Напиши или наговори боту — «урок с Машей в среду в 15:00», «Петя оплатил» — он покажет, что понял, ты жмёшь «✅ Внести», и всё появляется в приложении.'], guideSent: 'Гайд отправлен в чат с ботом 📄', guideTitle: 'Мои ученики — полный гайд' },
+    svcBtn: 'аренда студии', guide: 'Скачать полный гайд', openBot: 'Открыть бота', botCard: ['🤖 Бот вносит всё сам', 'Напиши или наговори боту — «урок с Машей в среду в 15:00», «Петя оплатил» — он покажет, что понял, ты жмёшь «✅ Внести», и всё появляется в приложении.'], guideSent: 'Гайд отправлен в чат с ботом 📄', guideTitle: 'Мои ученики — полный гайд' },
   en: { btn: 'Tutorial: how to use it', next: 'Next', back: 'Back', skip: 'Skip', done: 'Done!', of: (a, b) => `${a} of ${b}`,
     steps: {
       hi: ['Hi there! 👋', 'This is “My Students” — students, lessons, money and gigs in one place. I’ll show you the most important things — it takes a minute.'],
@@ -2782,13 +2784,15 @@ const TRD = {
       money: 'Price and duration are filled into every new lesson. The goal is the progress bar on Home. Tax — how much to set aside. Currency — the symbol in amounts.',
       work: 'Working days and hours let the app show free slots: for online booking and lesson suggestions. The payment link is added to messages and the QR code for students.',
       nt: 'Notifications come from the bot in Telegram — even when the app is closed. ☀️ Morning — the day plan. ⏰ Before a lesson — a reminder. 📝 Evening — mark who came and paid. 💸 Debts — who hasn’t paid. 📊 Month summary — on the 1st. 🗓 Weekly review — on Sundays. Each can be switched separately; “Test” sends a test message.',
+      svc: 'Each service has its own lesson price, studio rent per lesson and package prices. Any field can be 0 — e.g. if you don’t pay rent. The “default price” above is for lessons without a service.',
       store: 'Data is stored in Telegram’s cloud and survives a phone change. Backups are made automatically — on the phone, in Google Drive and in the bot chat; everything can be restored from any of them.' },
-    ob: { title: 'Let’s get acquainted 👋', text: 'A couple of questions and the app adapts to you. You can change everything later in settings.',
+    defSvc: [{ name: 'Lesson', price: 0 }, { name: 'Trial lesson', price: 0, trial: true }, { name: 'Online lesson', price: 0, online: true }],
+    ob: { price: 'How much is a lesson?', rent: 'Studio rent per lesson (if you pay it)', priceHint: 'You can leave 0 and change it later: ⚙️ Settings → “Services and prices”. Each service and student can have its own price.', title: 'Let’s get acquainted 👋', text: 'A couple of questions and the app adapts to you. You can change everything later in settings.',
       name: 'What’s your name?', namePh: 'For example, Masha', does: 'What do you do? (choose any)', what: 'What do you teach?', other: 'Something else', otherPh: 'For example, drums',
       brand: 'Line on the home screen — your studio name or how students know you', brandHint: 'You can leave it empty.', go: 'Done — let’s go!', later: 'Skip',
       roles: { teach: '🎓 I teach', perform: '🎤 I perform', write: '✍️ I write songs', smm: '📱 I run social media' },
       subj: { vocal: 'Vocals', piano: 'Piano', guitar: 'Guitar', other: 'Other' }, subjShort: { vocal: 'vocals', piano: 'piano', guitar: 'guitar' } },
-    guide: 'Download the full guide', openBot: 'Open the bot', botCard: ['🤖 The bot fills it in', 'Write or speak to the bot — “lesson with Masha on Wednesday at 3 pm”, “Peter paid” — it shows what it understood, you tap “✅ Add”, and it appears in the app.'], guideSent: 'The guide was sent to the bot chat 📄', guideTitle: 'My Students — full guide' }
+    svcBtn: 'studio rent', guide: 'Download the full guide', openBot: 'Open the bot', botCard: ['🤖 The bot fills it in', 'Write or speak to the bot — “lesson with Masha on Wednesday at 3 pm”, “Peter paid” — it shows what it understood, you tap “✅ Add”, and it appears in the app.'], guideSent: 'The guide was sent to the bot chat 📄', guideTitle: 'My Students — full guide' }
 };
 /* neutral texts for everyone except Sasha's family (see famT in js_sub.js) */
 const NEU = {
@@ -2909,7 +2913,7 @@ function applyLang(code){
 applyLang(lsGetK('vs_lang') || 'ru');
 
 /* ================= State ================= */
-const DEF = { price: 2000, dur: 60, cur: '₽', name: '', lang: 'ru', theme: 'light', goal: 0, tax: 0, bday: '', api: '', init: 0,
+const DEF = { price: 0, dur: 60, cur: '₽', name: '', lang: 'ru', theme: 'light', goal: 0, tax: 0, bday: '', api: '', init: 0,
   work: { days: [1, 2, 3, 4, 5, 6], from: '10:00', to: '21:00' },
   nt: { on: 1, morning: 9, before: 60, evening: 21, debts: 1, monthly: 1, ach: 1, week: 1 } };
 const listOf = x => Array.isArray(x) ? x.filter(y => y && y.id) : [];
@@ -2986,7 +2990,7 @@ const praise = () => withName(pick(T.praise));
 const savedMsg = () => Math.random() < 0.3 ? T.tSavedSanya : T.tSaved;
 function seedDefaults(){
   if (state.settings.init) return false;
-  if (!state.services.length) state.services = T.defServices.map(s => Object.assign({ id: uid(), name: '', price: 0, rent: 0, p4: 0, p8: 0, online: false, trial: false }, s));
+  if (!state.services.length) state.services = (typeof famOn === 'function' && !famOn() && T.tr && T.tr.defSvc ? T.tr.defSvc : T.defServices).map(s => Object.assign({ id: uid(), name: '', price: 0, rent: 0, p4: 0, p8: 0, online: false, trial: false }, s));
   if (!state.exercises.length) state.exercises = T.defExercises.map(([title, text]) => ({ id: uid(), title, text }));
   state.settings.init = 1;
   return true;
@@ -4430,6 +4434,8 @@ function settingsSheet(){
           <div class="field"><label for="o_dur">${esc(T.fDefDur)}</label><input type="number" inputmode="numeric" min="0" id="o_dur" value="${esc(S.dur)}"></div></div>
         <div class="field"><label for="o_cur">${esc(T.fCur)}</label><input id="o_cur" value="${esc(S.cur)}" maxlength="4"></div></div>
       <div class="hintline" style="margin:-4px 8px 4px">${esc(T.taxHint)}</div>
+      <button class="btn soft" data-act="services" style="margin:6px 0 4px">🎟 ${esc(T.stSvc)} · ${esc(T.tr.svcBtn)}</button>
+      <div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(T.tr.hints.svc)}</div>
       <div class="hintline" style="margin:0 8px 4px;text-align:left">${esc(T.tr.hints.money)}</div>
       <div class="sec"><span>${esc(T.workSec)}</span></div>
       <div class="group"><div class="field"><span class="lb">${esc(T.workDays)}</span><div class="chipsel" id="o_days">${wd}</div></div>
@@ -5372,13 +5378,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 25;
+const APP_VER = 26;
 const CHANGES = [
-  { v: 25, name: '7.6', date: '2026-11-03', big: true,
+  { v: 26, name: '7.6', date: '2026-11-03', big: true,
     ru: { add: ['🌱 Трекер привычек — отдельная вкладка в меню внизу: до 15 привычек со своими смайликами — серый день становится цветным, когда отмечаешь; серии 🔥 и рекорды', '💳 Мои финансы: расходы и доходы, бюджет по категориям, регулярные платежи с напоминанием, копилки, итог месяца', '🎁 Вишлист со ссылкой для близких — друзья отмечают «Я подарю», а ты не знаешь, что именно', '🛒 Списки покупок и чек-листы, 🎯 цели по шагам, 📔 дневник голоса и настроения', '☀️ Карточка «Сегодня» на главной: привычки, платежи, бюджет'],
-      better: ['💎 Понятное сравнение тарифов «Про» и «Макс» — в подписке и в боте (/тарифы)', '📱 Нижнее меню листается влево-вправо, если пунктов много', '🤖 Боту можно писать и про личное: «такси 450», «хочу синтезатор», «купить молоко», «сделала йогу»', '☀️ Утренний план и обзор недели — теперь и про жизнь: платежи, привычки, бюджет'] },
+      better: ['💰 Цена урока, аренда студии и всё остальное могут быть 0 — при первом запуске приложение само спросит цену и аренду', '💎 Понятное сравнение тарифов «Про» и «Макс» — в подписке и в боте (/тарифы)', '📱 Нижнее меню листается влево-вправо, если пунктов много', '🤖 Боту можно писать и про личное: «такси 450», «хочу синтезатор», «купить молоко», «сделала йогу»', '☀️ Утренний план и обзор недели — теперь и про жизнь: платежи, привычки, бюджет'] },
     en: { add: ['🌱 Habit tracker — its own tab in the bottom menu: up to 15 habits with their own icons — a grey day turns colourful when ticked; streaks 🔥 and records', '💳 My money: spending and income, budget by category, regular payments with reminders, savings, month total', '🎁 Wishlist with a link for close ones — friends tick “I’ll give this”, you don’t know what', '🛒 Shopping lists and checklists, 🎯 goals by steps, 📔 voice and mood diary', '☀️ “Today” card on Home: habits, payments, budget'],
-      better: ['💎 A clear Pro vs Max comparison — in the subscription screen and in the bot (/тарифы)', '📱 The bottom menu scrolls sideways when there are many items', '🤖 Tell the bot personal things too: “taxi 450”, “I want a synth”, “buy milk”, “did yoga”', '☀️ Morning plan and weekly review now cover life too: payments, habits, budget'] } },
+      better: ['💰 Lesson price, studio rent and the rest can be 0 — on first launch the app asks for your price and rent', '💎 A clear Pro vs Max comparison — in the subscription screen and in the bot (/тарифы)', '📱 The bottom menu scrolls sideways when there are many items', '🤖 Tell the bot personal things too: “taxi 450”, “I want a synth”, “buy milk”, “did yoga”', '☀️ Morning plan and weekly review now cover life too: payments, habits, budget'] } },
   { v: 21, name: '7.5', date: '2026-11-03',
     ru: { add: ['👋 Первое знакомство: при первом запуске приложение спрашивает имя, чем ты занимаешься и что писать на главной — и подстраивается под тебя', '🧭 Пошаговое обучение: приложение подсвечивает каждую часть экрана и объясняет, зачем она — ⚙️ Настройки → «Обучение»', '📄 Полный гайд одним файлом — Справка → «Скачать полный гайд»'],
       better: ['⚙️ В настройках объяснено, зачем каждая настройка и как работают уведомления', '🤖 Главное на виду: всё, что напишешь или скажешь боту, он сам внесёт в приложение'] },
@@ -7832,6 +7838,11 @@ const HELP_DOC = [
     'Студия → «Лист ожидания»: кто хочет заниматься, какое время ему удобно, контакт.',
     'Когда урок отменяется (тобой или учеником через бота), на Главной появится подсказка: освободилось такое-то время, первая в листе — такая-то. Нажми — откроется список с кнопкой «Написать».',
     '«Сделать учеником» — переносит человека из листа в ученики со всеми заметками.' ] },
+  { id: 'prices', ic: '💰', t: 'Цены, аренда студии, нули', p: [
+    'Цена урока и аренда студии задаются в ⚙️ Настройки → «🎟 Услуги и цены · аренда студии» (или вкладка «Студия» → «Услуги и цены»): у каждой услуги своя цена урока, аренда за урок и цены в абонементах на 4 и 8 уроков. Любое поле можно оставить 0 — например, если аренду ты не платишь или урок бесплатный.',
+    'Своя цена у конкретного ученика — в его карточке (поле «Цена»). Она важнее цены услуги. 0 — значит брать цену услуги.',
+    'Цена по умолчанию для новых уроков без услуги — ⚙️ Настройки → раздел денег. Можно 0.',
+    'При первом запуске приложение спрашивает цену урока и аренду — можно сразу оставить 0 и поменять позже.' ] },
   { id: 'life', ic: '🌿', t: 'Жизнь и личное: привычки, финансы, вишлист, списки, цели, дневник', p: [
     'Привычки — отдельная вкладка «🌱 Привычки» в меню внизу. Остальное — во вкладке «Планер», раздел «🌿 Жизнь и личное». Если пунктов в нижнем меню много, оно листается влево-вправо. Что не нужно — выключи в ⚙️ Настройки → «Разделы приложения» (тогда и вкладка пропадёт).',
     '🌱 Привычки (вкладка внизу): до 15 штук, у каждой свой смайлик и цвет. Каждый день месяца — серый смайлик; нажми — станет цветным. Видно серию «🔥 дней подряд», рекорд и сколько дней из месяца выполнено. Отмечать можно и прямо на главной в карточке «☀️ Сегодня», и через бота: «сделала йогу».',
@@ -8307,12 +8318,15 @@ function obSheet(){
       <div class="chipsel" style="margin:0 0 10px">${Object.keys(X.roles).map(k => `<button type="button" data-act="obRole" data-v="${k}" class="${OB.roles[k] ? 'on' : ''}">${esc(X.roles[k])}</button>`).join('')}</div>
       ${OB.roles.teach ? `<div class="sec"><span>${esc(X.what)}</span></div>
       <div class="chipsel" style="margin:0 0 6px">${Object.keys(X.subj).map(k => `<button type="button" data-act="obSubj" data-v="${k}" class="${OB.subj === k ? 'on' : ''}">${esc(X.subj[k])}</button>`).join('')}</div>
-      ${OB.subj === 'other' ? `<div class="group"><div class="field"><input id="ob_other" value="${esc(OB.other || '')}" placeholder="${esc(X.otherPh)}" autocomplete="off"></div></div>` : ''}` : ''}
+      ${OB.subj === 'other' ? `<div class="group"><div class="field"><input id="ob_other" value="${esc(OB.other || '')}" placeholder="${esc(X.otherPh)}" autocomplete="off"></div></div>` : ''}
+      <div class="group"><div class="two"><div class="field"><label for="ob_price">💰 ${esc(X.price)}</label><input id="ob_price" type="number" inputmode="numeric" min="0" value="${esc(OB.price || '')}" placeholder="0"></div>
+        <div class="field"><label for="ob_rent">🏠 ${esc(X.rent)}</label><input id="ob_rent" type="number" inputmode="numeric" min="0" value="${esc(OB.rent || '')}" placeholder="0"></div></div></div>
+      <div class="hintline" style="margin:-4px 8px 10px">${esc(X.priceHint)}</div>` : ''}
       <div class="group" style="margin-top:8px"><div class="field"><label for="ob_brand">✍️ ${esc(X.brand)}</label><input id="ob_brand" value="${esc(OB.brand || '')}" placeholder="${esc(obBrandGuess())}" maxlength="60" autocomplete="off"></div></div>
       <div class="hintline" style="margin:-4px 8px 10px">${esc(X.brandHint)}</div>
       <button class="btn" data-act="obGo">${esc(X.go)}</button><button class="btn ghost sm" data-act="obLater" style="margin-top:8px">${esc(X.later)}</button>`; };
   fn.isOb = true;
-  fn.mount = () => { ['ob_name', 'ob_brand', 'ob_other'].forEach(id => { const e = $(id); if (e) e.oninput = () => { OB[id.slice(3)] = e.value; if (id !== 'ob_brand') { const b = $('ob_brand'); if (b) b.placeholder = obBrandGuess(); } }; }); };
+  fn.mount = () => { ['ob_name', 'ob_brand', 'ob_other', 'ob_price', 'ob_rent'].forEach(id => { const e = $(id); if (e) e.oninput = () => { OB[id.slice(3)] = e.value; if (id !== 'ob_brand') { const b = $('ob_brand'); if (b) b.placeholder = obBrandGuess(); } }; }); };
   return fn;
 }
 function obSubjName(){ const X = T.tr.ob; return OB.subj === 'other' ? String(OB.other || '').trim().toLowerCase() : (X.subjShort[OB.subj] || ''); }
@@ -8323,6 +8337,11 @@ function obFinish(apply){
     if (n) S.name = n.slice(0, 40);
     S.brand = b ? b.slice(0, 60) : '-';
     S.role = Object.keys(OB.roles).filter(k => OB.roles[k]); S.subj = OB.roles.teach ? obSubjName() : '';
+    if (OB.roles.teach) {
+      const price = Math.max(0, +(($('ob_price') || {}).value || 0)), rent = Math.max(0, +(($('ob_rent') || {}).value || 0)), subj = obSubjName();
+      S.price = price;
+      state.services.forEach((v, i) => { if (!v.online) { v.price = price; v.rent = rent; } else v.price = price; if (i === 0 && subj) v.name = subj.charAt(0).toUpperCase() + subj.slice(1); });
+    }
     const m = Object.assign({}, S.mods || {});
     if (!OB.roles.teach) { m.students = 0; m.money = m.money === undefined ? 1 : m.money; }
     if (!OB.roles.perform) { m.groups = 0; m.artist = 0; }
