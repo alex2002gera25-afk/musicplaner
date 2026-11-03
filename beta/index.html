@@ -617,6 +617,43 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .pfrow{width:100%;background:none;border:0;text-align:left;color:inherit;font:inherit;cursor:pointer}
 .pfrow.on .name{font-weight:700}
 .pfrow[hidden],.pfg[hidden]{display:none!important}
+
+/* ================= 7.11: fullscreen (Telegram 8.0+) and wide screens (Mac, Windows, tablets) ================= */
+:root{--sat:calc(var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px));--sab:max(env(safe-area-inset-bottom,0px),var(--tg-safe-area-inset-bottom,0px));--col:560px}
+.wrap{padding-top:calc(12px + var(--sat))}
+nav.tabs{padding-bottom:calc(6px + var(--sab))}
+.fab{bottom:calc(78px + var(--sab))}
+@media (min-width:700px){
+  :root{--col:720px}
+  .wrap{max-width:var(--col);padding-left:16px;padding-right:16px}
+  .kpis{grid-template-columns:repeat(4,1fr)}
+  .tools{grid-template-columns:repeat(3,1fr)}
+  .sheet{width:100%;max-width:640px;margin:0 auto;border-radius:22px 22px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+  nav.tabs{left:0;right:0;margin:0 auto;width:min(var(--col),calc(100% - 24px));bottom:calc(10px + var(--sab));padding:6px;border:1px solid var(--line);border-radius:22px;box-shadow:0 8px 28px rgba(0,0,0,.10)}
+  nav.tabs button{flex:1 1 0}
+  .fab{bottom:calc(92px + var(--sab))}
+  .fab.fabw{right:calc(50% - var(--col) / 2 + 8px)}
+  .fab.fabl{left:calc(50% - var(--col) / 2 + 8px)}
+  .snack{left:calc(50% - min(260px, 50% - 12px));right:calc(50% - min(260px, 50% - 12px))}
+  .toast{bottom:calc(170px + var(--sab))}
+  .hctiles{gap:16px}
+}
+@media (min-width:1100px){
+  :root{--col:860px}
+  .tools{grid-template-columns:repeat(4,1fr)}
+  .setgrid,.fabgrid{grid-template-columns:repeat(3,1fr)}
+}
+/* plenty of room: the two «+» move outside the column, next to the content */
+@media (min-width:1220px){
+  .fab.fabw{right:calc(50% - var(--col) / 2 - 168px)}
+  .fab.fabl{left:calc(50% - var(--col) / 2 - 150px)}
+  .fab{bottom:calc(28px + var(--sab))}
+}
+/* short landscape screens: a slimmer bottom bar */
+@media (max-height:480px) and (orientation:landscape){
+  nav.tabs{padding-top:3px;padding-bottom:calc(3px + var(--sab))}
+  .fab{bottom:calc(84px + var(--sab));height:44px}
+}
 </style>
 </head>
 <body>
@@ -2963,11 +3000,11 @@ const ST8D = {
   ru: { g: { prices: 'Цены и абонементы', work: 'Работа и запись', nt: 'Уведомления', me: 'Под себя', look: 'Оформление', data: 'Данные и копии' },
     d: { prices: 'Цена урока и аренда для всех услуг, своя цена у каждой услуги, виды абонементов, цель, налог, валюта и длительность урока.', work: 'Рабочие дни и часы, ссылка на оплату, онлайн-запись учеников через бота и календарь в телефоне.', nt: 'Что и когда присылает бот: план на утро, напоминания перед уроками, вечерняя отметка, долги, итоги.', me: 'Твоя профессия (под неё подстраиваются слова и мотивация), как тебя называть, подпись на главной, день рождения. И какие разделы приложения нужны — лишнее можно скрыть.', look: 'Язык, тема, цвета, шрифты, размер и звуки.', data: 'Где хранятся данные, резервные копии и восстановление.' },
     subPrices: (p, n) => `урок ${p}${n ? ' · ' + n + ' вид. абонементов' : ' · абонементы'}`, subWork: (d, f, t) => `${d} дн. в неделю · ${f}–${t}`, subNtOn: 'бот присылает напоминания', subNtMute: 'выключены', subNtOff: 'нужен бот', subMe: n => `${n} · разделы приложения`, subDataCloud: 'облако Telegram + копии', subDataLocal: 'копии и восстановление',
-    hubHint: 'Настройки разделены на группы — нажми нужную. Внутри каждой есть подсказки.', priceSec: 'Цена урока и аренда', moneyMore: 'Цель, налог, валюта, длительность', modsHint: 'Выключи разделы, которыми не пользуешься: ученики и уроки, деньги, студия, планер, привычки, личные финансы, вишлист, дневник и другие. Данные не удаляются — включишь, и всё вернётся.', modsBtn: 'Выбрать разделы приложения' },
+    hubHint: 'Настройки разделены на группы — нажми нужную. Внутри каждой есть подсказки.', fs: 'Полный экран', fsHint: 'Приложение на весь экран телефона, без шапки Telegram', priceSec: 'Цена урока и аренда', moneyMore: 'Цель, налог, валюта, длительность', modsHint: 'Выключи разделы, которыми не пользуешься: ученики и уроки, деньги, студия, планер, привычки, личные финансы, вишлист, дневник и другие. Данные не удаляются — включишь, и всё вернётся.', modsBtn: 'Выбрать разделы приложения' },
   en: { g: { prices: 'Prices & packages', work: 'Work & booking', nt: 'Notifications', me: 'Make it yours', look: 'Look', data: 'Data & backups' },
     d: { prices: 'Lesson price and rent for all services, a price per service, package types, goal, tax, currency and lesson length.', work: 'Working days and hours, payment link, online booking via the bot and the phone calendar.', nt: 'What the bot sends and when: morning plan, reminders before lessons, evening check, debts, summaries.', me: 'Your profession (words and motivation adapt to it), your name, the line on Home, your birthday. And which sections you need — hide the rest.', look: 'Language, theme, colours, fonts, size and sounds.', data: 'Where data is stored, backups and restore.' },
     subPrices: (p, n) => `lesson ${p}${n ? ' · ' + n + ' package types' : ' · packages'}`, subWork: (d, f, t) => `${d} days a week · ${f}–${t}`, subNtOn: 'the bot sends reminders', subNtMute: 'off', subNtOff: 'needs the bot', subMe: n => `${n} · app sections`, subDataCloud: 'Telegram cloud + backups', subDataLocal: 'backups and restore',
-    hubHint: 'Settings are split into groups — tap one. Each has tips inside.', priceSec: 'Lesson price and rent', moneyMore: 'Goal, tax, currency, length', modsHint: 'Turn off sections you don’t use: students and lessons, money, studio, planner, habits, personal money, wishlist, diary and more. Data is kept — turn them back on and everything returns.', modsBtn: 'Choose app sections' }
+    hubHint: 'Settings are split into groups — tap one. Each has tips inside.', fs: 'Full screen', fsHint: 'The app fills the whole phone screen, without the Telegram header', priceSec: 'Lesson price and rent', moneyMore: 'Goal, tax, currency, length', modsHint: 'Turn off sections you don’t use: students and lessons, money, studio, planner, habits, personal money, wishlist, diary and more. Data is kept — turn them back on and everything returns.', modsBtn: 'Choose app sections' }
 };
 const FXD = {
   ru: { work: 'Работа', life: 'Дела', workT: 'Работа и деньги', lifeT: 'Дела и личное', workD: 'Всё, что связано с учениками и заработком.', lifeD: 'Дела, планы и личное — всё, что не про деньги с уроков.',
@@ -4940,7 +4977,8 @@ function settingsPart(k){
       <div class="sec" style="margin-top:0"><span>${esc(T.theme)}</span></div>
       <div class="chipsel" style="margin:0 0 10px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${S.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>
       <button class="btn soft" data-act="look" style="margin:0 0 10px">🎨 ${esc(T.lk.btn)}</button>
-      <div class="group" style="margin-bottom:14px"><div class="field toggle"><span>🔊 ${esc(T.lk.fx)}</span><button type="button" class="sw${S.fx === 0 ? '' : ' on'}" data-act="fxSw"></button></div></div>`;
+      <div class="group" style="margin-bottom:14px"><div class="field toggle"><span>🔊 ${esc(T.lk.fx)}</span><button type="button" class="sw${S.fx === 0 ? '' : ' on'}" data-act="fxSw"></button></div>
+      ${safe(fsCan, false) ? `<div class="field toggle"><span>📱 ${esc(T.st8.fs)}<small>${esc(T.st8.fsHint)}</small></span><button type="button" class="sw${S.fs ? ' on' : ''}" data-act="fsSw"></button></div>` : ''}</div>`;
     if (k === 'data') return head + `<div class="hintline" style="margin-top:0">${esc(useCloud ? T.storeCloud : inTG ? T.storeOld : T.storeLocal)} ${esc(T.storeTip)}</div>
       <div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(T.tr.hints.store)}</div>
       <button class="btn ghost" data-act="backups">🛟 ${esc(T.bk.title)}</button>
@@ -5903,8 +5941,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 35;
+const APP_VER = 36;
 const CHANGES = [
+  { v: 36, name: '7.11', date: '2026-11-04',
+    ru: { add: ['📱 Полный экран на телефоне: ⚙️ Настройки → 🎨 Оформление → «Полный экран»'],
+      better: ['🖥 Красиво на компьютере и планшете (Mac, Windows, iPad): шире, 4 карточки в ряд, меню-панель по центру, кнопки «+» рядом с содержимым, окна по центру', '📲 В полноэкранном режиме Telegram ничего не залезает под кнопки сверху и полоску снизу'] },
+    en: { add: ['📱 Full screen on phones: ⚙️ Settings → 🎨 Look → “Full screen”'],
+      better: ['🖥 Looks great on computers and tablets (Mac, Windows, iPad): wider, 4 cards in a row, a centred menu bar, “+” buttons next to the content, centred windows', '📲 In Telegram full screen nothing hides under the top buttons or the bottom bar'] } },
   { v: 35, name: '7.10', date: '2026-11-04', big: true,
     ru: { add: ['💼 Профессия: больше 200 вариантов с поиском — тренеры по хоккею, футболу, фигурному катанию, репетиторы, учителя, хореографы, фитнес-тренеры, логопеды, инструкторы по вождению и многие другие. ⚙️ Настройки → 🧩 Под себя → «Профессия»'],
       better: ['✨ Приложение подстраивается под профессию: тренировки или занятия вместо уроков, спортсмены или клиенты вместо учеников, своя мотивация дня, свои инструменты в Студии', '🤖 Бот понимает слова твоей профессии: «тренировка», «занятие», «клиент», «спортсмен»'] },
@@ -8295,6 +8338,7 @@ const HELP_DOC = [
     'Приложение «Мои ученики» — это учёт учеников, уроков и денег педагога по вокалу, плюс личный планер певицы: выступления, репетиции, дела, заметки, контент-план, свои песни, райдер.',
     'Открывай приложение кнопкой «Ученики» внизу чата с ботом @musicplaner_bot. Так оно знает, чей это аккаунт, а бот видит твоих учеников и может вносить данные.',
     'Если открыть по ссылке в браузере, приложение откроется в демо-режиме: данные будут только в этом браузере.',
+    'Работает на iPhone и Android (Samsung, Xiaomi, Huawei и др.), на планшетах и на компьютере (Telegram для Mac и Windows). На большом экране всё раскладывается шире: 4 карточки в ряд, меню и кнопки «+» по краям, окна по центру.',
     'Внизу 7 вкладок: Главная, Календарь, Планер, 🌱 Привычки, Ученики, Деньги, Студия. Если все не помещаются, меню листается пальцем влево-вправо. Ненужные можно выключить: Настройки → 🧩 Под себя → «Разделы приложения».',
     'При первом запуске приложение за 3 коротких шага настраивается под тебя (имя и чем занимаешься → цены, аренда, рабочие дни → напоминания, тема и личные разделы), а потом показывает обучение с подсветкой. Повторить: ⚙️ Настройки → «🧭 Обучение».',
     'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — и уроки, и деньги, и личное (расходы, покупки, привычки, вишлист).',
@@ -8479,7 +8523,7 @@ const HELP_DOC = [
     '📅 Работа и запись: рабочие дни и часы (для свободных окон и онлайн-записи), ссылка на оплату, календарь в телефоне, запись учеников через бота и напоминания ученикам.',
     '🔔 Уведомления: что присылает бот — утренний план (время), напоминание перед уроком, вечернее «отметь уроки», долги, итоги месяца, обзор недели. Кнопки «Проверить» и «Синхронизировать».',
     '🧩 Под себя: как тебя называть, подпись на главной (любой текст, «-» — без подписи), день рождения и «Разделы приложения» — выключи то, чем не пользуешься (ученики, деньги, студия, планер, привычки, личные финансы, вишлист, дневник…). Данные не удаляются.',
-    '🎨 Оформление: язык, тема (светлая, тёмная, как в телефоне), цвета, шрифты, размер и 🔊 звуки с вибрацией.',
+    '🎨 Оформление: язык, тема (светлая, тёмная, как в телефоне), цвета, шрифты, размер и 🔊 звуки с вибрацией. На телефоне (Telegram 8.0+) там же «📱 Полный экран» — приложение на весь экран без шапки Telegram.',
     '🛟 Данные и копии: где хранятся данные, резервные копии, сохранить копию файлом и восстановить.',
     'Ниже групп: 🧭 Обучение (тур с подсветкой), 📖 Справка с поиском и вопросами боту, 🆕 «Что нового» — история обновлений.' ] },
   { id: 'backup', ic: '🛟', t: 'Резервные копии и восстановление', p: [
@@ -9079,7 +9123,11 @@ function homeTilesRow(){
   if (hcInToday) { hcInToday = false; return ''; }
   const h = homeTilesInner(); return h ? `<div class="tdcard hccard">${h}</div>` : '';
 }
+/* Telegram fullscreen (Bot API 8.0) on phones: remembered per account */
+const fsCan = () => { try { return !!tg && ver('8.0') && /ios|android/i.test(tg.platform || '') && typeof tg.requestFullscreen === 'function'; } catch (e) { return false; } };
+function fsApply(){ try { if (!fsCan()) return; const on = !!state.settings.fs; if (on && !tg.isFullscreen) tg.requestFullscreen(); else if (!on && tg.isFullscreen) tg.exitFullscreen(); } catch (e) {} }
 const RCN = {
+  fsSw: el => { state.settings.fs = state.settings.fs ? 0 : 1; el.classList.toggle('on', !!state.settings.fs); save(); haptic(); fsApply(); },
   hcOpen: el => {
     const k = el.dataset.v, S = state.settings; S.hcSeen = Object.assign({}, S.hcSeen, { [k]: Date.now() }); save();
     if (k === 'lists') { const ls = state.lists.filter(l => l.items.some(i => !i.d)); LX.lo = ls.length === 1 ? ls[0].id : ''; openSheet(listsSheet()); }
@@ -9681,6 +9729,7 @@ async function start(){
     if (m) state = m; else if (!inTG) seedDemo();
   }
   if ((state.settings.lang || 'ru') !== L || state.settings.prof) applyLang(state.settings.lang || L);
+  safe(fsApply);
   loadedCounts = { n: state.students.length, l: state.lessons.length };
   const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
   if (updating) { await snapshot('upd'); setTimeout(() => chatBackup(T.bk.beforeUpd), 6000); }
