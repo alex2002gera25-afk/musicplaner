@@ -2686,12 +2686,12 @@ const SBD = {
     roTitle: 'Режим просмотра', roText: n => `Подписка закончилась — поэтому сейчас можно только смотреть. Все данные на месте, копию можно скачать. Введи новый код — и всё снова заработает.`,
     roBanner: 'Подписка закончилась — режим просмотра. Нажми, чтобы продлить',
     soon: n => n <= 1 ? 'Подписка заканчивается завтра — продли кодом' : `Подписка заканчивается через ${n} дн. — продли кодом`,
-    active: (p, u) => `Тариф «${p}» · ${u}`, until: d => `до ${d}`, forever: 'навсегда', freeNow: n => 'Без подписки — только просмотр', trialOn: u => `Пробный период «Макс» · ${u}`, trialName: 'Пробный период', trialBtn: n => `Попробовать ${n} дней бесплатно`, trialDone: n => `Пробный период включён: ${n} дней всё открыто!`,
+    active: (p, u) => `Тариф «${p}» · ${u}`, until: d => `до ${d}`, forever: 'навсегда', freeNow: n => 'Без подписки — только просмотр', trialOn: u => `Пробный период «Макс» · ${u}`, trialName: 'Пробный период', trialBtn: n => `Попробовать ${n} дней бесплатно`, trialDone: n => `Пробный период включён: ${n} дней всё открыто!`, trialLeft: n => `Пробный период: осталось ${n} ${n === 1 ? 'день' : n < 5 ? 'дня' : 'дней'} — нажми, чтобы выбрать подписку`, trialLastBanner: 'Последний день пробного периода — выбери подписку, чтобы ничего не потерять', trialLastT: 'Последний день пробного периода', trialLastX: 'Завтра приложение перейдёт в режим просмотра. Все данные сохранятся — выбери подписку, и всё продолжит работать без перерыва. Выгоднее всего «Учебный год»: месяц в подарок.',
     roNew: n => `Сейчас приложение в режиме просмотра. Чтобы добавлять учеников, уроки и всё остальное — введи код подписки или включи пробный период: ${n} дней всё бесплатно.`, roBannerNew: 'Режим просмотра — нажми, чтобы попробовать бесплатно или ввести код', ended: d => `Подписка закончилась ${d}`, admin: 'Ты владелец — всё включено навсегда',
     done: p => `Готово! Тариф «${p}» включён`, howBuy: 'Нажми «Купить код» — откроется чат, где можно купить код. Ввести его можно здесь или просто отправить боту. Слово TEST в боте включает пробный период.',
     buyText: 'Привет! Хочу купить код на «Мои ученики»',
     errs: { trialUsed: 'Пробный период уже был на этом аккаунте — нужен код подписки', hasSub: 'У тебя уже есть подписка 🙂', nocode: 'Такого кода нет — проверь буквы и цифры', used: 'Этот код уже использован', revoked: 'Этот код отменён', mine: 'Ты уже активировал этот код', life: 'У тебя уже вечная подписка этого уровня', fail: 'Не получилось — проверь интернет и попробуй ещё раз' },
-    f: { income: 'Доходы по источникам', week: 'Обзор недели' }, open: 'Открыть' },
+    f: { income: 'Доходы по источникам', week: 'Обзор недели' }, open: 'Открыть', banT: 'Доступ закрыт', banX: 'Доступ к приложению для этого аккаунта закрыт.' },
   en: { title: 'Subscription', plans: 'Plans & prices', codeL: 'Subscription code', activate: 'Activate', enterCode: 'Enter a code, e.g. MAX-7K2M9Q', buy: 'Buy a code',
     planName: { free: 'Free', pro: 'Pro', max: 'Max' },
     planDesc: { free: n => `${n} days of “Max” for free, once — to try everything`, pro: 'Everything unlimited: students, Google Calendar, Google Drive backups, students in the bot, bot by text, gigs, bands, songs, rider', max: 'Everything in Pro + voice messages and hummed melodies in the bot' },
@@ -2703,12 +2703,12 @@ const SBD = {
     roTitle: 'View-only mode', roText: n => `Your subscription has ended, so for now you can only view. All your data is safe and you can download a backup. Enter a new code and everything works again.`,
     roBanner: 'Subscription ended — view-only mode. Tap to renew',
     soon: n => n <= 1 ? 'Subscription ends tomorrow — renew with a code' : `Subscription ends in ${n} days — renew with a code`,
-    active: (p, u) => `“${p}” plan · ${u}`, until: d => `until ${d}`, forever: 'forever', freeNow: n => 'No subscription — view only', trialOn: u => `“Max” trial · ${u}`, trialName: 'Free trial', trialBtn: n => `Try ${n} days for free`, trialDone: n => `Trial is on: ${n} days, everything unlocked!`,
+    active: (p, u) => `“${p}” plan · ${u}`, until: d => `until ${d}`, forever: 'forever', freeNow: n => 'No subscription — view only', trialOn: u => `“Max” trial · ${u}`, trialName: 'Free trial', trialBtn: n => `Try ${n} days for free`, trialDone: n => `Trial is on: ${n} days, everything unlocked!`, trialLeft: n => `Free trial: ${n} ${n === 1 ? 'day' : 'days'} left — tap to choose a plan`, trialLastBanner: 'Last day of the trial — choose a plan so you don’t lose anything', trialLastT: 'Last day of the trial', trialLastX: 'Tomorrow the app switches to view-only. All data is kept — choose a plan and everything keeps working without a break. Best value: “School year” with a free month.',
     roNew: n => `The app is in view-only mode. To add students, lessons and everything else, enter a subscription code or start the free trial: ${n} days, everything free.`, roBannerNew: 'View-only mode — tap to try for free or enter a code', ended: d => `Subscription ended ${d}`, admin: 'You are the owner — everything is on forever',
     done: p => `Done! “${p}” plan is on`, howBuy: 'Tap “Buy a code” to open the chat where you can buy one. Enter it here or just send it to the bot. Sending TEST to the bot starts the trial.',
     buyText: 'Hi! I want to buy a code for the app',
     errs: { trialUsed: 'This account has already had a trial — a subscription code is needed', hasSub: 'You already have a subscription 🙂', nocode: 'No such code — check the letters and digits', used: 'This code has already been used', revoked: 'This code was cancelled', mine: 'You have already activated this code', life: 'You already have a lifetime plan of this level', fail: 'Didn’t work — check the internet and try again' },
-    f: { income: 'Income by source', week: 'Weekly review' }, open: 'Open' }
+    f: { income: 'Income by source', week: 'Weekly review' }, open: 'Open', banT: 'Access closed', banX: 'Access to the app is closed for this account.' }
 };
 for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
@@ -5174,8 +5174,11 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 19;
+const APP_VER = 20;
 const CHANGES = [
+  { v: 20, name: '7.4.1', date: '2026-11-03',
+    ru: { better: ['🛡 Надёжнее: доступ к приложению проверяется сервером'] },
+    en: { better: ['🛡 More reliable: app access is checked by the server'] } },
   { v: 19, name: '7.4', date: '2026-11-03',
     ru: { add: ['💎 Подписки по кодам: тарифы «Про» и «Макс» и пробный период на 5 дней — ⚙️ Настройки → 💎 Подписка. Код можно ввести в приложении или просто отправить боту', '🎓 Сроки как в школе: Четверть, Полугодие и Учебный год — чем дольше, тем выгоднее, а к году — месяц в подарок'],
       better: ['🔒 Данные никогда не удаляются: если подписка закончится, всё останется на месте'] },
@@ -7332,6 +7335,12 @@ const SUB_KINDS = { gig: 1, reh: 1, post: 1 };          // plNew / plKind with t
 const SUB_RO = /^(save(?!Settings$|Api$)\w*|delete\w*|add\w*|archiveStudent|mark|togglePaid|payAll|assignEx|resched|cert(New|Save|Del)|rc(Add|Del)|d(Add|Del|Toggle)|songSave|quizSave|giveNote|req(Ok|No)|swPkg|prizeGive|fab|pl(New|NewDay|NewIn|Save|Del|Done|ClearDone|GroupSave|GroupDel|PersonSave|PersonDel|PersonNew|SongSave|SongDel|SetAdd|SetRm|SetMv)|mu(Save|Del|ArtistSave|Chk|ChkAdd|ChkRm|ChkReset|RelStep|CoAdd|CoRm|VerUse)|x2(WaitSave|WaitDel|WaitToStudent|WarmSave|HwSend|WaitNew))$/;
 
 const subS = () => { const s = state.settings.sub; return s && typeof s === 'object' ? s : null; };
+const subBanned = () => { const s = subS(); return !!(s && s.banned); };
+function showBanned(){
+  try { closeSheet(true); } catch (e) {}
+  $('app').innerHTML = `<div class="empty" style="margin-top:90px"><div class="big">🚫</div><b>${esc(T.sb.banT)}</b>${esc(T.sb.banX)}</div>`;
+  $('fab').hidden = true; $('tabs').hidden = true;
+}
 const subOn = () => { const s = subS(); return !!(s && s.on); };
 function plan(){ const s = subS(); if (!s || !s.on || s.admin) return 'max'; return PLAN_R[s.p] !== undefined ? s.p : 'free'; }
 const can = need => PLAN_R[plan()] >= PLAN_R[need || 'free'];
@@ -7341,6 +7350,7 @@ const readOnly = () => subOn() && plan() === 'free';
 const subDate = ms => new Date(ms).toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' });
 
 function subGate(k, el){
+  if (subBanned() && k !== 'closeSheet') { showBanned(); return false; }
   if (!subOn()) return true;
   if (readOnly() && SUB_RO.test(k)) { lockSheet('ro'); return false; }
   let need = SUB_GATE[k];
@@ -7381,8 +7391,8 @@ function subPlans(){
   return ['max', 'pro'].map(p => `<div class="card sbplan${p === 'max' ? ' sbtop' : ''}"><div class="sbhead"><b>${p === 'max' ? '⭐ ' : ''}${esc(planName(p))}</b><small>${esc(T.sb.planDesc[p])}</small></div>${['y', 'm6', 'm3', 'm1'].map(t => row(p, t)).join('')}</div>`).join('')
     + `<div class="card sbplan"><div class="sbhead"><b>🎁 ${esc(T.sb.trialName)} · 0 ₽</b><small>${esc(T.sb.planDesc.free((subS() || {}).trialDays || 5))}</small></div></div>`;
 }
-function subSheet(){
-  const fn = () => sheetHead('💎 ' + T.sb.title) + `<div class="sbnote">${esc(subStatus())}</div>` + subTrialBtn() + subCodeForm() + subBuyBtn()
+function subSheet(last){
+  const fn = () => sheetHead(last ? '⏳ ' + T.sb.trialLastT : '💎 ' + T.sb.title) + `<div class="sbnote">${esc(last ? T.sb.trialLastX : subStatus())}</div>` + subTrialBtn() + subCodeForm() + subBuyBtn()
     + `<div class="hintline">${esc(T.sb.howBuy)}</div><div class="sec"><span>${esc(T.sb.plans)}</span></div>` + subPlans();
   fn.isSub = true; return fn;
 }
@@ -7398,6 +7408,10 @@ function lockCard(name){ return `<div class="alerts"><div class="alert" data-act
 function subBanner(){
   const s = subS(); if (!s || !s.on || s.admin) return '';
   if (readOnly()) return `<div class="alert" data-act="subOpen"><span class="ai">🔒</span><span class="at">${esc(s.until ? T.sb.roBanner : T.sb.roBannerNew)}</span><span class="chev">›</span></div>`;
+  if (s.inTrial && s.until) {
+    const d = Math.max(1, Math.ceil((s.until - Date.now()) / 864e5));
+    return `<div class="alert" data-act="subOpen"><span class="ai">🎁</span><span class="at">${esc(d <= 1 ? T.sb.trialLastBanner : T.sb.trialLeft(d))}</span><span class="chev">›</span></div>`;
+  }
   if (plan() !== 'free' && !s.life && s.until) {
     const d = Math.ceil((s.until - Date.now()) / 864e5);
     if (d >= 0 && d <= 3) return `<div class="alert" data-act="subOpen"><span class="ai">⏳</span><span class="at">${esc(T.sb.soon(Math.max(1, d)))}</span><span class="chev">›</span></div>`;
@@ -7406,18 +7420,32 @@ function subBanner(){
 }
 function subSettingsBtn(){ return subOn() ? `<button class="btn soft" data-act="subOpen" style="margin:0 0 10px">💎 ${esc(subStatus())}</button>` : ''; }
 let subShown = false;
+function subLastDay(sub){
+  /* last day of the trial: once a day offer the plans */
+  try {
+    if (!sub || !sub.on || !sub.inTrial || !sub.until || sub.until - Date.now() > 864e5) return;
+    const k = 'vs_trlast', d = today();
+    if (lsGetK(k) === d || stack.length || !ready) return;
+    lsSetK(k, d); setTimeout(() => { if (!stack.length) openSheet(subSheet(true)); }, 900);
+  } catch (e) {}
+}
 function subApply(sub){
   if (!sub || typeof sub !== 'object') return;
+  subLastDay(sub);
   if (JSON.stringify(sub) === JSON.stringify(state.settings.sub || {})) return;
+  const wasBanned = subBanned();
   state.settings.sub = sub; save();
+  if (sub.banned) return showBanned();
   try { lsSetK('vs_fam', sub.fam === false ? '0' : '1'); } catch (e) {}
   safe(() => { if (T !== famT(L)) { applyLang(L); renderNav(); } });
+  if (wasBanned) { render(); return; }
   /* first time without a subscription: show how to start (trial / code) once per session */
   if (sub.on && readOnly() && !subShown && !stack.length && ready) { subShown = true; setTimeout(() => { if (!stack.length) openSheet(subSheet()); }, 800); }
   const top = stack[stack.length - 1];
   if (top && (top.isSub || top.isSettings)) refreshSheet(); else if (!stack.length) render();
 }
 /* paid-only blocks inside screens */
+safe(() => { render = (o => (...a) => { if (subBanned()) return showBanned(); $('tabs').hidden = false; return o(...a); })(render); });
 safe(() => { incomeBlock = (o => m => can('pro') ? o(m) : lockCard(T.sb.f.income))(incomeBlock); });
 safe(() => { weekReview = (o => ds => can('pro') ? o(ds) : '')(weekReview); });
 safe(() => { waitAlert = (o => () => subBanner() + (safe(o) || ''))(waitAlert); });
