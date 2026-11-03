@@ -2688,7 +2688,7 @@ const LFD = {
     hb: { title: 'Привычки', new: 'Новая привычка', edit: 'Привычка', namePh: 'Например, пить воду', max: n => `Можно до ${n} привычек`, empty: 'Выбери привычку — или придумай свою. Каждый день нажимай на смайлик дня: из серого он станет цветным.',
       presets: [['💧', 'Пить воду'], ['🎤', 'Распевка'], ['🏃', 'Спорт'], ['📖', 'Чтение'], ['😴', 'Сон до 23:00'], ['🧘', 'Медитация'], ['🥗', 'Без сладкого'], ['🎹', 'Практика на инструменте']],
       today: (a, b) => `Сегодня: ${a} из ${b}`, streak: n => `🔥 ${n} ${n === 1 ? 'день' : n > 1 && n < 5 ? 'дня' : 'дней'} подряд`, best: n => `рекорд ${n}`, month: (a, b) => `${a} из ${b}`,
-      allDone: 'Все привычки на сегодня! 🎉', tap: 'Нажимай на день, чтобы отметить. Будущие дни откроются сами.', future: 'Этот день ещё не наступил 🙂' },
+      allDone: 'Все привычки на сегодня! 🎉', limitPro: (a, b) => `В тарифе «Про» можно вести до ${a} привычек. До ${b} привычек — в тарифе «Макс».`, tap: 'Нажимай на день, чтобы отметить. Будущие дни откроются сами.', future: 'Этот день ещё не наступил 🙂' },
     fn: { title: 'Мои финансы', out: 'Расход', inc: 'Доход', amt: 'Сумма', cat: 'Категория', spent: 'Потрачено', income: 'Доходы', rest: 'Осталось', work: 'С уроков и выступлений', personal: 'Другие доходы',
       cats: { food: '🛒 Продукты', cafe: '☕ Кафе', transport: '🚕 Транспорт', home: '🏠 Дом и счета', beauty: '💅 Красота', health: '💊 Здоровье', clothes: '👗 Одежда', music: '🎵 Музыка', fun: '🎉 Развлечения', gifts: '🎁 Подарки', edu: '📚 Учёба', other: '📦 Другое' },
       budget: 'Бюджет на месяц', budgetSet: 'Настроить бюджет', budgetHint: 'Сколько готова тратить в месяц по каждой категории. Пусто — без лимита.', of: (a, b) => `${a} из ${b}`, over: s => `перерасход ${s}`, leftCat: s => `осталось ${s}`,
@@ -2712,7 +2712,7 @@ const LFD = {
     hb: { title: 'Habits', new: 'New habit', edit: 'Habit', namePh: 'For example, drink water', max: n => `Up to ${n} habits`, empty: 'Pick a habit — or make your own. Every day tap the day’s icon: it turns from grey to colour.',
       presets: [['💧', 'Drink water'], ['🎤', 'Warm-up'], ['🏃', 'Workout'], ['📖', 'Reading'], ['😴', 'Bed by 11 pm'], ['🧘', 'Meditation'], ['🥗', 'No sweets'], ['🎹', 'Instrument practice']],
       today: (a, b) => `Today: ${a} of ${b}`, streak: n => `🔥 ${n} ${n === 1 ? 'day' : 'days'} in a row`, best: n => `record ${n}`, month: (a, b) => `${a} of ${b}`,
-      allDone: 'All habits done for today! 🎉', tap: 'Tap a day to tick it. Future days open by themselves.', future: 'This day hasn’t come yet 🙂' },
+      allDone: 'All habits done for today! 🎉', limitPro: (a, b) => `The “Pro” plan includes up to ${a} habits. Up to ${b} — with “Max”.`, tap: 'Tap a day to tick it. Future days open by themselves.', future: 'This day hasn’t come yet 🙂' },
     fn: { title: 'My money', out: 'Expense', inc: 'Income', amt: 'Amount', cat: 'Category', spent: 'Spent', income: 'Income', rest: 'Left', work: 'From lessons and gigs', personal: 'Other income',
       cats: { food: '🛒 Groceries', cafe: '☕ Cafés', transport: '🚕 Transport', home: '🏠 Home & bills', beauty: '💅 Beauty', health: '💊 Health', clothes: '👗 Clothes', music: '🎵 Music', fun: '🎉 Fun', gifts: '🎁 Gifts', edu: '📚 Learning', other: '📦 Other' },
       budget: 'Monthly budget', budgetSet: 'Set up the budget', budgetHint: 'How much you’re ready to spend per month in each category. Empty — no limit.', of: (a, b) => `${a} of ${b}`, over: s => `over by ${s}`, leftCat: s => `${s} left`,
@@ -2839,7 +2839,7 @@ globalThis.NEU_T = NEU;
 const SBD = {
   ru: { title: 'Подписка', plans: 'Тарифы и цены', codeL: 'Код подписки', activate: 'Активировать', enterCode: 'Введи код, например MAX-7K2M9Q', buy: 'Купить код',
     planName: { free: 'Бесплатно', pro: 'Про', max: 'Макс' },
-    planDesc: { free: n => `${n} дней «Макс» бесплатно, один раз — чтобы всё попробовать`, pro: 'Всё без ограничений: ученики, Google Календарь, копии в Google Drive, ученики в боте, бот текстом, выступления, коллективы, песни, райдер', max: 'Всё из Про + голосовые и напетые мелодии в боте' },
+    planDesc: { free: n => `${n} дней «Макс» бесплатно, один раз — чтобы всё попробовать`, pro: 'Вся работа педагога: ученики, уроки, абонементы, деньги, расписание, планер, выступления, коллективы, песни, райдер, Google Календарь, копии, ученики в боте, бот текстом. Плюс личное: до 3 привычек, списки, цели, вишлист', max: 'Всё из Про + до 15 привычек, мои финансы (бюджет, платежи, копилки), дневник голоса, ссылка на вишлист для близких, бот голосом и про личное («такси 450»), напетые мелодии' },
     terms: { y: 'Учебный год', m6: 'Полугодие', m3: 'Четверть', m1: 'Попробовать' },
     termSub: { y: '13 месяцев — месяц в подарок, цена фиксируется', m6: '6 месяцев + 2 недели в подарок', m3: '3 месяца', m1: '1 месяц' },
     best: 'выгоднее всего', perMonth: n => `≈${n} ₽/мес`, perDay: n => `≈${n} ₽ в день`,
@@ -2856,7 +2856,7 @@ const SBD = {
     f: { income: 'Доходы по источникам', week: 'Обзор недели' }, open: 'Открыть', banT: 'Доступ закрыт', banX: 'Доступ к приложению для этого аккаунта закрыт.' },
   en: { title: 'Subscription', plans: 'Plans & prices', codeL: 'Subscription code', activate: 'Activate', enterCode: 'Enter a code, e.g. MAX-7K2M9Q', buy: 'Buy a code',
     planName: { free: 'Free', pro: 'Pro', max: 'Max' },
-    planDesc: { free: n => `${n} days of “Max” for free, once — to try everything`, pro: 'Everything unlimited: students, Google Calendar, Google Drive backups, students in the bot, bot by text, gigs, bands, songs, rider', max: 'Everything in Pro + voice messages and hummed melodies in the bot' },
+    planDesc: { free: n => `${n} days of “Max” for free, once — to try everything`, pro: 'All teaching work: students, lessons, packages, money, schedule, planner, gigs, bands, songs, rider, Google Calendar, backups, students in the bot, bot by text. Plus personal: up to 3 habits, lists, goals, wishlist', max: 'Everything in Pro + up to 15 habits, my money (budget, bills, savings), voice diary, wishlist link for close ones, the bot by voice and for personal things (“taxi 450”), hummed melodies' },
     terms: { y: 'School year', m6: 'Half-year', m3: 'Term', m1: 'Try it' },
     termSub: { y: '13 months — one month free, price locked', m6: '6 months + 2 weeks free', m3: '3 months', m1: '1 month' },
     best: 'best value', perMonth: n => `≈${n} ₽/mo`, perDay: n => `≈${n} ₽ a day`,
@@ -5360,9 +5360,9 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 23;
+const APP_VER = 24;
 const CHANGES = [
-  { v: 23, name: '7.6', date: '2026-11-03', big: true,
+  { v: 24, name: '7.6', date: '2026-11-03', big: true,
     ru: { add: ['🌱 Трекер привычек — отдельная вкладка в меню внизу: до 15 привычек со своими смайликами — серый день становится цветным, когда отмечаешь; серии 🔥 и рекорды', '💳 Мои финансы: расходы и доходы, бюджет по категориям, регулярные платежи с напоминанием, копилки, итог месяца', '🎁 Вишлист со ссылкой для близких — друзья отмечают «Я подарю», а ты не знаешь, что именно', '🛒 Списки покупок и чек-листы, 🎯 цели по шагам, 📔 дневник голоса и настроения', '☀️ Карточка «Сегодня» на главной: привычки, платежи, бюджет'],
       better: ['📱 Нижнее меню листается влево-вправо, если пунктов много', '🤖 Боту можно писать и про личное: «такси 450», «хочу синтезатор», «купить молоко», «сделала йогу»', '☀️ Утренний план и обзор недели — теперь и про жизнь: платежи, привычки, бюджет'] },
     en: { add: ['🌱 Habit tracker — its own tab in the bottom menu: up to 15 habits with their own icons — a grey day turns colourful when ticked; streaks 🔥 and records', '💳 My money: spending and income, budget by category, regular payments with reminders, savings, month total', '🎁 Wishlist with a link for close ones — friends tick “I’ll give this”, you don’t know what', '🛒 Shopping lists and checklists, 🎯 goals by steps, 📔 voice and mood diary', '☀️ “Today” card on Home: habits, payments, budget'],
@@ -7248,7 +7248,8 @@ const lfHead = (title, plus) => sheetHead(title, plus ? `<button class="r" data-
 const lfAsk = async q => { try { return await ask(q, T.lf.del, true); } catch (e) { return confirm(q); } };
 
 /* ---------- 🌱 habits ---------- */
-const HB_MAX = 15;
+const HB_MAX = 15, HB_PRO = 3;
+const hbLimitHit = () => typeof can === 'function' && subOn() && !can('max') && state.habits.length >= HB_PRO;
 const HB_EMO = ['💧', '🎤', '🏃', '🧘', '📖', '😴', '🥗', '🍎', '💊', '🚶', '🏋️', '🚴', '🧹', '🪴', '🎹', '🎸', '🎧', '✍️', '📵', '☀️', '🌙', '🛁', '🦷', '💆', '🧴', '💰', '📚', '🗣', '🙏', '❤️', '🐶', '☕', '🚭', '🍷', '🍬', '📝', '🎨', '📷', '🌿', '⭐'];
 const HB_COL = ['#C2185B', '#E53935', '#FB8C00', '#F9A825', '#43A047', '#00897B', '#1E88E5', '#8E24AA'];
 const hbDone = (h, ds) => (h.m[ymOf(ds)] || '').charAt(+ds.slice(8) - 1) === '1';
@@ -7296,7 +7297,7 @@ function habitsBody(){
 }
 function renderHabitsTab(){
   if (!LX.hm) LX.hm = ymOf(today());
-  if (typeof can === 'function' && !can('max')) return header(T.tabs.habits) + lockCard(T.lf.tiles.habits[1]);
+  if (typeof can === 'function' && !can('pro')) return header(T.tabs.habits) + lockCard(T.lf.tiles.habits[1]);
   return header(T.tabs.habits) + habitsBody();
 }
 function habitsSheet(){
@@ -7326,6 +7327,7 @@ function hbForm(h0){
   return fn;
 }
 function hbAdd(e, name, color){
+  if (hbLimitHit()) { lockSheet('hb3'); return null; }
   if (state.habits.length >= HB_MAX) { toast(T.lf.hb.max(HB_MAX)); return null; }
   const h = { id: uid(), e, name: String(name || '').slice(0, 40), color: color || HB_COL[state.habits.length % HB_COL.length], m: {}, at: Date.now() };
   state.habits.push(h); save(); return h;
@@ -7532,7 +7534,7 @@ function lifeTools(){
 function todayCard(){
   if (!mod('life') || (typeof can === 'function' && !can('pro'))) return '';
   const t = today(), X = T.lf.td, parts = [];
-  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('max'))) parts.push(`<div class="tdh">${state.habits.map(h => `<button class="hbc tdc${hbDone(h, t) ? ' on' : ''}" style="--hcb:${lfRgba(h.color, .18)}" data-act="hbT" data-id="${h.id}" data-d="${t}" title="${esc(h.name)}"><span>${h.e}</span></button>`).join('')}</div>`);
+  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('pro'))) parts.push(`<div class="tdh">${state.habits.map(h => `<button class="hbc tdc${hbDone(h, t) ? ' on' : ''}" style="--hcb:${lfRgba(h.color, .18)}" data-act="hbT" data-id="${h.id}" data-d="${t}" title="${esc(h.name)}"><span>${h.e}</span></button>`).join('')}</div>`);
   if (lfOn('fin') && (typeof can !== 'function' || can('max'))) {
     const due = billsDue(t); if (due.length) parts.push(`<div class="tdl" data-act="lfFin">${esc(X.bills(due.map(b => b.name + ' ' + money(b.amt)).join(', ')))}</div>`);
     const left = fnBudgetLeft(ymOf(t)); if (left !== null) parts.push(`<div class="tdl" data-act="lfFin">${esc(left >= 0 ? X.budget(money(left)) : X.over(money(-left)))}</div>`);
@@ -7583,7 +7585,7 @@ const LF = {
   hbM: el => { LX.hm = ymShift(LX.hm || ymOf(today()), +el.dataset.v); hbRefresh(); },
   hbT: el => hbToggle(el.dataset.id, el.dataset.d, el),
   hbPre: el => { const [e, n] = T.lf.hb.presets[+el.dataset.v]; hbAdd(e, n); haptic(); hbRefresh(); scheduleBotSync(); },
-  hbEdit: el => { const h = el.dataset.id && state.habits.find(x => x.id === el.dataset.id); if (!h && state.habits.length >= HB_MAX) return toast(T.lf.hb.max(HB_MAX)); openSheet(hbForm(h || null)); },
+  hbEdit: el => { const h = el.dataset.id && state.habits.find(x => x.id === el.dataset.id); if (!h && state.habits.length >= HB_MAX) return toast(T.lf.hb.max(HB_MAX)); if (!h && hbLimitHit()) return lockSheet('hb3'); openSheet(hbForm(h || null)); },
   hbE: el => { LX.he = el.dataset.v; LX.hn = ($('hb_name') || {}).value; refreshSheet(); const i = $('hb_name'); if (i && LX.hn != null) i.value = LX.hn; },
   hbC: el => { LX.hc = el.dataset.v; LX.hn = ($('hb_name') || {}).value; refreshSheet(); const i = $('hb_name'); if (i && LX.hn != null) i.value = LX.hn; },
   hbSave: el => {
@@ -7685,7 +7687,7 @@ function lifeMorning(ds){
     if (due.length) L0.push(B.bills(due.map(b => b.name + ' ' + money(b.amt)).join(', ')));
     const left = fnBudgetLeft(ym); if (left !== null) L0.push(B.budget(money(left)));
   }
-  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('max'))) L0.push(B.habits(state.habits.map(h => h.e).join(' ')));
+  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('pro'))) L0.push(B.habits(state.habits.map(h => h.e).join(' ')));
   return L0.length ? '\n\n' + L0.join('\n') : '';
 }
 function lifeNotes(H, morningH){
@@ -7708,7 +7710,7 @@ function lifeWeek(from, to){
     if (o || i) L0.push(W.money(money(o), i ? money(i) : ''));
     state.saves.filter(v => v.target && v.sum < v.target).slice(0, 3).forEach(v => L0.push(W.saves(v.name, Math.round(v.sum / v.target * 100))));
   }
-  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('max'))) {
+  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('pro'))) {
     let n = 0, d0 = 0; for (let d = parseD(from); ymd(d) <= to; d = addDays(d, 1)) { const ds = ymd(d); state.habits.forEach(h => { n++; if (hbDone(h, ds)) d0++; }); }
     if (n) L0.push(W.habits(Math.round(d0 / n * 100)));
   }
@@ -7832,7 +7834,7 @@ const HELP_DOC = [
     'Полный гайд одним файлом: Справка → «📄 Скачать полный гайд» — бот пришлёт текстовый файл со всеми инструкциями в чат.',
     'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — покажет, что понял, ты жмёшь «✅ Внести».' ] },
   { id: 'sub', ic: '💎', t: 'Подписка и коды', p: [
-    'Тарифы: без подписки приложение работает в режиме просмотра. «Про» — всё без ограничений: ученики, Google Календарь, копии в Google Drive, ученики в боте, бот текстом, выступления, коллективы, песни, райдер. «Макс» — всё из Про плюс голосовые и напетые мелодии в боте.',
+    'Тарифы: без подписки приложение работает в режиме просмотра. «Про» — вся работа педагога: ученики, уроки, абонементы, деньги, расписание, планер, выступления, коллективы, песни, райдер, Google Календарь, копии, ученики в боте, бот текстом; плюс личное: до 3 привычек, списки, цели, вишлист. «Макс» — всё из Про плюс до 15 привычек, мои финансы (бюджет, платежи, копилки), дневник голоса, ссылка на вишлист для близких, бот голосом и про личное («такси 450», «хочу синтезатор»), напетые мелодии.',
     'Сроки и цены. Макс: Учебный год (13 месяцев — месяц в подарок) 2 599 ₽, Полугодие (+2 недели) 1 690 ₽, Четверть 990 ₽, Попробовать (1 месяц) 390 ₽. Про: 1 590 / 1 090 / 649 / 249 ₽.',
     'Как активировать: код выглядит как MAX-7K2M9Q или PRO-3HQ8TZ. Отправь его боту в чат — или в приложении: ⚙️ Настройки → 💎 Подписка → введи код → «Активировать». Регистр и пробелы не важны.',
     'Купить код: ⚙️ Настройки → 💎 Подписка → «Купить код» — откроется чат, где его можно купить. Каждый код одноразовый и привязывается к твоему аккаунту Telegram.',
@@ -8028,7 +8030,7 @@ const SUB_FREE = 0;   // without a subscription: view only
 /* action → minimal plan */
 const SUB_GATE = { plGroups: 'pro', plGroup: 'pro', plNewIn: 'pro', plRep: 'pro', plSong: 'pro', plSet: 'pro', muWorkshop: 'pro', muComp: 'pro', muArtist: 'pro', muPrep: 'pro', muRun: 'pro',
   muRiderSend: 'pro', x2Warm: 'pro', x2WaitOpen: 'pro', x2Wait: 'pro', x2WaitNew: 'pro', x2Cal: 'pro', gcConnect: 'pro', bkDrive: 'pro', bkDriveNow: 'pro', x2HwSend: 'pro', x2StuLink: 'pro',
-  lfWish: 'pro', lfLists: 'pro', lfGoals: 'pro', lfHabits: 'max', lfFin: 'max', lfDiary: 'max', hbT: 'max' };
+  lfWish: 'pro', lfLists: 'pro', lfGoals: 'pro', lfHabits: 'pro', hbT: 'pro', wsShare: 'max', lfFin: 'max', lfDiary: 'max' };
 const SUB_KINDS = { gig: 1, reh: 1, post: 1 };          // plNew / plKind with these kinds → Про
 /* view-only mode (subscription ended, more students than the free plan allows): these actions change data */
 const SUB_RO = /^(save(?!Settings$|Api$)\w*|delete\w*|add\w*|archiveStudent|mark|togglePaid|payAll|assignEx|resched|cert(New|Save|Del)|rc(Add|Del)|d(Add|Del|Toggle)|songSave|quizSave|giveNote|req(Ok|No)|swPkg|prizeGive|fab|pl(New|NewDay|NewIn|Save|Del|Done|ClearDone|GroupSave|GroupDel|PersonSave|PersonDel|PersonNew|SongSave|SongDel|SetAdd|SetRm|SetMv)|mu(Save|Del|ArtistSave|Chk|ChkAdd|ChkRm|ChkReset|RelStep|CoAdd|CoRm|VerUse)|x2(WaitSave|WaitDel|WaitToStudent|WarmSave|HwSend|WaitNew)|hb(Save|Del|Pre|T)|fn(OpSave|OpDel|BudgetSave|BillSave|BillDel|Pay|SaveSave|SaveDel|DepGo)|ws(Save|Got|SaveUp|Del)|ls(Create|Pre|Add|T|Clear|Del)|gl(New|Save|Add|T|StepDel|Done|Del)|dy(Mood|Voice|Save))$/;
@@ -8096,9 +8098,9 @@ function subSheet(last){
   fn.isSub = true; return fn;
 }
 function lockSheet(k){
-  const ro = k === 'ro', need = k === 'max' ? 'max' : 'pro';
+  const ro = k === 'ro', need = k === 'max' || k === 'hb3' ? 'max' : 'pro';
   const title = ro ? T.sb.roTitle : T.sb.lockTitle(planName(need));
-  const s = subS() || {}, text = ro ? (s.until ? T.sb.roText(SUB_FREE) : T.sb.roNew(s.trialDays || 5)) : k === 'students' ? T.sb.stuLimit(SUB_FREE) : T.sb.lockText(planName(need));
+  const s = subS() || {}, text = ro ? (s.until ? T.sb.roText(SUB_FREE) : T.sb.roNew(s.trialDays || 5)) : k === 'students' ? T.sb.stuLimit(SUB_FREE) : k === 'hb3' ? T.lf.hb.limitPro(HB_PRO, HB_MAX) : T.sb.lockText(planName(need));
   const fn = () => sheetHead('🔒 ' + title) + `<div class="sbnote">${esc(text)}</div>` + subTrialBtn() + subCodeForm() + subBuyBtn()
     + `<div class="sec"><span>${esc(T.sb.plans)}</span></div>` + subPlans();
   fn.isSub = true; openSheet(fn);
