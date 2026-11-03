@@ -596,6 +596,21 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .fab.fabw .fl:empty,.fab.fabl .fl:empty{display:none}
 .fab[hidden]{display:none!important}
 .fabgrid .tool{min-height:92px}
+
+/* 7.9.2 tiles inside «Сегодня» under the habits: bigger than the habit chips, with a label and a count */
+.hccard{padding:10px 12px}
+.tdcard .hctiles{border-top:1px solid var(--line);margin-top:8px;padding-top:12px}
+.hccard .hctiles{border-top:0;margin-top:0;padding-top:6px}
+.hctiles{display:flex;gap:12px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.hctiles::-webkit-scrollbar{display:none}
+.hct{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0 2px;color:inherit;font:inherit;cursor:pointer}
+.hci{position:relative;width:60px;height:60px;border-radius:16px;display:grid;place-items:center;font-size:34px;line-height:1;background:rgba(120,120,120,.12)}
+.hc-lists .hci{background:rgba(76,175,80,.18)}.hc-wish .hci{background:rgba(233,30,99,.15)}.hc-tasks .hci{background:rgba(33,150,243,.15)}.hc-goals .hci{background:rgba(255,193,7,.22)}.hc-fin .hci{background:rgba(156,39,176,.15)}
+.hci em{position:absolute;top:-6px;right:-8px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:inherit;font:700 11px/18px system-ui,sans-serif;font-style:normal;text-align:center}
+.hct.new .hci em{background:var(--accent);border-color:var(--accent);color:var(--accent-text, #fff);animation:hcp 1.6s ease-in-out 3}
+.hct small{font-size:11px;opacity:.75;white-space:nowrap}
+.hct:active .hci{transform:scale(.92)}
+@keyframes hcp{50%{transform:scale(1.2)}}
 </style>
 </head>
 <body>
@@ -2958,7 +2973,11 @@ const FXD = {
     task: 'Task', taskS: 'to-do, reminder', note: 'Note', noteS: 'thought, idea', reh: 'Rehearsal', rehS: 'with the band', post: 'Post', postS: 'content plan', bday: 'Birthday', bdayS: 'of someone close', habit: 'Habit', habitS: 'new habit', spend: 'Spending', spendS: 'to my money', list: 'Shopping', listS: 'lists', wish: 'Wish', wishS: 'to the wishlist', goal: 'Goal', goalS: 'with steps', diary: 'Diary', diaryS: 'mood, voice',
     botT: 'Even faster — via the bot', botWork: 'Write or say: “Masha tomorrow at 3 pm”, “Petya paid 2000”, “Olya bought an 8-lesson package” — the bot adds it.', botLife: 'Write or say: “remind me on Friday to buy strings”, “taxi 450”, “buy milk and bread”, “did yoga” — the bot adds it.' }
 };
-for (const c in I18N) { I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
+const RCND = {
+  ru: { lists: 'Покупки', wish: 'Вишлист', tasks: 'Дела', goals: 'Цели', fin: 'Траты' },
+  en: { lists: 'Shopping', wish: 'Wishlist', tasks: 'To-do', goals: 'Goals', fin: 'Spent' }
+};
+for (const c in I18N) { I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -3915,7 +3934,7 @@ function renderHome(){
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
   const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
-  if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + welcome() + achRow();
+  if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + safe(homeTilesRow, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
   const active = state.students.filter(s => !s.archived).length;
   const debtAll = vsum(state.lessons.filter(l => counts(l) && !l.paid));
@@ -3934,7 +3953,7 @@ function renderHome(){
   const upcoming = state.lessons.filter(l => l.st === 'plan' && l.date > t).sort(byDateAsc).slice(0, 5);
   const wa = safe(waitAlert);
   const al = reqBlock() + (wa ? `<div class="alerts" style="margin-bottom:8px">${wa}</div>` : '') + (wrapSeason() ? `<div class="alerts" style="margin-bottom:8px"><div class="alert" data-act="wrap"><span class="ai">🎉</span><span class="at">${esc(T.wrapAlert)}</span><span class="chev">›</span></div></div>` : '') + alertsBlock();
-  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + safe(todayCard, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
+  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + safe(todayCard, '') + safe(homeTilesRow, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
     + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week;
   if (mod('plan')) out += safe(planHomeBlock);
   out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${money(vsum(todays.filter(counts)))}</span>` : ''}</div>`
@@ -5574,13 +5593,16 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 32;
+const APP_VER = 34;
 const CHANGES = [
+  { v: 34, name: '7.9.2', date: '2026-11-03',
+    ru: { add: [], better: ['🛒 В карточке «Сегодня» под привычками — крупные плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список'], removed: [] },
+    en: { add: [], better: ['🛒 Big tiles in “Today” under the habits: shopping, wishlist, to-do, goals, spending with a count; new items light it up, tap to open'], removed: [] } },
   { v: 32, name: '7.9', date: '2026-11-03', big: true,
     ru: { add: ['➕ Две кнопки «+» на каждой вкладке: справа «Работа» — урок, ученик, абонемент, выступление, расход, сертификат; слева «Дела» — дело, заметка, репетиция, день рождения, привычка, трата, покупки, желание, цель, дневник'],
-      better: ['🎁 Пробный период — 3 дня', '🎟 Абонемент теперь продаётся прямо с «+»', '📖 Справка и обучение рассказывают про обе кнопки'] },
+      better: ['🛒 На главной — маленькие плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список', '🎁 Пробный период — 3 дня', '🎟 Абонемент теперь продаётся прямо с «+»', '📖 Справка и обучение рассказывают про обе кнопки'] },
     en: { add: ['➕ Two “+” buttons on every tab: right “Work” — lesson, student, package, gig, expense, certificate; left “To-do” — task, note, rehearsal, birthday, habit, spending, shopping, wish, goal, diary'],
-      better: ['🎁 The free trial is 3 days', '🎟 Sell a package right from “+”', '📖 Help and tutorial explain both buttons'] } },
+      better: ['🛒 Small tiles on Home: shopping, wishlist, to-do, goals, spending with a count. Something added — the count lights up, tap to open', '🎁 The free trial is 3 days', '🎟 Sell a package right from “+”', '📖 Help and tutorial explain both buttons'] } },
   { v: 31, name: '7.8', date: '2026-11-03', big: true,
     ru: { add: ['🎟 Окно «Абонементы» — все абонементы учеников в одном месте: сколько действует, сколько занятий осталось, у кого кончается срок, кто заморожен, виды абонементов и «Продать абонемент». Студия → «Абонементы»'],
       better: ['⚙️ Настройки разделены на понятные группы: 💰 Цены и абонементы, 📅 Работа и запись, 🔔 Уведомления, 🧩 Под себя, 🎨 Оформление, 🛟 Данные и копии', '💰 Виды абонементов теперь прямо в «Цены и абонементы» — ничего не нужно искать', '🧩 «Разделы приложения» — в группе «Под себя»', '📖 Справка, гайд и обучение обновлены под новые настройки'] },
@@ -7771,8 +7793,9 @@ function todayCard(){
     const due = billsDue(t); if (due.length) parts.push(`<div class="tdl" data-act="lfFin">${esc(X.bills(due.map(b => b.name + ' ' + money(b.amt)).join(', ')))}</div>`);
     const left = fnBudgetLeft(ymOf(t)); if (left !== null) parts.push(`<div class="tdl" data-act="lfFin">${esc(left >= 0 ? X.budget(money(left)) : X.over(money(-left)))}</div>`);
   }
-  if (lfOn('lists')) { const n = state.lists.reduce((a, l) => a + l.items.filter(i => !i.d).length, 0); if (n) parts.push(`<div class="tdl" data-act="lfLists">${esc(X.shop(n))}</div>`); }
+  const tiles = safe(homeTilesInner, ''); if (tiles) parts.push(tiles);
   if (!parts.length) return '';
+  hcInToday = !!tiles;
   return `<div class="tdcard"><div class="tdhead"><b>☀️ ${esc(X.title)}</b>${lfOn('habits') && state.habits.length ? `<small>${esc(hbTodayLine())}</small>` : ''}</div>${parts.join('')}</div>`;
 }
 
@@ -7964,6 +7987,7 @@ const HELP_DOC = [
     'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
   { id: 'home', ic: '🏠', t: 'Главная', p: [
+    'В карточке «☀️ Сегодня» под привычками — плитки: 🛒 Покупки, 🎁 Вишлист, ✅ Дела, 🎯 Цели, 💳 Траты за сегодня. Цифра — сколько там сейчас. Если ты или бот что-то добавили, цифра становится бордовой и мигает — нажми плитку, откроется список.',
     'Приветствие, подпись (её можно поменять: ⚙️ Настройки → 🧩 Под себя) и цитата дня — нажми на цитату, чтобы сменить её.',
     'Плитки: сколько активных учеников, сколько уроков в месяце, сколько заработано и общий долг учеников. Нажми на плитку — откроется нужная вкладка.',
     'Цель на месяц: полоска показывает, сколько процентов цели уже заработано. Цель задаётся: ⚙️ Настройки → 💰 Цены и абонементы.',
@@ -8694,6 +8718,53 @@ const FB = {
   },
   fnQuick: el => { if (typeof SUB_GATE !== 'undefined' && subOn() && !can(SUB_GATE.lfFin || 'max')) return lockSheet('max'); openSheet(fnOpForm(null, (el && el.dataset.v) || 'out')); }
 };
+/* ================= 7.9: small tiles on Home — 🛒 shopping, 🎁 wishlist, ✅ tasks, 🎯 goals, 💳 spending =================
+   Each tile: an icon with a count badge. Something new added (by hand or via the bot) since the tile was last opened →
+   the badge turns accent and gently pulses. Tap → opens the list. Creation time comes from the id (uid() = Date.now() in base 36). */
+const idTime = id => { const t = parseInt(String(id || '').slice(0, 8), 36); return t > 1.5e12 && t < 2.5e12 ? t : 0; };
+const HC_WIN = 48 * 3600e3;
+function hcSeen(k){ const s = state.settings.hcSeen || {}; return Math.max(+s[k] || 0, Date.now() - HC_WIN); }
+const hcNew = (k, ids) => { const from = hcSeen(k); return ids.some(id => idTime(id) > from); };
+function homeTiles(){
+  const X = T.hc, t = today(), out = [];
+  if (lfOn('lists')) {
+    const open = []; state.lists.forEach(l => l.items.forEach(i => { if (!i.d) open.push(i.id); }));
+    if (open.length) out.push(['lists', '🛒', open.length, X.lists, hcNew('lists', open)]);
+  }
+  if (lfOn('wish')) { const w = state.wish.filter(x => !x.done); if (w.length) out.push(['wish', '🎁', w.length, X.wish, hcNew('wish', w.map(x => x.id))]); }
+  if (mod('plan')) {
+    const tk = (state.items || []).filter(it => it.kind === 'task' && !it.rep && !it.done && (!it.date || it.date <= t));
+    if (tk.length) out.push(['tasks', '✅', tk.length, X.tasks, hcNew('tasks', tk.map(x => x.id))]);
+  }
+  if (lfOn('goals')) { const g = state.goals.filter(x => !x.done); if (g.length) out.push(['goals', '🎯', g.length, X.goals, hcNew('goals', g.map(x => x.id))]); }
+  if (lfOn('fin') && (typeof can !== 'function' || can('max'))) {
+    const ops = state.fin.filter(o => o.d === t && o.t === 'out');
+    if (ops.length) { const sum = ops.reduce((a, o) => a + (+o.amt || 0), 0); out.push(['fin', '💳', sum >= 1000 ? Math.round(sum / 100) / 10 + 'k' : Math.round(sum), X.fin, hcNew('fin', ops.map(o => o.id))]); }
+  }
+  return out;
+}
+/* tiles live inside «☀️ Сегодня» under the habits (bigger than the habit chips, with labels);
+   if that card is not shown (life off / no plan), they get their own small card */
+let hcInToday = false;
+function homeTilesInner(){
+  const tl = homeTiles(); if (!tl.length) return '';
+  return `<div class="hctiles">${tl.map(([k, ic, n, lab, nw]) => `<button class="hct hc-${k}${nw ? ' new' : ''}" data-act="hcOpen" data-v="${k}" aria-label="${esc(lab + ': ' + n)}"><span class="hci">${ic}<em>${esc(String(n))}</em></span><small>${esc(lab)}</small></button>`).join('')}</div>`;
+}
+function homeTilesRow(){
+  if (hcInToday) { hcInToday = false; return ''; }
+  const h = homeTilesInner(); return h ? `<div class="tdcard hccard">${h}</div>` : '';
+}
+const RCN = {
+  hcOpen: el => {
+    const k = el.dataset.v, S = state.settings; S.hcSeen = Object.assign({}, S.hcSeen, { [k]: Date.now() }); save();
+    if (k === 'lists') { const ls = state.lists.filter(l => l.items.some(i => !i.d)); LX.lo = ls.length === 1 ? ls[0].id : ''; openSheet(listsSheet()); }
+    else if (k === 'wish') A.lfWish();
+    else if (k === 'goals') A.lfGoals();
+    else if (k === 'fin') A.lfFin();
+    else if (k === 'tasks') { ui.tab = 'plan'; render(); window.scrollTo(0, 0); }
+    setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) { const h = homeTilesInner(); if (h) r.outerHTML = h; else r.remove(); } } }, 50);
+  }
+};
 
 /* ================= Dialogs ================= */
 let toastT;
@@ -9251,7 +9322,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN);
 safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
