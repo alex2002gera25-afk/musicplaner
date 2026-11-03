@@ -572,6 +572,8 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .tourcard{background:var(--card);border:2px solid var(--accent);border-radius:16px;padding:12px 14px;margin:0 0 12px}
 .tourcard b{display:block;font-size:16px;margin-bottom:4px}.tourcard small{display:block;font-size:13px;line-height:1.4;opacity:.85}.tourcard .btn{margin:10px 0 0}
 /* 7.4 subscriptions */
+.sbcmp{padding:6px 12px;margin-bottom:12px}.sbcr{display:grid;grid-template-columns:1fr 64px 84px;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.3}
+.sbcr:first-child{border-top:0}.sbch b{font-size:13px;text-align:center}.sbcr i{font-style:normal;text-align:center;font-weight:600;font-size:12px}.sbcr i.no{opacity:.35}.sbcr i.yes{color:var(--accent)}
 .sbplan{padding:12px 14px;margin-bottom:10px}
 .sbplan.sbtop{border:2px solid var(--accent)}
 .sbplan{display:block}
@@ -2853,6 +2855,11 @@ const SBD = {
     done: p => `Готово! Тариф «${p}» включён`, howBuy: 'Нажми «Купить код» — откроется чат, где можно купить код. Ввести его можно здесь или просто отправить боту. Слово TEST в боте включает пробный период.',
     buyText: 'Привет! Хочу купить код на «Мои ученики»',
     errs: { trialUsed: 'Пробный период уже был на этом аккаунте — нужен код подписки', hasSub: 'У тебя уже есть подписка 🙂', nocode: 'Такого кода нет — проверь буквы и цифры', used: 'Этот код уже использован', revoked: 'Этот код отменён', mine: 'Ты уже активировал этот код', life: 'У тебя уже вечная подписка этого уровня', fail: 'Не получилось — проверь интернет и попробуй ещё раз' },
+    cmpT: 'Чем отличаются тарифы', cmp: [
+      ['Ученики, уроки, абонементы, расписание', '✓', '✓'], ['Деньги с уроков, долги, отчёты', '✓', '✓'], ['Планер, выступления, коллективы, песни, райдер', '✓', '✓'],
+      ['Google Календарь, копии в Google Drive', '✓', '✓'], ['Ученики в боте: домашка, переносы', '✓', '✓'], ['Бот текстом: уроки, оплаты, дела', '✓', '✓'],
+      ['🌱 Привычки', 'до 3', 'до 15'], ['🛒 Списки и 🎯 цели', '✓', '✓'], ['🎁 Вишлист', '✓', '✓ + ссылка для близких'],
+      ['💳 Мои финансы: бюджет, платежи, копилки', '—', '✓'], ['📔 Дневник голоса и настроения', '—', '✓'], ['🎙 Бот голосом, напетые мелодии', '—', '✓'], ['🤖 Бот про личное: «такси 450», «хочу синтезатор»', '—', '✓']],
     f: { income: 'Доходы по источникам', week: 'Обзор недели' }, open: 'Открыть', banT: 'Доступ закрыт', banX: 'Доступ к приложению для этого аккаунта закрыт.' },
   en: { title: 'Subscription', plans: 'Plans & prices', codeL: 'Subscription code', activate: 'Activate', enterCode: 'Enter a code, e.g. MAX-7K2M9Q', buy: 'Buy a code',
     planName: { free: 'Free', pro: 'Pro', max: 'Max' },
@@ -2870,6 +2877,11 @@ const SBD = {
     done: p => `Done! “${p}” plan is on`, howBuy: 'Tap “Buy a code” to open the chat where you can buy one. Enter it here or just send it to the bot. Sending TEST to the bot starts the trial.',
     buyText: 'Hi! I want to buy a code for the app',
     errs: { trialUsed: 'This account has already had a trial — a subscription code is needed', hasSub: 'You already have a subscription 🙂', nocode: 'No such code — check the letters and digits', used: 'This code has already been used', revoked: 'This code was cancelled', mine: 'You have already activated this code', life: 'You already have a lifetime plan of this level', fail: 'Didn’t work — check the internet and try again' },
+    cmpT: 'How the plans differ', cmp: [
+      ['Students, lessons, packages, schedule', '✓', '✓'], ['Lesson income, debts, reports', '✓', '✓'], ['Planner, gigs, bands, songs, rider', '✓', '✓'],
+      ['Google Calendar, Google Drive backups', '✓', '✓'], ['Students in the bot: homework, moves', '✓', '✓'], ['Bot by text: lessons, payments, tasks', '✓', '✓'],
+      ['🌱 Habits', 'up to 3', 'up to 15'], ['🛒 Lists and 🎯 goals', '✓', '✓'], ['🎁 Wishlist', '✓', '✓ + link for close ones'],
+      ['💳 My money: budget, bills, savings', '—', '✓'], ['📔 Voice and mood diary', '—', '✓'], ['🎙 Bot by voice, hummed melodies', '—', '✓'], ['🤖 Bot for personal things: “taxi 450”', '—', '✓']],
     f: { income: 'Income by source', week: 'Weekly review' }, open: 'Open', banT: 'Access closed', banX: 'Access to the app is closed for this account.' }
 };
 for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
@@ -5360,13 +5372,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 24;
+const APP_VER = 25;
 const CHANGES = [
-  { v: 24, name: '7.6', date: '2026-11-03', big: true,
+  { v: 25, name: '7.6', date: '2026-11-03', big: true,
     ru: { add: ['🌱 Трекер привычек — отдельная вкладка в меню внизу: до 15 привычек со своими смайликами — серый день становится цветным, когда отмечаешь; серии 🔥 и рекорды', '💳 Мои финансы: расходы и доходы, бюджет по категориям, регулярные платежи с напоминанием, копилки, итог месяца', '🎁 Вишлист со ссылкой для близких — друзья отмечают «Я подарю», а ты не знаешь, что именно', '🛒 Списки покупок и чек-листы, 🎯 цели по шагам, 📔 дневник голоса и настроения', '☀️ Карточка «Сегодня» на главной: привычки, платежи, бюджет'],
-      better: ['📱 Нижнее меню листается влево-вправо, если пунктов много', '🤖 Боту можно писать и про личное: «такси 450», «хочу синтезатор», «купить молоко», «сделала йогу»', '☀️ Утренний план и обзор недели — теперь и про жизнь: платежи, привычки, бюджет'] },
+      better: ['💎 Понятное сравнение тарифов «Про» и «Макс» — в подписке и в боте (/тарифы)', '📱 Нижнее меню листается влево-вправо, если пунктов много', '🤖 Боту можно писать и про личное: «такси 450», «хочу синтезатор», «купить молоко», «сделала йогу»', '☀️ Утренний план и обзор недели — теперь и про жизнь: платежи, привычки, бюджет'] },
     en: { add: ['🌱 Habit tracker — its own tab in the bottom menu: up to 15 habits with their own icons — a grey day turns colourful when ticked; streaks 🔥 and records', '💳 My money: spending and income, budget by category, regular payments with reminders, savings, month total', '🎁 Wishlist with a link for close ones — friends tick “I’ll give this”, you don’t know what', '🛒 Shopping lists and checklists, 🎯 goals by steps, 📔 voice and mood diary', '☀️ “Today” card on Home: habits, payments, budget'],
-      better: ['📱 The bottom menu scrolls sideways when there are many items', '🤖 Tell the bot personal things too: “taxi 450”, “I want a synth”, “buy milk”, “did yoga”', '☀️ Morning plan and weekly review now cover life too: payments, habits, budget'] } },
+      better: ['💎 A clear Pro vs Max comparison — in the subscription screen and in the bot (/тарифы)', '📱 The bottom menu scrolls sideways when there are many items', '🤖 Tell the bot personal things too: “taxi 450”, “I want a synth”, “buy milk”, “did yoga”', '☀️ Morning plan and weekly review now cover life too: payments, habits, budget'] } },
   { v: 21, name: '7.5', date: '2026-11-03',
     ru: { add: ['👋 Первое знакомство: при первом запуске приложение спрашивает имя, чем ты занимаешься и что писать на главной — и подстраивается под тебя', '🧭 Пошаговое обучение: приложение подсвечивает каждую часть экрана и объясняет, зачем она — ⚙️ Настройки → «Обучение»', '📄 Полный гайд одним файлом — Справка → «Скачать полный гайд»'],
       better: ['⚙️ В настройках объяснено, зачем каждая настройка и как работают уведомления', '🤖 Главное на виду: всё, что напишешь или скажешь боту, он сам внесёт в приложение'] },
@@ -7835,6 +7847,7 @@ const HELP_DOC = [
     'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — покажет, что понял, ты жмёшь «✅ Внести».' ] },
   { id: 'sub', ic: '💎', t: 'Подписка и коды', p: [
     'Тарифы: без подписки приложение работает в режиме просмотра. «Про» — вся работа педагога: ученики, уроки, абонементы, деньги, расписание, планер, выступления, коллективы, песни, райдер, Google Календарь, копии, ученики в боте, бот текстом; плюс личное: до 3 привычек, списки, цели, вишлист. «Макс» — всё из Про плюс до 15 привычек, мои финансы (бюджет, платежи, копилки), дневник голоса, ссылка на вишлист для близких, бот голосом и про личное («такси 450», «хочу синтезатор»), напетые мелодии.',
+    'Сравнить тарифы: ⚙️ Настройки → 💎 Подписка — там таблица «Чем отличаются тарифы». В боте — команда /тарифы. Бот сам присылает сравнение, когда заканчивается пробный период или подписка.',
     'Сроки и цены. Макс: Учебный год (13 месяцев — месяц в подарок) 2 599 ₽, Полугодие (+2 недели) 1 690 ₽, Четверть 990 ₽, Попробовать (1 месяц) 390 ₽. Про: 1 590 / 1 090 / 649 / 249 ₽.',
     'Как активировать: код выглядит как MAX-7K2M9Q или PRO-3HQ8TZ. Отправь его боту в чат — или в приложении: ⚙️ Настройки → 💎 Подписка → введи код → «Активировать». Регистр и пробелы не важны.',
     'Купить код: ⚙️ Настройки → 💎 Подписка → «Купить код» — откроется чат, где его можно купить. Каждый код одноразовый и привязывается к твоему аккаунту Telegram.',
@@ -8083,13 +8096,17 @@ function subCodeForm(){
 }
 function subTrialBtn(){ const s = subS(); return s && s.on && s.trialOk && plan() === 'free' ? `<button class="btn soft" data-act="subTrial">🎁 ${esc(T.sb.trialBtn(s.trialDays || 5))}</button>` : ''; }
 function subBuyBtn(){ const s = subS(); return s && s.seller ? `<button class="btn ghost" data-act="subBuy">💬 ${esc(T.sb.buy)}</button>` : ''; }
+function subCompare(){
+  const X = T.sb;
+  return `<div class="sec"><span>${esc(X.cmpT)}</span></div><div class="card sbcmp"><div class="sbcr sbch"><span></span><b>${esc(planName('pro'))}</b><b>⭐ ${esc(planName('max'))}</b></div>${X.cmp.map(([l, a, b]) => `<div class="sbcr"><span>${esc(l)}</span><i class="${a === '—' ? 'no' : ''}">${esc(a)}</i><i class="${b === '—' ? 'no' : 'yes'}">${esc(b)}</i></div>`).join('')}</div>`;
+}
 function subPlans(){
   const row = (p, t) => {
     const pr = SUB_PRICES[p][t], per = Math.round(pr / SUB_DAYS[t] * 30), day = Math.round(pr / SUB_DAYS[t]);
     return `<div class="sbrow${t === 'y' ? ' best' : ''}"><div class="sbl"><b>${esc(T.sb.terms[t])}</b>${t === 'y' ? ` <span class="sbtag">⭐ ${esc(T.sb.best)}</span>` : ''}<small>${esc(T.sb.termSub[t])}${t === 'y' ? ' · ' + esc(T.sb.perDay(day)) : ''}</small></div>
       <div class="sbp"><b>${pr.toLocaleString('ru-RU')} ₽</b><small>${esc(T.sb.perMonth(per))}</small></div></div>`;
   };
-  return ['max', 'pro'].map(p => `<div class="card sbplan${p === 'max' ? ' sbtop' : ''}"><div class="sbhead"><b>${p === 'max' ? '⭐ ' : ''}${esc(planName(p))}</b><small>${esc(T.sb.planDesc[p])}</small></div>${['y', 'm6', 'm3', 'm1'].map(t => row(p, t)).join('')}</div>`).join('')
+  return subCompare() + ['max', 'pro'].map(p => `<div class="card sbplan${p === 'max' ? ' sbtop' : ''}"><div class="sbhead"><b>${p === 'max' ? '⭐ ' : ''}${esc(planName(p))}</b><small>${esc(T.sb.planDesc[p])}</small></div>${['y', 'm6', 'm3', 'm1'].map(t => row(p, t)).join('')}</div>`).join('')
     + `<div class="card sbplan"><div class="sbhead"><b>🎁 ${esc(T.sb.trialName)} · 0 ₽</b><small>${esc(T.sb.planDesc.free((subS() || {}).trialDays || 5))}</small></div></div>`;
 }
 function subSheet(last){
