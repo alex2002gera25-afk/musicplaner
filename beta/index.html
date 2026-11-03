@@ -519,6 +519,41 @@ nav.tabs button[hidden]{display:none}
 .gkind .chipsel{flex-wrap:wrap}
 .gbox .sec{margin:12px 2px 2px}
 
+/* 7.6 life planner */
+.lfnav{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px}.lfnav b{font-size:16px}.lfnav .mini{min-width:40px}
+.hbsum{text-align:center;font-size:14px;opacity:.75;margin:-4px 0 10px}
+.hbcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 12px 10px;margin:0 0 12px}
+.hbtop{display:flex;align-items:center;gap:10px;cursor:pointer}.hbe{font-size:30px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--hcb)}
+.hbn{flex:1;min-width:0}.hbn b{display:block;font-size:16px}.hbn small{opacity:.7;font-size:12px}.hbpct{font-weight:700;color:var(--hc);font-size:14px;white-space:nowrap}
+.hbbar{height:6px;border-radius:4px;background:var(--line);overflow:hidden;margin:8px 0}.hbbar i{display:block;height:100%;background:var(--hc,var(--accent));border-radius:4px;transition:width .3s}
+.hbgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.hbc{position:relative;aspect-ratio:1;border:0;border-radius:12px;background:transparent;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.hbc span{font-size:22px;filter:grayscale(1);opacity:.28;transition:all .2s;line-height:1}
+.hbc i{position:absolute;bottom:1px;right:4px;font-size:9px;font-style:normal;opacity:.45}
+.hbc.on{background:var(--hcb)}.hbc.on span{filter:none;opacity:1}
+.hbc.now{box-shadow:inset 0 0 0 2px var(--hc,var(--accent))}.hbc.fut{opacity:.35;pointer-events:none}
+.hbc.pop span{animation:hbpop .35s ease}@keyframes hbpop{0%{transform:scale(.6)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+.hbx{aspect-ratio:1}
+.hbwd{font-size:10px;text-align:center;opacity:.45;font-weight:600;text-transform:lowercase}
+.hbprev{display:flex;justify-content:center;margin:0 0 12px}.hbprev span{font-size:44px;width:76px;height:76px;border-radius:22px;background:var(--hcb);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px var(--hc)}
+.lfemo{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:0 0 6px}.lfemo button{font-size:22px;aspect-ratio:1;border:0;border-radius:12px;background:var(--card);cursor:pointer}.lfemo button.on{box-shadow:inset 0 0 0 2px var(--accent);background:var(--soft)}
+.lfcol{display:flex;gap:10px;flex-wrap:wrap}.lfcol button{width:34px;height:34px;border-radius:50%;border:3px solid transparent;cursor:pointer}.lfcol button.on{border-color:var(--text)}
+.lfpre{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}.lfpre button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px;font-size:14px;text-align:left;color:var(--text);cursor:pointer}.lfpre span{font-size:22px}
+.fnsum{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}.fnsum div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}.fnsum small{display:block;font-size:12px;opacity:.7}.fnsum b{font-size:17px}.fnsum .big{grid-column:1/-1}.fnsum .big b{font-size:24px}
+.bad{color:var(--danger)}.okc{color:var(--ok)}
+.fnb{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:0 0 8px}.fnb>div:first-child{display:flex;justify-content:space-between;gap:8px}.fnb small{font-size:12px;opacity:.75}.fnb .hbbar{margin:6px 0 4px}
+.fnsave{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin:0 0 10px;cursor:pointer}.fnsave.dim{opacity:.6}
+.fnst{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center}.fnst span{font-size:26px;grid-row:1/3}.fnst small{font-size:12px;opacity:.7}
+.fnsr{display:flex;justify-content:space-between;align-items:center}
+.tag.ok{font-size:12px;color:var(--ok);white-space:nowrap}
+.lsi .lsb{font-size:20px;margin-right:10px}.lsi.done .name{text-decoration:line-through;opacity:.5}
+.dymood{display:flex;gap:8px;justify-content:space-between;margin:6px 0 4px}.dymood button{flex:1;font-size:28px;border:0;border-radius:14px;padding:8px 0;background:var(--card);filter:grayscale(.8);opacity:.6;cursor:pointer}.dymood button.on{filter:none;opacity:1;box-shadow:inset 0 0 0 2px var(--accent)}
+.dyrow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.dym{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:var(--card);cursor:pointer}.dym span{font-size:18px}.dym i{position:absolute;bottom:1px;right:3px;font-size:9px;font-style:normal;opacity:.45}.dym.sel{box-shadow:inset 0 0 0 2px var(--accent)}.dym.fut{opacity:.3}
+.tdcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin:10px 0}.tdhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}.tdhead small{opacity:.7;font-size:12px}
+.tdh{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}.tdc{width:44px;height:44px;aspect-ratio:auto}.tdc span{font-size:24px}
+.tdl{font-size:14px;padding:6px 0;border-top:1px solid var(--line);cursor:pointer}
+.card.dim{opacity:.6}
+.lfcats{flex-wrap:wrap}
 /* 7.5 tour */
 .tour{position:fixed;inset:0;z-index:9999}
 .tour-hole{position:fixed;border-radius:16px;box-shadow:0 0 0 9999px rgba(20,8,12,.68);transition:all .25s ease;pointer-events:none;outline:2px solid rgba(255,255,255,.85)}
@@ -2467,9 +2502,9 @@ const BKH = {
 };
 const MDD = {
   ru: { title: 'Разделы приложения', hint: 'Выключи то, чем не пользуешься, — приложение станет проще. Данные не удаляются: включишь обратно — всё на месте.',
-    n: { students: 'Ученики и уроки', money: 'Деньги', studio: 'Студия', plan: 'Планер', content: 'Контент-план', rep: 'Репертуар и сет-листы', groups: 'Коллективы', people: 'Дни рождения', notes: 'Заметки', comps: 'Мастерская песен', artist: 'Карточка артиста и райдер', ach: 'Достижения и сюрпризы' },
+    n: { students: 'Ученики и уроки', money: 'Деньги', studio: 'Студия', plan: 'Планер', content: 'Контент-план', rep: 'Репертуар и сет-листы', groups: 'Коллективы', people: 'Дни рождения', notes: 'Заметки', comps: 'Мастерская песен', artist: 'Карточка артиста и райдер', ach: 'Достижения и сюрпризы', life: 'Жизнь и личное', habits: 'Привычки', fin: 'Мои финансы', wish: 'Вишлист', lists: 'Списки', goals: 'Цели', diary: 'Дневник' },
     d: { students: 'Ученики, уроки, абонементы, расписание', money: 'Доход, долги, расходы, отчёты', studio: 'Пианино, метроном, тюнер, шаблоны', plan: 'Дела, выступления, репетиции, события', content: 'Reels, посты, сторис', rep: 'Песни, тексты, сет-листы', groups: 'Группы и составы', people: 'Близкие и коллеги', notes: 'Мысли и идеи', comps: 'Свои песни, права, релизы', artist: 'Райдер, описание, контакты',
-      ach: 'Достижения, призы, поздравления, пасхалки' },
+      ach: 'Достижения, призы, поздравления, пасхалки', life: 'Повседневный планер', habits: 'Отмечай привычки каждый день', fin: 'Расходы, бюджет, платежи, копилки', wish: 'Желания и ссылка для близких', lists: 'Покупки и чек-листы', goals: 'Большие цели по шагам', diary: 'Голос, настроение, сон' },
     lockedT: 'Всегда включено', locked: 'Главная, Настройки, резервные копии и сохранение данных отключить нельзя — на них держится всё приложение.',
     allOn: 'Включить всё обратно', allOnDone: 'Все разделы включены', allOff: 'Все разделы выключены. Включи нужные в Настройках → «Разделы приложения».', cal: 'Календарь',
     dev: 'Для разработчика', devHint: 'Диагностика и служебные действия. Нужен пароль.', pw: 'Пароль', open: 'Открыть', wrong: 'Неверный пароль',
@@ -2477,9 +2512,9 @@ const MDD = {
     errors: 'Ошибки', noErrors: 'Ошибок нет 👍', snap: 'Сделать копию прямо сейчас', snapDone: 'Копия сохранена на телефоне', reload: 'Перечитать данные из облака', reloaded: 'Данные перечитаны',
     betaLine: 'Тестовая версия — её видишь только ты. Обычная: /stable в боте.', copyDiag: 'Скопировать диагностику', clearUi: 'Очистить служебный кэш (данные не трогает)', uiCleared: 'Кэш очищен', devFoot: 'Данные учеников, уроков и планера эти кнопки не удаляют.' },
   en: { title: 'App sections', hint: 'Switch off what you don’t use — the app gets simpler. Nothing is deleted: switch it back on and everything is there.',
-    n: { students: 'Students & lessons', money: 'Money', studio: 'Studio', plan: 'Planner', content: 'Content plan', rep: 'Repertoire & set lists', groups: 'Bands', people: 'Birthdays', notes: 'Notes', comps: 'Song workshop', artist: 'Artist card & rider', ach: 'Achievements & surprises' },
+    n: { students: 'Students & lessons', money: 'Money', studio: 'Studio', plan: 'Planner', content: 'Content plan', rep: 'Repertoire & set lists', groups: 'Bands', people: 'Birthdays', notes: 'Notes', comps: 'Song workshop', artist: 'Artist card & rider', ach: 'Achievements & surprises', life: 'Life & personal', habits: 'Habits', fin: 'My money', wish: 'Wishlist', lists: 'Lists', goals: 'Goals', diary: 'Diary' },
     d: { students: 'Students, lessons, packages, schedule', money: 'Income, debts, expenses, reports', studio: 'Piano, metronome, tuner, templates', plan: 'Tasks, gigs, rehearsals, events', content: 'Reels, posts, stories', rep: 'Songs, lyrics, set lists', groups: 'Bands and line-ups', people: 'Family and colleagues', notes: 'Thoughts and ideas', comps: 'Your songs, splits, releases', artist: 'Rider, bio, contacts',
-      ach: 'Achievements, prizes, celebrations, easter eggs' },
+      ach: 'Achievements, prizes, celebrations, easter eggs', life: 'Everyday planner', habits: 'Tick habits every day', fin: 'Spending, budget, bills, savings', wish: 'Wishes and a link for close ones', lists: 'Shopping and checklists', goals: 'Big goals step by step', diary: 'Voice, mood, sleep' },
     lockedT: 'Always on', locked: 'Home, Settings, backups and data storage can’t be switched off — the whole app relies on them.',
     allOn: 'Switch everything back on', allOnDone: 'All sections are on', allOff: 'All sections are off. Turn the ones you need on in Settings → “App sections”.', cal: 'Calendar',
     dev: 'Developer', devHint: 'Diagnostics and service actions. Password required.', pw: 'Password', open: 'Open', wrong: 'Wrong password',
@@ -2638,6 +2673,57 @@ const GCD = {
     dayBeforeAt: (d, t) => d === 1 ? `the day before at ${t}` : `${d} days before at ${t}`, payTitle: (n, d, s) => `${n} — payment for the lesson on ${d} (${s})` }
 };
 const TABP = { ru: 'Планер', en: 'Planner', es: 'Agenda', it: 'Agenda', fr: 'Agenda' };
+/* 7.6: life planner */
+const LFD = {
+  ru: { sec: '🌿 Жизнь и личное',
+    tiles: { habits: ['🌱', 'Привычки', 'Отмечай каждый день'], fin: ['💳', 'Мои финансы', 'Расходы, бюджет, копилки'], wish: ['🎁', 'Вишлист', 'Желания и подарки'], lists: ['🛒', 'Списки', 'Покупки и чек-листы'], goals: ['🎯', 'Цели', 'Большие цели по шагам'], diary: ['📔', 'Дневник', 'Голос и настроение'] },
+    save: 'Сохранить', del: 'Удалить', delQ: 'Удалить?', add: 'Добавить', name: 'Название', note: 'Заметка', date: 'Дата', emoji: 'Значок', color: 'Цвет', share: 'Поделиться',
+    hb: { title: 'Привычки', new: 'Новая привычка', edit: 'Привычка', namePh: 'Например, пить воду', max: n => `Можно до ${n} привычек`, empty: 'Выбери привычку — или придумай свою. Каждый день нажимай на смайлик дня: из серого он станет цветным.',
+      presets: [['💧', 'Пить воду'], ['🎤', 'Распевка'], ['🏃', 'Спорт'], ['📖', 'Чтение'], ['😴', 'Сон до 23:00'], ['🧘', 'Медитация'], ['🥗', 'Без сладкого'], ['🎹', 'Практика на инструменте']],
+      today: (a, b) => `Сегодня: ${a} из ${b}`, streak: n => `🔥 ${n} ${n === 1 ? 'день' : n > 1 && n < 5 ? 'дня' : 'дней'} подряд`, best: n => `рекорд ${n}`, month: (a, b) => `${a} из ${b}`,
+      allDone: 'Все привычки на сегодня! 🎉', tap: 'Нажимай на день, чтобы отметить. Будущие дни откроются сами.', future: 'Этот день ещё не наступил 🙂' },
+    fn: { title: 'Мои финансы', out: 'Расход', inc: 'Доход', amt: 'Сумма', cat: 'Категория', spent: 'Потрачено', income: 'Доходы', rest: 'Осталось', work: 'С уроков и выступлений', personal: 'Другие доходы',
+      cats: { food: '🛒 Продукты', cafe: '☕ Кафе', transport: '🚕 Транспорт', home: '🏠 Дом и счета', beauty: '💅 Красота', health: '💊 Здоровье', clothes: '👗 Одежда', music: '🎵 Музыка', fun: '🎉 Развлечения', gifts: '🎁 Подарки', edu: '📚 Учёба', other: '📦 Другое' },
+      budget: 'Бюджет на месяц', budgetSet: 'Настроить бюджет', budgetHint: 'Сколько готова тратить в месяц по каждой категории. Пусто — без лимита.', of: (a, b) => `${a} из ${b}`, over: s => `перерасход ${s}`, leftCat: s => `осталось ${s}`,
+      bills: 'Регулярные платежи', billNew: 'Регулярный платёж', billNamePh: 'Например, аренда', day: 'Число месяца', due: d => `до ${d}-го`, paid: 'Оплачено ✓', pay: 'Оплатить', paidToast: 'Отмечено и записано в расходы',
+      saves: 'Копилки', saveNew: 'Копилка', saveNamePh: 'Например, новый микрофон', target: 'Цель, сумма', saved: 'Уже есть', deposit: 'Пополнить', depQ: 'Сколько положить?', reached: 'Цель достигнута! 🎉', pct: p => `${p}%`, by: d => `к ${d}`,
+      ops: 'Операции', noOps: 'Пока пусто. Нажми «− Расход» — или просто напиши боту: «потратила 450 на такси».', bot: 'Быстрее всего — боту: «потратила 1200 на продукты», «зарплата 30 000», «кофе 250».', monthTotal: 'Итог месяца' },
+    ws: { title: 'Вишлист', new: 'Желание', namePh: 'Например, наушники', price: 'Цена', link: 'Ссылка на товар', pr: ['🔥 Очень хочу', '😊 Хочу', '🙂 Было бы неплохо'], got: 'Сбылось ✓', gotList: 'Сбылось', toSave: 'Копить на это', saving: p => `🐷 накоплено ${p}%`,
+      share: 'Ссылка для близких', shareHint: 'Близкие откроют список и отметят «Я подарю» — другие увидят, что подарок уже выбран, а ты нет, чтобы был сюрприз.', shareText: 'Мой вишлист 🎁', noLink: 'Ссылка появится после синхронизации с ботом', empty: 'Запиши, что хочешь: с ценой и ссылкой. Можно копить на желание в копилке и поделиться списком с близкими.' },
+    ls: { title: 'Списки', new: 'Новый список', namePh: 'Например, продукты', itemPh: 'Что добавить?', clear: 'Убрать отмеченные', send: 'Отправить список', empty: 'Списки покупок, вещей на выступление, дел по дому. Добавить пункт можно и через бота: «купить молоко и хлеб».',
+      presets: [['🛒', 'Продукты'], ['🎒', 'Взять на выступление'], ['🏠', 'Дом'], ['🎁', 'Подарки']], left: n => `осталось ${n}` },
+    gl: { title: 'Цели', new: 'Цель', namePh: 'Например, выпустить 3 песни', date: 'К какому сроку', steps: 'Шаги', stepPh: 'Следующий шаг…', done: 'Цель достигнута ✓', reached: 'Цель достигнута! 🎉', empty: 'Большая цель → маленькие шаги. Отмечай шаги — прогресс посчитается сам.', progress: (a, b) => `${a} из ${b} шагов` },
+    dy: { title: 'Дневник', today: 'Сегодня', mood: 'Настроение', moods: ['😞', '😕', '😐', '🙂', '😄'], voice: 'Голос', voices: { ok: '💪 В форме', tired: '😮‍💨 Устал', sore: '🤒 Болит' }, sang: 'Пение, часов', sleep: 'Сон, часов',
+      notePh: 'Как прошёл день?', month: 'Настроение за месяц', saved: 'Записано в дневник', tips: { rest: '🍵 Голос устаёт несколько дней подряд — запланируй день тишины, тёплое питьё и сон.', sore: '🤒 Голос болит — лучше отменить нагрузку и показаться фониатру.', much: '⚠️ Больше 4 часов пения в день — следи за нагрузкой и делай паузы.', sleep: '😴 Мало сна несколько дней — голосу и тебе нужен отдых.' } },
+    td: { title: 'Сегодня', habits: 'Привычки', bills: b => `💳 Оплатить: ${b}`, budget: s => `💰 Бюджет месяца: осталось ${s}`, over: s => `💰 Бюджет месяца превышен на ${s}`, shop: n => `🛒 В списках: ${n}` },
+    brief: { bills: b => `💳 Сегодня оплатить: ${b}`, habits: n => `🌱 Привычек на сегодня: ${n}`, budget: s => `💰 На месяц осталось: ${s}` },
+    wk: { money: (o, i) => `💳 Потрачено за неделю: ${o}${i ? ' · доход ' + i : ''}`, habits: p => `🌱 Привычки выполнены на ${p}%`, saves: (n, p) => `🐷 ${n}: ${p}%` },
+    bx: { exp: (s, c) => `💳 Расход ${s} — ${c}`, inc: s => `💰 Доход ${s}`, wish: n => `🎁 В вишлист: ${n}`, list: (l, n) => `🛒 ${l}: +${n}`, habit: n => `🌱 Отмечено: ${n}`, noHabit: n => `⚠️ Нет привычки «${n}»` } },
+  en: { sec: '🌿 Life & personal',
+    tiles: { habits: ['🌱', 'Habits', 'Tick every day'], fin: ['💳', 'My money', 'Spending, budget, savings'], wish: ['🎁', 'Wishlist', 'Wishes and gifts'], lists: ['🛒', 'Lists', 'Shopping and checklists'], goals: ['🎯', 'Goals', 'Big goals step by step'], diary: ['📔', 'Diary', 'Voice and mood'] },
+    save: 'Save', del: 'Delete', delQ: 'Delete?', add: 'Add', name: 'Name', note: 'Note', date: 'Date', emoji: 'Icon', color: 'Colour', share: 'Share',
+    hb: { title: 'Habits', new: 'New habit', edit: 'Habit', namePh: 'For example, drink water', max: n => `Up to ${n} habits`, empty: 'Pick a habit — or make your own. Every day tap the day’s icon: it turns from grey to colour.',
+      presets: [['💧', 'Drink water'], ['🎤', 'Warm-up'], ['🏃', 'Workout'], ['📖', 'Reading'], ['😴', 'Bed by 11 pm'], ['🧘', 'Meditation'], ['🥗', 'No sweets'], ['🎹', 'Instrument practice']],
+      today: (a, b) => `Today: ${a} of ${b}`, streak: n => `🔥 ${n} ${n === 1 ? 'day' : 'days'} in a row`, best: n => `record ${n}`, month: (a, b) => `${a} of ${b}`,
+      allDone: 'All habits done for today! 🎉', tap: 'Tap a day to tick it. Future days open by themselves.', future: 'This day hasn’t come yet 🙂' },
+    fn: { title: 'My money', out: 'Expense', inc: 'Income', amt: 'Amount', cat: 'Category', spent: 'Spent', income: 'Income', rest: 'Left', work: 'From lessons and gigs', personal: 'Other income',
+      cats: { food: '🛒 Groceries', cafe: '☕ Cafés', transport: '🚕 Transport', home: '🏠 Home & bills', beauty: '💅 Beauty', health: '💊 Health', clothes: '👗 Clothes', music: '🎵 Music', fun: '🎉 Fun', gifts: '🎁 Gifts', edu: '📚 Learning', other: '📦 Other' },
+      budget: 'Monthly budget', budgetSet: 'Set up the budget', budgetHint: 'How much you’re ready to spend per month in each category. Empty — no limit.', of: (a, b) => `${a} of ${b}`, over: s => `over by ${s}`, leftCat: s => `${s} left`,
+      bills: 'Regular payments', billNew: 'Regular payment', billNamePh: 'For example, rent', day: 'Day of month', due: d => `by the ${d}th`, paid: 'Paid ✓', pay: 'Pay', paidToast: 'Marked and added to expenses',
+      saves: 'Savings', saveNew: 'Savings goal', saveNamePh: 'For example, a new microphone', target: 'Target amount', saved: 'Already saved', deposit: 'Add money', depQ: 'How much to add?', reached: 'Goal reached! 🎉', pct: p => `${p}%`, by: d => `by ${d}`,
+      ops: 'Transactions', noOps: 'Empty for now. Tap “− Expense” — or just tell the bot: “spent 450 on a taxi”.', bot: 'Fastest — tell the bot: “spent 1200 on groceries”, “salary 30 000”, “coffee 250”.', monthTotal: 'Month total' },
+    ws: { title: 'Wishlist', new: 'Wish', namePh: 'For example, headphones', price: 'Price', link: 'Link to the item', pr: ['🔥 Really want', '😊 Want', '🙂 Would be nice'], got: 'Came true ✓', gotList: 'Came true', toSave: 'Save up for it', saving: p => `🐷 saved ${p}%`,
+      share: 'Link for friends & family', shareHint: 'They open the list and tap “I’ll give this” — others see the gift is taken, you don’t, so it stays a surprise.', shareText: 'My wishlist 🎁', noLink: 'The link appears after syncing with the bot', empty: 'Write down what you want, with price and link. Save up for a wish and share the list with your close ones.' },
+    ls: { title: 'Lists', new: 'New list', namePh: 'For example, groceries', itemPh: 'What to add?', clear: 'Remove ticked', send: 'Send the list', empty: 'Shopping lists, things for a gig, house chores. You can also add via the bot: “buy milk and bread”.',
+      presets: [['🛒', 'Groceries'], ['🎒', 'Take to the gig'], ['🏠', 'Home'], ['🎁', 'Gifts']], left: n => `${n} left` },
+    gl: { title: 'Goals', new: 'Goal', namePh: 'For example, release 3 songs', date: 'Deadline', steps: 'Steps', stepPh: 'Next step…', done: 'Goal reached ✓', reached: 'Goal reached! 🎉', empty: 'A big goal → small steps. Tick the steps and the progress counts itself.', progress: (a, b) => `${a} of ${b} steps` },
+    dy: { title: 'Diary', today: 'Today', mood: 'Mood', moods: ['😞', '😕', '😐', '🙂', '😄'], voice: 'Voice', voices: { ok: '💪 In shape', tired: '😮‍💨 Tired', sore: '🤒 Sore' }, sang: 'Singing, hours', sleep: 'Sleep, hours',
+      notePh: 'How was the day?', month: 'Mood this month', saved: 'Saved to the diary', tips: { rest: '🍵 Your voice has been tired for several days — plan a day of silence, warm drinks and sleep.', sore: '🤒 Your voice is sore — better to cancel the load and see a voice doctor.', much: '⚠️ More than 4 hours of singing a day — watch the load and take breaks.', sleep: '😴 Little sleep several days in a row — you and your voice need rest.' } },
+    td: { title: 'Today', habits: 'Habits', bills: b => `💳 To pay: ${b}`, budget: s => `💰 Month budget: ${s} left`, over: s => `💰 Month budget exceeded by ${s}`, shop: n => `🛒 In lists: ${n}` },
+    brief: { bills: b => `💳 Pay today: ${b}`, habits: n => `🌱 Habits for today: ${n}`, budget: s => `💰 Left for the month: ${s}` },
+    wk: { money: (o, i) => `💳 Spent this week: ${o}${i ? ' · income ' + i : ''}`, habits: p => `🌱 Habits done: ${p}%`, saves: (n, p) => `🐷 ${n}: ${p}%` },
+    bx: { exp: (s, c) => `💳 Expense ${s} — ${c}`, inc: s => `💰 Income ${s}`, wish: n => `🎁 To the wishlist: ${n}`, list: (l, n) => `🛒 ${l}: +${n}`, habit: n => `🌱 Ticked: ${n}`, noHabit: n => `⚠️ No habit “${n}”` } }
+};
 /* 7.5: guided tour + explanations in settings */
 const TRD = {
   ru: { btn: 'Обучение: как пользоваться', next: 'Далее', back: 'Назад', skip: 'Пропустить', done: 'Готово!', of: (a, b) => `${a} из ${b}`,
@@ -2649,7 +2735,7 @@ const TRD = {
       kpis: ['Главная — сводка', 'Сколько учеников, уроков в этом месяце, сколько заработано и кто должен. Нажми на любую плитку — откроется подробнее.'],
       week: ['Неделя', 'Сколько уроков в каждый день недели. Нажми на день — откроется его расписание.'],
       money: ['Деньги', 'Доходы по месяцам и источникам, долги, расходы, цель на месяц и налог. Всё считается из отмеченных уроков.'],
-      plan: ['Планер', 'Дела, выступления, репетиции, заметки, дни рождения, контент-план. Напоминания приходят от бота.'],
+      plan: ['Планер', 'Дела, выступления, репетиции, заметки, дни рождения, контент-план. А ещё «Жизнь и личное»: привычки, финансы, вишлист, списки, цели и дневник. Напоминания приходят от бота.'],
       studio: ['Студия', 'Инструменты педагога: упражнения, метроном, тюнер, пианино, отчёты, шаблоны сообщений.'],
       settings: ['Настройки', 'Уведомления, подписка, справка, оформление, резервные копии. Здесь же можно пройти это обучение заново.'],
       bot: ['⭐ Самое главное: бот всё вносит сам', 'Всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — не нужно ничего заполнять руками.\n\nКак это работает:\n1️⃣ Пишешь или наговариваешь в чат с ботом: «новая ученица Маша, +7 900…, урок в среду в 15:00», «Петя оплатил абонемент на 8 уроков», «концерт 12-го в 19:00 в Плазе», «напомни купить струны».\n2️⃣ Бот показывает, что понял: «Вот что я внесу…».\n3️⃣ Нажимаешь «✅ Внести» — или поправляешь словами, если что-то не так.\n4️⃣ Открываешь приложение — всё уже на месте.\n\nБот понимает уменьшительные имена, «завтра», «в четверг», переносы и отмены. А ещё присылает напоминания перед уроками.'],
@@ -2675,7 +2761,7 @@ const TRD = {
       kpis: ['Home — summary', 'Students, lessons this month, earnings and who owes you. Tap any tile for details.'],
       week: ['Week', 'Lessons per day this week. Tap a day to open its schedule.'],
       money: ['Money', 'Income by month and source, debts, expenses, monthly goal and tax. Everything comes from the lessons you mark.'],
-      plan: ['Planner', 'Tasks, gigs, rehearsals, notes, birthdays, content plan. Reminders come from the bot.'],
+      plan: ['Planner', 'Tasks, gigs, rehearsals, notes, birthdays, content plan. Plus “Life & personal”: habits, money, wishlist, lists, goals and diary. Reminders come from the bot.'],
       studio: ['Studio', 'Teacher tools: exercises, metronome, tuner, piano, reports, message templates.'],
       settings: ['Settings', 'Notifications, subscription, help, look, backups. You can also replay this tutorial here.'],
       bot: ['⭐ Most important: the bot fills everything in', 'Anything you write to the bot or say in a voice message, it adds to the app by itself — no need to fill forms by hand.\n\nHow it works:\n1️⃣ Write or speak in the bot chat: “new student Masha, +7 900…, lesson on Wednesday at 3 pm”, “Peter paid for 8 lessons”, “gig on the 12th at 7 pm at Plaza”, “remind me to buy strings”.\n2️⃣ The bot shows what it understood: “Here’s what I’ll add…”.\n3️⃣ Tap “✅ Add” — or correct it in words.\n4️⃣ Open the app — it’s all there.\n\nIt understands nicknames, “tomorrow”, “on Thursday”, moves and cancellations. It also sends reminders before lessons.'],
@@ -2777,7 +2863,7 @@ const SBD = {
     errs: { trialUsed: 'This account has already had a trial — a subscription code is needed', hasSub: 'You already have a subscription 🙂', nocode: 'No such code — check the letters and digits', used: 'This code has already been used', revoked: 'This code was cancelled', mine: 'You have already activated this code', life: 'You already have a lifetime plan of this level', fail: 'Didn’t work — check the internet and try again' },
     f: { income: 'Income by source', week: 'Weekly review' }, open: 'Open', banT: 'Access closed', banX: 'Access to the app is closed for this account.' }
 };
-for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en;
+for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -2847,6 +2933,16 @@ function normalize(d){
       c.rel = Object.assign({ date: '', done: {} }, x.rel && typeof x.rel === 'object' ? x.rel : {}); if (!c.rel.done || typeof c.rel.done !== 'object') c.rel.done = {}; return c; }),
     artist: Object.assign({ name: '', bio: '', contacts: '', tech: '', hosp: '', keys: '', chk: '', warm: '' }, d.artist && typeof d.artist === 'object' ? d.artist : {}),
     wait: listOf(d.wait).map(x => Object.assign({ name: '', want: '', contact: '', note: '', at: 0 }, x)),
+    /* 7.6: life planner — habits, diary, personal money, wishlist, lists, goals */
+    habits: listOf(d.habits).map(x => { const h = Object.assign({ e: '⭐', name: '', color: '#C2185B', at: 0 }, x); h.m = h.m && typeof h.m === 'object' ? h.m : {}; return h; }).slice(0, 15),
+    diary: d.diary && typeof d.diary === 'object' && !Array.isArray(d.diary) ? d.diary : {},
+    fin: listOf(d.fin).map(x => Object.assign({ d: '', amt: 0, cat: 'other', note: '', t: 'out' }, x)),
+    bills: listOf(d.bills).map(x => { const b = Object.assign({ name: '', amt: 0, day: 1, cat: 'home', on: true }, x); b.paid = b.paid && typeof b.paid === 'object' ? b.paid : {}; return b; }),
+    budget: d.budget && typeof d.budget === 'object' && !Array.isArray(d.budget) ? d.budget : {},
+    saves: listOf(d.saves).map(x => { const v = Object.assign({ name: '', e: '🐷', target: 0, sum: 0, date: '' }, x); v.log = Array.isArray(x.log) ? x.log : []; return v; }),
+    wish: listOf(d.wish).map(x => Object.assign({ name: '', price: 0, link: '', note: '', pr: 2, done: false, at: 0, sid: '' }, x)),
+    lists: listOf(d.lists).map(x => { const l = Object.assign({ name: '', e: '🛒' }, x); l.items = Array.isArray(x.items) ? x.items.filter(i => i && typeof i.t === 'string').map(i => Object.assign({ id: uid(), d: false }, i)) : []; return l; }),
+    goals: listOf(d.goals).map(x => { const g = Object.assign({ name: '', e: '🎯', date: '', done: false }, x); g.steps = Array.isArray(x.steps) ? x.steps.filter(s => s && typeof s.t === 'string').map(s => Object.assign({ id: uid(), d: false }, s)) : []; return g; }),
     ach: d.ach && typeof d.ach === 'object' ? d.ach : null
   };
 }
@@ -2863,7 +2959,7 @@ const lessonsW = n => `${n} ${pl(n, T.w.lesson)}`;
 const userName = () => String(state.settings.name || (tgUser && tgUser.first_name) || T.name).trim();
 const withName = s => String(s).replace(/\{n\}/g, userName());
 /* the line under the greeting: anyone can write their own (studio, company…); "-" hides it */
-const brandLine = () => { const b = String(state.settings.brand == null ? '' : state.settings.brand).trim(); return !b ? (typeof famOn === 'function' && !famOn() ? '' : T.brand) : b === '-' ? '' : b.slice(0, 60); };
+const brandLine = () => { const b = String(state.settings.brand == null ? '' : state.settings.brand).trim(); return !b ? (typeof famOn === 'function' && !famOn() ? '' : I18N[L].brand) : b === '-' ? '' : b.slice(0, 60); };
 const quoteNow = () => withName(quotePool.length ? quotePool[quoteIdx % quotePool.length] : '');
 const praise = () => withName(pick(T.praise));
 const savedMsg = () => Math.random() < 0.3 ? T.tSavedSanya : T.tSaved;
@@ -2914,7 +3010,7 @@ const cs = {
 const toAscii = s => s.replace(/[\u007f-￿]/g, c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0'));
 const monthOf = l => 'M' + String(l.date).slice(0, 7).replace(/[^0-9-]/g, '');
 const chunkKeys = (b, p) => Array.from({ length: p.n }, (_, i) => `${b}_${p.g}_${i}`);
-const BKEYS = { S: ['settings', 'services', 'exercises', 'ach'], P: ['students'], K: ['packages', 'events', 'expenses', 'certs'], Q: ['items', 'people', 'groups', 'rep'], W: ['comps', 'artist', 'wait'] };
+const BKEYS = { S: ['settings', 'services', 'exercises', 'ach'], P: ['students'], K: ['packages', 'events', 'expenses', 'certs'], Q: ['items', 'people', 'groups', 'rep'], W: ['comps', 'artist', 'wait'], H: ['habits', 'diary'], F: ['fin', 'bills', 'budget', 'saves'], L: ['wish', 'lists', 'goals'] };
 const bucketOrder = (a, b) => (a === 'S' ? -1 : b === 'S' ? 1 : a.localeCompare(b));
 
 function buildBuckets(s){
@@ -2924,7 +3020,10 @@ function buildBuckets(s){
     P: J({ students: s.students }),
     K: J({ packages: s.packages, events: s.events, expenses: s.expenses, certs: s.certs }),
     Q: J({ items: s.items, people: s.people, groups: s.groups, rep: s.rep }),
-    W: J({ comps: s.comps, artist: s.artist, wait: s.wait })
+    W: J({ comps: s.comps, artist: s.artist, wait: s.wait }),
+    H: J({ habits: s.habits, diary: s.diary }),
+    F: J({ fin: s.fin, bills: s.bills, budget: s.budget, saves: s.saves }),
+    L: J({ wish: s.wish, lists: s.lists, goals: s.goals })
   };
   const by = {};
   s.lessons.forEach(l => { const b = monthOf(l); (by[b] = by[b] || []).push(l); });
@@ -3436,6 +3535,7 @@ function buildNotes(){
       evs.forEach(e => { x += `\n🎭 ${e.time ? e.time + ' ' : ''}${e.title || T.evTitle}`; });
       bds.forEach(s => { x += `\n🎂 ${T.nb.bday(s.name)}`; });
       if (mod('plan')) x += safe(() => planMorning(ds));
+      x += safe(() => lifeMorning(ds), '');
       x += `\n\n${withName(T.motiv[(dayIdx + k) % T.motiv.length])}\n— ${T.nb.sign}`;
       const at = atTime(ds, nt.morning * 60);
       out.push({ k: 'm_' + ds, at, u: at + 4 * HR, x });
@@ -3465,6 +3565,7 @@ function buildNotes(){
   const last = ymd(addDays(now, H - 1)), at = atTime(last, (morningH + 1) * 60);
   out.push({ k: 'x_' + last, at, u: at + 12 * HR, x: T.nb.refresh });
   if (mod('plan')) safe(() => planNotes(H, morningH), []).forEach(n => out.push(n));
+  safe(() => lifeNotes(H, morningH), []).forEach(n => out.push(n));
   evQueue.forEach(e => out.push(Object.assign({ k: e.k, at: e.at, u: e.at + 3 * HR, x: e.x }, e.to ? { to: e.to } : {})));
   studentNotes().forEach(n => out.push(n));
   return out.slice(0, 400);
@@ -3483,7 +3584,7 @@ async function botPost(body, ms){
 }
 async function botSync(force){
   if (!inTG || !state.settings.api) return;
-  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ stu: stuSched(), cal: calEvents(), gev: state.settings.gcal && state.settings.gcal.on ? gEvents() : undefined, calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
+  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ wish: mod('life') && mod('wish') ? wishPub() : undefined, stu: stuSched(), cal: calEvents(), gev: state.settings.gcal && state.settings.gcal.on ? gEvents() : undefined, calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
   if (!force && hash === lastPayload) return;
   const sentKeys = new Set(evQueue.map(e => e.k)), ack = opsAck.slice();
   try {
@@ -3710,7 +3811,7 @@ function renderHome(){
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
   const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
-  if (!state.students.length) return hello + quote + reqBlock() + welcome() + achRow();
+  if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
   const active = state.students.filter(s => !s.archived).length;
   const debtAll = vsum(state.lessons.filter(l => counts(l) && !l.paid));
@@ -3729,7 +3830,7 @@ function renderHome(){
   const upcoming = state.lessons.filter(l => l.st === 'plan' && l.date > t).sort(byDateAsc).slice(0, 5);
   const wa = safe(waitAlert);
   const al = reqBlock() + (wa ? `<div class="alerts" style="margin-bottom:8px">${wa}</div>` : '') + (wrapSeason() ? `<div class="alerts" style="margin-bottom:8px"><div class="alert" data-act="wrap"><span class="ai">🎉</span><span class="at">${esc(T.wrapAlert)}</span><span class="chev">›</span></div></div>` : '') + alertsBlock();
-  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
+  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + safe(todayCard, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
     + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week;
   if (mod('plan')) out += safe(planHomeBlock);
   out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${money(vsum(todays.filter(counts)))}</span>` : ''}</div>`
@@ -4597,6 +4698,7 @@ let requests = [];
 try { requests = JSON.parse(lsGetK('vs_reqs') || '[]'); } catch (e) {}
 function handleServer(j){
   if (j.sub) safe(() => subApply(j.sub));
+  if (typeof j.wishUrl === 'string' && j.wishUrl !== wishUrl) { wishUrl = j.wishUrl; lsSetK('vs_wishurl', wishUrl); }
   if (j.gcal && typeof j.gcal === 'object' && JSON.stringify(j.gcal) !== JSON.stringify(state.settings.gcal || {})) { state.settings.gcal = j.gcal; save(); const top = stack[stack.length - 1]; if (top && top.isCal) setTimeout(refreshSheet, 50); }
   if (j.cal && j.cal.full && (!state.settings.calLinks || state.settings.calLinks.full !== j.cal.full)) { state.settings.calLinks = j.cal; save(); }
   if (j.bot) { botUser = j.bot; lsSetK('vs_bot', j.bot); }
@@ -5070,7 +5172,7 @@ function botCtx(){
   return { students: state.students.map(s => Object.assign({ id: s.id, n: s.name }, s.phone ? { ph: s.phone } : {}, s.archived ? { a: 1 } : {})),
     svcs: state.services.map(s => Object.assign({ id: s.id, n: s.name, p: priceFor('', s.id) }, s.online ? { on: 1 } : {})), up, dur: +state.settings.dur || 60, price: +state.settings.price || 0, cur: state.settings.cur || '₽',
     pk: state.students.filter(s => !s.archived).map(s => { const ss = studentStats(s.id); return ss.pkg ? `${s.name}: ${ss.left}` : ''; }).filter(Boolean),
-    work: `${state.settings.work.from}-${state.settings.work.to}`, ...safe(planCtx, {}) };
+    work: `${state.settings.work.from}-${state.settings.work.to}`, ...safe(planCtx, {}), ...safe(lifeCtx, {}) };
 }
 async function pollOps(){
   if (!inTG || !state.settings.api || !ready || opsBusy || document.hidden) return;
@@ -5146,6 +5248,7 @@ function applyAct(a, out, touched){
   if (/^(add_item|done_task|add_person|add_rep_song)$/.test(a.type)) return safe(() => applyPlanAct(a, out));
   if (/^(add_comp|artist_add)$/.test(a.type)) return safe(() => applyMusicAct(a, out));
   if (/^stu_(link|hw|cancel|move)$/.test(a.type)) return safe(() => applyStuAct(a, out));
+  if (/^(add_spend|add_wish|add_list_item|habit_done|add_mood)$/.test(a.type)) return safe(() => applyLifeAct(a, out));
   const T2 = T.bx, t = today();
   const need = () => { const s = bxFind(a.student); if (!s) out.push('⚠️ ' + T2.notFound(a.student || '?')); return s; };
   switch (a.type) {
@@ -5247,8 +5350,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 21;
+const APP_VER = 22;
 const CHANGES = [
+  { v: 22, name: '7.6', date: '2026-11-03', big: true,
+    ru: { add: ['🌱 Трекер привычек: до 15 привычек со своими смайликами — серый день становится цветным, когда отмечаешь; серии 🔥 и рекорды', '💳 Мои финансы: расходы и доходы, бюджет по категориям, регулярные платежи с напоминанием, копилки, итог месяца', '🎁 Вишлист со ссылкой для близких — друзья отмечают «Я подарю», а ты не знаешь, что именно', '🛒 Списки покупок и чек-листы, 🎯 цели по шагам, 📔 дневник голоса и настроения', '☀️ Карточка «Сегодня» на главной: привычки, платежи, бюджет'],
+      better: ['🤖 Боту можно писать и про личное: «такси 450», «хочу синтезатор», «купить молоко», «сделала йогу»', '☀️ Утренний план и обзор недели — теперь и про жизнь: платежи, привычки, бюджет'] },
+    en: { add: ['🌱 Habit tracker: up to 15 habits with their own icons — a grey day turns colourful when ticked; streaks 🔥 and records', '💳 My money: spending and income, budget by category, regular payments with reminders, savings, month total', '🎁 Wishlist with a link for close ones — friends tick “I’ll give this”, you don’t know what', '🛒 Shopping lists and checklists, 🎯 goals by steps, 📔 voice and mood diary', '☀️ “Today” card on Home: habits, payments, budget'],
+      better: ['🤖 Tell the bot personal things too: “taxi 450”, “I want a synth”, “buy milk”, “did yoga”', '☀️ Morning plan and weekly review now cover life too: payments, habits, budget'] } },
   { v: 21, name: '7.5', date: '2026-11-03',
     ru: { add: ['👋 Первое знакомство: при первом запуске приложение спрашивает имя, чем ты занимаешься и что писать на главной — и подстраивается под тебя', '🧭 Пошаговое обучение: приложение подсвечивает каждую часть экрана и объясняет, зачем она — ⚙️ Настройки → «Обучение»', '📄 Полный гайд одним файлом — Справка → «Скачать полный гайд»'],
       better: ['⚙️ В настройках объяснено, зачем каждая настройка и как работают уведомления', '🤖 Главное на виду: всё, что напишешь или скажешь боту, он сам внесёт в приложение'] },
@@ -5770,6 +5878,13 @@ function backupText(s){
   const ar = s.artist || {};
   if (ar.tech || ar.hosp || ar.bio) { H('КАРТОЧКА АРТИСТА И РАЙДЕР'); L.push(ar.name ? 'Имя: ' + ar.name : '', ar.bio, ar.contacts ? 'Контакты: ' + ar.contacts : '', ar.tech ? '\nТехнический райдер:\n' + ar.tech : '', ar.hosp ? '\nБытовой райдер:\n' + ar.hosp : '', ar.keys ? '\nТональности/заметки:\n' + ar.keys : ''); }
   if ((s.exercises || []).length) { H('УПРАЖНЕНИЯ'); s.exercises.forEach(e => L.push(`● ${e.title}\n${e.text}`)); }
+  if ((s.habits || []).length) { H('ПРИВЫЧКИ'); s.habits.forEach(h => L.push(`● ${h.e} ${h.name}: ` + Object.keys(h.m || {}).sort().map(ym => ym + ' — ' + ((h.m[ym].match(/1/g) || []).length) + ' дн.').join('; '))); }
+  if ((s.fin || []).length || (s.bills || []).length || (s.saves || []).length) { H('ЛИЧНЫЕ ФИНАНСЫ');
+    (s.bills || []).forEach(b => L.push(`● Платёж: ${b.name} — ${b.amt} ${cur}, ${b.day}-го`)); (s.saves || []).forEach(v => L.push(`● Копилка: ${v.name} — ${v.sum} / ${v.target} ${cur}`));
+    (s.fin || []).slice().sort((a, b) => b.d.localeCompare(a.d)).slice(0, 300).forEach(o => L.push(`${o.d} ${o.t === 'in' ? '+' : '−'}${o.amt} ${cur} · ${o.cat}${o.note ? ' · ' + o.note : ''}`)); }
+  if ((s.wish || []).length) { H('ВИШЛИСТ'); s.wish.forEach(w => L.push(`● ${w.name}${+w.price ? ' — ' + w.price + ' ' + cur : ''}${w.done ? ' ✓' : ''}${w.link ? ' ' + w.link : ''}`)); }
+  if ((s.lists || []).length) { H('СПИСКИ'); s.lists.forEach(l => L.push('', `● ${l.e} ${l.name}`, ...l.items.map(i => `  ${i.d ? '☑' : '☐'} ${i.t}`))); }
+  if ((s.goals || []).length) { H('ЦЕЛИ'); s.goals.forEach(g => L.push('', `● ${g.e} ${g.name}${g.date ? ' · к ' + g.date : ''}${g.done ? ' ✓' : ''}`, ...g.steps.map(x => `  ${x.d ? '☑' : '☐'} ${x.t}`))); }
   H('КОД ДЛЯ ВОССТАНОВЛЕНИЯ (не меняй — копируй вместе со всем текстом)');
   L.push('VOCALBACKUP:' + JSON.stringify(s));
   return L.filter(x => x !== '').join('\n');
@@ -6088,7 +6203,7 @@ function renderPlan(noHead){
   ];
   const TOOLMOD = { plGroups: 'groups', plRep: 'rep', plPeople: 'people', muWorkshop: 'comps', muArtist: 'artist' };
   const toolsB = `<div class="tools">${tools.filter(([a, v]) => (a !== 'plList' || v !== 'post' || mod('content')) && (!TOOLMOD[a] || mod(TOOLMOD[a]))).map(([a, v, i, b, s]) => `<button class="tool" data-act="${a}" data-v="${v}"><span class="ti">${i}</span><b>${esc(b)}</b><small>${esc(s)}</small></button>`).join('')}</div>`;
-  return (noHead ? '' : header(T.tabs.plan)) + quick + tasksB + agenda + notesB + `<div class="sec"><span>${esc(T.pl.music)}</span></div>` + toolsB;
+  return (noHead ? '' : header(T.tabs.plan)) + quick + tasksB + agenda + notesB + `<div class="sec"><span>${esc(T.pl.music)}</span></div>` + toolsB + safe(lifeTools, '');
 }
 function noteCard(it){
   return `<button class="pnote" data-act="plOpen" data-id="${it.id}"><b>${esc(it.title || T.pl.kinds.note)}</b><small>${esc(String(it.note || '').slice(0, 140))}</small></button>`;
@@ -6813,6 +6928,7 @@ function weekReview(ds){
     const bd = bdaysIn(nx0, nx1);
     if (bd.length) L.push('🎂 ' + bd.map(b => (b.p ? b.p.name : b.s.name) + ' — ' + dayMonth(b.ds)).join(', '));
   }
+  safe(() => lifeWeek(from, ds), []).forEach(x => L.push(x));
   return L.length ? '🗓 ' + T.x2.wkHead + '\n\n' + L.join('\n') : '';
 }
 
@@ -7109,6 +7225,471 @@ const GC = {
     refreshSheet();
   }
 };
+/* ================= 7.6: life planner — habits, personal money, wishlist, lists, goals, diary, «Сегодня» ================= */
+const lfOn = k => mod('life') && mod(k);
+const LX = { hm: '', fm: '', dy: '' };                      // open months: habits / finance; diary day
+const ymOf = ds => String(ds).slice(0, 7);
+const daysIn = ym => { const [y, m] = ym.split('-').map(Number); return new Date(y, m, 0).getDate(); };
+const ymShift = (ym, n) => { const [y, m] = ym.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
+const ymTitle = ym => { const [y, m] = ym.split('-').map(Number); const s = F.month.format(new Date(y, m - 1, 1)); return s.charAt(0).toUpperCase() + s.slice(1) + ' ' + y; };
+const lfRgba = (hex, a) => { const h = String(hex || '#C2185B').replace('#', ''); const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16) || 0; return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+const lfMonthNav = (act, ym) => `<div class="lfnav"><button class="mini" data-act="${act}" data-v="-1">‹</button><b>${esc(ymTitle(ym))}</b><button class="mini" data-act="${act}" data-v="1"${ym >= ymOf(today()) ? ' disabled' : ''}>›</button></div>`;
+const lfHead = (title, plus) => sheetHead(title, plus ? `<button class="r" data-act="${plus}" data-id="">+</button>` : '');
+const lfAsk = async q => { try { return await ask(q, T.lf.del, true); } catch (e) { return confirm(q); } };
+
+/* ---------- 🌱 habits ---------- */
+const HB_MAX = 15;
+const HB_EMO = ['💧', '🎤', '🏃', '🧘', '📖', '😴', '🥗', '🍎', '💊', '🚶', '🏋️', '🚴', '🧹', '🪴', '🎹', '🎸', '🎧', '✍️', '📵', '☀️', '🌙', '🛁', '🦷', '💆', '🧴', '💰', '📚', '🗣', '🙏', '❤️', '🐶', '☕', '🚭', '🍷', '🍬', '📝', '🎨', '📷', '🌿', '⭐'];
+const HB_COL = ['#C2185B', '#E53935', '#FB8C00', '#F9A825', '#43A047', '#00897B', '#1E88E5', '#8E24AA'];
+const hbDone = (h, ds) => (h.m[ymOf(ds)] || '').charAt(+ds.slice(8) - 1) === '1';
+function hbSet(h, ds, v){
+  const ym = ymOf(ds), n = daysIn(ym), i = +ds.slice(8) - 1;
+  const a = (h.m[ym] || '').padEnd(n, '0').split(''); a[i] = v ? '1' : '0';
+  const s = a.join(''); if (/^0*$/.test(s)) delete h.m[ym]; else h.m[ym] = s;
+}
+function hbStreak(h){
+  let d = parseD(today()), n = 0;
+  if (!hbDone(h, ymd(d))) d = addDays(d, -1);
+  while (n < 1000 && hbDone(h, ymd(d))) { n++; d = addDays(d, -1); }
+  return n;
+}
+function hbBest(h){
+  let best = 0, cur = 0;
+  Object.keys(h.m).sort().forEach(ym => { const s = h.m[ym]; for (let i = 0; i < s.length; i++) { if (s[i] === '1') { cur++; if (cur > best) best = cur; } else cur = 0; } });
+  return Math.max(best, hbStreak(h));
+}
+const hbCount = (h, ym) => ((h.m[ym] || '').match(/1/g) || []).length;
+function hbCard(h, ym){
+  const n = daysIn(ym), t = today(), first = new Date(+ym.slice(0, 4), +ym.slice(5) - 1, 1).getDay(), off = (first + 6) % 7;
+  const passed = ym < ymOf(t) ? n : ym === ymOf(t) ? +t.slice(8) : 0, cnt = hbCount(h, ym), st = hbStreak(h);
+  let cells = [1, 2, 3, 4, 5, 6, 0].map(d => `<b class="hbwd">${esc(wdShort(new Date(2024, 0, 7 + d)))}</b>`).join('');
+  for (let i = 0; i < off; i++) cells += '<i class="hbx"></i>';
+  for (let d = 1; d <= n; d++) {
+    const ds = ym + '-' + pad(d), on = hbDone(h, ds), fut = ds > t;
+    cells += `<button class="hbc${on ? ' on' : ''}${ds === t ? ' now' : ''}${fut ? ' fut' : ''}" data-act="hbT" data-id="${h.id}" data-d="${ds}"><span>${h.e}</span><i>${d}</i></button>`;
+  }
+  return `<div class="hbcard" style="--hc:${esc(h.color)};--hcb:${lfRgba(h.color, .16)}">
+    <div class="hbtop" data-act="hbEdit" data-id="${h.id}"><span class="hbe">${h.e}</span><div class="hbn"><b>${esc(h.name)}</b><small id="hbs_${h.id}">${st ? esc(T.lf.hb.streak(st)) + ' · ' : ''}${esc(T.lf.hb.best(hbBest(h)))}</small></div>
+    <span class="hbpct" id="hbp_${h.id}">${esc(T.lf.hb.month(cnt, passed || n))}</span></div>
+    <div class="hbbar"><i id="hbb_${h.id}" style="width:${passed ? Math.round(cnt / passed * 100) : 0}%"></i></div>
+    <div class="hbgrid">${cells}</div></div>`;
+}
+function hbTodayLine(){ const t = today(), hs = state.habits; return hs.length ? T.lf.hb.today(hs.filter(h => hbDone(h, t)).length, hs.length) : ''; }
+function habitsSheet(){
+  const fn = () => {
+    const ym = LX.hm || ymOf(today()), X = T.lf.hb;
+    if (!state.habits.length) return lfHead('🌱 ' + X.title, 'hbEdit') + `<div class="sbnote">${esc(X.empty)}</div><div class="lfpre">${X.presets.map(([e, n], i) => `<button data-act="hbPre" data-v="${i}"><span>${e}</span>${esc(n)}</button>`).join('')}</div>
+      <button class="btn" data-act="hbEdit" data-id="">+ ${esc(X.new)}</button>`;
+    return lfHead('🌱 ' + X.title, state.habits.length < HB_MAX ? 'hbEdit' : '') + lfMonthNav('hbM', ym)
+      + `<div class="hbsum" id="hb_sum">${esc(hbTodayLine())}</div>`
+      + state.habits.map(h => hbCard(h, ym)).join('')
+      + `<div class="hintline">${esc(X.tap)}${state.habits.length >= HB_MAX ? ' ' + esc(X.max(HB_MAX)) : ''}</div>`;
+  };
+  fn.isLife = true; return fn;
+}
+function hbForm(h0){
+  const isNew = !h0, h = h0 || { id: '', e: '💧', name: '', color: HB_COL[0] }, X = T.lf.hb;
+  LX.he = h.e; LX.hc = h.color;
+  const fn = () => sheetHead(isNew ? X.new : X.edit) + `
+    <div class="hbprev" style="--hcb:${lfRgba(LX.hc, .18)};--hc:${esc(LX.hc)}"><span>${LX.he}</span></div>
+    <div class="group"><div class="field"><label for="hb_name">${esc(T.lf.name)}</label><input id="hb_name" value="${esc(h.name)}" placeholder="${esc(X.namePh)}" maxlength="40" autocomplete="off"></div></div>
+    <div class="sec"><span>${esc(T.lf.emoji)}</span></div><div class="lfemo">${HB_EMO.map(e => `<button data-act="hbE" data-v="${e}" class="${e === LX.he ? 'on' : ''}">${e}</button>`).join('')}</div>
+    <div class="sec"><span>${esc(T.lf.color)}</span></div><div class="lfcol">${HB_COL.map(c => `<button data-act="hbC" data-v="${c}" class="${c === LX.hc ? 'on' : ''}" style="background:${c}"></button>`).join('')}</div>
+    <button class="btn" data-act="hbSave" data-id="${h.id}" style="margin-top:14px">${esc(T.lf.save)}</button>
+    ${isNew ? '' : `<button class="btn ghost danger" data-act="hbDel" data-id="${h.id}">${esc(T.lf.del)}</button>`}`;
+  fn.mount = () => { const i = $('hb_name'); if (i) i.oninput = () => { LX.hn = i.value; }; };
+  LX.hn = h.name;
+  return fn;
+}
+function hbAdd(e, name, color){
+  if (state.habits.length >= HB_MAX) { toast(T.lf.hb.max(HB_MAX)); return null; }
+  const h = { id: uid(), e, name: String(name || '').slice(0, 40), color: color || HB_COL[state.habits.length % HB_COL.length], m: {}, at: Date.now() };
+  state.habits.push(h); save(); return h;
+}
+function hbToggle(id, ds, el){
+  const h = state.habits.find(x => x.id === id); if (!h) return;
+  if (ds > today()) return toast(T.lf.hb.future);
+  const v = !hbDone(h, ds); hbSet(h, ds, v); save(); v ? hapticOk() : haptic();
+  document.querySelectorAll(`[data-act=hbT][data-id="${id}"][data-d="${ds}"]`).forEach(b => { b.classList.toggle('on', v); b.classList.remove('pop'); void b.offsetWidth; if (v) b.classList.add('pop'); });
+  const ym = ymOf(ds), t = today(), passed = ym < ymOf(t) ? daysIn(ym) : +t.slice(8), cnt = hbCount(h, ym), st = hbStreak(h);
+  const p = $('hbp_' + id); if (p) p.textContent = T.lf.hb.month(cnt, passed);
+  const b = $('hbb_' + id); if (b) b.style.width = Math.round(cnt / passed * 100) + '%';
+  const s = $('hbs_' + id); if (s) s.textContent = (st ? T.lf.hb.streak(st) + ' · ' : '') + T.lf.hb.best(hbBest(h));
+  const sum = $('hb_sum'); if (sum) sum.textContent = hbTodayLine();
+  if (v && ds === t && state.habits.every(x => hbDone(x, t))) { confetti(); toast(T.lf.hb.allDone, 2500); }
+  scheduleBotSync();
+}
+
+/* ---------- 💳 personal money ---------- */
+const FN_CATS = ['food', 'cafe', 'transport', 'home', 'beauty', 'health', 'clothes', 'music', 'fun', 'gifts', 'edu', 'other'];
+const fnCat = c => T.lf.fn.cats[c] || T.lf.fn.cats.other;
+const fnEmo = c => fnCat(c).split(' ')[0];
+const fnSum = (ym, t) => state.fin.filter(o => ymOf(o.d) === ym && o.t === t).reduce((a, o) => a + (+o.amt || 0), 0);
+const fnCatSum = (ym, c) => state.fin.filter(o => ymOf(o.d) === ym && o.t === 'out' && o.cat === c).reduce((a, o) => a + (+o.amt || 0), 0);
+function fnWork(ym){
+  let s = 0;
+  try { if (mod('students')) s += monthStats(ym).earned || 0; } catch (e) {}
+  try { if (mod('plan')) state.items.filter(it => it.kind === 'gig' && +it.fee && it.date && ymOf(it.date) === ym && it.date <= today()).forEach(it => { s += +it.fee; }); } catch (e) {}
+  return s;
+}
+const fnBudgetTotal = () => FN_CATS.reduce((a, c) => a + (+state.budget[c] || 0), 0);
+function fnBudgetLeft(ym){ const tot = fnBudgetTotal(); if (!tot) return null; return tot - FN_CATS.filter(c => +state.budget[c]).reduce((a, c) => a + fnCatSum(ym, c), 0); }
+const billDueDay = (b, ym) => Math.min(+b.day || 1, daysIn(ym));
+function billsDue(ds){ const ym = ymOf(ds), d = +ds.slice(8); return state.bills.filter(b => b.on && !b.paid[ym] && billDueDay(b, ym) <= d); }
+function finSheet(){
+  const fn = () => {
+    const ym = LX.fm || ymOf(today()), X = T.lf.fn, out = fnSum(ym, 'out'), inc = fnSum(ym, 'in'), work = fnWork(ym), rest = work + inc - out;
+    const bud = FN_CATS.filter(c => +state.budget[c]).map(c => { const lim = +state.budget[c], sp = fnCatSum(ym, c), p = Math.min(100, Math.round(sp / lim * 100));
+      return `<div class="fnb"><div><span>${esc(fnCat(c))}</span><small class="${sp > lim ? 'bad' : ''}">${esc(sp > lim ? X.over(money(sp - lim)) : X.leftCat(money(lim - sp)))}</small></div><div class="hbbar"><i style="width:${p}%;${sp > lim ? 'background:var(--danger)' : ''}"></i></div><small>${esc(X.of(money(sp), money(lim)))}</small></div>`; }).join('');
+    const bills = state.bills.map(b => { const paid = !!b.paid[ym], late = !paid && ym === ymOf(today()) && billDueDay(b, ym) <= +today().slice(8);
+      return `<div class="row" data-act="fnBill" data-id="${b.id}"><div class="ava pava">${fnEmo(b.cat)}</div><div class="main"><div class="name">${esc(b.name)}</div><div class="sub${late ? ' bad' : ''}">${esc(money(b.amt))} · ${esc(X.due(b.day))}</div></div>
+        ${paid ? `<span class="tag ok">${esc(X.paid)}</span>` : `<button class="mini ok" data-act="fnPay" data-id="${b.id}">${esc(X.pay)}</button>`}</div>`; }).join('');
+    const saves = state.saves.map(v => { const p = v.target ? Math.min(100, Math.round(v.sum / v.target * 100)) : 0;
+      return `<div class="fnsave" data-act="fnSave" data-id="${v.id}"><div class="fnst"><span>${v.e}</span><b>${esc(v.name)}</b><small>${esc(money(v.sum))} / ${esc(money(v.target))}${v.date ? ' · ' + esc(X.by(shortDate(v.date))) : ''}</small></div>
+        <div class="hbbar"><i style="width:${p}%"></i></div><div class="fnsr"><small>${esc(p >= 100 ? X.reached : X.pct(p))}</small><button class="mini ok" data-act="fnDep" data-id="${v.id}">+ ${esc(X.deposit)}</button></div></div>`; }).join('');
+    const ops = state.fin.filter(o => ymOf(o.d) === ym).sort((a, b) => (b.d + (b.at || 0)).localeCompare(a.d + (a.at || 0)));
+    return lfHead('💳 ' + X.title) + lfMonthNav('fnM', ym)
+      + `<div class="fnsum"><div><small>${esc(X.work)}</small><b>${esc(money(work))}</b></div><div><small>${esc(X.personal)}</small><b>${esc(money(inc))}</b></div><div><small>${esc(X.spent)}</small><b class="bad">${esc(money(out))}</b></div><div><small>${esc(X.rest)}</small><b class="${rest < 0 ? 'bad' : ''}">${esc(money(rest))}</b></div></div>
+      <div class="pair2"><button class="btn" data-act="fnOp" data-v="out">− ${esc(X.out)}</button><button class="btn soft" data-act="fnOp" data-v="in">+ ${esc(X.inc)}</button></div>
+      <div class="hintline">🤖 ${esc(X.bot)}</div>
+      <div class="sec"><span>${esc(X.budget)}</span><button class="link" data-act="fnBudget">${esc(X.budgetSet)}</button></div>${bud || `<div class="hintline">${esc(X.budgetHint)}</div>`}
+      <div class="sec"><span>${esc(X.bills)}</span><button class="link" data-act="fnBill" data-id="">+ ${esc(T.lf.add)}</button></div>${bills ? `<div class="card">${bills}</div>` : ''}
+      <div class="sec"><span>🐷 ${esc(X.saves)}</span><button class="link" data-act="fnSave" data-id="">+ ${esc(T.lf.add)}</button></div>${saves}
+      <div class="sec"><span>${esc(X.ops)}</span></div>${ops.length ? `<div class="card">${ops.slice(0, 80).map(o => `<div class="row" data-act="fnOp" data-id="${o.id}"><div class="ava pava">${o.t === 'in' ? '💰' : fnEmo(o.cat)}</div><div class="main"><div class="name">${esc(o.note || (o.t === 'in' ? X.inc : fnCat(o.cat).replace(/^\S+\s/, '')))}</div><div class="sub">${esc(shortDate(o.d))}</div></div><b class="${o.t === 'in' ? 'okc' : ''}">${o.t === 'in' ? '+' : '−'}${esc(money(o.amt))}</b></div>`).join('')}</div>` : `<div class="empty">${esc(X.noOps)}</div>`}`;
+  };
+  fn.isLife = true; return fn;
+}
+function fnOpForm(o0, type){
+  const o = o0 || { id: '', t: type || 'out', amt: '', cat: 'food', note: '', d: today() }, X = T.lf.fn;
+  LX.ot = o.t; LX.oc = o.cat;
+  return () => sheetHead(o.t === 'in' ? X.inc : X.out) + `
+    <div class="group"><div class="field"><label for="fo_amt">${esc(X.amt)}</label><input id="fo_amt" type="number" inputmode="decimal" min="0" value="${esc(o.amt)}" placeholder="0" autofocus></div></div>
+    ${LX.ot === 'out' ? `<div class="sec"><span>${esc(X.cat)}</span></div><div class="chipsel lfcats">${FN_CATS.map(c => `<button type="button" data-act="fnCatPick" data-v="${c}" class="${c === LX.oc ? 'on' : ''}">${esc(fnCat(c))}</button>`).join('')}</div>` : ''}
+    <div class="group"><div class="two"><div class="field"><label for="fo_d">${esc(T.lf.date)}</label><input id="fo_d" type="date" value="${esc(o.d)}"></div>
+      <div class="field"><label for="fo_n">${esc(T.lf.note)}</label><input id="fo_n" value="${esc(o.note)}" maxlength="80" autocomplete="off"></div></div></div>
+    <button class="btn" data-act="fnOpSave" data-id="${o.id}">${esc(T.lf.save)}</button>${o.id ? `<button class="btn ghost danger" data-act="fnOpDel" data-id="${o.id}">${esc(T.lf.del)}</button>` : ''}`;
+}
+function fnBillForm(b0){
+  const b = b0 || { id: '', name: '', amt: '', day: 1, cat: 'home' }, X = T.lf.fn;
+  LX.bc = b.cat;
+  return () => sheetHead(X.billNew) + `<div class="group"><div class="field"><label for="fb_n">${esc(T.lf.name)}</label><input id="fb_n" value="${esc(b.name)}" placeholder="${esc(X.billNamePh)}" maxlength="40"></div>
+      <div class="two"><div class="field"><label for="fb_a">${esc(X.amt)}</label><input id="fb_a" type="number" inputmode="decimal" value="${esc(b.amt)}"></div><div class="field"><label for="fb_d">${esc(X.day)}</label><input id="fb_d" type="number" inputmode="numeric" min="1" max="31" value="${esc(b.day)}"></div></div></div>
+    <div class="sec"><span>${esc(X.cat)}</span></div><div class="chipsel lfcats">${FN_CATS.map(c => `<button type="button" data-act="fnBillCat" data-v="${c}" class="${c === LX.bc ? 'on' : ''}">${esc(fnCat(c))}</button>`).join('')}</div>
+    <button class="btn" data-act="fnBillSave" data-id="${b.id}">${esc(T.lf.save)}</button>${b.id ? `<button class="btn ghost danger" data-act="fnBillDel" data-id="${b.id}">${esc(T.lf.del)}</button>` : ''}`;
+}
+function fnSaveForm(v0){
+  const v = v0 || { id: '', name: '', e: '🐷', target: '', sum: 0, date: '' }, X = T.lf.fn;
+  return () => sheetHead('🐷 ' + X.saveNew) + `<div class="group"><div class="field"><label for="fs_n">${esc(T.lf.name)}</label><input id="fs_n" value="${esc(v.name)}" placeholder="${esc(X.saveNamePh)}" maxlength="50"></div>
+      <div class="two"><div class="field"><label for="fs_t">${esc(X.target)}</label><input id="fs_t" type="number" inputmode="decimal" value="${esc(v.target)}"></div><div class="field"><label for="fs_s">${esc(X.saved)}</label><input id="fs_s" type="number" inputmode="decimal" value="${esc(v.sum)}"></div></div>
+      <div class="field"><label for="fs_d">${esc(T.lf.gl.date)}</label><input id="fs_d" type="date" value="${esc(v.date)}"></div></div>
+    <button class="btn" data-act="fnSaveSave" data-id="${v.id}">${esc(T.lf.save)}</button>${v.id ? `<button class="btn ghost danger" data-act="fnSaveDel" data-id="${v.id}">${esc(T.lf.del)}</button>` : ''}`;
+}
+function fnAddOp(t, amt, cat, note, d){
+  const o = { id: uid(), t: t === 'in' ? 'in' : 'out', amt: Math.round((+amt || 0) * 100) / 100, cat: FN_CATS.includes(cat) ? cat : 'other', note: String(note || '').slice(0, 80), d: d || today(), at: Date.now() };
+  if (!o.amt) return null; state.fin.push(o); return o;
+}
+
+/* ---------- 🎁 wishlist ---------- */
+let wishUrl = lsGetK('vs_wishurl') || '';
+function wishSheet(){
+  const fn = () => {
+    const X = T.lf.ws, open = state.wish.filter(w => !w.done).sort((a, b) => a.pr - b.pr || (b.at || 0) - (a.at || 0)), got = state.wish.filter(w => w.done);
+    const row = w => { const sv = w.sid && state.saves.find(v => v.id === w.sid), p = sv && sv.target ? Math.min(100, Math.round(sv.sum / sv.target * 100)) : -1;
+      return `<div class="row" data-act="wsEdit" data-id="${w.id}"><div class="ava pava">${(X.pr[w.pr - 1] || '🙂').split(' ')[0]}</div><div class="main"><div class="name">${esc(w.name)}</div><div class="sub">${w.price ? esc(money(w.price)) : ''}${p >= 0 ? ' · ' + esc(X.saving(p)) : ''}</div></div>${w.link ? `<button class="mini" data-act="openLink" data-v="${esc(w.link)}">🔗</button>` : ''}</div>`; };
+    return lfHead('🎁 ' + X.title, 'wsEdit')
+      + (state.wish.length ? '' : `<div class="sbnote">${esc(X.empty)}</div>`)
+      + (open.length ? `<div class="card">${open.map(row).join('')}</div>` : '')
+      + `<div class="calbox"><b>🔗 ${esc(X.share)}</b><small>${esc(X.shareHint)}</small><button class="btn soft" data-act="wsShare">${esc(T.lf.share)}</button></div>`
+      + (got.length ? `<div class="sec"><span>✨ ${esc(X.gotList)}</span></div><div class="card dim">${got.map(row).join('')}</div>` : '');
+  };
+  fn.isLife = true; return fn;
+}
+function wsForm(w0){
+  const w = w0 || { id: '', name: '', price: '', link: '', note: '', pr: 2, done: false }, X = T.lf.ws;
+  LX.wp = w.pr;
+  return () => sheetHead('🎁 ' + X.new) + `<div class="group"><div class="field"><label for="ws_n">${esc(T.lf.name)}</label><input id="ws_n" value="${esc(w.name)}" placeholder="${esc(X.namePh)}" maxlength="80"></div>
+      <div class="two"><div class="field"><label for="ws_p">${esc(X.price)}</label><input id="ws_p" type="number" inputmode="decimal" value="${esc(w.price || '')}"></div><div class="field"><label for="ws_l">${esc(X.link)}</label><input id="ws_l" type="url" value="${esc(w.link)}" autocapitalize="off"></div></div>
+      <div class="field"><label for="ws_note">${esc(T.lf.note)}</label><input id="ws_note" value="${esc(w.note)}" maxlength="200"></div></div>
+    <div class="chipsel" style="margin:0 0 10px">${X.pr.map((p, i) => `<button type="button" data-act="wsPr" data-v="${i + 1}" class="${LX.wp === i + 1 ? 'on' : ''}">${esc(p)}</button>`).join('')}</div>
+    <button class="btn" data-act="wsSave" data-id="${w.id}">${esc(T.lf.save)}</button>
+    ${w.id ? `<div class="pair2"><button class="btn soft" data-act="wsGot" data-id="${w.id}">${esc(w.done ? '↩️' : X.got)}</button>${lfOn('fin') && !w.sid && !w.done ? `<button class="btn ghost" data-act="wsSaveUp" data-id="${w.id}">🐷 ${esc(X.toSave)}</button>` : ''}</div>
+      <button class="btn ghost danger" data-act="wsDel" data-id="${w.id}">${esc(T.lf.del)}</button>` : ''}`;
+}
+const wishPub = () => state.wish.filter(w => !w.done).map(w => ({ id: w.id, n: w.name, p: +w.price || 0, l: w.link, t: w.note, r: w.pr }));
+
+/* ---------- 🛒 lists ---------- */
+function listsSheet(){
+  const fn = () => { const X = T.lf.ls;
+    if (LX.lo) { const l = state.lists.find(x => x.id === LX.lo); if (l) return listOne(l); LX.lo = ''; }
+    return lfHead('🛒 ' + X.title, 'lsNew') + (state.lists.length ? `<div class="card">${state.lists.map(l => { const left = l.items.filter(i => !i.d).length;
+        return `<div class="row" data-act="lsOpen" data-id="${l.id}"><div class="ava pava">${l.e}</div><div class="main"><div class="name">${esc(l.name)}</div><div class="sub">${esc(X.left(left))}</div></div><span class="chev">›</span></div>`; }).join('')}</div>`
+      : `<div class="sbnote">${esc(X.empty)}</div>`) + `<div class="lfpre">${X.presets.filter(([e, n]) => !state.lists.some(l => l.name === n)).map(([e, n], i) => `<button data-act="lsPre" data-v="${e}|${esc(n)}"><span>${e}</span>${esc(n)}</button>`).join('')}</div>`; };
+  fn.isLife = true; return fn;
+}
+function listOne(l){
+  const X = T.lf.ls, items = l.items.slice().sort((a, b) => a.d - b.d);
+  return sheetHead(l.e + ' ' + l.name, `<button class="r" data-act="lsBack">‹</button>`) + `<div class="muadd"><input id="ls_add" placeholder="${esc(X.itemPh)}" autocomplete="off"><button class="mini ok" data-act="lsAdd" data-id="${l.id}">＋</button></div>
+    <div class="card">${items.map(i => `<div class="row lsi${i.d ? ' done' : ''}" data-act="lsT" data-id="${l.id}" data-v="${i.id}"><span class="lsb">${i.d ? '✅' : '⬜️'}</span><div class="main"><div class="name">${esc(i.t)}</div></div></div>`).join('') || `<div class="empty">—</div>`}</div>
+    <div class="pair2"><button class="btn soft" data-act="lsSend" data-id="${l.id}">📤 ${esc(X.send)}</button><button class="btn ghost" data-act="lsClear" data-id="${l.id}">🧹 ${esc(X.clear)}</button></div>
+    <button class="btn ghost danger" data-act="lsDel" data-id="${l.id}">${esc(T.lf.del)}</button>`;
+}
+function listAdd(l, text){
+  const parts = String(text || '').split(/\s*[,;\n]\s*|\s+и\s+|\s+and\s+/i).map(s => s.trim()).filter(Boolean).slice(0, 30);
+  parts.forEach(t => l.items.push({ id: uid(), t: t.slice(0, 120), d: false }));
+  return parts.length;
+}
+function listFind(name, make){
+  const n = String(name || '').trim().toLowerCase();
+  let l = n ? state.lists.find(x => x.name.toLowerCase() === n || x.name.toLowerCase().startsWith(n) || n.startsWith(x.name.toLowerCase())) : state.lists.find(x => x.e === '🛒');
+  if (!l && make) { const pre = T.lf.ls.presets[0]; l = { id: uid(), name: n ? cap1(name) : pre[1], e: n ? '📝' : pre[0], items: [] }; state.lists.push(l); }
+  return l || null;
+}
+const cap1 = s => String(s || '').trim().charAt(0).toUpperCase() + String(s || '').trim().slice(1);
+
+/* ---------- 🎯 goals ---------- */
+function goalsSheet(){
+  const fn = () => { const X = T.lf.gl;
+    if (LX.go) { const g = state.goals.find(x => x.id === LX.go); if (g) return goalOne(g); LX.go = ''; }
+    return lfHead('🎯 ' + X.title, 'glNew') + (state.goals.length ? state.goals.slice().sort((a, b) => a.done - b.done).map(g => { const d = g.steps.filter(s => s.d).length, n = g.steps.length, p = g.done ? 100 : n ? Math.round(d / n * 100) : 0;
+        return `<div class="fnsave${g.done ? ' dim' : ''}" data-act="glOpen" data-id="${g.id}"><div class="fnst"><span>${g.e}</span><b>${esc(g.name)}</b><small>${esc(g.done ? X.done : X.progress(d, n))}${g.date ? ' · ' + esc(T.lf.fn.by(shortDate(g.date))) : ''}</small></div><div class="hbbar"><i style="width:${p}%"></i></div></div>`; }).join('')
+      : `<div class="sbnote">${esc(X.empty)}</div><button class="btn" data-act="glNew">+ ${esc(X.new)}</button>`); };
+  fn.isLife = true; return fn;
+}
+function goalOne(g){
+  const X = T.lf.gl;
+  return sheetHead(g.e + ' ' + g.name, `<button class="r" data-act="glBack">‹</button>`) + `
+    <div class="group"><div class="two"><div class="field"><label for="gl_n">${esc(T.lf.name)}</label><input id="gl_n" value="${esc(g.name)}" maxlength="80"></div><div class="field"><label for="gl_d">${esc(X.date)}</label><input id="gl_d" type="date" value="${esc(g.date)}"></div></div></div>
+    <div class="sec"><span>${esc(X.steps)}</span></div>
+    <div class="card">${g.steps.map(s => `<div class="row lsi${s.d ? ' done' : ''}" data-act="glT" data-id="${g.id}" data-v="${s.id}"><span class="lsb">${s.d ? '✅' : '⬜️'}</span><div class="main"><div class="name">${esc(s.t)}</div></div><button class="mini" data-act="glStepDel" data-id="${g.id}" data-v="${s.id}">✕</button></div>`).join('')}</div>
+    <div class="muadd"><input id="gl_add" placeholder="${esc(X.stepPh)}" autocomplete="off"><button class="mini ok" data-act="glAdd" data-id="${g.id}">＋</button></div>
+    <button class="btn" data-act="glSave" data-id="${g.id}">${esc(T.lf.save)}</button>
+    <div class="pair2"><button class="btn soft" data-act="glDone" data-id="${g.id}">${esc(g.done ? '↩️' : X.done)}</button><button class="btn ghost danger" data-act="glDel" data-id="${g.id}">${esc(T.lf.del)}</button></div>`;
+}
+
+/* ---------- 📔 diary: mood + voice ---------- */
+function dyTips(){
+  const X = T.lf.dy.tips, last = [0, 1, 2].map(i => state.diary[ymd(addDays(parseD(today()), -i))] || {}), out = [];
+  if (last[0].v === 'sore') out.push(X.sore);
+  else if (last.filter(e => e.v === 'tired' || e.v === 'sore').length >= 2) out.push(X.rest);
+  if (last.some(e => +e.h > 4)) out.push(X.much);
+  if (last.filter(e => e.s && +e.s < 6).length >= 2) out.push(X.sleep);
+  return out;
+}
+function lifeDiarySheet(){
+  const fn = () => {
+    const X = T.lf.dy, ds = LX.dy || today(), e = state.diary[ds] || {}, ym = ymOf(ds), n = daysIn(ym);
+    let row = ''; for (let d = 1; d <= n; d++) { const k = ym + '-' + pad(d), x = state.diary[k]; row += `<button class="dym${k === ds ? ' sel' : ''}${k > today() ? ' fut' : ''}" data-act="dyDay" data-v="${k}"><span>${x && x.m ? X.moods[x.m - 1] : '·'}</span><i>${d}</i></button>`; }
+    const tips = dyTips();
+    return lfHead('📔 ' + X.title) + (tips.length ? `<div class="alerts" style="margin-bottom:10px">${tips.map(t => `<div class="alert"><span class="at">${esc(t)}</span></div>`).join('')}</div>` : '')
+      + `<div class="sec"><span>${esc(ds === today() ? X.today : shortDate(ds))}</span></div>
+      <div class="field"><span class="lb">${esc(X.mood)}</span><div class="dymood">${X.moods.map((m, i) => `<button data-act="dyMood" data-v="${i + 1}" class="${e.m === i + 1 ? 'on' : ''}">${m}</button>`).join('')}</div></div>
+      <div class="field"><span class="lb">${esc(X.voice)}</span><div class="chipsel">${Object.keys(X.voices).map(k => `<button type="button" data-act="dyVoice" data-v="${k}" class="${e.v === k ? 'on' : ''}">${esc(X.voices[k])}</button>`).join('')}</div></div>
+      <div class="group"><div class="two"><div class="field"><label for="dy_h">🎤 ${esc(X.sang)}</label><input id="dy_h" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.h || '')}"></div>
+        <div class="field"><label for="dy_s">😴 ${esc(X.sleep)}</label><input id="dy_s" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.s || '')}"></div></div>
+        <div class="field"><textarea id="dy_n" placeholder="${esc(X.notePh)}" rows="3">${esc(e.n || '')}</textarea></div></div>
+      <button class="btn" data-act="dySave">${esc(T.lf.save)}</button>
+      <div class="sec"><span>${esc(X.month)}</span></div>${lfMonthNav('dyM', ym)}<div class="dyrow">${row}</div>`;
+  };
+  fn.isLife = true; return fn;
+}
+function dyPut(patch){ const ds = LX.dy || today(), e = Object.assign({}, state.diary[ds] || {}, patch); state.diary[ds] = e; save(); }
+
+/* ---------- planner tiles + «Сегодня» on Home ---------- */
+const LF_TILES = [['habits', 'lfHabits', () => state.habits.length ? hbTodayLine() : ''], ['fin', 'lfFin', () => { const l = fnBudgetLeft(ymOf(today())); return l === null ? money(fnSum(ymOf(today()), 'out')) : T.lf.fn.leftCat(money(l)); }],
+  ['wish', 'lfWish', () => state.wish.filter(w => !w.done).length || ''], ['lists', 'lfLists', () => { const n = state.lists.reduce((a, l) => a + l.items.filter(i => !i.d).length, 0); return n ? T.lf.ls.left(n) : ''; }],
+  ['goals', 'lfGoals', () => state.goals.filter(g => !g.done).length || ''], ['diary', 'lfDiary', () => { const e = state.diary[today()]; return e && e.m ? T.lf.dy.moods[e.m - 1] : ''; }]];
+function lifeTools(){
+  if (!mod('life')) return '';
+  const tiles = LF_TILES.filter(([k]) => mod(k));
+  if (!tiles.length) return '';
+  return `<div class="sec"><span>${esc(T.lf.sec)}</span></div><div class="tools">${tiles.map(([k, a, sub]) => { const [i, b, s] = T.lf.tiles[k], x = safe(sub, '');
+    return `<button class="tool" data-act="${a}"><span class="ti">${i}</span><b>${esc(b)}</b><small>${esc(x === '' || x === 0 ? s : String(x))}</small></button>`; }).join('')}</div>`;
+}
+function todayCard(){
+  if (!mod('life') || (typeof can === 'function' && !can('pro'))) return '';
+  const t = today(), X = T.lf.td, parts = [];
+  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('max'))) parts.push(`<div class="tdh">${state.habits.map(h => `<button class="hbc tdc${hbDone(h, t) ? ' on' : ''}" style="--hcb:${lfRgba(h.color, .18)}" data-act="hbT" data-id="${h.id}" data-d="${t}" title="${esc(h.name)}"><span>${h.e}</span></button>`).join('')}</div>`);
+  if (lfOn('fin') && (typeof can !== 'function' || can('max'))) {
+    const due = billsDue(t); if (due.length) parts.push(`<div class="tdl" data-act="lfFin">${esc(X.bills(due.map(b => b.name + ' ' + money(b.amt)).join(', ')))}</div>`);
+    const left = fnBudgetLeft(ymOf(t)); if (left !== null) parts.push(`<div class="tdl" data-act="lfFin">${esc(left >= 0 ? X.budget(money(left)) : X.over(money(-left)))}</div>`);
+  }
+  if (lfOn('lists')) { const n = state.lists.reduce((a, l) => a + l.items.filter(i => !i.d).length, 0); if (n) parts.push(`<div class="tdl" data-act="lfLists">${esc(X.shop(n))}</div>`); }
+  if (!parts.length) return '';
+  return `<div class="tdcard"><div class="tdhead"><b>☀️ ${esc(X.title)}</b>${lfOn('habits') && state.habits.length ? `<small>${esc(hbTodayLine())}</small>` : ''}</div>${parts.join('')}</div>`;
+}
+
+/* ---------- bot ops ---------- */
+function applyLifeAct(a, out){
+  const X = T.lf.bx;
+  switch (a.type) {
+    case 'add_spend': {
+      const o = fnAddOp(a.income ? 'in' : 'out', bxNum(a.amount), a.category, a.note, bxDate(a.date) || today());
+      if (o) out.push(o.t === 'in' ? X.inc(money(o.amt)) : X.exp(money(o.amt), fnCat(o.cat))); return;
+    }
+    case 'add_wish': {
+      const n = String(a.name || '').trim().slice(0, 80); if (!n) return;
+      state.wish.push({ id: uid(), name: cap1(n), price: bxNum(a.price), link: /^https?:\/\//.test(a.link || '') ? String(a.link).slice(0, 500) : '', note: String(a.note || '').slice(0, 200), pr: 2, done: false, at: Date.now() });
+      out.push(X.wish(cap1(n))); return;
+    }
+    case 'add_list_item': {
+      const l = listFind(a.list, true), k = listAdd(l, Array.isArray(a.items) ? a.items.join(', ') : a.items || a.text);
+      if (k) out.push(X.list(l.name, k)); return;
+    }
+    case 'habit_done': {
+      const n = bxNorm(a.habit || ''), h = state.habits.find(x => bxNorm(x.name) === n) || state.habits.find(x => bxNorm(x.name).includes(n) || n.includes(bxNorm(x.name)));
+      if (!h) return out.push(X.noHabit(a.habit || '?'));
+      hbSet(h, bxDate(a.date) || today(), true); out.push(X.habit(h.e + ' ' + h.name)); return;
+    }
+    case 'add_mood': {
+      const ds = bxDate(a.date) || today(), e = Object.assign({}, state.diary[ds] || {});
+      if (+a.mood >= 1 && +a.mood <= 5) e.m = +a.mood; if (['ok', 'tired', 'sore'].includes(a.voice)) e.v = a.voice; if (+a.hours) e.h = +a.hours; if (+a.sleep) e.s = +a.sleep; if (a.note) e.n = String(a.note).slice(0, 500);
+      state.diary[ds] = e; out.push('📔 ' + T.lf.dy.saved); return;
+    }
+  }
+}
+
+/* ---------- actions ---------- */
+const LF = {
+  lfHabits: () => { LX.hm = ymOf(today()); openSheet(habitsSheet()); },
+  lfFin: () => { LX.fm = ymOf(today()); openSheet(finSheet()); },
+  lfWish: () => openSheet(wishSheet()),
+  lfLists: () => { LX.lo = ''; openSheet(listsSheet()); },
+  lfGoals: () => { LX.go = ''; openSheet(goalsSheet()); },
+  lfDiary: () => { LX.dy = today(); openSheet(lifeDiarySheet()); },
+  hbM: el => { LX.hm = ymShift(LX.hm || ymOf(today()), +el.dataset.v); refreshSheet(); },
+  hbT: el => hbToggle(el.dataset.id, el.dataset.d, el),
+  hbPre: el => { const [e, n] = T.lf.hb.presets[+el.dataset.v]; hbAdd(e, n); haptic(); refreshSheet(); scheduleBotSync(); },
+  hbEdit: el => { const h = el.dataset.id && state.habits.find(x => x.id === el.dataset.id); if (!h && state.habits.length >= HB_MAX) return toast(T.lf.hb.max(HB_MAX)); openSheet(hbForm(h || null)); },
+  hbE: el => { LX.he = el.dataset.v; LX.hn = ($('hb_name') || {}).value; refreshSheet(); const i = $('hb_name'); if (i && LX.hn != null) i.value = LX.hn; },
+  hbC: el => { LX.hc = el.dataset.v; LX.hn = ($('hb_name') || {}).value; refreshSheet(); const i = $('hb_name'); if (i && LX.hn != null) i.value = LX.hn; },
+  hbSave: el => {
+    const name = ($('hb_name').value || '').trim(); if (!name) return toast(T.lf.hb.namePh);
+    const h = el.dataset.id && state.habits.find(x => x.id === el.dataset.id);
+    if (h) Object.assign(h, { name: name.slice(0, 40), e: LX.he, color: LX.hc }); else hbAdd(LX.he, name, LX.hc);
+    save(); closeSheet(); refreshSheet(); scheduleBotSync();
+  },
+  hbDel: async el => { if (!await lfAsk(T.lf.delQ)) return; state.habits = state.habits.filter(x => x.id !== el.dataset.id); save(); closeSheet(); refreshSheet(); },
+  fnM: el => { LX.fm = ymShift(LX.fm || ymOf(today()), +el.dataset.v); refreshSheet(); },
+  fnOp: el => { const o = el.dataset.id && state.fin.find(x => x.id === el.dataset.id); openSheet(fnOpForm(o || null, el.dataset.v)); },
+  fnCatPick: el => { LX.oc = el.dataset.v; document.querySelectorAll('[data-act=fnCatPick]').forEach(b => b.classList.toggle('on', b.dataset.v === LX.oc)); haptic(); },
+  fnOpSave: el => {
+    const amt = +($('fo_amt').value || 0); if (!(amt > 0)) return toast(T.lf.fn.amt);
+    const o = el.dataset.id && state.fin.find(x => x.id === el.dataset.id), d = $('fo_d').value || today(), note = $('fo_n').value.trim();
+    if (o) Object.assign(o, { amt, cat: LX.oc, d, note }); else fnAddOp(LX.ot, amt, LX.oc, note, d);
+    save(); closeSheet(); refreshSheet(); hapticOk();
+  },
+  fnOpDel: async el => { if (!await lfAsk(T.lf.delQ)) return; state.fin = state.fin.filter(x => x.id !== el.dataset.id); save(); closeSheet(); refreshSheet(); },
+  fnBudget: () => openSheet(() => sheetHead(T.lf.fn.budget) + `<div class="hintline">${esc(T.lf.fn.budgetHint)}</div><div class="group">${FN_CATS.map(c => `<div class="field"><label for="bg_${c}">${esc(fnCat(c))}</label><input id="bg_${c}" type="number" inputmode="numeric" min="0" value="${+state.budget[c] || ''}" placeholder="—"></div>`).join('')}</div><button class="btn" data-act="fnBudgetSave">${esc(T.lf.save)}</button>`),
+  fnBudgetSave: () => { const b = {}; FN_CATS.forEach(c => { const v = +($('bg_' + c).value || 0); if (v > 0) b[c] = v; }); state.budget = b; save(); closeSheet(); refreshSheet(); scheduleBotSync(); },
+  fnBill: el => { const b = el.dataset.id && state.bills.find(x => x.id === el.dataset.id); openSheet(fnBillForm(b || null)); },
+  fnBillCat: el => { LX.bc = el.dataset.v; document.querySelectorAll('[data-act=fnBillCat]').forEach(b => b.classList.toggle('on', b.dataset.v === LX.bc)); },
+  fnBillSave: el => {
+    const name = $('fb_n').value.trim(), amt = +($('fb_a').value || 0), day = Math.max(1, Math.min(31, +($('fb_d').value || 1)));
+    if (!name) return toast(T.lf.fn.billNamePh);
+    const b = el.dataset.id && state.bills.find(x => x.id === el.dataset.id);
+    if (b) Object.assign(b, { name, amt, day, cat: LX.bc }); else state.bills.push({ id: uid(), name: name.slice(0, 40), amt, day, cat: LX.bc, on: true, paid: {} });
+    save(); closeSheet(); refreshSheet(); scheduleBotSync();
+  },
+  fnBillDel: async el => { if (!await lfAsk(T.lf.delQ)) return; state.bills = state.bills.filter(x => x.id !== el.dataset.id); save(); closeSheet(); refreshSheet(); },
+  fnPay: el => { const b = state.bills.find(x => x.id === el.dataset.id); if (!b) return; const ym = LX.fm || ymOf(today()); b.paid[ym] = 1; fnAddOp('out', b.amt, b.cat, b.name, ym === ymOf(today()) ? today() : ym + '-' + pad(billDueDay(b, ym))); save(); hapticOk(); toast('✅ ' + T.lf.fn.paidToast); refreshSheet(); scheduleBotSync(); },
+  fnSave: el => { const v = el.dataset.id && state.saves.find(x => x.id === el.dataset.id); openSheet(fnSaveForm(v || null)); },
+  fnSaveSave: el => {
+    const name = $('fs_n').value.trim(); if (!name) return toast(T.lf.fn.saveNamePh);
+    const v = el.dataset.id && state.saves.find(x => x.id === el.dataset.id), f = { name: name.slice(0, 50), target: +($('fs_t').value || 0), sum: +($('fs_s').value || 0), date: $('fs_d').value || '' };
+    if (v) Object.assign(v, f); else state.saves.push(Object.assign({ id: uid(), e: '🐷', log: [] }, f));
+    save(); closeSheet(); refreshSheet();
+  },
+  fnSaveDel: async el => { if (!await lfAsk(T.lf.delQ)) return; state.saves = state.saves.filter(x => x.id !== el.dataset.id); state.wish.forEach(w => { if (w.sid === el.dataset.id) w.sid = ''; }); save(); closeSheet(); refreshSheet(); },
+  fnDep: el => { const v = state.saves.find(x => x.id === el.dataset.id); if (!v) return;
+    openSheet(() => sheetHead('🐷 ' + v.name) + `<div class="group"><div class="field"><label for="fd_a">${esc(T.lf.fn.depQ)}</label><input id="fd_a" type="number" inputmode="decimal" min="0" autofocus></div></div><button class="btn" data-act="fnDepGo" data-id="${v.id}">${esc(T.lf.fn.deposit)}</button>`); },
+  fnDepGo: el => { const v = state.saves.find(x => x.id === el.dataset.id), a = +($('fd_a').value || 0); if (!v || !(a > 0)) return;
+    const was = v.sum; v.sum = Math.round((v.sum + a) * 100) / 100; v.log.push({ d: today(), a }); save(); closeSheet(); refreshSheet(); hapticOk();
+    if (v.target && was < v.target && v.sum >= v.target) { confetti(); toast(T.lf.fn.reached, 3000); } },
+  wsEdit: el => { const w = el.dataset.id && state.wish.find(x => x.id === el.dataset.id); openSheet(wsForm(w || null)); },
+  wsPr: el => { LX.wp = +el.dataset.v; document.querySelectorAll('[data-act=wsPr]').forEach(b => b.classList.toggle('on', +b.dataset.v === LX.wp)); },
+  wsSave: el => {
+    const name = $('ws_n').value.trim(); if (!name) return toast(T.lf.ws.namePh);
+    const w = el.dataset.id && state.wish.find(x => x.id === el.dataset.id), link = $('ws_l').value.trim(), f = { name: name.slice(0, 80), price: +($('ws_p').value || 0), link: /^https?:\/\//i.test(link) ? link.slice(0, 500) : link ? 'https://' + link.slice(0, 490) : '', note: $('ws_note').value.trim().slice(0, 200), pr: LX.wp || 2 };
+    if (w) Object.assign(w, f); else state.wish.push(Object.assign({ id: uid(), done: false, at: Date.now(), sid: '' }, f));
+    save(); closeSheet(); refreshSheet(); scheduleBotSync();
+  },
+  wsGot: el => { const w = state.wish.find(x => x.id === el.dataset.id); if (!w) return; w.done = !w.done; if (w.done) { confetti(); } save(); closeSheet(); refreshSheet(); scheduleBotSync(); },
+  wsSaveUp: el => { const w = state.wish.find(x => x.id === el.dataset.id); if (!w) return; const v = { id: uid(), name: w.name, e: '🎁', target: +w.price || 0, sum: 0, date: '', log: [] }; state.saves.push(v); w.sid = v.id; save(); closeSheet(); openSheet(fnSaveForm(v)); },
+  wsDel: async el => { if (!await lfAsk(T.lf.delQ)) return; state.wish = state.wish.filter(x => x.id !== el.dataset.id); save(); closeSheet(); refreshSheet(); scheduleBotSync(); },
+  wsShare: async () => {
+    if (!wishUrl && inTG && state.settings.api) { lastPayload = ''; await botSync(true); }
+    if (!wishUrl) return toast(T.lf.ws.noLink, 3000);
+    openUrl('https://t.me/share/url?url=' + encodeURIComponent(wishUrl) + '&text=' + encodeURIComponent(T.lf.ws.shareText), true);
+  },
+  lsNew: () => openSheet(() => sheetHead(T.lf.ls.new) + `<div class="group"><div class="field"><label for="ls_n">${esc(T.lf.name)}</label><input id="ls_n" placeholder="${esc(T.lf.ls.namePh)}" maxlength="40" autofocus></div></div><button class="btn" data-act="lsCreate">${esc(T.lf.save)}</button>`),
+  lsCreate: () => { const n = $('ls_n').value.trim(); if (!n) return; const l = { id: uid(), name: n, e: '📝', items: [] }; state.lists.push(l); save(); closeSheet(); LX.lo = l.id; refreshSheet(); },
+  lsPre: el => { const [e, n] = el.dataset.v.split('|'); const l = { id: uid(), name: n, e, items: [] }; state.lists.push(l); save(); LX.lo = l.id; refreshSheet(); },
+  lsOpen: el => { LX.lo = el.dataset.id; refreshSheet(); },
+  lsBack: () => { LX.lo = ''; refreshSheet(); },
+  lsAdd: el => { const l = state.lists.find(x => x.id === el.dataset.id), i = $('ls_add'); if (!l || !i || !i.value.trim()) return; listAdd(l, i.value); save(); refreshSheet(); const j = $('ls_add'); if (j) j.focus(); scheduleBotSync(); },
+  lsT: el => { const l = state.lists.find(x => x.id === el.dataset.id), it = l && l.items.find(x => x.id === el.dataset.v); if (!it) return; it.d = !it.d; save(); haptic(); refreshSheet(); },
+  lsClear: el => { const l = state.lists.find(x => x.id === el.dataset.id); if (!l) return; l.items = l.items.filter(i => !i.d); save(); refreshSheet(); },
+  lsSend: el => { const l = state.lists.find(x => x.id === el.dataset.id); if (!l) return; const txt = l.e + ' ' + l.name + '\n' + l.items.filter(i => !i.d).map(i => '• ' + i.t).join('\n'); openUrl('https://t.me/share/url?url=' + encodeURIComponent(' ') + '&text=' + encodeURIComponent(txt), true); },
+  lsDel: async el => { if (!await lfAsk(T.lf.delQ)) return; state.lists = state.lists.filter(x => x.id !== el.dataset.id); LX.lo = ''; save(); refreshSheet(); },
+  glNew: () => { const g = { id: uid(), name: T.lf.gl.new, e: '🎯', date: '', done: false, steps: [] }; state.goals.push(g); save(); LX.go = g.id; refreshSheet(); setTimeout(() => { const i = $('gl_n'); if (i) { i.select(); i.focus(); } }, 100); },
+  glOpen: el => { LX.go = el.dataset.id; refreshSheet(); },
+  glBack: () => { const g = state.goals.find(x => x.id === LX.go); if (g && $('gl_n')) { g.name = $('gl_n').value.trim() || g.name; g.date = $('gl_d').value || ''; save(); } LX.go = ''; refreshSheet(); },
+  glSave: el => { const g = state.goals.find(x => x.id === el.dataset.id); if (!g) return; g.name = $('gl_n').value.trim() || g.name; g.date = $('gl_d').value || ''; save(); LX.go = ''; refreshSheet(); hapticOk(); },
+  glAdd: el => { const g = state.goals.find(x => x.id === el.dataset.id), i = $('gl_add'); if (!g || !i || !i.value.trim()) return; g.name = $('gl_n').value.trim() || g.name; g.steps.push({ id: uid(), t: i.value.trim().slice(0, 120), d: false }); save(); refreshSheet(); const j = $('gl_add'); if (j) j.focus(); },
+  glT: el => { const g = state.goals.find(x => x.id === el.dataset.id), s = g && g.steps.find(x => x.id === el.dataset.v); if (!s) return; s.d = !s.d; haptic();
+    if (g.steps.length && g.steps.every(x => x.d) && !g.done) { g.done = true; confetti(); toast(T.lf.gl.reached, 3000); } save(); refreshSheet(); },
+  glStepDel: el => { const g = state.goals.find(x => x.id === el.dataset.id); if (!g) return; g.steps = g.steps.filter(x => x.id !== el.dataset.v); save(); refreshSheet(); },
+  glDone: el => { const g = state.goals.find(x => x.id === el.dataset.id); if (!g) return; g.done = !g.done; if (g.done) { confetti(); toast(T.lf.gl.reached, 3000); } save(); LX.go = ''; refreshSheet(); },
+  glDel: async el => { if (!await lfAsk(T.lf.delQ)) return; state.goals = state.goals.filter(x => x.id !== el.dataset.id); LX.go = ''; save(); refreshSheet(); },
+  dyDay: el => { if (el.dataset.v > today()) return; LX.dy = el.dataset.v; refreshSheet(); },
+  dyM: el => { const ym = ymShift(ymOf(LX.dy || today()), +el.dataset.v); LX.dy = ym === ymOf(today()) ? today() : ym + '-01'; refreshSheet(); },
+  dyMood: el => { dyPut({ m: +el.dataset.v }); haptic(); refreshSheet(); },
+  dyVoice: el => { dyPut({ v: el.dataset.v }); haptic(); refreshSheet(); },
+  dySave: () => { dyPut({ h: +($('dy_h').value || 0) || undefined, s: +($('dy_s').value || 0) || undefined, n: $('dy_n').value.trim().slice(0, 1000) || undefined }); hapticOk(); toast('📔 ' + T.lf.dy.saved); refreshSheet(); }
+};
+
+/* ---------- bot context, morning brief, reminders, weekly summary ---------- */
+function lifeCtx(){
+  if (!mod('life')) return {};
+  return { habits: lfOn('habits') ? state.habits.map(h => h.name) : [], lists: lfOn('lists') ? state.lists.map(l => l.name) : [], fincats: lfOn('fin') ? FN_CATS : [] };
+}
+function lifeMorning(ds){
+  if (!mod('life')) return '';
+  const B = T.lf.brief, L0 = [];
+  if (lfOn('fin') && (typeof can !== 'function' || can('max'))) {
+    const ym = ymOf(ds), d = +ds.slice(8), due = state.bills.filter(b => b.on && !b.paid[ym] && billDueDay(b, ym) === d);
+    if (due.length) L0.push(B.bills(due.map(b => b.name + ' ' + money(b.amt)).join(', ')));
+    const left = fnBudgetLeft(ym); if (left !== null) L0.push(B.budget(money(left)));
+  }
+  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('max'))) L0.push(B.habits(state.habits.map(h => h.e).join(' ')));
+  return L0.length ? '\n\n' + L0.join('\n') : '';
+}
+function lifeNotes(H, morningH){
+  const out = []; if (!lfOn('fin') || (typeof can === 'function' && !can('max'))) return out;
+  const now = new Date();
+  for (let k = 0; k < H; k++) {
+    const ds = ymd(addDays(now, k + 1)), ym = ymOf(ds), d = +ds.slice(8);
+    state.bills.filter(b => b.on && !b.paid[ym] && billDueDay(b, ym) === d).forEach(b => {
+      const at = atTime(ymd(addDays(now, k)), 19 * 60);
+      out.push({ k: `bill_${b.id}_${ds}`, at, u: at + 12 * HR, x: '💳 ' + T.lf.brief.bills(b.name + ' ' + money(b.amt)).replace(/^💳\s*/, '') + ' — ' + shortDate(ds) });
+    });
+  }
+  return out;
+}
+function lifeWeek(from, to){
+  if (!mod('life')) return [];
+  const W = T.lf.wk, L0 = [];
+  if (lfOn('fin') && (typeof can !== 'function' || can('max'))) {
+    const ops = state.fin.filter(o => o.d >= from && o.d <= to), o = ops.filter(x => x.t === 'out').reduce((a, x) => a + x.amt, 0), i = ops.filter(x => x.t === 'in').reduce((a, x) => a + x.amt, 0);
+    if (o || i) L0.push(W.money(money(o), i ? money(i) : ''));
+    state.saves.filter(v => v.target && v.sum < v.target).slice(0, 3).forEach(v => L0.push(W.saves(v.name, Math.round(v.sum / v.target * 100))));
+  }
+  if (lfOn('habits') && state.habits.length && (typeof can !== 'function' || can('max'))) {
+    let n = 0, d0 = 0; for (let d = parseD(from); ymd(d) <= to; d = addDays(d, 1)) { const ds = ymd(d); state.habits.forEach(h => { n++; if (hbDone(h, ds)) d0++; }); }
+    if (n) L0.push(W.habits(Math.round(d0 / n * 100)));
+  }
+  return L0;
+}
 
 /* ================= Help: the full guide + «ask about the app» =================
    HELP_DOC is the single source: assemble.py also publishes it as help.json, and the bot reads it from there
@@ -7213,6 +7794,15 @@ const HELP_DOC = [
     'Студия → «Лист ожидания»: кто хочет заниматься, какое время ему удобно, контакт.',
     'Когда урок отменяется (тобой или учеником через бота), на Главной появится подсказка: освободилось такое-то время, первая в листе — такая-то. Нажми — откроется список с кнопкой «Написать».',
     '«Сделать учеником» — переносит человека из листа в ученики со всеми заметками.' ] },
+  { id: 'life', ic: '🌿', t: 'Жизнь и личное: привычки, финансы, вишлист, списки, цели, дневник', p: [
+    'Всё это — во вкладке «Планер», раздел «🌿 Жизнь и личное». Если что-то не нужно — выключи в ⚙️ Настройки → «Разделы приложения».',
+    '🌱 Привычки: до 15 штук, у каждой свой смайлик и цвет. Каждый день месяца — серый смайлик; нажми — станет цветным. Видно серию «🔥 дней подряд», рекорд и сколько дней из месяца выполнено. Отмечать можно и прямо на главной в карточке «☀️ Сегодня», и через бота: «сделала йогу».',
+    '💳 Мои финансы: личные расходы и доходы по категориям, бюджет на месяц по каждой категории, регулярные платежи (аренда, связь — бот напомнит накануне вечером, кнопка «Оплатить» сама запишет расход), копилки с процентом. Итог месяца: доход с уроков и выступлений + другие доходы − расходы = сколько осталось. Быстрее всего — боту: «такси 450», «продукты 3200», «зарплата 30 000».',
+    '🎁 Вишлист: желания с ценой, ссылкой и приоритетом. «Копить на это» создаёт копилку. «Ссылка для близких» — страница, где друзья отмечают «Я подарю»: другие видят, что подарок уже выбран, а ты — нет.',
+    '🛒 Списки: покупки, вещи на выступление, дела по дому. «молоко, хлеб и сыр» одной строкой станет тремя пунктами. «Отправить список» — переслать в Telegram. Через бота: «купить молоко и хлеб».',
+    '🎯 Цели: большая цель и шаги к ней — прогресс считается сам; когда все шаги отмечены, цель достигнута.',
+    '📔 Дневник: настроение (5 смайликов), состояние голоса, сколько пела и спала, заметка. Если голос устаёт несколько дней или болит — приложение подскажет отдохнуть. Видно настроение за весь месяц.',
+    'Утром бот присылает план дня — теперь там же платежи на сегодня, привычки и остаток бюджета; в воскресном обзоре недели — сколько потрачено и как с привычками.' ] },
   { id: 'tour', ic: '🧭', t: 'Обучение и полный гайд', p: [
     'Пошаговое обучение: ⚙️ Настройки → «🧭 Обучение: как пользоваться» (или кнопка в Справке). Приложение подсвечивает каждую часть экрана и объясняет, зачем она и как ей пользоваться — от самого важного к остальному. Новым пользователям оно показывается само при первом запуске.',
     'Полный гайд одним файлом: Справка → «📄 Скачать полный гайд» — бот пришлёт текстовый файл со всеми инструкциями в чат.',
@@ -7333,6 +7923,7 @@ document.addEventListener('keydown', e => { if (e.target && e.target.id === 'hp_
 const MODS = [
   ['students', '👥'], ['money', '💰'], ['studio', '🎹'], ['plan', '📒'],
   ['content', '📱', 'plan'], ['rep', '🎼', 'plan'], ['groups', '🎸', 'plan'], ['people', '🎂', 'plan'], ['notes', '📝', 'plan'], ['comps', '✍️', 'plan'], ['artist', '🎤', 'plan'],
+  ['life', '🌿'], ['habits', '🌱', 'life'], ['fin', '💳', 'life'], ['wish', '🎁', 'life'], ['lists', '🛒', 'life'], ['goals', '🎯', 'life'], ['diary', '📔', 'life'],
   ['ach', '🏆']
 ];
 const errLog = [];
@@ -7412,10 +8003,11 @@ const SUB_DAYS = { y: 395, m6: 196, m3: 91, m1: 30 };
 const SUB_FREE = 0;   // without a subscription: view only
 /* action → minimal plan */
 const SUB_GATE = { plGroups: 'pro', plGroup: 'pro', plNewIn: 'pro', plRep: 'pro', plSong: 'pro', plSet: 'pro', muWorkshop: 'pro', muComp: 'pro', muArtist: 'pro', muPrep: 'pro', muRun: 'pro',
-  muRiderSend: 'pro', x2Warm: 'pro', x2WaitOpen: 'pro', x2Wait: 'pro', x2WaitNew: 'pro', x2Cal: 'pro', gcConnect: 'pro', bkDrive: 'pro', bkDriveNow: 'pro', x2HwSend: 'pro', x2StuLink: 'pro' };
+  muRiderSend: 'pro', x2Warm: 'pro', x2WaitOpen: 'pro', x2Wait: 'pro', x2WaitNew: 'pro', x2Cal: 'pro', gcConnect: 'pro', bkDrive: 'pro', bkDriveNow: 'pro', x2HwSend: 'pro', x2StuLink: 'pro',
+  lfWish: 'pro', lfLists: 'pro', lfGoals: 'pro', lfHabits: 'max', lfFin: 'max', lfDiary: 'max', hbT: 'max' };
 const SUB_KINDS = { gig: 1, reh: 1, post: 1 };          // plNew / plKind with these kinds → Про
 /* view-only mode (subscription ended, more students than the free plan allows): these actions change data */
-const SUB_RO = /^(save(?!Settings$|Api$)\w*|delete\w*|add\w*|archiveStudent|mark|togglePaid|payAll|assignEx|resched|cert(New|Save|Del)|rc(Add|Del)|d(Add|Del|Toggle)|songSave|quizSave|giveNote|req(Ok|No)|swPkg|prizeGive|fab|pl(New|NewDay|NewIn|Save|Del|Done|ClearDone|GroupSave|GroupDel|PersonSave|PersonDel|PersonNew|SongSave|SongDel|SetAdd|SetRm|SetMv)|mu(Save|Del|ArtistSave|Chk|ChkAdd|ChkRm|ChkReset|RelStep|CoAdd|CoRm|VerUse)|x2(WaitSave|WaitDel|WaitToStudent|WarmSave|HwSend|WaitNew))$/;
+const SUB_RO = /^(save(?!Settings$|Api$)\w*|delete\w*|add\w*|archiveStudent|mark|togglePaid|payAll|assignEx|resched|cert(New|Save|Del)|rc(Add|Del)|d(Add|Del|Toggle)|songSave|quizSave|giveNote|req(Ok|No)|swPkg|prizeGive|fab|pl(New|NewDay|NewIn|Save|Del|Done|ClearDone|GroupSave|GroupDel|PersonSave|PersonDel|PersonNew|SongSave|SongDel|SetAdd|SetRm|SetMv)|mu(Save|Del|ArtistSave|Chk|ChkAdd|ChkRm|ChkReset|RelStep|CoAdd|CoRm|VerUse)|x2(WaitSave|WaitDel|WaitToStudent|WarmSave|HwSend|WaitNew)|hb(Save|Del|Pre|T)|fn(OpSave|OpDel|BudgetSave|BillSave|BillDel|Pay|SaveSave|SaveDel|DepGo)|ws(Save|Got|SaveUp|Del)|ls(Create|Pre|Add|T|Clear|Del)|gl(New|Save|Add|T|StepDel|Done|Del)|dy(Mood|Voice|Save))$/;
 
 const subS = () => { const s = state.settings.sub; return s && typeof s === 'object' ? s : null; };
 const subBanned = () => { const s = subS(); return !!(s && s.banned); };
@@ -8205,7 +8797,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF);
 safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
