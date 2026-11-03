@@ -519,6 +519,18 @@ nav.tabs button[hidden]{display:none}
 .gkind .chipsel{flex-wrap:wrap}
 .gbox .sec{margin:12px 2px 2px}
 
+/* 7.5 tour */
+.tour{position:fixed;inset:0;z-index:9999}
+.tour-hole{position:fixed;border-radius:16px;box-shadow:0 0 0 9999px rgba(20,8,12,.68);transition:all .25s ease;pointer-events:none;outline:2px solid rgba(255,255,255,.85)}
+.tour-card{position:fixed;left:16px;right:16px;max-width:460px;margin:0 auto;background:var(--card);color:var(--text);border-radius:18px;padding:16px 16px 12px;box-shadow:0 12px 40px rgba(0,0,0,.35);max-height:78vh;overflow:auto}
+.tour-card b{display:block;font-size:18px;margin:2px 0 6px}.tour-card p{margin:0 0 12px;font-size:15px;line-height:1.45}
+.tour-card.big b{color:var(--accent);font-size:19px}
+.tour-n{opacity:.6;font-size:12px}
+.tour-btns{display:flex;gap:8px;align-items:center;justify-content:flex-end}.tour-btns .btn{width:auto;margin:0;padding:10px 18px}
+.tour-skip{margin-right:auto;background:none;border:0;color:var(--hint);font-size:14px;padding:8px 2px}
+.tour-bot{margin:0 0 10px}
+.tourcard{background:var(--card);border:2px solid var(--accent);border-radius:16px;padding:12px 14px;margin:0 0 12px}
+.tourcard b{display:block;font-size:16px;margin-bottom:4px}.tourcard small{display:block;font-size:13px;line-height:1.4;opacity:.85}.tourcard .btn{margin:10px 0 0}
 /* 7.4 subscriptions */
 .sbplan{padding:12px 14px;margin-bottom:10px}
 .sbplan.sbtop{border:2px solid var(--accent)}
@@ -2626,9 +2638,64 @@ const GCD = {
     dayBeforeAt: (d, t) => d === 1 ? `the day before at ${t}` : `${d} days before at ${t}`, payTitle: (n, d, s) => `${n} — payment for the lesson on ${d} (${s})` }
 };
 const TABP = { ru: 'Планер', en: 'Planner', es: 'Agenda', it: 'Agenda', fr: 'Agenda' };
+/* 7.5: guided tour + explanations in settings */
+const TRD = {
+  ru: { btn: 'Обучение: как пользоваться', next: 'Далее', back: 'Назад', skip: 'Пропустить', done: 'Готово!', of: (a, b) => `${a} из ${b}`,
+    steps: {
+      hi: ['Привет! 👋', 'Это «Мои ученики» — ученики, уроки, деньги и выступления в одном месте. Покажу самое важное — это займёт минуту.'],
+      fab: ['Кнопка «+» — главная', 'Добавляет то, что нужно на этой вкладке: на «Учениках» — ученика, в расписании — урок, в планере — дело или выступление. Начни с неё: добавь первого ученика.'],
+      students: ['Ученики', 'Карточка каждого ученика: телефон, цена, абонементы, домашка, песни, история уроков. Отсюда можно написать ученику в Telegram или WhatsApp одним нажатием.'],
+      lessons: ['Расписание', 'Календарь уроков по дням. Нажми на урок, чтобы отметить «пришёл», «пропустил» или «оплачено» — деньги посчитаются сами.'],
+      kpis: ['Главная — сводка', 'Сколько учеников, уроков в этом месяце, сколько заработано и кто должен. Нажми на любую плитку — откроется подробнее.'],
+      week: ['Неделя', 'Сколько уроков в каждый день недели. Нажми на день — откроется его расписание.'],
+      money: ['Деньги', 'Доходы по месяцам и источникам, долги, расходы, цель на месяц и налог. Всё считается из отмеченных уроков.'],
+      plan: ['Планер', 'Дела, выступления, репетиции, заметки, дни рождения, контент-план. Напоминания приходят от бота.'],
+      studio: ['Студия', 'Инструменты педагога: упражнения, метроном, тюнер, пианино, отчёты, шаблоны сообщений.'],
+      settings: ['Настройки', 'Уведомления, подписка, справка, оформление, резервные копии. Здесь же можно пройти это обучение заново.'],
+      bot: ['⭐ Самое главное: бот всё вносит сам', 'Всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — не нужно ничего заполнять руками.\n\nКак это работает:\n1️⃣ Пишешь или наговариваешь в чат с ботом: «новая ученица Маша, +7 900…, урок в среду в 15:00», «Петя оплатил абонемент на 8 уроков», «концерт 12-го в 19:00 в Плазе», «напомни купить струны».\n2️⃣ Бот показывает, что понял: «Вот что я внесу…».\n3️⃣ Нажимаешь «✅ Внести» — или поправляешь словами, если что-то не так.\n4️⃣ Открываешь приложение — всё уже на месте.\n\nБот понимает уменьшительные имена, «завтра», «в четверг», переносы и отмены. А ещё присылает напоминания перед уроками.'],
+      end: ['Всё готово ✨', 'Данные хранятся в твоём Telegram, плюс автоматические резервные копии. Если что-то непонятно — ⚙️ Настройки → 📖 Справка: там поиск и ответы на вопросы.'] },
+    hints: {
+      top: '💎 Подписка — тариф и коды. 📖 Справка — ответы на любые вопросы. 🎨 Оформление — цвета и подпись. 🧩 Разделы — выключи то, чем не пользуешься, чтобы не мешало. 📆 Календарь — расписание в Google или iPhone.',
+      money: 'Цена и длительность подставляются в каждый новый урок. Цель — полоска прогресса на главной. Налог — сколько отложить с дохода (например, 4 % для самозанятых). Валюта — значок в суммах.',
+      work: 'Рабочие дни и часы нужны, чтобы приложение показывало свободные окошки: для онлайн-записи и подсказок, куда поставить урок. Ссылка на оплату добавляется в сообщения и QR-код для учеников.',
+      nt: 'Уведомления присылает бот в Telegram — даже когда приложение закрыто. ☀️ Утром — план на день: уроки, дела, дни рождения. ⏰ Перед уроком — напоминание за выбранное время. 📝 Вечером — отметить, кто пришёл и кто оплатил. 💸 Долги — кто не заплатил. 📊 Итоги месяца — 1-го числа. 🗓 Обзор недели — по воскресеньям. Всё можно включать по отдельности; «Проверить» — пришлёт тестовое сообщение.',
+      store: 'Данные хранятся в облаке Telegram и не пропадут при смене телефона. Резервные копии делаются сами — на телефоне, в Google Drive и в чате с ботом; из любой можно всё восстановить.' },
+    ob: { title: 'Давай познакомимся 👋', text: 'Пара вопросов — и приложение подстроится под тебя. Всё можно поменять потом в настройках.',
+      name: 'Как тебя зовут?', namePh: 'Например, Маша', does: 'Чем ты занимаешься? (можно несколько)', what: 'Что преподаёшь?', other: 'Свой вариант', otherPh: 'Например, барабаны',
+      brand: 'Подпись на главной — название студии или как тебя знают ученики', brandHint: 'Можно оставить пустым.', go: 'Готово — поехали!', later: 'Пропустить',
+      roles: { teach: '🎓 Преподаю', perform: '🎤 Выступаю', write: '✍️ Пишу песни', smm: '📱 Веду соцсети' },
+      subj: { vocal: 'Вокал', piano: 'Фортепиано', guitar: 'Гитара', other: 'Другое' }, subjShort: { vocal: 'вокал', piano: 'фортепиано', guitar: 'гитара' } },
+    guide: 'Скачать полный гайд', openBot: 'Открыть бота', botCard: ['🤖 Бот вносит всё сам', 'Напиши или наговори боту — «урок с Машей в среду в 15:00», «Петя оплатил» — он покажет, что понял, ты жмёшь «✅ Внести», и всё появляется в приложении.'], guideSent: 'Гайд отправлен в чат с ботом 📄', guideTitle: 'Мои ученики — полный гайд' },
+  en: { btn: 'Tutorial: how to use it', next: 'Next', back: 'Back', skip: 'Skip', done: 'Done!', of: (a, b) => `${a} of ${b}`,
+    steps: {
+      hi: ['Hi there! 👋', 'This is “My Students” — students, lessons, money and gigs in one place. I’ll show you the most important things — it takes a minute.'],
+      fab: ['The “+” button', 'Adds what fits the current tab: a student on “Students”, a lesson in the schedule, a task or gig in the planner. Start here: add your first student.'],
+      students: ['Students', 'A card for every student: phone, price, packages, homework, songs, lesson history. Message a student on Telegram or WhatsApp with one tap.'],
+      lessons: ['Schedule', 'Lessons by day. Tap a lesson to mark “came”, “missed” or “paid” — money is counted automatically.'],
+      kpis: ['Home — summary', 'Students, lessons this month, earnings and who owes you. Tap any tile for details.'],
+      week: ['Week', 'Lessons per day this week. Tap a day to open its schedule.'],
+      money: ['Money', 'Income by month and source, debts, expenses, monthly goal and tax. Everything comes from the lessons you mark.'],
+      plan: ['Planner', 'Tasks, gigs, rehearsals, notes, birthdays, content plan. Reminders come from the bot.'],
+      studio: ['Studio', 'Teacher tools: exercises, metronome, tuner, piano, reports, message templates.'],
+      settings: ['Settings', 'Notifications, subscription, help, look, backups. You can also replay this tutorial here.'],
+      bot: ['⭐ Most important: the bot fills everything in', 'Anything you write to the bot or say in a voice message, it adds to the app by itself — no need to fill forms by hand.\n\nHow it works:\n1️⃣ Write or speak in the bot chat: “new student Masha, +7 900…, lesson on Wednesday at 3 pm”, “Peter paid for 8 lessons”, “gig on the 12th at 7 pm at Plaza”, “remind me to buy strings”.\n2️⃣ The bot shows what it understood: “Here’s what I’ll add…”.\n3️⃣ Tap “✅ Add” — or correct it in words.\n4️⃣ Open the app — it’s all there.\n\nIt understands nicknames, “tomorrow”, “on Thursday”, moves and cancellations. It also sends reminders before lessons.'],
+      end: ['All set ✨', 'Your data lives in your Telegram, plus automatic backups. If anything is unclear — ⚙️ Settings → 📖 Help: search and answers to questions.'] },
+    hints: {
+      top: '💎 Subscription — plan and codes. 📖 Help — answers to any question. 🎨 Look — colours and signature. 🧩 Sections — switch off what you don’t use. 📆 Calendar — your schedule in Google or iPhone.',
+      money: 'Price and duration are filled into every new lesson. The goal is the progress bar on Home. Tax — how much to set aside. Currency — the symbol in amounts.',
+      work: 'Working days and hours let the app show free slots: for online booking and lesson suggestions. The payment link is added to messages and the QR code for students.',
+      nt: 'Notifications come from the bot in Telegram — even when the app is closed. ☀️ Morning — the day plan. ⏰ Before a lesson — a reminder. 📝 Evening — mark who came and paid. 💸 Debts — who hasn’t paid. 📊 Month summary — on the 1st. 🗓 Weekly review — on Sundays. Each can be switched separately; “Test” sends a test message.',
+      store: 'Data is stored in Telegram’s cloud and survives a phone change. Backups are made automatically — on the phone, in Google Drive and in the bot chat; everything can be restored from any of them.' },
+    ob: { title: 'Let’s get acquainted 👋', text: 'A couple of questions and the app adapts to you. You can change everything later in settings.',
+      name: 'What’s your name?', namePh: 'For example, Masha', does: 'What do you do? (choose any)', what: 'What do you teach?', other: 'Something else', otherPh: 'For example, drums',
+      brand: 'Line on the home screen — your studio name or how students know you', brandHint: 'You can leave it empty.', go: 'Done — let’s go!', later: 'Skip',
+      roles: { teach: '🎓 I teach', perform: '🎤 I perform', write: '✍️ I write songs', smm: '📱 I run social media' },
+      subj: { vocal: 'Vocals', piano: 'Piano', guitar: 'Guitar', other: 'Other' }, subjShort: { vocal: 'vocals', piano: 'piano', guitar: 'guitar' } },
+    guide: 'Download the full guide', openBot: 'Open the bot', botCard: ['🤖 The bot fills it in', 'Write or speak to the bot — “lesson with Masha on Wednesday at 3 pm”, “Peter paid” — it shows what it understood, you tap “✅ Add”, and it appears in the app.'], guideSent: 'The guide was sent to the bot chat 📄', guideTitle: 'My Students — full guide' }
+};
 /* neutral texts for everyone except Sasha's family (see famT in js_sub.js) */
 const NEU = {
-  ru: { loading: 'Загрузка… настраиваем микрофон 🎤', about: '«Мои ученики» — ученики, уроки, деньги и выступления в одном месте. Нашли баг или есть идея — напишите боту. А ещё здесь спрятаны пасхалки… 🤫',
+  ru: { name: '', brand: 'Например: Маша Иванова · вокал', fCallMePh: 'Например, Маша', loading: 'Загрузка… настраиваем микрофон 🎤', about: '«Мои ученики» — ученики, уроки, деньги и выступления в одном месте. Нашли баг или есть идея — напишите боту. А ещё здесь спрятаны пасхалки… 🤫',
     tSavedSanya: 'Сохранено 👍', madeBy: 'Мои ученики · сделано с любовью к музыке ✨',
     sanya: ['Привет! 👋', 'Ты отлично справляешься ❤️', 'Каждый урок — шаг вперёд 🎶', 'Ученикам повезло с тобой 💐', 'Сделай паузу и выпей воды 💧', 'Так держать! 💪', 'Ты на верном пути ✨', 'Музыка делает мир лучше 🎵'],
     prizeL: 'Заслуженная награда', prizeX: 'Ты молодец! Такое достижение стоит отметить — побалуй себя: купи что-нибудь приятное, сходи в любимое кафе или по магазинам 🛍', prizeShow: 'Побалуй себя — ты это заслужил(а)!',
@@ -2650,7 +2717,7 @@ const NEU = {
     wrapLetter: '{n}, это был потрясающий год. Столько людей запели благодаря тебе! Дальше будет ещё интереснее ❤️',
     bx: { hintOff: 'Ввод через бота пока не настроен' },
     bk: { how: [, , , , , 'Если экран приложения не грузится вообще — нажми «Скопировать данные» на экране ошибки и сохрани текст: из него всё восстановится.'] } },
-  en: { loading: 'Loading… tuning the microphone 🎤', about: '“My Students” — students, lessons, money and gigs in one place. Found a bug or have an idea — write to the bot. And there are hidden easter eggs… 🤫',
+  en: { name: '', brand: 'For example: Masha Ivanova · vocals', fCallMePh: 'For example, Masha', loading: 'Loading… tuning the microphone 🎤', about: '“My Students” — students, lessons, money and gigs in one place. Found a bug or have an idea — write to the bot. And there are hidden easter eggs… 🤫',
     tSavedSanya: 'Saved 👍', madeBy: 'My Students · made with love for music ✨',
     sanya: ['Hi there! 👋', 'You’re doing great ❤️', 'Every lesson is a step forward 🎶', 'Your students are lucky to have you 💐', 'Take a break and drink some water 💧', 'Keep it up! 💪', 'You’re on the right track ✨', 'Music makes the world better 🎵'],
     prizeL: 'Well-deserved reward', prizeX: 'Well done! This is worth celebrating — treat yourself: buy something nice, go to your favourite café or go shopping 🛍', prizeShow: 'Treat yourself — you deserve it!',
@@ -2710,7 +2777,7 @@ const SBD = {
     errs: { trialUsed: 'This account has already had a trial — a subscription code is needed', hasSub: 'You already have a subscription 🙂', nocode: 'No such code — check the letters and digits', used: 'This code has already been used', revoked: 'This code was cancelled', mine: 'You have already activated this code', life: 'You already have a lifetime plan of this level', fail: 'Didn’t work — check the internet and try again' },
     f: { income: 'Income by source', week: 'Weekly review' }, open: 'Open', banT: 'Access closed', banX: 'Access to the app is closed for this account.' }
 };
-for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en;
+for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -2796,7 +2863,7 @@ const lessonsW = n => `${n} ${pl(n, T.w.lesson)}`;
 const userName = () => String(state.settings.name || (tgUser && tgUser.first_name) || T.name).trim();
 const withName = s => String(s).replace(/\{n\}/g, userName());
 /* the line under the greeting: anyone can write their own (studio, company…); "-" hides it */
-const brandLine = () => { const b = String(state.settings.brand == null ? '' : state.settings.brand).trim(); return !b ? T.brand : b === '-' ? '' : b.slice(0, 60); };
+const brandLine = () => { const b = String(state.settings.brand == null ? '' : state.settings.brand).trim(); return !b ? (typeof famOn === 'function' && !famOn() ? '' : T.brand) : b === '-' ? '' : b.slice(0, 60); };
 const quoteNow = () => withName(quotePool.length ? quotePool[quoteIdx % quotePool.length] : '');
 const praise = () => withName(pick(T.praise));
 const savedMsg = () => Math.random() < 0.3 ? T.tSavedSanya : T.tSaved;
@@ -4219,11 +4286,14 @@ function settingsSheet(){
       <div class="langs">${Object.keys(LANGS).map(c => `<button data-act="setLang" data-v="${c}" class="${c === L ? 'on' : ''}"><span class="fl">${LANGS[c].flag}</span>${esc(LANGS[c].name)}</button>`).join('')}</div>
       <div class="sec" style="margin-top:0"><span>${esc(T.theme)}</span></div>
       <div class="chipsel" style="margin:0 0 10px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${S.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>
+      <div class="tourcard"><b>${esc(T.tr.botCard[0])}</b><small>${esc(T.tr.botCard[1])}</small>${inTG && botUser ? `<button class="btn soft sm" data-act="openTg" data-v="https://t.me/${esc(botUser)}">💬 ${esc(T.tr.openBot)}</button>` : ''}</div>
       ${safe(subSettingsBtn, '')}
+      <button class="btn soft" data-act="trStart" style="margin:0 0 10px">🧭 ${esc(T.tr.btn)}</button>
       <button class="btn soft" data-act="help" style="margin:0 0 10px">📖 ${esc(T.hp.btn)}</button>
       <button class="btn ghost" data-act="look" style="margin:0 0 10px">🎨 ${esc(T.lk.btn)}</button>
       <button class="btn ghost" data-act="mods" style="margin:0 0 10px">🧩 ${esc(T.md.title)}</button>
       ${inTG && S.api ? `<button class="btn ghost" data-act="x2Cal" style="margin:0 0 10px">📆 ${esc(T.x2.cal)}</button>` : ''}
+      <div class="hintline" style="margin:-2px 8px 12px;text-align:left">${esc(T.tr.hints.top)}</div>
       <div class="group" style="margin-bottom:14px"><div class="field toggle"><span>🔊 ${esc(T.lk.fx)}</span><button type="button" class="sw${S.fx === 0 ? '' : ' on'}" data-act="fxSw"></button></div></div>
       <div class="group"><div class="field"><label for="o_name">${esc(T.fCallMe)}</label><input id="o_name" value="${esc(userName())}" placeholder="${esc(T.fCallMePh)}" autocomplete="off"></div>
         <div class="field"><label for="o_brand">✍️ ${esc(T.lk.brand)}</label><input id="o_brand" value="${esc(S.brand || '')}" placeholder="${esc(T.brand)}" maxlength="60" autocomplete="off"></div>
@@ -4237,17 +4307,20 @@ function settingsSheet(){
           <div class="field"><label for="o_dur">${esc(T.fDefDur)}</label><input type="number" inputmode="numeric" min="0" id="o_dur" value="${esc(S.dur)}"></div></div>
         <div class="field"><label for="o_cur">${esc(T.fCur)}</label><input id="o_cur" value="${esc(S.cur)}" maxlength="4"></div></div>
       <div class="hintline" style="margin:-4px 8px 4px">${esc(T.taxHint)}</div>
+      <div class="hintline" style="margin:0 8px 4px;text-align:left">${esc(T.tr.hints.money)}</div>
       <div class="sec"><span>${esc(T.workSec)}</span></div>
       <div class="group"><div class="field"><span class="lb">${esc(T.workDays)}</span><div class="chipsel" id="o_days">${wd}</div></div>
         <div class="two"><div class="field"><label for="o_wfrom">${esc(T.workFrom)}</label><input type="time" id="o_wfrom" value="${esc(S.work.from)}"></div>
           <div class="field"><label for="o_wto">${esc(T.workTo)}</label><input type="time" id="o_wto" value="${esc(S.work.to)}"></div></div></div>
       <div class="group" style="margin-top:12px"><div class="field"><label for="o_pay">📲 ${esc(T.payLinkL)}</label><input id="o_pay" value="${esc(S.payLink || '')}" placeholder="${esc(T.payLinkPh)}" autocapitalize="off"></div></div>
+      <div class="hintline" style="margin:6px 8px 8px;text-align:left">${esc(T.tr.hints.work)}</div>
       <button class="btn" data-act="saveSettings">${esc(T.save)}</button>
-      <div class="sec"><span>🔔 ${esc(T.ntSec)}</span></div>${bot}${bookSettings()}
+      <div class="sec"><span>🔔 ${esc(T.ntSec)}</span></div><div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(T.tr.hints.nt)}</div>${bot}${bookSettings()}
       <button class="btn ghost" data-act="whatsNew" style="margin-top:14px">🆕 ${esc(T.wn.history)} · ${esc(CHANGES[0].name)}</button>
       ${ver('8.0') ? `<button class="btn ghost" data-act="home">${esc(T.homeIcon)}</button>` : ''}
       <div class="sec"><span>${esc(T.storeSec)}</span></div>
       <div class="hintline" style="margin-top:0">${esc(useCloud ? T.storeCloud : inTG ? T.storeOld : T.storeLocal)} ${esc(T.storeTip)}</div>
+      <div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(T.tr.hints.store)}</div>
       <button class="btn ghost" data-act="backups">🛟 ${esc(T.bk.title)}</button>
       <button class="btn ghost" data-act="backup">${esc(T.backupBtn)}</button>
       <button class="btn ghost" data-act="restore">${esc(T.restoreBtn)}</button>
@@ -5174,8 +5247,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 20;
+const APP_VER = 21;
 const CHANGES = [
+  { v: 21, name: '7.5', date: '2026-11-03',
+    ru: { add: ['👋 Первое знакомство: при первом запуске приложение спрашивает имя, чем ты занимаешься и что писать на главной — и подстраивается под тебя', '🧭 Пошаговое обучение: приложение подсвечивает каждую часть экрана и объясняет, зачем она — ⚙️ Настройки → «Обучение»', '📄 Полный гайд одним файлом — Справка → «Скачать полный гайд»'],
+      better: ['⚙️ В настройках объяснено, зачем каждая настройка и как работают уведомления', '🤖 Главное на виду: всё, что напишешь или скажешь боту, он сам внесёт в приложение'] },
+    en: { add: ['👋 First meeting: on the first launch the app asks your name, what you do and what to show on Home — and adapts to you', '🧭 Step-by-step tutorial: the app highlights each part of the screen and explains it — ⚙️ Settings → “Tutorial”', '📄 The full guide as one file — Help → “Download the full guide”'],
+      better: ['⚙️ Settings now explain what each option does and how notifications work', '🤖 The key feature up front: whatever you write or say to the bot, it adds to the app'] } },
   { v: 20, name: '7.4.1', date: '2026-11-03',
     ru: { better: ['🛡 Надёжнее: доступ к приложению проверяется сервером'] },
     en: { better: ['🛡 More reliable: app access is checked by the server'] } },
@@ -7135,6 +7213,10 @@ const HELP_DOC = [
     'Студия → «Лист ожидания»: кто хочет заниматься, какое время ему удобно, контакт.',
     'Когда урок отменяется (тобой или учеником через бота), на Главной появится подсказка: освободилось такое-то время, первая в листе — такая-то. Нажми — откроется список с кнопкой «Написать».',
     '«Сделать учеником» — переносит человека из листа в ученики со всеми заметками.' ] },
+  { id: 'tour', ic: '🧭', t: 'Обучение и полный гайд', p: [
+    'Пошаговое обучение: ⚙️ Настройки → «🧭 Обучение: как пользоваться» (или кнопка в Справке). Приложение подсвечивает каждую часть экрана и объясняет, зачем она и как ей пользоваться — от самого важного к остальному. Новым пользователям оно показывается само при первом запуске.',
+    'Полный гайд одним файлом: Справка → «📄 Скачать полный гайд» — бот пришлёт текстовый файл со всеми инструкциями в чат.',
+    'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — покажет, что понял, ты жмёшь «✅ Внести».' ] },
   { id: 'sub', ic: '💎', t: 'Подписка и коды', p: [
     'Тарифы: без подписки приложение работает в режиме просмотра. «Про» — всё без ограничений: ученики, Google Календарь, копии в Google Drive, ученики в боте, бот текстом, выступления, коллективы, песни, райдер. «Макс» — всё из Про плюс голосовые и напетые мелодии в боте.',
     'Сроки и цены. Макс: Учебный год (13 месяцев — месяц в подарок) 2 599 ₽, Полугодие (+2 недели) 1 690 ₽, Четверть 990 ₽, Попробовать (1 месяц) 390 ₽. Про: 1 590 / 1 090 / 649 / 249 ₽.',
@@ -7225,6 +7307,7 @@ function helpSheet(){
     return sheetHead('📖 ' + T.hp.title)
       + (canAsk ? `<div class="hask"><b>🤖 ${esc(T.hp.ask)}</b>${chat}${HX.busy ? `<div class="hqa">…</div>` : ''}${HX.err ? `<div class="hintline" style="color:var(--danger)">${esc(HX.err)}</div>` : ''}
         <div class="muadd"><input id="hp_ask" placeholder="${esc(T.hp.askPh)}" autocomplete="off"${HX.busy ? ' disabled' : ''}><button class="mini ok" data-act="hpAsk"${HX.busy ? ' disabled' : ''}>➤</button></div></div>` : '')
+      + `<div class="pair2" style="margin:0 0 10px"><button class="btn soft sm" data-act="trStart">🧭 ${esc(T.tr.btn)}</button><button class="btn ghost sm" data-act="trGuide">📄 ${esc(T.tr.guide)}</button></div>`
       + `<div class="field psearch"><input id="hp_q" value="${esc(HX.q)}" placeholder="🔎 ${esc(T.hp.search)}" autocomplete="off"></div>`
       + (secs.length ? secs.map(s => { const open = q || HX.open === s.id;
         return `<div class="hsec${open ? ' on' : ''}"><button class="hhead" data-act="hpOpen" data-v="${s.id}"><span>${s.ic} ${esc(s.t)}</span><i>${open ? '−' : '+'}</i></button>${open ? `<div class="hbody">${s.p.filter(x => !q || x.toLowerCase().includes(q) || s.t.toLowerCase().includes(q)).map(x => `<p>${esc(x)}</p>`).join('')}</div>` : ''}</div>`; }).join('')
@@ -7440,7 +7523,7 @@ function subApply(sub){
   safe(() => { if (T !== famT(L)) { applyLang(L); renderNav(); } });
   if (wasBanned) { render(); return; }
   /* first time without a subscription: show how to start (trial / code) once per session */
-  if (sub.on && readOnly() && !subShown && !stack.length && ready) { subShown = true; setTimeout(() => { if (!stack.length) openSheet(subSheet()); }, 800); }
+  if (sub.on && readOnly() && !subShown && !stack.length && ready && !(typeof tourOn !== 'undefined' && tourOn) && !(typeof tourPending === 'function' && tourPending())) { subShown = true; setTimeout(() => { if (!stack.length) openSheet(subSheet()); }, 800); }
   const top = stack[stack.length - 1];
   if (top && (top.isSub || top.isSettings)) refreshSheet(); else if (!stack.length) render();
 }
@@ -7493,6 +7576,134 @@ safe(() => { maybeSecret = (o => (...a) => famOn() ? o(...a) : undefined)(maybeS
 safe(() => { checkCapsules = (o => (...a) => famOn() ? o(...a) : undefined)(checkCapsules); });
 safe(() => { if (T !== famT(L)) applyLang(L); });
 safe(() => { playVoice = (o => (...a) => famOn() ? o(...a) : undefined)(playVoice); });
+/* ================= 7.5: guided tour (spotlight + explanation), settings hints, downloadable guide ================= */
+/* steps from the most important to the least; target = selector (on the Home tab) or null for a centred card */
+const TOUR = [
+  ['hi', null], ['bot', null, true], ['fab', '#fab', false, 'students'], ['students', '#tabs [data-v=students]', false, 'students'], ['lessons', '#tabs [data-v=lessons]'],
+  ['kpis', '#app .kpis'], ['week', '#app .week'], ['money', '#tabs [data-v=money]'], ['plan', '#tabs [data-v=plan]'],
+  ['studio', '#tabs [data-v=studio]'], ['settings', '#app [data-act=settings]'], ['end', null]
+];
+let tourOn = false, tourI = 0, tourList = [];
+const tourVis = sel => { if (!sel) return true; const e = document.querySelector(sel); if (!e) return false; const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !e.hidden && getComputedStyle(e).display !== 'none'; };
+function tourStart(){
+  try { closeSheet(true); } catch (e) {}
+  /* keep only the steps whose target exists (sections can be switched off, a new user has no summary yet) */
+  tourList = TOUR.filter(s => { const tb = s[3] || 'home'; if (ui.tab !== tb) { ui.tab = tb; render(); } return tourVis(s[1]); });
+  ui.tab = 'home'; render(); window.scrollTo(0, 0);
+  tourOn = true; tourI = 0;
+  let el = $('tour');
+  if (!el) { el = document.createElement('div'); el.id = 'tour'; el.className = 'tour'; document.body.appendChild(el); }
+  el.innerHTML = '<div class="tour-hole"></div><div class="tour-card"></div>';
+  el.hidden = false;
+  tourShow();
+}
+function tourEnd(){
+  tourOn = false; const el = $('tour'); if (el) el.hidden = true;
+  if (!state.settings.tourDone) { state.settings.tourDone = 1; save(); }
+  try { lsSetK('vs_tour', '1'); } catch (e) {}
+  if (ui.tab !== 'home') { ui.tab = 'home'; render(); }
+  /* new user without a subscription: now show how to start */
+  safe(() => { if (readOnly() && !stack.length) openSheet(subSheet()); });
+}
+function tourShow(){
+  const st = tourList[tourI]; if (!st) return tourEnd();
+  const [id, sel, isBot, tb] = st, [title, text] = T.tr.steps[id] || ['', ''];
+  if (ui.tab !== (tb || 'home')) { ui.tab = tb || 'home'; render(); window.scrollTo(0, 0); }
+  const hole = document.querySelector('#tour .tour-hole'), card = document.querySelector('#tour .tour-card');
+  const t = sel && document.querySelector(sel);
+  if (t) t.scrollIntoView({ block: 'center', behavior: 'instant' });
+  const vh = window.innerHeight, vw = window.innerWidth;
+  let r = t ? t.getBoundingClientRect() : null;
+  if (r) { const p = 6; hole.style.cssText = `left:${r.left - p}px;top:${r.top - p}px;width:${r.width + 2 * p}px;height:${r.height + 2 * p}px`; }
+  else hole.style.cssText = `left:${vw / 2}px;top:${vh / 2}px;width:0;height:0`;
+  const last = tourI === tourList.length - 1;
+  card.className = 'tour-card' + (isBot ? ' big' : '');
+  card.innerHTML = `<small class="tour-n">${esc(T.tr.of(tourI + 1, tourList.length))}</small><b>${esc(title)}</b><p>${esc(text).replace(/\n/g, '<br>')}</p>
+    ${isBot && botUser ? `<button class="btn soft tour-bot">💬 ${esc(T.tr.openBot)} @${esc(botUser)}</button>` : ''}
+    <div class="tour-btns">${last ? '' : `<button class="tour-skip">${esc(T.tr.skip)}</button>`}${tourI ? `<button class="btn ghost sm tour-back">${esc(T.tr.back)}</button>` : ''}<button class="btn sm tour-next">${esc(last ? T.tr.done : T.tr.next)}</button></div>`;
+  /* card below the target if there is room, otherwise above; centred when no target */
+  card.style.top = card.style.bottom = '';
+  if (!r) { card.style.top = Math.max(16, (vh - card.offsetHeight) / 2) + 'px'; }
+  else if (r.bottom + 16 + card.offsetHeight < vh - 8) card.style.top = (r.bottom + 16) + 'px';
+  else card.style.top = Math.max(8, r.top - 16 - card.offsetHeight) + 'px';
+  const on = (c, f) => { const b = card.querySelector(c); if (b) b.onclick = e => { e.stopPropagation(); haptic(); f(); }; };
+  on('.tour-next', () => { tourI++; tourShow(); });
+  on('.tour-back', () => { tourI = Math.max(0, tourI - 1); tourShow(); });
+  on('.tour-skip', tourEnd);
+  on('.tour-bot', () => openUrl('https://t.me/' + botUser, true));
+}
+window.addEventListener('resize', () => { if (tourOn) tourShow(); });
+function tourPending(){ let seen = ''; try { seen = lsGetK('vs_tour'); } catch (e) {} return !window.__noTour && seen !== '1' && !state.settings.tourDone && !state.students.length && !state.lessons.length; }
+/* first launch: a brand-new user (no data yet) gets the tour once */
+function tourMaybe(){
+  if (window.__noTour) return;   // automated tests
+  let seen = ''; try { seen = lsGetK('vs_tour'); } catch (e) {}
+  if (seen === '1' || state.settings.tourDone || state.students.length || state.lessons.length || stack.length) { if (!state.settings.tourDone && (state.students.length || state.lessons.length)) { state.settings.tourDone = 1; save(); } return; }
+  setTimeout(() => { if (!tourOn && !stack.length) openSheet(obSheet()); }, 1000);
+}
+
+/* ---------- downloadable guide: tour + settings explanations + the whole help ---------- */
+function guideText(){
+  const L0 = [T.tr.guideTitle.toUpperCase(), '='.repeat(30), ''];
+  TOUR.forEach(([id]) => { const s = T.tr.steps[id]; if (s) L0.push('■ ' + s[0], s[1], ''); });
+  L0.push('■ ' + T.settings, T.tr.hints.top, '', T.tr.hints.nt, '', T.tr.hints.money, '', T.tr.hints.work, '', T.tr.hints.store, '', '='.repeat(30), '');
+  HELP_DOC.forEach(s => { L0.push(s.ic + ' ' + s.t.toUpperCase()); s.p.forEach(p => L0.push('• ' + p)); L0.push(''); });
+  return L0.join('\n');
+}
+const TR = {
+  trStart: () => tourStart(),
+  trGuide: async () => {
+    const txt = guideText();
+    if (inTG && state.settings.api) {
+      try { await botPost({ a: 'report', name: 'moi-ucheniki-gaid.txt', csv: txt, caption: '📖 ' + T.tr.guideTitle }, 60000); return toast(T.tr.guideSent, 3000); } catch (e) {}
+    }
+    try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain;charset=utf-8' })); a.download = 'moi-ucheniki-gaid.txt'; document.body.appendChild(a); a.click(); a.remove(); }
+    catch (e) { showText(T.tr.guideTitle, txt); }
+  }
+};
+
+/* ---------- first launch: «давай познакомимся» → then the tour ---------- */
+const OB = { roles: { teach: 1 }, subj: 'vocal' };
+function obSheet(){
+  const fn = () => { const X = T.tr.ob, nm = (tgUser && tgUser.first_name) || '';
+    return sheetHead(X.title) + `<div class="sbnote">${esc(X.text)}</div>
+      <div class="group"><div class="field"><label for="ob_name">${esc(X.name)}</label><input id="ob_name" value="${esc(OB.name != null ? OB.name : (state.settings.name || nm))}" placeholder="${esc(X.namePh)}" autocomplete="off"></div></div>
+      <div class="sec"><span>${esc(X.does)}</span></div>
+      <div class="chipsel" style="margin:0 0 10px">${Object.keys(X.roles).map(k => `<button type="button" data-act="obRole" data-v="${k}" class="${OB.roles[k] ? 'on' : ''}">${esc(X.roles[k])}</button>`).join('')}</div>
+      ${OB.roles.teach ? `<div class="sec"><span>${esc(X.what)}</span></div>
+      <div class="chipsel" style="margin:0 0 6px">${Object.keys(X.subj).map(k => `<button type="button" data-act="obSubj" data-v="${k}" class="${OB.subj === k ? 'on' : ''}">${esc(X.subj[k])}</button>`).join('')}</div>
+      ${OB.subj === 'other' ? `<div class="group"><div class="field"><input id="ob_other" value="${esc(OB.other || '')}" placeholder="${esc(X.otherPh)}" autocomplete="off"></div></div>` : ''}` : ''}
+      <div class="group" style="margin-top:8px"><div class="field"><label for="ob_brand">✍️ ${esc(X.brand)}</label><input id="ob_brand" value="${esc(OB.brand || '')}" placeholder="${esc(obBrandGuess())}" maxlength="60" autocomplete="off"></div></div>
+      <div class="hintline" style="margin:-4px 8px 10px">${esc(X.brandHint)}</div>
+      <button class="btn" data-act="obGo">${esc(X.go)}</button><button class="btn ghost sm" data-act="obLater" style="margin-top:8px">${esc(X.later)}</button>`; };
+  fn.isOb = true;
+  fn.mount = () => { ['ob_name', 'ob_brand', 'ob_other'].forEach(id => { const e = $(id); if (e) e.oninput = () => { OB[id.slice(3)] = e.value; if (id !== 'ob_brand') { const b = $('ob_brand'); if (b) b.placeholder = obBrandGuess(); } }; }); };
+  return fn;
+}
+function obSubjName(){ const X = T.tr.ob; return OB.subj === 'other' ? String(OB.other || '').trim().toLowerCase() : (X.subjShort[OB.subj] || ''); }
+function obBrandGuess(){ const n = String(OB.name != null ? OB.name : (state.settings.name || (tgUser && tgUser.first_name) || '')).trim(), s = OB.roles.teach ? obSubjName() : ''; return [n, s].filter(Boolean).join(' · ') || T.tr.ob.namePh; }
+function obFinish(apply){
+  if (apply) {
+    const S = state.settings, n = ($('ob_name') ? $('ob_name').value : '').trim(), b = ($('ob_brand') ? $('ob_brand').value : '').trim();
+    if (n) S.name = n.slice(0, 40);
+    S.brand = b ? b.slice(0, 60) : '-';
+    S.role = Object.keys(OB.roles).filter(k => OB.roles[k]); S.subj = OB.roles.teach ? obSubjName() : '';
+    const m = Object.assign({}, S.mods || {});
+    if (!OB.roles.teach) { m.students = 0; m.money = m.money === undefined ? 1 : m.money; }
+    if (!OB.roles.perform) { m.groups = 0; m.artist = 0; }
+    if (!OB.roles.write) m.comps = 0;
+    if (!OB.roles.smm) m.content = 0;
+    S.mods = m; save(); scheduleBotSync();
+  }
+  closeSheet(true); render();
+  setTimeout(tourStart, 400);
+}
+Object.assign(TR, {
+  obRole: el => { const k = el.dataset.v; OB.roles[k] = OB.roles[k] ? 0 : 1; if (!Object.values(OB.roles).some(Boolean)) OB.roles.teach = 1; OB.name = $('ob_name') ? $('ob_name').value : OB.name; refreshSheet(); },
+  obSubj: el => { OB.subj = el.dataset.v; OB.name = $('ob_name') ? $('ob_name').value : OB.name; refreshSheet(); },
+  obGo: () => obFinish(true),
+  obLater: () => obFinish(false)
+});
 
 /* ================= Dialogs ================= */
 let toastT;
@@ -7994,7 +8205,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR);
 safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
@@ -8037,6 +8248,7 @@ async function start(){
   if ((+state.settings.pkgV || 0) < 2) { sidsOf(state.packages).forEach(applyPackages); state.settings.pkgV = 2; dirty = true; }
   if (pendingApi && API_RE.test(pendingApi) && pendingApi !== state.settings.api) { state.settings.api = pendingApi; dirty = true; }
   ready = true;
+  safe(tourMaybe);
   if (dirty) save();
   document.body.classList.remove('booting');
   render();
