@@ -611,6 +611,12 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .hct small{font-size:11px;opacity:.75;white-space:nowrap}
 .hct:active .hci{transform:scale(.92)}
 @keyframes hcp{50%{transform:scale(1.2)}}
+
+/* 7.10 profession */
+.profbtn{width:100%;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.pfrow{width:100%;background:none;border:0;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.pfrow.on .name{font-weight:700}
+.pfrow[hidden],.pfg[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -2955,11 +2961,11 @@ const PKD = {
 };
 const ST8D = {
   ru: { g: { prices: 'Цены и абонементы', work: 'Работа и запись', nt: 'Уведомления', me: 'Под себя', look: 'Оформление', data: 'Данные и копии' },
-    d: { prices: 'Цена урока и аренда для всех услуг, своя цена у каждой услуги, виды абонементов, цель, налог, валюта и длительность урока.', work: 'Рабочие дни и часы, ссылка на оплату, онлайн-запись учеников через бота и календарь в телефоне.', nt: 'Что и когда присылает бот: план на утро, напоминания перед уроками, вечерняя отметка, долги, итоги.', me: 'Как тебя называть, подпись на главной, день рождения. И какие разделы приложения нужны — лишнее можно скрыть.', look: 'Язык, тема, цвета, шрифты, размер и звуки.', data: 'Где хранятся данные, резервные копии и восстановление.' },
+    d: { prices: 'Цена урока и аренда для всех услуг, своя цена у каждой услуги, виды абонементов, цель, налог, валюта и длительность урока.', work: 'Рабочие дни и часы, ссылка на оплату, онлайн-запись учеников через бота и календарь в телефоне.', nt: 'Что и когда присылает бот: план на утро, напоминания перед уроками, вечерняя отметка, долги, итоги.', me: 'Твоя профессия (под неё подстраиваются слова и мотивация), как тебя называть, подпись на главной, день рождения. И какие разделы приложения нужны — лишнее можно скрыть.', look: 'Язык, тема, цвета, шрифты, размер и звуки.', data: 'Где хранятся данные, резервные копии и восстановление.' },
     subPrices: (p, n) => `урок ${p}${n ? ' · ' + n + ' вид. абонементов' : ' · абонементы'}`, subWork: (d, f, t) => `${d} дн. в неделю · ${f}–${t}`, subNtOn: 'бот присылает напоминания', subNtMute: 'выключены', subNtOff: 'нужен бот', subMe: n => `${n} · разделы приложения`, subDataCloud: 'облако Telegram + копии', subDataLocal: 'копии и восстановление',
     hubHint: 'Настройки разделены на группы — нажми нужную. Внутри каждой есть подсказки.', priceSec: 'Цена урока и аренда', moneyMore: 'Цель, налог, валюта, длительность', modsHint: 'Выключи разделы, которыми не пользуешься: ученики и уроки, деньги, студия, планер, привычки, личные финансы, вишлист, дневник и другие. Данные не удаляются — включишь, и всё вернётся.', modsBtn: 'Выбрать разделы приложения' },
   en: { g: { prices: 'Prices & packages', work: 'Work & booking', nt: 'Notifications', me: 'Make it yours', look: 'Look', data: 'Data & backups' },
-    d: { prices: 'Lesson price and rent for all services, a price per service, package types, goal, tax, currency and lesson length.', work: 'Working days and hours, payment link, online booking via the bot and the phone calendar.', nt: 'What the bot sends and when: morning plan, reminders before lessons, evening check, debts, summaries.', me: 'Your name, the line on Home, your birthday. And which sections you need — hide the rest.', look: 'Language, theme, colours, fonts, size and sounds.', data: 'Where data is stored, backups and restore.' },
+    d: { prices: 'Lesson price and rent for all services, a price per service, package types, goal, tax, currency and lesson length.', work: 'Working days and hours, payment link, online booking via the bot and the phone calendar.', nt: 'What the bot sends and when: morning plan, reminders before lessons, evening check, debts, summaries.', me: 'Your profession (words and motivation adapt to it), your name, the line on Home, your birthday. And which sections you need — hide the rest.', look: 'Language, theme, colours, fonts, size and sounds.', data: 'Where data is stored, backups and restore.' },
     subPrices: (p, n) => `lesson ${p}${n ? ' · ' + n + ' package types' : ' · packages'}`, subWork: (d, f, t) => `${d} days a week · ${f}–${t}`, subNtOn: 'the bot sends reminders', subNtMute: 'off', subNtOff: 'needs the bot', subMe: n => `${n} · app sections`, subDataCloud: 'Telegram cloud + backups', subDataLocal: 'backups and restore',
     hubHint: 'Settings are split into groups — tap one. Each has tips inside.', priceSec: 'Lesson price and rent', moneyMore: 'Goal, tax, currency, length', modsHint: 'Turn off sections you don’t use: students and lessons, money, studio, planner, habits, personal money, wishlist, diary and more. Data is kept — turn them back on and everything returns.', modsBtn: 'Choose app sections' }
 };
@@ -2977,9 +2983,311 @@ const RCND = {
   ru: { lists: 'Покупки', wish: 'Вишлист', tasks: 'Дела', goals: 'Цели', fin: 'Траты' },
   en: { lists: 'Shopping', wish: 'Wishlist', tasks: 'To-do', goals: 'Goals', fin: 'Spent' }
 };
-for (const c in I18N) { I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
+const PFD = {
+  ru: { title: 'Чем ты занимаешься?', label: 'Профессия', notSet: 'Выбери профессию', why: 'Под неё подстраиваются слова (урок / тренировка / занятие, ученики / спортсмены / клиенты), мотивация на главной и инструменты',
+    hint: 'Найди свою профессию — приложение подстроит слова, мотивацию и разделы. Поменять можно в любой момент: ⚙️ Настройки → 🧩 Под себя.', search: 'Поиск: хоккей, английский, вождение…', none: 'Ничего не нашлось. Выбери «Другое» внизу списка.',
+    done: n => `Профессия: ${n}. Приложение подстроилось`, hidMusic: 'Музыкальные разделы (песни, репертуар, коллективы, райдер) скрыты — вернуть: 🧩 Разделы приложения', obBtn: 'Другая профессия — найти в списке' },
+  en: { title: 'What do you do?', label: 'Profession', notSet: 'Choose your profession', why: 'Words (lesson / training / class, students / athletes / clients), Home motivation and tools adapt to it',
+    hint: 'Find your profession — the app adapts its words, motivation and sections. You can change it any time: ⚙️ Settings → 🧩 Make it yours.', search: 'Search: hockey, English, driving…', none: 'Nothing found. Choose “Other” at the bottom.',
+    done: n => `Profession: ${n}. The app has adapted`, hidMusic: 'Music sections (songs, repertoire, bands, rider) are hidden — bring them back in 🧩 App sections', obBtn: 'Another profession — find it in the list' }
+};
+for (const c in I18N) { I18N[c].pf = PFD[c] || PFD.en; I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
+/* ================= 7.10: profession — the app adapts its words and motivation =================
+   S.prof = catalog id. No prof (old users) or a vocal profession → everything as before.
+   A group gives: words for students / lessons, motivation & praise (ru, en), which studio tools make sense,
+   which music-only sections to hide when the profession is picked. */
+const PROF_G = {
+  voc: { ic: '🎤', l: 'u', s: 'u', music: 1 }, mus: { ic: '🎹', l: 'u', s: 'u', music: 1 }, dance: { ic: '💃', l: 'z', s: 'u', metro: 1 },
+  team: { ic: '🏒', l: 't', s: 'a' }, sport: { ic: '🏅', l: 't', s: 'a' }, fit: { ic: '💪', l: 't', s: 'c', metro: 1 }, out: { ic: '🏔️', l: 'z', s: 'u' },
+  lang: { ic: '🌍', l: 'u', s: 'u' }, school: { ic: '📚', l: 'u', s: 'u' }, kids: { ic: '🧸', l: 'z', s: 'u' }, art: { ic: '🎨', l: 'z', s: 'u' },
+  stage: { ic: '🎭', l: 'z', s: 'u' }, it: { ic: '💻', l: 'z', s: 'u' }, drive: { ic: '🚗', l: 'z', s: 'u' }, cook: { ic: '👩‍🍳', l: 'z', s: 'u' },
+  beauty: { ic: '💄', l: 'z', s: 'u' }, mind: { ic: '🧠', l: 's', s: 'c' }, other: { ic: '✨', l: 'z', s: 'u' }
+};
+/* [id, group, emoji, ru name, ru subject, en name, en subject] */
+const PROFS = [
+  ['voc_teacher', 'voc', '🎤', 'Педагог по вокалу', 'вокал', 'Vocal teacher', 'vocals'], ['voc_singer', 'voc', '🎙️', 'Вокалист, исполнитель', 'вокал', 'Singer, performer', 'vocals'],
+  ['voc_academic', 'voc', '🎼', 'Педагог по академическому вокалу', 'академический вокал', 'Classical voice teacher', 'classical voice'], ['voc_jazz', 'voc', '🎷', 'Педагог по джазовому вокалу', 'джазовый вокал', 'Jazz vocal teacher', 'jazz vocals'],
+  ['voc_kids', 'voc', '🧒', 'Детский вокал', 'детский вокал', 'Kids vocal teacher', 'kids vocals'], ['voc_choir', 'voc', '🎶', 'Хормейстер', 'хор', 'Choir director', 'choir'],
+  ['piano', 'mus', '🎹', 'Преподаватель фортепиано', 'фортепиано', 'Piano teacher', 'piano'], ['guitar', 'mus', '🎸', 'Преподаватель гитары', 'гитара', 'Guitar teacher', 'guitar'],
+  ['bass', 'mus', '🎸', 'Преподаватель бас-гитары', 'бас-гитара', 'Bass guitar teacher', 'bass'], ['drums', 'mus', '🥁', 'Преподаватель барабанов', 'барабаны', 'Drum teacher', 'drums'],
+  ['violin', 'mus', '🎻', 'Преподаватель скрипки', 'скрипка', 'Violin teacher', 'violin'], ['cello', 'mus', '🎻', 'Преподаватель виолончели', 'виолончель', 'Cello teacher', 'cello'],
+  ['flute', 'mus', '🪈', 'Преподаватель флейты', 'флейта', 'Flute teacher', 'flute'], ['sax', 'mus', '🎷', 'Преподаватель саксофона', 'саксофон', 'Saxophone teacher', 'saxophone'],
+  ['trumpet', 'mus', '🎺', 'Преподаватель трубы', 'труба', 'Trumpet teacher', 'trumpet'], ['accordion', 'mus', '🪗', 'Преподаватель баяна и аккордеона', 'баян', 'Accordion teacher', 'accordion'],
+  ['ukulele', 'mus', '🎸', 'Преподаватель укулеле', 'укулеле', 'Ukulele teacher', 'ukulele'], ['harp', 'mus', '🎼', 'Преподаватель арфы', 'арфа', 'Harp teacher', 'harp'],
+  ['domra', 'mus', '🪕', 'Преподаватель домры и балалайки', 'народные инструменты', 'Folk instruments teacher', 'folk instruments'], ['solfeggio', 'mus', '🎼', 'Сольфеджио и теория музыки', 'сольфеджио', 'Music theory teacher', 'music theory'],
+  ['composition', 'mus', '✍️', 'Композиция и аранжировка', 'композиция', 'Composition teacher', 'composition'], ['dj', 'mus', '🎧', 'DJ-преподаватель', 'диджеинг', 'DJ instructor', 'DJing'],
+  ['sound', 'mus', '🎚️', 'Звукорежиссура', 'звукорежиссура', 'Sound engineering teacher', 'sound engineering'], ['music_school', 'mus', '🏫', 'Преподаватель музыкальной школы', 'музыка', 'Music school teacher', 'music'],
+  ['music_kids', 'mus', '🎵', 'Музыка для малышей', 'музыка для детей', 'Music for toddlers', 'kids music'],
+  ['dance', 'dance', '💃', 'Хореограф, преподаватель танцев', 'танцы', 'Dance teacher, choreographer', 'dance'], ['ballet', 'dance', '🩰', 'Педагог по балету', 'балет', 'Ballet teacher', 'ballet'],
+  ['ballroom', 'dance', '🕺', 'Бальные танцы', 'бальные танцы', 'Ballroom dance teacher', 'ballroom'], ['hiphop', 'dance', '🧢', 'Хип-хоп и брейк-данс', 'хип-хоп', 'Hip-hop and breaking', 'hip-hop'],
+  ['latina', 'dance', '💃', 'Латина, сальса, бачата', 'латина', 'Latin, salsa, bachata', 'latin dance'], ['contemporary', 'dance', '🌊', 'Контемпорари', 'контемпорари', 'Contemporary dance', 'contemporary'],
+  ['kpop', 'dance', '🎵', 'K-pop cover dance', 'k-pop', 'K-pop dance', 'k-pop'], ['pole', 'dance', '🌀', 'Pole dance', 'pole dance', 'Pole dance', 'pole dance'],
+  ['folk_dance', 'dance', '🪭', 'Народные танцы', 'народный танец', 'Folk dance', 'folk dance'], ['kids_dance', 'dance', '👧', 'Детские танцы', 'детские танцы', 'Kids dance', 'kids dance'],
+  ['hockey', 'team', '🏒', 'Тренер по хоккею', 'хоккей', 'Hockey coach', 'hockey'], ['football', 'team', '⚽', 'Тренер по футболу', 'футбол', 'Football coach', 'football'],
+  ['futsal', 'team', '⚽', 'Тренер по мини-футболу', 'мини-футбол', 'Futsal coach', 'futsal'], ['basketball', 'team', '🏀', 'Тренер по баскетболу', 'баскетбол', 'Basketball coach', 'basketball'],
+  ['volleyball', 'team', '🏐', 'Тренер по волейболу', 'волейбол', 'Volleyball coach', 'volleyball'], ['handball', 'team', '🤾', 'Тренер по гандболу', 'гандбол', 'Handball coach', 'handball'],
+  ['rugby', 'team', '🏉', 'Тренер по регби', 'регби', 'Rugby coach', 'rugby'], ['waterpolo', 'team', '🤽', 'Тренер по водному поло', 'водное поло', 'Water polo coach', 'water polo'],
+  ['bandy', 'team', '🏑', 'Тренер по хоккею с мячом и флорболу', 'хоккей с мячом', 'Bandy and floorball coach', 'bandy'], ['goalie', 'team', '🥅', 'Тренер вратарей', 'вратарская подготовка', 'Goalkeeper coach', 'goalkeeping'],
+  ['figure', 'sport', '⛸️', 'Тренер по фигурному катанию', 'фигурное катание', 'Figure skating coach', 'figure skating'], ['skating', 'sport', '⛸️', 'Тренер по катанию на коньках', 'катание на коньках', 'Skating coach', 'skating'],
+  ['speedskate', 'sport', '⛸️', 'Тренер по конькобежному спорту', 'конькобежный спорт', 'Speed skating coach', 'speed skating'], ['gymnastics', 'sport', '🤸', 'Тренер по спортивной гимнастике', 'гимнастика', 'Gymnastics coach', 'gymnastics'],
+  ['rhythmic', 'sport', '🎀', 'Тренер по художественной гимнастике', 'художественная гимнастика', 'Rhythmic gymnastics coach', 'rhythmic gymnastics'], ['acrobatics', 'sport', '🤸', 'Тренер по акробатике', 'акробатика', 'Acrobatics coach', 'acrobatics'],
+  ['trampoline', 'sport', '🦘', 'Тренер по прыжкам на батуте', 'батут', 'Trampoline coach', 'trampoline'], ['athletics', 'sport', '🏃', 'Тренер по лёгкой атлетике', 'лёгкая атлетика', 'Track and field coach', 'athletics'],
+  ['swim', 'sport', '🏊', 'Тренер по плаванию', 'плавание', 'Swimming coach', 'swimming'], ['synchro', 'sport', '🤽', 'Тренер по синхронному плаванию', 'синхронное плавание', 'Artistic swimming coach', 'artistic swimming'],
+  ['tennis', 'sport', '🎾', 'Тренер по теннису', 'теннис', 'Tennis coach', 'tennis'], ['padel', 'sport', '🎾', 'Тренер по паделу', 'падел', 'Padel coach', 'padel'],
+  ['tabletennis', 'sport', '🏓', 'Тренер по настольному теннису', 'настольный теннис', 'Table tennis coach', 'table tennis'], ['badminton', 'sport', '🏸', 'Тренер по бадминтону', 'бадминтон', 'Badminton coach', 'badminton'],
+  ['boxing', 'sport', '🥊', 'Тренер по боксу', 'бокс', 'Boxing coach', 'boxing'], ['kickbox', 'sport', '🥊', 'Тренер по кикбоксингу и тайскому боксу', 'кикбоксинг', 'Kickboxing and Muay Thai coach', 'kickboxing'],
+  ['mma', 'sport', '🥋', 'Тренер по ММА', 'ММА', 'MMA coach', 'MMA'], ['wrestling', 'sport', '🤼', 'Тренер по борьбе', 'борьба', 'Wrestling coach', 'wrestling'],
+  ['judo', 'sport', '🥋', 'Тренер по дзюдо', 'дзюдо', 'Judo coach', 'judo'], ['karate', 'sport', '🥋', 'Тренер по каратэ', 'каратэ', 'Karate coach', 'karate'],
+  ['taekwondo', 'sport', '🥋', 'Тренер по тхэквондо', 'тхэквондо', 'Taekwondo coach', 'taekwondo'], ['sambo', 'sport', '🥋', 'Тренер по самбо', 'самбо', 'Sambo coach', 'sambo'],
+  ['aikido', 'sport', '🥋', 'Инструктор по айкидо', 'айкидо', 'Aikido instructor', 'aikido'], ['bjj', 'sport', '🥋', 'Тренер по джиу-джитсу', 'джиу-джитсу', 'Jiu-jitsu coach', 'jiu-jitsu'],
+  ['fencing', 'sport', '🤺', 'Тренер по фехтованию', 'фехтование', 'Fencing coach', 'fencing'], ['chess', 'sport', '♟️', 'Тренер по шахматам', 'шахматы', 'Chess coach', 'chess'],
+  ['checkers', 'sport', '⚪', 'Тренер по шашкам и го', 'шашки', 'Checkers and Go coach', 'checkers'], ['skiing', 'sport', '🎿', 'Тренер по лыжным гонкам', 'лыжи', 'Cross-country ski coach', 'cross-country skiing'],
+  ['biathlon', 'sport', '🎯', 'Тренер по биатлону', 'биатлон', 'Biathlon coach', 'biathlon'], ['climbing', 'sport', '🧗', 'Тренер по скалолазанию', 'скалолазание', 'Climbing coach', 'climbing'],
+  ['cycling', 'sport', '🚴', 'Тренер по велоспорту', 'велоспорт', 'Cycling coach', 'cycling'], ['triathlon', 'sport', '🏊', 'Тренер по триатлону', 'триатлон', 'Triathlon coach', 'triathlon'],
+  ['equestrian', 'sport', '🏇', 'Тренер по конному спорту', 'конный спорт', 'Riding instructor', 'horse riding'], ['golf', 'sport', '⛳', 'Тренер по гольфу', 'гольф', 'Golf coach', 'golf'],
+  ['shooting', 'sport', '🎯', 'Инструктор по стрельбе', 'стрельба', 'Shooting instructor', 'shooting'], ['archery', 'sport', '🏹', 'Тренер по стрельбе из лука', 'стрельба из лука', 'Archery coach', 'archery'],
+  ['rowing', 'sport', '🚣', 'Тренер по гребле', 'гребля', 'Rowing coach', 'rowing'], ['weightlifting', 'sport', '🏋️', 'Тренер по тяжёлой атлетике и пауэрлифтингу', 'тяжёлая атлетика', 'Weightlifting coach', 'weightlifting'],
+  ['skate', 'sport', '🛹', 'Тренер по скейтборду и самокату', 'скейтбординг', 'Skateboarding coach', 'skateboarding'], ['esports', 'sport', '🎮', 'Тренер по киберспорту', 'киберспорт', 'Esports coach', 'esports'],
+  ['pe', 'sport', '🏫', 'Учитель физкультуры', 'физкультура', 'PE teacher', 'PE'], ['sport_school', 'sport', '🏆', 'Тренер спортивной школы', 'спорт', 'Sports school coach', 'sport'],
+  ['pt', 'fit', '💪', 'Персональный фитнес-тренер', 'фитнес', 'Personal trainer', 'fitness'], ['yoga', 'fit', '🧘', 'Инструктор по йоге', 'йога', 'Yoga instructor', 'yoga'],
+  ['pilates', 'fit', '🤸', 'Тренер по пилатесу', 'пилатес', 'Pilates instructor', 'pilates'], ['stretching', 'fit', '🦵', 'Тренер по растяжке', 'растяжка', 'Stretching coach', 'stretching'],
+  ['crossfit', 'fit', '🏋️', 'Тренер по кроссфиту', 'кроссфит', 'CrossFit coach', 'CrossFit'], ['functional', 'fit', '🔥', 'Функциональный тренинг', 'функциональный тренинг', 'Functional training', 'functional training'],
+  ['aerobics', 'fit', '🤾', 'Инструктор групповых программ', 'групповые тренировки', 'Group fitness instructor', 'group fitness'], ['aqua', 'fit', '💦', 'Инструктор по аквааэробике', 'аквааэробика', 'Aqua aerobics instructor', 'aqua aerobics'],
+  ['running', 'fit', '👟', 'Тренер по бегу', 'бег', 'Running coach', 'running'], ['nutrition', 'fit', '🥗', 'Нутрициолог', 'питание', 'Nutritionist', 'nutrition'],
+  ['rehab', 'fit', '🩺', 'Инструктор ЛФК и реабилитации', 'ЛФК', 'Rehab and exercise therapy', 'exercise therapy'], ['kids_fit', 'fit', '🧒', 'Детский фитнес', 'детский фитнес', 'Kids fitness', 'kids fitness'],
+  ['ski_instr', 'out', '⛷️', 'Инструктор по горным лыжам', 'горные лыжи', 'Ski instructor', 'skiing'], ['snowboard', 'out', '🏂', 'Инструктор по сноуборду', 'сноуборд', 'Snowboard instructor', 'snowboarding'],
+  ['surf', 'out', '🏄', 'Инструктор по сёрфингу', 'сёрфинг', 'Surf instructor', 'surfing'], ['kite', 'out', '🪁', 'Инструктор по кайтсёрфингу и вейку', 'кайтсёрфинг', 'Kitesurf instructor', 'kitesurfing'],
+  ['dive', 'out', '🤿', 'Инструктор по дайвингу и фридайвингу', 'дайвинг', 'Diving instructor', 'diving'], ['sail', 'out', '⛵', 'Инструктор по яхтингу', 'яхтинг', 'Sailing instructor', 'sailing'],
+  ['alpin', 'out', '🏔️', 'Инструктор по альпинизму и туризму', 'альпинизм', 'Mountaineering guide', 'mountaineering'], ['kayak', 'out', '🛶', 'Инструктор по сплаву и SUP', 'сплав', 'Kayak and SUP instructor', 'kayaking'],
+  ['swim_instr', 'out', '🏊', 'Инструктор по плаванию для детей и взрослых', 'плавание', 'Swim instructor', 'swimming'], ['parachute', 'out', '🪂', 'Инструктор по парашютному спорту', 'парашютный спорт', 'Skydiving instructor', 'skydiving'],
+  ['english', 'lang', '🇬🇧', 'Репетитор английского', 'английский', 'English tutor', 'English'], ['german', 'lang', '🇩🇪', 'Репетитор немецкого', 'немецкий', 'German tutor', 'German'],
+  ['french', 'lang', '🇫🇷', 'Репетитор французского', 'французский', 'French tutor', 'French'], ['spanish', 'lang', '🇪🇸', 'Репетитор испанского', 'испанский', 'Spanish tutor', 'Spanish'],
+  ['italian', 'lang', '🇮🇹', 'Репетитор итальянского', 'итальянский', 'Italian tutor', 'Italian'], ['chinese', 'lang', '🇨🇳', 'Репетитор китайского', 'китайский', 'Chinese tutor', 'Chinese'],
+  ['japanese', 'lang', '🇯🇵', 'Репетитор японского', 'японский', 'Japanese tutor', 'Japanese'], ['korean', 'lang', '🇰🇷', 'Репетитор корейского', 'корейский', 'Korean tutor', 'Korean'],
+  ['arabic', 'lang', '🌙', 'Репетитор арабского', 'арабский', 'Arabic tutor', 'Arabic'], ['turkish', 'lang', '🇹🇷', 'Репетитор турецкого', 'турецкий', 'Turkish tutor', 'Turkish'],
+  ['portuguese', 'lang', '🇵🇹', 'Репетитор португальского', 'португальский', 'Portuguese tutor', 'Portuguese'], ['rki', 'lang', '🇷🇺', 'Русский как иностранный', 'русский как иностранный', 'Russian as a foreign language', 'Russian'],
+  ['sign', 'lang', '🤟', 'Преподаватель жестового языка', 'жестовый язык', 'Sign language teacher', 'sign language'],
+  ['math', 'school', '➗', 'Репетитор по математике', 'математика', 'Math tutor', 'math'], ['physics', 'school', '⚛️', 'Репетитор по физике', 'физика', 'Physics tutor', 'physics'],
+  ['chemistry', 'school', '🧪', 'Репетитор по химии', 'химия', 'Chemistry tutor', 'chemistry'], ['biology', 'school', '🧬', 'Репетитор по биологии', 'биология', 'Biology tutor', 'biology'],
+  ['russian', 'school', '📖', 'Репетитор по русскому языку', 'русский язык', 'Russian language tutor', 'Russian'], ['literature', 'school', '📚', 'Репетитор по литературе', 'литература', 'Literature tutor', 'literature'],
+  ['history', 'school', '🏛️', 'Репетитор по истории', 'история', 'History tutor', 'history'], ['social', 'school', '⚖️', 'Репетитор по обществознанию', 'обществознание', 'Social studies tutor', 'social studies'],
+  ['geography', 'school', '🌍', 'Репетитор по географии', 'география', 'Geography tutor', 'geography'], ['informatics', 'school', '💻', 'Репетитор по информатике', 'информатика', 'Computer science tutor', 'computer science'],
+  ['primary', 'school', '✏️', 'Учитель начальных классов', 'начальная школа', 'Primary school teacher', 'primary school'], ['ege', 'school', '📝', 'Подготовка к ЕГЭ и ОГЭ', 'подготовка к экзаменам', 'Exam preparation', 'exam prep'],
+  ['olymp', 'school', '🏅', 'Подготовка к олимпиадам', 'олимпиады', 'Olympiad coach', 'olympiads'], ['teacher', 'school', '🏫', 'Школьный учитель', 'школа', 'School teacher', 'school'],
+  ['tutor', 'school', '🎓', 'Репетитор', 'репетиторство', 'Tutor', 'tutoring'], ['university', 'school', '🎓', 'Преподаватель вуза или колледжа', 'лекции', 'University lecturer', 'lectures'],
+  ['finlit', 'school', '💰', 'Финансовая грамотность', 'финансовая грамотность', 'Financial literacy', 'financial literacy'],
+  ['early', 'kids', '🧸', 'Раннее развитие', 'раннее развитие', 'Early development', 'early development'], ['preschool', 'kids', '🎒', 'Подготовка к школе', 'подготовка к школе', 'School readiness', 'school readiness'],
+  ['speech', 'kids', '🗣️', 'Логопед', 'логопедия', 'Speech therapist', 'speech therapy'], ['defect', 'kids', '🧩', 'Дефектолог', 'дефектология', 'Special education teacher', 'special education'],
+  ['neuro', 'kids', '🧠', 'Нейропсихолог', 'нейропсихология', 'Neuropsychologist', 'neuropsychology'], ['aba', 'kids', '🧩', 'АВА-терапевт', 'АВА-терапия', 'ABA therapist', 'ABA therapy'],
+  ['kids_psy', 'kids', '💛', 'Детский психолог', 'детская психология', 'Child psychologist', 'child psychology'], ['tutor_kids', 'kids', '🤝', 'Тьютор', 'тьюторство', 'Tutor for kids', 'tutoring'],
+  ['nanny', 'kids', '👩‍👧', 'Няня-гувернантка', 'няня', 'Nanny, governess', 'childcare'], ['montessori', 'kids', '🔺', 'Монтессори-педагог', 'монтессори', 'Montessori teacher', 'Montessori'],
+  ['mental', 'kids', '🧮', 'Ментальная арифметика', 'ментальная арифметика', 'Mental arithmetic', 'mental arithmetic'], ['speedread', 'kids', '📖', 'Скорочтение', 'скорочтение', 'Speed reading', 'speed reading'],
+  ['kindergarten', 'kids', '🏡', 'Воспитатель детского сада', 'детский сад', 'Kindergarten teacher', 'kindergarten'],
+  ['drawing', 'art', '🎨', 'Преподаватель рисования', 'рисование', 'Drawing teacher', 'drawing'], ['painting', 'art', '🖼️', 'Преподаватель живописи', 'живопись', 'Painting teacher', 'painting'],
+  ['illustration', 'art', '✏️', 'Иллюстрация и скетчинг', 'иллюстрация', 'Illustration and sketching', 'illustration'], ['sculpture', 'art', '🗿', 'Лепка и скульптура', 'лепка', 'Sculpture and modelling', 'sculpture'],
+  ['ceramics', 'art', '🏺', 'Керамика и гончарное дело', 'керамика', 'Ceramics and pottery', 'ceramics'], ['calligraphy', 'art', '✒️', 'Каллиграфия и леттеринг', 'каллиграфия', 'Calligraphy and lettering', 'calligraphy'],
+  ['photo', 'art', '📷', 'Преподаватель фотографии', 'фотография', 'Photography teacher', 'photography'], ['video', 'art', '🎬', 'Видеосъёмка и монтаж', 'видео', 'Video and editing', 'video'],
+  ['design', 'art', '🖌️', 'Преподаватель дизайна', 'дизайн', 'Design teacher', 'design'], ['sewing', 'art', '🧵', 'Шитьё и кройка', 'шитьё', 'Sewing teacher', 'sewing'],
+  ['knitting', 'art', '🧶', 'Вязание и рукоделие', 'вязание', 'Knitting and crafts', 'knitting'], ['flor', 'art', '💐', 'Флористика', 'флористика', 'Floristry', 'floristry'],
+  ['jewelry', 'art', '💍', 'Ювелирное дело', 'ювелирное дело', 'Jewellery making', 'jewellery'], ['wood', 'art', '🪵', 'Столярное дело и резьба', 'столярное дело', 'Woodworking', 'woodworking'],
+  ['acting', 'stage', '🎭', 'Актёрское мастерство', 'актёрское мастерство', 'Acting coach', 'acting'], ['oratory', 'stage', '🎤', 'Ораторское искусство', 'публичные выступления', 'Public speaking coach', 'public speaking'],
+  ['diction', 'stage', '👄', 'Сценическая речь и дикция', 'сценическая речь', 'Speech and diction', 'diction'], ['standup', 'stage', '😂', 'Стендап и импровизация', 'стендап', 'Stand-up and improv', 'stand-up'],
+  ['host', 'stage', '🎙️', 'Школа ведущих', 'ведение мероприятий', 'Presenter training', 'presenting'], ['model', 'stage', '👠', 'Модельная школа', 'модельное дело', 'Modelling school', 'modelling'],
+  ['voiceover', 'stage', '🎧', 'Озвучка и дубляж', 'озвучка', 'Voice-over training', 'voice-over'], ['circus', 'stage', '🎪', 'Цирковое искусство', 'цирк', 'Circus arts', 'circus'],
+  ['coding', 'it', '💻', 'Преподаватель программирования', 'программирование', 'Coding teacher', 'coding'], ['python', 'it', '🐍', 'Python и анализ данных', 'Python', 'Python and data', 'Python'],
+  ['web', 'it', '🌐', 'Веб-разработка', 'веб-разработка', 'Web development', 'web development'], ['robotics', 'it', '🤖', 'Робототехника', 'робототехника', 'Robotics', 'robotics'],
+  ['gamedev', 'it', '🎮', 'Разработка игр', 'геймдев', 'Game development', 'game dev'], ['scratch', 'it', '🧩', 'Детское программирование', 'программирование для детей', 'Coding for kids', 'kids coding'],
+  ['3d', 'it', '🧊', '3D-моделирование', '3D', '3D modelling', '3D'], ['ai', 'it', '✨', 'Нейросети и ИИ', 'нейросети', 'AI tools', 'AI'],
+  ['pc', 'it', '🖥️', 'Компьютерная грамотность', 'компьютер', 'Computer skills', 'computer skills'],
+  ['driving', 'drive', '🚗', 'Инструктор по вождению', 'вождение', 'Driving instructor', 'driving'], ['moto', 'drive', '🏍️', 'Инструктор по мотоциклу', 'мотоцикл', 'Motorcycle instructor', 'motorcycle'],
+  ['truck', 'drive', '🚚', 'Инструктор по грузовым категориям', 'категория C', 'Truck driving instructor', 'truck driving'], ['boat', 'drive', '🚤', 'Инструктор по судовождению', 'судовождение', 'Boating instructor', 'boating'],
+  ['pilot', 'drive', '✈️', 'Лётный инструктор', 'полёты', 'Flight instructor', 'flying'], ['autodrom', 'drive', '🏁', 'Инструктор контраварийного вождения', 'контраварийное вождение', 'Advanced driving instructor', 'advanced driving'],
+  ['cooking', 'cook', '👩‍🍳', 'Преподаватель кулинарии', 'кулинария', 'Cooking teacher', 'cooking'], ['pastry', 'cook', '🧁', 'Кондитер-преподаватель', 'кондитерское дело', 'Pastry teacher', 'pastry'],
+  ['barista', 'cook', '☕', 'Школа бариста', 'бариста', 'Barista trainer', 'barista'], ['sommelier', 'cook', '🍷', 'Сомелье', 'вино', 'Sommelier', 'wine'],
+  ['bartender', 'cook', '🍸', 'Школа барменов', 'бармен', 'Bartending trainer', 'bartending'],
+  ['makeup', 'beauty', '💄', 'Преподаватель макияжа', 'макияж', 'Makeup teacher', 'makeup'], ['nails', 'beauty', '💅', 'Преподаватель маникюра', 'маникюр', 'Nail art teacher', 'nails'],
+  ['hair', 'beauty', '💇', 'Преподаватель парикмахерского дела', 'парикмахерское дело', 'Hairdressing teacher', 'hairdressing'], ['brows', 'beauty', '✨', 'Обучение бровям и ресницам', 'брови и ресницы', 'Brows and lashes trainer', 'brows and lashes'],
+  ['massage', 'beauty', '💆', 'Преподаватель массажа', 'массаж', 'Massage teacher', 'massage'], ['cosmetology', 'beauty', '🧴', 'Преподаватель косметологии', 'косметология', 'Cosmetology teacher', 'cosmetology'],
+  ['psych', 'mind', '🧠', 'Психолог', 'психология', 'Psychologist', 'psychology'], ['coach', 'mind', '🧭', 'Коуч', 'коучинг', 'Coach', 'coaching'],
+  ['mentor', 'mind', '🤝', 'Наставник, ментор', 'наставничество', 'Mentor', 'mentoring'], ['biz', 'mind', '💼', 'Бизнес-тренер', 'бизнес-тренинги', 'Business trainer', 'business training'],
+  ['career', 'mind', '🚀', 'Карьерный консультант', 'карьера', 'Career consultant', 'career'], ['meditation', 'mind', '🕉️', 'Инструктор медитации и дыхания', 'медитация', 'Meditation and breathwork', 'meditation'],
+  ['other', 'other', '✨', 'Другое', '', 'Other', '']
+];
+const PROF_BY = {}; PROFS.forEach(p => { PROF_BY[p[0]] = p; });
+const PROF_GN = {
+  ru: { voc: 'Вокал', mus: 'Музыка', dance: 'Танцы', team: 'Командный спорт', sport: 'Спорт', fit: 'Фитнес и здоровье', out: 'Инструкторы: горы, вода, небо', lang: 'Иностранные языки',
+    school: 'Школьные предметы и репетиторы', kids: 'Дети и развитие', art: 'Творчество и ремёсла', stage: 'Сцена и речь', it: 'IT и технологии', drive: 'Вождение и транспорт', cook: 'Кулинария и напитки', beauty: 'Бьюти-обучение', mind: 'Психология и наставничество', other: 'Другое' },
+  en: { voc: 'Vocals', mus: 'Music', dance: 'Dance', team: 'Team sports', sport: 'Sports', fit: 'Fitness and health', out: 'Instructors: mountains, water, sky', lang: 'Languages',
+    school: 'School subjects and tutors', kids: 'Kids and development', art: 'Arts and crafts', stage: 'Stage and speech', it: 'IT and tech', drive: 'Driving and transport', cook: 'Cooking and drinks', beauty: 'Beauty training', mind: 'Psychology and mentoring', other: 'Other' }
+};
+/* words: l = lesson word, s = student word */
+const PROF_W = {
+  ru: { l: { u: ['Урок', 'Уроков', 'Новый урок'], t: ['Тренировка', 'Тренировок', 'Новая тренировка'], z: ['Занятие', 'Занятий', 'Новое занятие'], s: ['Сессия', 'Сессий', 'Новая сессия'] },
+    lS: { u: 'в расписание', t: 'в расписание', z: 'в расписание', s: 'в расписание' },
+    s: { u: ['Ученики', 'Ученик', 'новый ученик'], a: ['Спортсмены', 'Спортсмен', 'новый спортсмен'], c: ['Клиенты', 'Клиент', 'новый клиент'] },
+    svc: { u: ['Урок', 'Пробный урок', 'Онлайн-урок'], t: ['Тренировка', 'Пробная тренировка', 'Онлайн-тренировка'], z: ['Занятие', 'Пробное занятие', 'Онлайн-занятие'], s: ['Сессия', 'Первая сессия', 'Онлайн-сессия'] } },
+  en: { l: { u: ['Lesson', 'Lessons', 'New lesson'], t: ['Training', 'Trainings', 'New training'], z: ['Class', 'Classes', 'New class'], s: ['Session', 'Sessions', 'New session'] },
+    lS: { u: 'to the schedule', t: 'to the schedule', z: 'to the schedule', s: 'to the schedule' },
+    s: { u: ['Students', 'Student', 'new student'], a: ['Athletes', 'Athlete', 'new athlete'], c: ['Clients', 'Client', 'new client'] },
+    svc: { u: ['Lesson', 'Trial lesson', 'Online lesson'], t: ['Training', 'Trial training', 'Online training'], z: ['Class', 'Trial class', 'Online class'], s: ['Session', 'First session', 'Online session'] } }
+};
+const PROF_Q = {
+  ru: {
+    mus: ['Каждый урок — шаг учеников к сцене 🎶', 'Музыка начинается со смелости сыграть первую ноту 🎵', 'Маленькие шаги каждый день дают большие пьесы 🎼', 'Ты превращаешь «я не умею» в «я играю» 🎹', 'Терпение и ритм — твои суперсилы 🥁', 'Сегодня кто-то сыграет чище — благодаря тебе ✨'],
+    dance: ['Каждое занятие — шаг к сцене 💃', 'Дисциплина и музыка — лучшая пара 🎶', 'Ты учишь не движениям, а свободе 🌊', 'Сегодня кто-то впервые почувствует ритм — благодаря тебе ✨', 'Красота рождается из повторений 🔁', 'Твоя энергия заряжает весь зал ⚡'],
+    sport: ['Чемпионы рождаются на тренировках, а не на соревнованиях 🏆', 'Каждая тренировка — кирпичик будущей победы 🧱', 'Дисциплина побеждает талант, когда талант не тренируется 💪', 'Ты учишь не только спорту — ты учишь характеру 🔥', 'Сегодня кто-то станет на шаг быстрее, сильнее, смелее ⚡', 'Великие тренеры видят победу раньше спортсменов 👀'],
+    fit: ['Сила — это привычка, а не случайность 💪', 'Каждая тренировка — инвестиция в здоровье клиента 🌿', 'Маленький прогресс каждый день — большой результат 📈', 'Ты помогаешь людям влюбиться в своё тело ❤️', 'Регулярность сильнее мотивации 🔁', 'Сегодня кто-то сделает то, что вчера не мог 🔥'],
+    out: ['Лучшие воспоминания учеников начинаются с тебя 🏔️', 'Безопасность, уверенность, восторг — в этом порядке 🛟', 'Ты открываешь людям новый мир ⛷️', 'Каждое занятие — шаг от страха к свободе 🌊', 'Природа учит, а ты переводишь 🌿', 'Сегодня кто-то впервые поверит в себя ✨'],
+    lang: ['Новый язык — новая жизнь 🌍', 'Каждое занятие открывает ученику ещё одну дверь 🚪', 'Ошибки — это доказательство, что ученик пробует ✍️', 'Ты учишь говорить с целым миром 💬', '15 минут каждый день сильнее трёх часов раз в неделю ⏱️', 'Сегодня кто-то впервые подумает на новом языке ✨'],
+    school: ['Понимание приходит к тем, кому объяснили с любовью 💡', 'Каждый урок — шаг к экзамену без страха 📝', 'Ты превращаешь «я не понимаю» в «а, вот оно что!» 🤓', 'Знания — единственное, что растёт, когда им делятся 📚', 'Сильный ученик начинается с терпеливого учителя 🌱', 'Сегодня кто-то решит задачу, которую вчера боялся ✨'],
+    kids: ['Маленькие шаги — огромные победы 🧸', 'Каждое занятие — это новое «я сам!» ✨', 'Ты помогаешь ребёнку поверить в себя 💛', 'Терпение — главный инструмент педагога 🌱', 'Родители видят результат, а ребёнок — тебя 🤗', 'Сегодня кто-то сделает то, что ещё вчера не получалось 🎉'],
+    art: ['Каждое занятие — новое творение 🎨', 'Ошибка в творчестве — это начало стиля ✨', 'Ты учишь видеть красоту в простом 🌸', 'Руки помнят то, что глаза уже забыли 🖐️', 'Вдохновение приходит во время работы 🔥', 'Сегодня кто-то создаст то, чем будет гордиться 🏺'],
+    stage: ['Смелость выйти на сцену — уже половина успеха 🎭', 'Ты учишь людей быть услышанными 🎤', 'Каждое занятие делает голос увереннее 💬', 'Сцена любит тех, кто готовился 🌟', 'Страх — это энергия, которой ещё не дали направление ⚡', 'Сегодня кто-то впервые выступит без дрожи ✨'],
+    it: ['Каждая строчка кода — шаг к своему проекту 💻', 'Баги — это просто подсказки 🐞', 'Ты учишь не программам, а мышлению 🧠', 'Сегодня кто-то запустит свой первый проект 🚀', 'Логика + любопытство = сила 🔧', 'Лучший способ выучить — сделать самому 🛠️'],
+    drive: ['Спокойный инструктор — уверенный водитель 🚗', 'Каждое занятие — шаг к правам без стресса 🛣️', 'Ты учишь не только ехать, но и думать на дороге 🧠', 'Безопасность — главный навык 🛟', 'Сегодня кто-то впервые проедет без подсказок ✨', 'Терпение инструктора спасает больше, чем тормоза 🙌'],
+    cook: ['Каждое занятие — новый вкус 🍳', 'Ты учишь готовить с любовью ❤️', 'Хорошая техника — основа любого шедевра 🔪', 'Сегодня кто-то приготовит то, чем удивит близких 🎉', 'Вкус — это навык, который можно натренировать 👅', 'Лучшие рецепты рождаются из практики 🧁'],
+    beauty: ['Красота — это навык, и ты его даёшь ✨', 'Каждое занятие — шаг к своей профессии 💼', 'Точность рук рождается из повторений 💅', 'Ты помогаешь людям зарабатывать любимым делом 💰', 'Сегодня кто-то сделает свою лучшую работу 🌸', 'Мастер — это ученик, который не сдался 🙌'],
+    mind: ['Каждая сессия — шаг к переменам 🌱', 'Ты помогаешь людям услышать себя 💬', 'Перемены начинаются с одного разговора 🗝️', 'Береги себя, чтобы помогать другим 🍵', 'Маленькие шаги приводят к большим переменам 📈', 'Сегодня кто-то станет немного свободнее ✨'],
+    other: ['Каждое занятие — шаг вперёд для твоих учеников ✨', 'Маленькие шаги каждый день дают большой результат 📈', 'Ты делаешь людей увереннее 💪', 'Хороший наставник учит. Великий — вдохновляет 💫', 'Регулярность сильнее мотивации 🔁', 'Сегодня кто-то станет лучше — благодаря тебе 🌟']
+  },
+  en: {
+    mus: ['Every lesson is a step toward the stage 🎶', 'Music starts with the courage to play the first note 🎵', 'Small steps every day make big pieces 🎼', 'You turn “I can’t” into “I play” 🎹', 'Patience and rhythm are your superpowers 🥁', 'Today someone will play cleaner — thanks to you ✨'],
+    dance: ['Every class is a step toward the stage 💃', 'Discipline and music make the best pair 🎶', 'You teach not moves but freedom 🌊', 'Today someone will feel the rhythm for the first time ✨', 'Beauty is born from repetition 🔁', 'Your energy lights up the whole room ⚡'],
+    sport: ['Champions are made in training, not at competitions 🏆', 'Every training is a brick of a future win 🧱', 'Hard work beats talent when talent doesn’t work hard 💪', 'You teach not just sport — you build character 🔥', 'Today someone gets a step faster, stronger, braver ⚡', 'Great coaches see the win before their athletes do 👀'],
+    fit: ['Strength is a habit, not an accident 💪', 'Every training is an investment in health 🌿', 'Small progress every day — big results 📈', 'You help people fall in love with their body ❤️', 'Consistency beats motivation 🔁', 'Today someone will do what they couldn’t yesterday 🔥'],
+    out: ['Your students’ best memories start with you 🏔️', 'Safety, confidence, joy — in that order 🛟', 'You open a whole new world to people ⛷️', 'Every class is a step from fear to freedom 🌊', 'Nature teaches, you translate 🌿', 'Today someone will believe in themselves ✨'],
+    lang: ['A new language is a new life 🌍', 'Every lesson opens one more door 🚪', 'Mistakes prove the student is trying ✍️', 'You teach people to talk to the whole world 💬', '15 minutes a day beat three hours a week ⏱️', 'Today someone will think in a new language ✨'],
+    school: ['Understanding comes to those taught with care 💡', 'Every lesson is a step to an exam without fear 📝', 'You turn “I don’t get it” into “oh, now I see!” 🤓', 'Knowledge grows when it is shared 📚', 'A strong student starts with a patient teacher 🌱', 'Today someone will solve what scared them yesterday ✨'],
+    kids: ['Small steps, huge wins 🧸', 'Every class brings a new “I can do it myself!” ✨', 'You help a child believe in themselves 💛', 'Patience is a teacher’s main tool 🌱', 'Parents see the result, the child sees you 🤗', 'Today someone will do what didn’t work yesterday 🎉'],
+    art: ['Every class is a new creation 🎨', 'A mistake in art is the start of a style ✨', 'You teach people to see beauty in simple things 🌸', 'Hands remember what eyes forget 🖐️', 'Inspiration comes while working 🔥', 'Today someone will make something to be proud of 🏺'],
+    stage: ['The courage to step on stage is half the success 🎭', 'You teach people to be heard 🎤', 'Every class makes a voice more confident 💬', 'The stage loves those who prepared 🌟', 'Fear is energy without a direction yet ⚡', 'Today someone will perform without shaking ✨'],
+    it: ['Every line of code is a step to their own project 💻', 'Bugs are just hints 🐞', 'You teach thinking, not just tools 🧠', 'Today someone will launch their first project 🚀', 'Logic + curiosity = power 🔧', 'The best way to learn is to build 🛠️'],
+    drive: ['A calm instructor makes a confident driver 🚗', 'Every class is a step to a licence without stress 🛣️', 'You teach not only to drive but to think on the road 🧠', 'Safety is the main skill 🛟', 'Today someone will drive without prompts ✨', 'An instructor’s patience saves more than brakes 🙌'],
+    cook: ['Every class is a new taste 🍳', 'You teach cooking with love ❤️', 'Good technique is the base of every masterpiece 🔪', 'Today someone will cook something to surprise their family 🎉', 'Taste is a skill you can train 👅', 'The best recipes are born from practice 🧁'],
+    beauty: ['Beauty is a skill — and you give it ✨', 'Every class is a step to a profession 💼', 'Precise hands come from repetition 💅', 'You help people earn doing what they love 💰', 'Today someone will do their best work 🌸', 'A master is a student who didn’t give up 🙌'],
+    mind: ['Every session is a step toward change 🌱', 'You help people hear themselves 💬', 'Change starts with one conversation 🗝️', 'Take care of yourself to help others 🍵', 'Small steps lead to big changes 📈', 'Today someone will feel a little freer ✨'],
+    other: ['Every class is a step forward for your students ✨', 'Small steps every day bring big results 📈', 'You make people more confident 💪', 'A good mentor teaches. A great one inspires 💫', 'Consistency beats motivation 🔁', 'Today someone gets better — thanks to you 🌟']
+  }
+};
+PROF_Q.ru.team = PROF_Q.ru.sport; PROF_Q.en.team = PROF_Q.en.sport;
+const PROF_PRAISE = {
+  ru: ['{n}, ты молодец! 💐', 'Ещё одно занятие — ещё одна победа 🏅', 'Так держать, {n}! 🔥', 'С тобой невероятно повезло ✨', 'Мы тобой гордимся! ❤️', 'Огонь! Ты сегодня в ударе ⚡', '{n}, ты звезда! ⭐', 'Вот это продуктивность! 👏', 'Красиво работаешь, {n}! 🌹'],
+  en: ['{n}, you’re doing great! 💐', 'One more session — one more win 🏅', 'Keep it up, {n}! 🔥', 'Lucky to have you ✨', 'We’re proud of you! ❤️', 'On fire today ⚡', '{n}, you’re a star! ⭐', 'What a productive day! 👏', 'Beautiful work, {n}! 🌹']
+};
+const profOf = () => { try { const id = state && state.settings && state.settings.prof; return id && PROF_BY[id] ? PROF_BY[id] : null; } catch (e) { return null; } };
+const profG = () => { const p = profOf(); return p ? p[1] : 'voc'; };
+const profName = (p, lang) => p ? ((lang || L) === 'ru' ? p[3] : p[5]) : '';
+const profSubj = (p, lang) => p ? ((lang || L) === 'ru' ? p[4] : p[6]) : '';
+const PROF_T = {};
+/* applied in applyLang after famT: a cached copy of T with the profession's words and quotes */
+function profT(T0){
+  const p = profOf(); if (!p || !T0) return T0;
+  const g = p[1], G = PROF_G[g] || PROF_G.other;
+  if (g === 'voc') return T0;
+  const lang = L === 'ru' ? 'ru' : L === 'en' ? 'en' : '';
+  const key = L + '|' + p[0] + '|' + (T0 === I18N[L] ? 'f' : 'n');
+  if (PROF_T[key]) return PROF_T[key];
+  const T1 = Object.assign({}, T0);
+  if (lang) {
+    T1.motiv = (PROF_Q[lang][g] || PROF_Q[lang].other).slice(); T1.praise = PROF_PRAISE[lang].slice();
+    const W = PROF_W[lang], lw = W.l[G.l], sw = W.s[G.s];
+    if (G.l !== 'u' || G.s !== 'u') {
+      T1.tabs = Object.assign({}, T0.tabs, { students: sw[0] });
+      T1.kStudents = sw[0];
+      T1.kLessonsIn = lang === 'ru' ? (mi => `${lw[1]} в ${RU_P[mi]}`) : (mi => `${lw[1]} in ${typeof monthName === 'function' ? monthName(mi) : ''}`);
+      T1.newLesson = lw[2];
+      T1.fStudent = sw[1];
+      if (T0.fx) T1.fx = Object.assign({}, T0.fx, { lesson: lw[0], student: sw[1], studentS: sw[2] });
+    }
+    if (G.l !== 'u') {
+      if (lang === 'ru') Object.assign(T1, PROF_RU_L[G.l]);
+      else { const w = PROF_EN_L[G.l]; PROF_L_KEYS.forEach(k => { const v = T0[k]; if (typeof v === 'string') T1[k] = profEnWord(v, w); else if (typeof v === 'function') T1[k] = (...a) => profEnWord(v(...a), w); }); }
+    }
+    if (!G.music && T0 !== I18N[L]) { T1.madeBy = lang === 'ru' ? 'Мои ученики · сделано с любовью к твоему делу ✨' : 'My students · made with love for what you do ✨'; T1.loading = lang === 'ru' ? 'Загрузка… ✨' : 'Loading… ✨'; }
+    if (T0.tr) T1.tr = Object.assign({}, T0.tr, { defSvc: W.svc[G.l].map((n, i) => Object.assign({ name: n, price: 0 }, i === 1 ? { trial: true } : i === 2 ? { online: true } : {})) });
+  }
+  return (PROF_T[key] = T1);
+}
+/* lesson words in the most visible places (ru written out by gender; en by replacing lesson → word) */
+const PROF_RU_L = {
+  t: { noToday: 'Сегодня тренировок нет — можно отдохнуть', addToday: '+ Тренировка на сегодня', upcoming: 'Ближайшие тренировки', noLessons: 'Тренировок нет', addOn: d => `+ Тренировка на ${d}`,
+    toMark: n => `${n} ${pl(n, ['прошедшая тренировка ждёт', 'прошедшие тренировки ждут', 'прошедших тренировок ждут'])} отметки`, monthEmpty: 'В этом месяце тренировок нет.<br>Нажми «＋ Работа», чтобы записать тренировку.',
+    unmarkedHint: n => `${n} ${pl(n, ['прошедшая тренировка не отмечена — отметь её', 'прошедшие тренировки не отмечены — отметь их', 'прошедших тренировок не отмечены — отметь их'])} во вкладке «Календарь»`,
+    perLesson: x => `${x} за тренировку`, fDefPrice: 'Цена тренировки по умолчанию', tSavedRep: n => `Сохранено, ещё ${n} ${pl(n, ['тренировка', 'тренировки', 'тренировок'])} в расписании` },
+  z: { noToday: 'Сегодня занятий нет — можно отдохнуть', addToday: '+ Занятие на сегодня', upcoming: 'Ближайшие занятия', noLessons: 'Занятий нет', addOn: d => `+ Занятие на ${d}`,
+    toMark: n => `${n} ${pl(n, ['прошедшее занятие ждёт', 'прошедших занятия ждут', 'прошедших занятий ждут'])} отметки`, monthEmpty: 'В этом месяце занятий нет.<br>Нажми «＋ Работа», чтобы записать занятие.',
+    unmarkedHint: n => `${n} ${pl(n, ['прошедшее занятие не отмечено — отметь его', 'прошедших занятия не отмечены — отметь их', 'прошедших занятий не отмечены — отметь их'])} во вкладке «Календарь»`,
+    perLesson: x => `${x} за занятие`, fDefPrice: 'Цена занятия по умолчанию', tSavedRep: n => `Сохранено, ещё ${n} ${pl(n, ['занятие', 'занятия', 'занятий'])} в расписании` },
+  s: { noToday: 'Сегодня сессий нет — можно отдохнуть', addToday: '+ Сессия на сегодня', upcoming: 'Ближайшие сессии', noLessons: 'Сессий нет', addOn: d => `+ Сессия на ${d}`,
+    toMark: n => `${n} ${pl(n, ['прошедшая сессия ждёт', 'прошедшие сессии ждут', 'прошедших сессий ждут'])} отметки`, monthEmpty: 'В этом месяце сессий нет.<br>Нажми «＋ Работа», чтобы записать сессию.',
+    unmarkedHint: n => `${n} ${pl(n, ['прошедшая сессия не отмечена — отметь её', 'прошедшие сессии не отмечены — отметь их', 'прошедших сессий не отмечены — отметь их'])} во вкладке «Календарь»`,
+    perLesson: x => `${x} за сессию`, fDefPrice: 'Цена сессии по умолчанию', tSavedRep: n => `Сохранено, ещё ${n} ${pl(n, ['сессия', 'сессии', 'сессий'])} в расписании` }
+};
+const PROF_EN_L = { t: ['training', 'trainings'], z: ['class', 'classes'], s: ['session', 'sessions'] };
+const PROF_L_KEYS = ['noToday', 'addToday', 'upcoming', 'toMark', 'noLessons', 'addOn', 'monthEmpty', 'unmarkedHint', 'perLesson', 'fDefPrice', 'tSavedRep'];
+function profEnWord(x, w){
+  const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+  return String(x).replace(/Lessons/g, cap(w[1])).replace(/lessons/g, w[1]).replace(/Lesson/g, cap(w[0])).replace(/lesson/g, w[0]);
+}
+/* studio tools that only make sense for music */
+const PROF_MUSIC_TOOLS = { piano: 1, tuner: 1, x2Warm: 1 };
+function profTool(a){
+  const G = PROF_G[profG()] || PROF_G.other;
+  if (PROF_MUSIC_TOOLS[a]) return !!G.music;
+  if (a === 'metro') return !!(G.music || G.metro);
+  return true;
+}
+/* ---------- picker ---------- */
+const PFX = { q: '', mode: 'set' };
+function profSheet(mode){
+  PFX.mode = mode || 'set'; PFX.q = '';
+  const fn = () => {
+    const X = T.pf, cur = PFX.mode === 'ob' ? OB.prof : state.settings.prof, gn = PROF_GN[L === 'ru' ? 'ru' : 'en'];
+    const groups = Object.keys(PROF_G);
+    return sheetHead(X.title) + `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(X.hint)}</div>
+      <div class="group" style="margin-bottom:10px"><div class="field"><input id="pf_q" type="search" placeholder="${esc(X.search)}" autocomplete="off" enterkeyhint="search"></div></div>
+      <div id="pf_list">${groups.map(g => { const list = PROFS.filter(p => p[1] === g); if (!list.length) return '';
+        return `<div class="pfg" data-g="${g}"><div class="sec"><span>${PROF_G[g].ic} ${esc(gn[g])}</span></div><div class="card">${list.map(p => `<button class="row pfrow${p[0] === cur ? ' on' : ''}" data-act="profPick" data-v="${p[0]}" data-s="${esc((p[3] + ' ' + p[4] + ' ' + p[5] + ' ' + p[6] + ' ' + gn[g]).toLowerCase())}"><div class="ava pava">${p[2]}</div><div class="main"><div class="name">${esc(profName(p))}</div></div>${p[0] === cur ? '<div class="right">✓</div>' : ''}</button>`).join('')}</div></div>`; }).join('')}</div>
+      <div class="empty" id="pf_none" hidden>${esc(X.none)}</div>`;
+  };
+  fn.mount = () => {
+    const q = $('pf_q'); if (!q) return;
+    q.oninput = () => {
+      const v = q.value.trim().toLowerCase().replace(/ё/g, 'е'); let any = false;
+      document.querySelectorAll('#pf_list .pfg').forEach(gr => {
+        let n = 0;
+        gr.querySelectorAll('.pfrow').forEach(r => { const hit = !v || r.dataset.s.replace(/ё/g, 'е').includes(v); r.hidden = !hit; if (hit) n++; });
+        gr.hidden = !n; if (n) any = true;
+      });
+      $('pf_none').hidden = any;
+    };
+  };
+  return fn;
+}
+function profApply(id, quiet){
+  const p = PROF_BY[id]; if (!p) return;
+  const S = state.settings, was = S.prof, g = p[1];
+  S.prof = id; if (p[4] || p[6]) S.subj = profSubj(p, 'ru') || S.subj;
+  /* music-only sections: hide when switching to a non-music profession (can be turned back on in «Разделы») */
+  let hid = 0;
+  if (!PROF_G[g].music && (!was || (PROF_BY[was] && PROF_G[PROF_BY[was][1]].music))) {
+    S.mods = Object.assign({}, S.mods);
+    ['rep', 'groups', 'comps', 'artist'].forEach(k => { if (S.mods[k] !== 0) { S.mods[k] = 0; hid++; } });
+  }
+  applyLang(L); save(); safe(scheduleBotSync);
+  if (!quiet) toast('✅ ' + T.pf.done(profName(p)) + (hid ? '\n' + T.pf.hidMusic : ''), 3800);
+}
+const PF = {
+  profOpen: () => openSheet(profSheet('set')),
+  profPick: el => {
+    const id = el.dataset.v, p = PROF_BY[id]; if (!p) return;
+    haptic();
+    if (PFX.mode === 'ob') { OB.prof = id; OB.subj = 'other'; OB.other = profSubj(p) || profName(p).toLowerCase(); closeSheet(); return; }
+    profApply(id); closeSheet(); render();
+  }
+};
 
 /* ================= Quotes & language ================= */
 let quotePool = [], quoteIdx = 0;
@@ -2990,7 +3298,7 @@ function buildQuotes(){
   quoteIdx = 0;
 }
 function applyLang(code){
-  L = I18N[code] ? code : 'ru'; T = I18N[L]; try { T = famT(L); } catch (e) {} LOC = LANGS[L].loc;
+  L = I18N[code] ? code : 'ru'; T = I18N[L]; try { T = famT(L); } catch (e) {} try { T = profT(T); } catch (e) {} LOC = LANGS[L].loc;
   const mk = o => { try { return new Intl.DateTimeFormat(LOC, o); } catch (e) { return new Intl.DateTimeFormat(undefined, o); } };
   F = { month: mk({ month: 'long' }), monthShort: mk({ month: 'short' }), dm: mk({ day: 'numeric', month: 'long' }),
     dmShort: mk({ day: 'numeric', month: 'short' }), wdShort: mk({ weekday: 'short' }), wdLong: mk({ weekday: 'long' }),
@@ -4162,7 +4470,7 @@ function renderStudio(){
     ['certs', '🎁', T.stCert, T.stCertSub, state.certs.length || ''],
     ['wrap', '🎉', T.stWrap, T.stWrapSub, '']
   ];
-  let h = header(T.tabs.studio) + `<div class="tools">${tools.map(([a, i, b, s, e]) =>
+  let h = header(T.tabs.studio) + `<div class="tools">${tools.filter(x => safe(() => profTool(x[0]), true)).map(([a, i, b, s, e]) =>
     `<button class="tool" data-act="${a}"><span class="ti">${i}</span><b>${esc(b)}</b><small>${esc(s)}</small>${e !== '' ? `<em>${esc(e)}</em>` : ''}</button>`).join('')}</div>`;
   if (eggHas('foot10')) h += `<button class="eggcard" data-act="secretRoom" style="display:block;width:100%;text-align:left;margin-top:10px"><b>💌 ${esc(T.egg.roomTitle)}</b><small>${esc(T.egg.roomSub(eggsFound().length, EGGS.length))}</small></button>`;
   return h;
@@ -4544,7 +4852,7 @@ function setTileSub(k){
   if (k === 'prices') return X.subPrices(money(+S.price || 0), (S.pkgT || []).length);
   if (k === 'work') return X.subWork(S.work.days.length, S.work.from, S.work.to);
   if (k === 'nt') return !inTG || !S.api ? X.subNtOff : S.nt.on ? X.subNtOn : X.subNtMute;
-  if (k === 'me') return X.subMe(userName() || '—');
+  if (k === 'me') return (profOf() ? profName(profOf()) : userName() || '—') + ' · ' + X.subMe('').replace(/^\s*·\s*/, '');
   if (k === 'look') return (T.themes[S.theme] || '') + ' · ' + (LANGS[L] ? LANGS[L].name : '');
   if (k === 'data') return useCloud ? X.subDataCloud : X.subDataLocal;
   return '';
@@ -4618,7 +4926,9 @@ function settingsPart(k){
         <div class="hintline" style="margin:8px 8px 0">🤖 ${esc(botAi ? T.bx.hint(botUser) : T.bx.hintOff)}</div>`;
       return head + `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(T.tr.hints.nt)}</div>` + bot;
     }
-    if (k === 'me') return head + `<div class="group" style="margin-top:0"><div class="field"><label for="o_name">${esc(T.fCallMe)}</label><input id="o_name" value="${esc(userName())}" placeholder="${esc(T.fCallMePh)}" autocomplete="off"></div>
+    if (k === 'me') return head + `<div class="sec" style="margin-top:0"><span>💼 ${esc(T.pf.label)}</span></div>
+      <button class="row profbtn" data-act="profOpen"><div class="ava pava">${(profOf() || ['', '', '🎤'])[2]}</div><div class="main"><div class="name">${esc(profOf() ? profName(profOf()) : T.pf.notSet)}</div><div class="sub one">${esc(T.pf.why)}</div></div><div class="right"><span class="chev">›</span></div></button>
+      <div class="group" style="margin-top:12px"><div class="field"><label for="o_name">${esc(T.fCallMe)}</label><input id="o_name" value="${esc(userName())}" placeholder="${esc(T.fCallMePh)}" autocomplete="off"></div>
         <div class="field"><label for="o_brand">✍️ ${esc(T.lk.brand)}</label><input id="o_brand" value="${esc(S.brand || '')}" placeholder="${esc(T.brand)}" maxlength="60" autocomplete="off"></div>
         <div class="field"><label for="o_bday">🎂 ${esc(T.fMyBday)}</label><input type="date" id="o_bday" value="${esc(S.bday)}"></div></div>
       <div class="hintline" style="margin:4px 8px 6px">${esc(T.lk.brandHint)}</div>` + saveBtn + `
@@ -5412,7 +5722,7 @@ function botCtx(){
   return { students: state.students.map(s => Object.assign({ id: s.id, n: s.name }, s.phone ? { ph: s.phone } : {}, s.archived ? { a: 1 } : {})),
     svcs: state.services.map(s => Object.assign({ id: s.id, n: s.name, p: priceFor('', s.id) }, s.online ? { on: 1 } : {})), up, dur: +state.settings.dur || 60, price: +state.settings.price || 0, cur: state.settings.cur || '₽',
     pk: state.students.filter(s => !s.archived).map(s => { const ss = studentStats(s.id); return ss.pkg ? `${s.name}: ${ss.left}` : ''; }).filter(Boolean),
-    work: `${state.settings.work.from}-${state.settings.work.to}`, ...safe(planCtx, {}), ...safe(lifeCtx, {}) };
+    work: `${state.settings.work.from}-${state.settings.work.to}`, prof: safe(() => profOf() ? profName(profOf(), 'ru') : '', ''), ...safe(planCtx, {}), ...safe(lifeCtx, {}) };
 }
 async function pollOps(){
   if (!inTG || !state.settings.api || !ready || opsBusy || document.hidden) return;
@@ -5593,8 +5903,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 34;
+const APP_VER = 35;
 const CHANGES = [
+  { v: 35, name: '7.10', date: '2026-11-04', big: true,
+    ru: { add: ['💼 Профессия: больше 200 вариантов с поиском — тренеры по хоккею, футболу, фигурному катанию, репетиторы, учителя, хореографы, фитнес-тренеры, логопеды, инструкторы по вождению и многие другие. ⚙️ Настройки → 🧩 Под себя → «Профессия»'],
+      better: ['✨ Приложение подстраивается под профессию: тренировки или занятия вместо уроков, спортсмены или клиенты вместо учеников, своя мотивация дня, свои инструменты в Студии', '🤖 Бот понимает слова твоей профессии: «тренировка», «занятие», «клиент», «спортсмен»'] },
+    en: { add: ['💼 Profession: 200+ options with search — hockey, football, figure skating coaches, tutors, teachers, choreographers, fitness trainers, speech therapists, driving instructors and many more. ⚙️ Settings → 🧩 Make it yours → “Profession”'],
+      better: ['✨ The app adapts to your profession: trainings or classes instead of lessons, athletes or clients instead of students, its own motivation, its own studio tools', '🤖 The bot understands your profession’s words'] } },
   { v: 34, name: '7.9.2', date: '2026-11-03',
     ru: { add: [], better: ['🛒 В карточке «Сегодня» под привычками — крупные плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список'], removed: [] },
     en: { add: [], better: ['🛒 Big tiles in “Today” under the habits: shopping, wishlist, to-do, goals, spending with a count; new items light it up, tap to open'], removed: [] } },
@@ -7986,6 +8301,12 @@ const HELP_DOC = [
     'Шестерёнка ⚙️ справа вверху — Настройки, разделены на 6 групп: цены и абонементы, работа и запись, уведомления, под себя, оформление, данные. Там же эта справка.',
     'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
+  { id: 'prof', ic: '💼', t: 'Профессия: приложение под тебя', p: [
+    'Приложение подходит не только для вокала: тренерам (хоккей, футбол, фигурное катание, единоборства, плавание…), репетиторам (английский, математика, ЕГЭ…), учителям, хореографам, фитнес-тренерам, логопедам, инструкторам по вождению, психологам и ещё 200 профессиям.',
+    'Выбрать профессию: при первом запуске («Другая профессия — найти в списке») или ⚙️ Настройки → 🧩 Под себя → «Профессия». Есть поиск: напиши «хоккей», «англ», «вождение».',
+    'Что подстраивается: слова (урок / тренировка / занятие / сессия, ученики / спортсмены / клиенты) на главной, во вкладках и в кнопке «＋ Работа»; мотивация дня; названия услуг при первой настройке; инструменты в Студии (пианино и тюнер — только для музыкантов).',
+    'При выборе немузыкальной профессии музыкальные разделы (песни, репертуар, коллективы, райдер) скрываются — вернуть можно в 🧩 «Разделы приложения». Данные не удаляются.',
+    'Бот тоже знает твою профессию: «тренировка с Петей в среду в 18:00» или «клиентка Оля оплатила» он поймёт так же, как «урок».' ] },
   { id: 'home', ic: '🏠', t: 'Главная', p: [
     'В карточке «☀️ Сегодня» под привычками — плитки: 🛒 Покупки, 🎁 Вишлист, ✅ Дела, 🎯 Цели, 💳 Траты за сегодня. Цифра — сколько там сейчас. Если ты или бот что-то добавили, цифра становится бордовой и мигает — нажми плитку, откроется список.',
     'Приветствие, подпись (её можно поменять: ⚙️ Настройки → 🧩 Под себя) и цитата дня — нажми на цитату, чтобы сменить её.',
@@ -8424,7 +8745,7 @@ function subApply(sub){
   state.settings.sub = sub; save();
   if (sub.banned) return showBanned();
   try { lsSetK('vs_fam', sub.fam === false ? '0' : '1'); } catch (e) {}
-  safe(() => { if (T !== famT(L)) { applyLang(L); renderNav(); } });
+  safe(() => { if (T !== profT(famT(L))) { applyLang(L); renderNav(); } });
   if (wasBanned) { render(); return; }
   /* first time without a subscription: show how to start (trial / code) once per session */
   if (sub.on && readOnly() && !subShown && !stack.length && ready && !(typeof tourOn !== 'undefined' && tourOn) && !(typeof tourPending === 'function' && tourPending())) { subShown = true; setTimeout(() => { if (!stack.length) openSheet(subSheet()); }, 800); }
@@ -8488,7 +8809,7 @@ function famT(code){
 }
 safe(() => { maybeSecret = (o => (...a) => famOn() ? o(...a) : undefined)(maybeSecret); });
 safe(() => { checkCapsules = (o => (...a) => famOn() ? o(...a) : undefined)(checkCapsules); });
-safe(() => { if (T !== famT(L)) applyLang(L); });
+safe(() => { if (T !== profT(famT(L))) applyLang(L); });
 safe(() => { playVoice = (o => (...a) => famOn() ? o(...a) : undefined)(playVoice); });
 /* ================= 7.5: guided tour (spotlight + explanation), settings hints, downloadable guide ================= */
 /* steps from the most important to the least; target = selector (on the Home tab) or null for a centred card */
@@ -8593,7 +8914,8 @@ function obSheet(){
       <div class="chipsel" style="margin:0 0 10px">${Object.keys(X.roles).map(k => `<button type="button" data-act="obRole" data-v="${k}" class="${OB.roles[k] ? 'on' : ''}">${esc(X.roles[k])}</button>`).join('')}</div>
       ${OB.roles.teach ? `<div class="sec"><span>${esc(X.what)}</span></div>
       <div class="chipsel" style="margin:0 0 6px">${Object.keys(X.subj).map(k => `<button type="button" data-act="obSubj" data-v="${k}" class="${OB.subj === k ? 'on' : ''}">${esc(X.subj[k])}</button>`).join('')}</div>
-      ${OB.subj === 'other' ? `<div class="group"><div class="field"><input id="ob_other" value="${esc(OB.other || '')}" placeholder="${esc(X.otherPh)}" autocomplete="off"></div></div>` : ''}` : ''}
+      <button class="btn soft sm" data-act="obProf" style="margin:0 0 8px">🔎 ${esc(OB.prof && PROF_BY[OB.prof] ? PROF_BY[OB.prof][2] + ' ' + profName(PROF_BY[OB.prof]) : T.pf.obBtn)}</button>
+      ${OB.subj === 'other' && !OB.prof ? `<div class="group"><div class="field"><input id="ob_other" value="${esc(OB.other || '')}" placeholder="${esc(X.otherPh)}" autocomplete="off"></div></div>` : ''}` : ''}
       <div class="group" style="margin-top:8px"><div class="field"><label for="ob_brand">✍️ ${esc(X.brand)}</label><input id="ob_brand" value="${esc(OB.brand || '')}" placeholder="${esc(obBrandGuess())}" maxlength="60" autocomplete="off"></div></div>
       <div class="hintline" style="margin:-4px 8px 10px">${esc(X.brandHint)}</div>` + nav(false);
     if (st === 2 && OB.roles.teach) return head + `
@@ -8630,11 +8952,13 @@ function obFinish(apply){
     if (n) S.name = n.slice(0, 40);
     S.brand = b ? b.slice(0, 60) : '-';
     S.role = Object.keys(OB.roles).filter(k => OB.roles[k]); S.subj = OB.roles.teach ? obSubjName() : '';
+    { const pid = OB.roles.teach ? (OB.prof || { vocal: 'voc_teacher', piano: 'piano', guitar: 'guitar' }[OB.subj] || (OB.subj === 'other' ? 'other' : '')) : (OB.roles.perform ? 'voc_singer' : ''); if (pid) { if (OB.prof) profApply(pid, true); else { S.prof = pid; applyLang(L); } } }
     if (OB.roles.teach) {
       const price = Math.max(0, +OB.price || 0), rent = Math.max(0, +OB.rent || 0), p8 = Math.max(0, +OB.p8 || 0), subj = obSubjName();
       S.price = price; S.rent = rent; S.dur = +OB.dur || 60; S.cur = OB.cur || '₽'; S.tax = +OB.tax || 0; if (+OB.goal > 0) S.goal = +OB.goal;
       S.work = { days: OB.days.slice().sort(), from: OB.from || '10:00', to: OB.to || '21:00' };
       state.services.forEach((v, i) => { v.price = price; v.rent = v.online ? 0 : rent; if (!v.online && !v.trial && p8) v.p8 = p8; if (i === 0 && subj) v.name = subj.charAt(0).toUpperCase() + subj.slice(1); });
+      safe(() => { const o = (famT(L).tr || {}).defSvc || [], nw = (T.tr || {}).defSvc || []; [1, 2].forEach(k => { const v = state.services[k]; if (v && o[k] && nw[k] && v.name === o[k].name) v.name = nw[k].name; }); });
     }
     S.nt = Object.assign({}, S.nt || {}, { morning: +OB.morning, before: +OB.before, evening: +OB.evening });
     S.theme = OB.theme;
@@ -8651,7 +8975,8 @@ function obFinish(apply){
 }
 Object.assign(TR, {
   obRole: el => { obCollect(); const k = el.dataset.v; OB.roles[k] = OB.roles[k] ? 0 : 1; if (!Object.values(OB.roles).some(Boolean)) OB.roles.teach = 1; refreshSheet(); },
-  obSubj: el => { obCollect(); OB.subj = el.dataset.v; refreshSheet(); },
+  obSubj: el => { obCollect(); OB.subj = el.dataset.v; OB.prof = ''; refreshSheet(); },
+  obProf: () => { obCollect(); openSheet(profSheet('ob')); },
   obSet: el => { obCollect(); const k = el.dataset.k, v = el.dataset.v; OB[k] = /^-?\d+$/.test(v) ? +v : v; if (k === 'theme') { state.settings.theme = v; applyTheme(); } haptic(); refreshSheet(); },
   obDay: el => { obCollect(); const d = +el.dataset.v; OB.days = OB.days.includes(d) ? OB.days.filter(x => x !== d) : OB.days.concat(d); refreshSheet(); },
   obLife: el => { obCollect(); const k = el.dataset.v; OB.life[k] = OB.life[k] ? 0 : 1; refreshSheet(); },
@@ -9322,7 +9647,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF);
 safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
@@ -9355,7 +9680,7 @@ async function start(){
     const m = readMirror();
     if (m) state = m; else if (!inTG) seedDemo();
   }
-  if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
+  if ((state.settings.lang || 'ru') !== L || state.settings.prof) applyLang(state.settings.lang || L);
   loadedCounts = { n: state.students.length, l: state.lessons.length };
   const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
   if (updating) { await snapshot('upd'); setTimeout(() => chatBackup(T.bk.beforeUpd), 6000); }
