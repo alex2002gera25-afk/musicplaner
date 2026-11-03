@@ -597,17 +597,20 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .fab[hidden]{display:none!important}
 .fabgrid .tool{min-height:92px}
 
-/* 7.9 small tiles on Home: icon + count badge, new → accent badge */
-.hctiles{display:flex;gap:10px;margin:10px 0;overflow-x:auto;padding:4px 2px 2px;scrollbar-width:none}
+/* 7.9.2 tiles inside «Сегодня» under the habits: bigger than the habit chips, with a label and a count */
+.hccard{padding:10px 12px}
+.tdcard .hctiles{border-top:1px solid var(--line);margin-top:8px;padding-top:12px}
+.hccard .hctiles{border-top:0;margin-top:0;padding-top:6px}
+.hctiles{display:flex;gap:12px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .hctiles::-webkit-scrollbar{display:none}
-.hct{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
-.hci{position:relative;width:56px;height:56px;border-radius:18px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:26px}
-.hci em{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--line);color:inherit;font:700 11px/20px system-ui,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg, #fff)}
-.hct.new .hci em{background:var(--accent);color:var(--accent-text, #fff);animation:hcp 1.6s ease-in-out 3}
-.hct.new .hci{border-color:var(--accent)}
+.hct{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0 2px;color:inherit;font:inherit;cursor:pointer}
+.hci{position:relative;width:60px;height:60px;border-radius:16px;display:grid;place-items:center;font-size:34px;line-height:1;background:rgba(120,120,120,.12)}
+.hc-lists .hci{background:rgba(76,175,80,.18)}.hc-wish .hci{background:rgba(233,30,99,.15)}.hc-tasks .hci{background:rgba(33,150,243,.15)}.hc-goals .hci{background:rgba(255,193,7,.22)}.hc-fin .hci{background:rgba(156,39,176,.15)}
+.hci em{position:absolute;top:-6px;right:-8px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:inherit;font:700 11px/18px system-ui,sans-serif;font-style:normal;text-align:center}
+.hct.new .hci em{background:var(--accent);border-color:var(--accent);color:var(--accent-text, #fff);animation:hcp 1.6s ease-in-out 3}
 .hct small{font-size:11px;opacity:.75;white-space:nowrap}
-.hct:active .hci{transform:scale(.94)}
-@keyframes hcp{50%{transform:scale(1.18)}}
+.hct:active .hci{transform:scale(.92)}
+@keyframes hcp{50%{transform:scale(1.2)}}
 </style>
 </head>
 <body>
@@ -3931,7 +3934,7 @@ function renderHome(){
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
   const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
-  if (!state.students.length) return hello + quote + reqBlock() + safe(homeTilesRow, '') + safe(todayCard, '') + welcome() + achRow();
+  if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + safe(homeTilesRow, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
   const active = state.students.filter(s => !s.archived).length;
   const debtAll = vsum(state.lessons.filter(l => counts(l) && !l.paid));
@@ -3950,7 +3953,7 @@ function renderHome(){
   const upcoming = state.lessons.filter(l => l.st === 'plan' && l.date > t).sort(byDateAsc).slice(0, 5);
   const wa = safe(waitAlert);
   const al = reqBlock() + (wa ? `<div class="alerts" style="margin-bottom:8px">${wa}</div>` : '') + (wrapSeason() ? `<div class="alerts" style="margin-bottom:8px"><div class="alert" data-act="wrap"><span class="ai">🎉</span><span class="at">${esc(T.wrapAlert)}</span><span class="chev">›</span></div></div>` : '') + alertsBlock();
-  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + safe(homeTilesRow, '') + kpis + safe(todayCard, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
+  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + safe(todayCard, '') + safe(homeTilesRow, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
     + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week;
   if (mod('plan')) out += safe(planHomeBlock);
   out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${money(vsum(todays.filter(counts)))}</span>` : ''}</div>`
@@ -5590,11 +5593,11 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 33;
+const APP_VER = 34;
 const CHANGES = [
-  { v: 33, name: '7.9.1', date: '2026-11-03',
-    ru: { add: [], better: ['🛒 На главной вместо большой карточки — маленькие плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список'], removed: [] },
-    en: { add: [], better: ['🛒 Small tiles on Home instead of the big card: shopping, wishlist, to-do, goals, spending with a count; new items light it up, tap to open'], removed: [] } },
+  { v: 34, name: '7.9.2', date: '2026-11-03',
+    ru: { add: [], better: ['🛒 В карточке «Сегодня» под привычками — крупные плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список'], removed: [] },
+    en: { add: [], better: ['🛒 Big tiles in “Today” under the habits: shopping, wishlist, to-do, goals, spending with a count; new items light it up, tap to open'], removed: [] } },
   { v: 32, name: '7.9', date: '2026-11-03', big: true,
     ru: { add: ['➕ Две кнопки «+» на каждой вкладке: справа «Работа» — урок, ученик, абонемент, выступление, расход, сертификат; слева «Дела» — дело, заметка, репетиция, день рождения, привычка, трата, покупки, желание, цель, дневник'],
       better: ['🛒 На главной — маленькие плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список', '🎁 Пробный период — 3 дня', '🎟 Абонемент теперь продаётся прямо с «+»', '📖 Справка и обучение рассказывают про обе кнопки'] },
@@ -7790,7 +7793,9 @@ function todayCard(){
     const due = billsDue(t); if (due.length) parts.push(`<div class="tdl" data-act="lfFin">${esc(X.bills(due.map(b => b.name + ' ' + money(b.amt)).join(', ')))}</div>`);
     const left = fnBudgetLeft(ymOf(t)); if (left !== null) parts.push(`<div class="tdl" data-act="lfFin">${esc(left >= 0 ? X.budget(money(left)) : X.over(money(-left)))}</div>`);
   }
+  const tiles = safe(homeTilesInner, ''); if (tiles) parts.push(tiles);
   if (!parts.length) return '';
+  hcInToday = !!tiles;
   return `<div class="tdcard"><div class="tdhead"><b>☀️ ${esc(X.title)}</b>${lfOn('habits') && state.habits.length ? `<small>${esc(hbTodayLine())}</small>` : ''}</div>${parts.join('')}</div>`;
 }
 
@@ -7982,7 +7987,7 @@ const HELP_DOC = [
     'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
   { id: 'home', ic: '🏠', t: 'Главная', p: [
-    'Маленькие плитки под мотивацией дня: 🛒 Покупки, 🎁 Вишлист, ✅ Дела, 🎯 Цели, 💳 Траты за сегодня. Цифра — сколько там сейчас. Если ты или бот что-то добавили, цифра становится бордовой и мигает — нажми плитку, откроется список.',
+    'В карточке «☀️ Сегодня» под привычками — плитки: 🛒 Покупки, 🎁 Вишлист, ✅ Дела, 🎯 Цели, 💳 Траты за сегодня. Цифра — сколько там сейчас. Если ты или бот что-то добавили, цифра становится бордовой и мигает — нажми плитку, откроется список.',
     'Приветствие, подпись (её можно поменять: ⚙️ Настройки → 🧩 Под себя) и цитата дня — нажми на цитату, чтобы сменить её.',
     'Плитки: сколько активных учеников, сколько уроков в месяце, сколько заработано и общий долг учеников. Нажми на плитку — откроется нужная вкладка.',
     'Цель на месяц: полоска показывает, сколько процентов цели уже заработано. Цель задаётся: ⚙️ Настройки → 💰 Цены и абонементы.',
@@ -8738,9 +8743,16 @@ function homeTiles(){
   }
   return out;
 }
-function homeTilesRow(){
+/* tiles live inside «☀️ Сегодня» under the habits (bigger than the habit chips, with labels);
+   if that card is not shown (life off / no plan), they get their own small card */
+let hcInToday = false;
+function homeTilesInner(){
   const tl = homeTiles(); if (!tl.length) return '';
-  return `<div class="hctiles">${tl.map(([k, ic, n, lab, nw]) => `<button class="hct${nw ? ' new' : ''}" data-act="hcOpen" data-v="${k}" aria-label="${esc(lab + ': ' + n)}"><span class="hci">${ic}<em>${esc(String(n))}</em></span><small>${esc(lab)}</small></button>`).join('')}</div>`;
+  return `<div class="hctiles">${tl.map(([k, ic, n, lab, nw]) => `<button class="hct hc-${k}${nw ? ' new' : ''}" data-act="hcOpen" data-v="${k}" aria-label="${esc(lab + ': ' + n)}"><span class="hci">${ic}<em>${esc(String(n))}</em></span><small>${esc(lab)}</small></button>`).join('')}</div>`;
+}
+function homeTilesRow(){
+  if (hcInToday) { hcInToday = false; return ''; }
+  const h = homeTilesInner(); return h ? `<div class="tdcard hccard">${h}</div>` : '';
 }
 const RCN = {
   hcOpen: el => {
@@ -8750,7 +8762,7 @@ const RCN = {
     else if (k === 'goals') A.lfGoals();
     else if (k === 'fin') A.lfFin();
     else if (k === 'tasks') { ui.tab = 'plan'; render(); window.scrollTo(0, 0); }
-    setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) r.outerHTML = homeTilesRow(); } }, 50);
+    setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) { const h = homeTilesInner(); if (h) r.outerHTML = h; else r.remove(); } } }, 50);
   }
 };
 
