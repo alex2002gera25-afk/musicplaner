@@ -597,18 +597,17 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .fab[hidden]{display:none!important}
 .fabgrid .tool{min-height:92px}
 
-/* 7.9 «Только что добавлено» on Home */
-.rccard{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:18px;padding:12px 14px;margin:10px 0}
-.rcrow{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:8px 0;color:inherit;font:inherit;cursor:pointer}
-.rcrow:first-of-type{border-top:0}
-.rci{font-size:20px;width:28px;text-align:center;flex:none}
-.rcm{flex:1;min-width:0;display:flex;flex-direction:column}
-.rcm b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rcm small{font-size:12px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rct{font-size:11px;opacity:.6;flex:none}
-.rcrow.new .rcm b::after{content:" •";color:var(--accent)}
-.rcrow.new{animation:rcin .6s ease}
-@keyframes rcin{from{background:rgba(128,0,32,.12)}to{background:transparent}}
+/* 7.9 small tiles on Home: icon + count badge, new → accent badge */
+.hctiles{display:flex;gap:10px;margin:10px 0;overflow-x:auto;padding:4px 2px 2px;scrollbar-width:none}
+.hctiles::-webkit-scrollbar{display:none}
+.hct{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
+.hci{position:relative;width:56px;height:56px;border-radius:18px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:26px}
+.hci em{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--line);color:inherit;font:700 11px/20px system-ui,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg, #fff)}
+.hct.new .hci em{background:var(--accent);color:var(--accent-text, #fff);animation:hcp 1.6s ease-in-out 3}
+.hct.new .hci{border-color:var(--accent)}
+.hct small{font-size:11px;opacity:.75;white-space:nowrap}
+.hct:active .hci{transform:scale(.94)}
+@keyframes hcp{50%{transform:scale(1.18)}}
 </style>
 </head>
 <body>
@@ -2972,14 +2971,10 @@ const FXD = {
     botT: 'Even faster — via the bot', botWork: 'Write or say: “Masha tomorrow at 3 pm”, “Petya paid 2000”, “Olya bought an 8-lesson package” — the bot adds it.', botLife: 'Write or say: “remind me on Friday to buy strings”, “taxi 450”, “buy milk and bread”, “did yoga” — the bot adds it.' }
 };
 const RCND = {
-  ru: { title: 'Только что добавлено', hide: 'скрыть', now: 'только что', min: m => `${m} мин назад`, hr: h => `${h} ч назад`, yest: 'вчера', more: n => `и ещё ${n}`,
-    student: 'новый ученик', lesson: d => `урок · ${d}`, lessons: (n, d) => `${ruN(n, 'урок', 'урока', 'уроков')} с ${d}`, pkg: n => `абонемент на ${ruN(n, 'урок', 'урока', 'уроков')}`, exp: s => `расход · ${s}`,
-    wish: 'в вишлисте', list: n => `в списке «${n}»`, fin: 'мои финансы', goal: 'новая цель', habit: 'новая привычка' },
-  en: { title: 'Just added', hide: 'hide', now: 'just now', min: m => `${m} min ago`, hr: h => `${h} h ago`, yest: 'yesterday', more: n => `and ${n} more`,
-    student: 'new student', lesson: d => `lesson · ${d}`, lessons: (n, d) => `${n} lessons from ${d}`, pkg: n => `${n}-lesson package`, exp: s => `expense · ${s}`,
-    wish: 'on the wishlist', list: n => `on “${n}”`, fin: 'my money', goal: 'new goal', habit: 'new habit' }
+  ru: { lists: 'Покупки', wish: 'Вишлист', tasks: 'Дела', goals: 'Цели', fin: 'Траты' },
+  en: { lists: 'Shopping', wish: 'Wishlist', tasks: 'To-do', goals: 'Goals', fin: 'Spent' }
 };
-for (const c in I18N) { I18N[c].rcn = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
+for (const c in I18N) { I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -3936,7 +3931,7 @@ function renderHome(){
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
   const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
-  if (!state.students.length) return hello + quote + reqBlock() + safe(recentCard, '') + safe(todayCard, '') + welcome() + achRow();
+  if (!state.students.length) return hello + quote + reqBlock() + safe(homeTilesRow, '') + safe(todayCard, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
   const active = state.students.filter(s => !s.archived).length;
   const debtAll = vsum(state.lessons.filter(l => counts(l) && !l.paid));
@@ -3955,7 +3950,7 @@ function renderHome(){
   const upcoming = state.lessons.filter(l => l.st === 'plan' && l.date > t).sort(byDateAsc).slice(0, 5);
   const wa = safe(waitAlert);
   const al = reqBlock() + (wa ? `<div class="alerts" style="margin-bottom:8px">${wa}</div>` : '') + (wrapSeason() ? `<div class="alerts" style="margin-bottom:8px"><div class="alert" data-act="wrap"><span class="ai">🎉</span><span class="at">${esc(T.wrapAlert)}</span><span class="chev">›</span></div></div>` : '') + alertsBlock();
-  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + safe(recentCard, '') + kpis + safe(todayCard, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
+  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + safe(homeTilesRow, '') + kpis + safe(todayCard, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
     + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week;
   if (mod('plan')) out += safe(planHomeBlock);
   out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${money(vsum(todays.filter(counts)))}</span>` : ''}</div>`
@@ -5595,13 +5590,16 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 32;
+const APP_VER = 33;
 const CHANGES = [
+  { v: 33, name: '7.9.1', date: '2026-11-03',
+    ru: { add: [], better: ['🛒 На главной вместо большой карточки — маленькие плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список'], removed: [] },
+    en: { add: [], better: ['🛒 Small tiles on Home instead of the big card: shopping, wishlist, to-do, goals, spending with a count; new items light it up, tap to open'], removed: [] } },
   { v: 32, name: '7.9', date: '2026-11-03', big: true,
     ru: { add: ['➕ Две кнопки «+» на каждой вкладке: справа «Работа» — урок, ученик, абонемент, выступление, расход, сертификат; слева «Дела» — дело, заметка, репетиция, день рождения, привычка, трата, покупки, желание, цель, дневник'],
-      better: ['🆕 На главной — «Только что добавлено»: видно всё, что ты или бот добавили за двое суток (желания, покупки, траты, уроки, дела…), нажми — и откроется', '🎁 Пробный период — 3 дня', '🎟 Абонемент теперь продаётся прямо с «+»', '📖 Справка и обучение рассказывают про обе кнопки'] },
+      better: ['🛒 На главной — маленькие плитки: покупки, вишлист, дела, цели, траты с цифрой. Добавила что-то (или бот) — цифра загорается, нажми — откроется список', '🎁 Пробный период — 3 дня', '🎟 Абонемент теперь продаётся прямо с «+»', '📖 Справка и обучение рассказывают про обе кнопки'] },
     en: { add: ['➕ Two “+” buttons on every tab: right “Work” — lesson, student, package, gig, expense, certificate; left “To-do” — task, note, rehearsal, birthday, habit, spending, shopping, wish, goal, diary'],
-      better: ['🆕 “Just added” on Home: everything you or the bot added in the last two days, tap to open it', '🎁 The free trial is 3 days', '🎟 Sell a package right from “+”', '📖 Help and tutorial explain both buttons'] } },
+      better: ['🛒 Small tiles on Home: shopping, wishlist, to-do, goals, spending with a count. Something added — the count lights up, tap to open', '🎁 The free trial is 3 days', '🎟 Sell a package right from “+”', '📖 Help and tutorial explain both buttons'] } },
   { v: 31, name: '7.8', date: '2026-11-03', big: true,
     ru: { add: ['🎟 Окно «Абонементы» — все абонементы учеников в одном месте: сколько действует, сколько занятий осталось, у кого кончается срок, кто заморожен, виды абонементов и «Продать абонемент». Студия → «Абонементы»'],
       better: ['⚙️ Настройки разделены на понятные группы: 💰 Цены и абонементы, 📅 Работа и запись, 🔔 Уведомления, 🧩 Под себя, 🎨 Оформление, 🛟 Данные и копии', '💰 Виды абонементов теперь прямо в «Цены и абонементы» — ничего не нужно искать', '🧩 «Разделы приложения» — в группе «Под себя»', '📖 Справка, гайд и обучение обновлены под новые настройки'] },
@@ -7792,7 +7790,6 @@ function todayCard(){
     const due = billsDue(t); if (due.length) parts.push(`<div class="tdl" data-act="lfFin">${esc(X.bills(due.map(b => b.name + ' ' + money(b.amt)).join(', ')))}</div>`);
     const left = fnBudgetLeft(ymOf(t)); if (left !== null) parts.push(`<div class="tdl" data-act="lfFin">${esc(left >= 0 ? X.budget(money(left)) : X.over(money(-left)))}</div>`);
   }
-  if (lfOn('lists')) { const n = state.lists.reduce((a, l) => a + l.items.filter(i => !i.d).length, 0); if (n) parts.push(`<div class="tdl" data-act="lfLists">${esc(X.shop(n))}</div>`); }
   if (!parts.length) return '';
   return `<div class="tdcard"><div class="tdhead"><b>☀️ ${esc(X.title)}</b>${lfOn('habits') && state.habits.length ? `<small>${esc(hbTodayLine())}</small>` : ''}</div>${parts.join('')}</div>`;
 }
@@ -7985,7 +7982,7 @@ const HELP_DOC = [
     'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
   { id: 'home', ic: '🏠', t: 'Главная', p: [
-    '🆕 «Только что добавлено»: всё, что ты добавила за последние двое суток — сама или через бота: ученики, уроки, абонементы, расходы, дела, желания, покупки, траты, цели, привычки. Нажми строку — откроется это место. «Скрыть» убирает карточку, пока не добавится что-то новое.',
+    'Маленькие плитки под мотивацией дня: 🛒 Покупки, 🎁 Вишлист, ✅ Дела, 🎯 Цели, 💳 Траты за сегодня. Цифра — сколько там сейчас. Если ты или бот что-то добавили, цифра становится бордовой и мигает — нажми плитку, откроется список.',
     'Приветствие, подпись (её можно поменять: ⚙️ Настройки → 🧩 Под себя) и цитата дня — нажми на цитату, чтобы сменить её.',
     'Плитки: сколько активных учеников, сколько уроков в месяце, сколько заработано и общий долг учеников. Нажми на плитку — откроется нужная вкладка.',
     'Цель на месяц: полоска показывает, сколько процентов цели уже заработано. Цель задаётся: ⚙️ Настройки → 💰 Цены и абонементы.',
@@ -8716,49 +8713,45 @@ const FB = {
   },
   fnQuick: el => { if (typeof SUB_GATE !== 'undefined' && subOn() && !can(SUB_GATE.lfFin || 'max')) return lockSheet('max'); openSheet(fnOpForm(null, (el && el.dataset.v) || 'out')); }
 };
-/* ================= 7.9: «🆕 Только что добавлено» on Home =================
-   Everything added in the last 48 h — by hand or via the bot — so the person sees it landed.
-   Creation time comes from the id (uid() starts with Date.now() in base 36). */
-const RC_WIN = 48 * 3600e3, RC_MAX = 6;
+/* ================= 7.9: small tiles on Home — 🛒 shopping, 🎁 wishlist, ✅ tasks, 🎯 goals, 💳 spending =================
+   Each tile: an icon with a count badge. Something new added (by hand or via the bot) since the tile was last opened →
+   the badge turns accent and gently pulses. Tap → opens the list. Creation time comes from the id (uid() = Date.now() in base 36). */
 const idTime = id => { const t = parseInt(String(id || '').slice(0, 8), 36); return t > 1.5e12 && t < 2.5e12 ? t : 0; };
-function rcAgo(ms){
-  const X = T.rcn, m = Math.round((Date.now() - ms) / 60000);
-  if (m < 2) return X.now; if (m < 60) return X.min(m);
-  const h = Math.round(m / 60); return h < 24 ? X.hr(h) : X.yest;
-}
-function recentItems(){
-  const now = Date.now(), from = Math.max(now - RC_WIN, +state.settings.rcHide || 0), X = T.rcn, out = [];
-  const fresh = id => { const t = idTime(id); return t > from && t <= now + 6e4 ? t : 0; };
-  const add = (t, ic, txt, sub, act, id, v) => out.push({ t, ic, txt, sub, act, id: id || '', v: v || '' });
-  if (mod('students')) {
-    state.students.forEach(s => { const t = fresh(s.id); if (t) add(t, '👤', s.name, X.student, 'openStudent', s.id); });
-    const byS = {};
-    state.lessons.forEach(l => { const t = fresh(l.id); if (t) (byS[l.sid] || (byS[l.sid] = [])).push([t, l]); });
-    Object.keys(byS).forEach(sid => { const a = byS[sid].sort((x, y) => x[1].date.localeCompare(y[1].date)), s = stu(sid), t = Math.max(...a.map(x => x[0])), l = a[0][1];
-      add(t, '📅', s ? s.name : T.removed, a.length > 1 ? X.lessons(a.length, shortDate(l.date)) : X.lesson(shortDate(l.date) + (l.time ? ' ' + l.time : '')), 'editLesson', l.id); });
-    state.packages.forEach(p => { const t = fresh(p.id), s = stu(p.sid); if (t) add(t, '🎟', s ? s.name : T.removed, X.pkg(p.n), 'editPackage', p.id); });
+const HC_WIN = 48 * 3600e3;
+function hcSeen(k){ const s = state.settings.hcSeen || {}; return Math.max(+s[k] || 0, Date.now() - HC_WIN); }
+const hcNew = (k, ids) => { const from = hcSeen(k); return ids.some(id => idTime(id) > from); };
+function homeTiles(){
+  const X = T.hc, t = today(), out = [];
+  if (lfOn('lists')) {
+    const open = []; state.lists.forEach(l => l.items.forEach(i => { if (!i.d) open.push(i.id); }));
+    if (open.length) out.push(['lists', '🛒', open.length, X.lists, hcNew('lists', open)]);
   }
-  if (mod('money')) state.expenses.forEach(e => { const t = fresh(e.id); if (t) add(t, '💸', e.note || T.cats[e.cat] || '', X.exp(money(e.amount)), 'editExpense', e.id); });
-  if (mod('plan')) (state.items || []).forEach(it => { const t = fresh(it.id); if (t) add(t, (typeof PK !== 'undefined' && PK[it.kind]) || '✅', itemTitle(it), (T.pl.kinds[it.kind] || '') + (it.date ? ' · ' + shortDate(it.date) : ''), 'plOpen', it.id); });
-  if (mod('life')) {
-    if (lfOn('wish')) state.wish.forEach(w => { const t = fresh(w.id); if (t) add(t, '🎁', w.name, X.wish + (+w.price ? ' · ' + money(w.price) : ''), 'lfWish'); });
-    if (lfOn('lists')) state.lists.forEach(l => { const its = l.items.filter(i => fresh(i.id)); if (its.length) add(Math.max(...its.map(i => idTime(i.id))), l.e || '🛒', its.map(i => i.t).join(', '), X.list(l.name), 'rcList', l.id); });
-    if (lfOn('fin')) state.fin.forEach(o => { const t = fresh(o.id); if (t) add(t, o.t === 'in' ? '💰' : '💳', o.note || (typeof fnCat === 'function' ? fnCat(o.cat) : o.cat), (o.t === 'in' ? '+' : '−') + money(o.amt) + ' · ' + X.fin, 'lfFin'); });
-    if (lfOn('goals')) state.goals.forEach(g => { const t = fresh(g.id); if (t) add(t, g.e || '🎯', g.name, X.goal, 'lfGoals'); });
-    if (lfOn('habits')) state.habits.forEach(h => { const t = fresh(h.id); if (t) add(t, h.e || '🌱', h.name, X.habit, 'lfHabits'); });
+  if (lfOn('wish')) { const w = state.wish.filter(x => !x.done); if (w.length) out.push(['wish', '🎁', w.length, X.wish, hcNew('wish', w.map(x => x.id))]); }
+  if (mod('plan')) {
+    const tk = (state.items || []).filter(it => it.kind === 'task' && !it.rep && !it.done && (!it.date || it.date <= t));
+    if (tk.length) out.push(['tasks', '✅', tk.length, X.tasks, hcNew('tasks', tk.map(x => x.id))]);
   }
-  return out.sort((a, b) => b.t - a.t);
+  if (lfOn('goals')) { const g = state.goals.filter(x => !x.done); if (g.length) out.push(['goals', '🎯', g.length, X.goals, hcNew('goals', g.map(x => x.id))]); }
+  if (lfOn('fin') && (typeof can !== 'function' || can('max'))) {
+    const ops = state.fin.filter(o => o.d === t && o.t === 'out');
+    if (ops.length) { const sum = ops.reduce((a, o) => a + (+o.amt || 0), 0); out.push(['fin', '💳', sum >= 1000 ? Math.round(sum / 100) / 10 + 'k' : Math.round(sum), X.fin, hcNew('fin', ops.map(o => o.id))]); }
+  }
+  return out;
 }
-function recentCard(){
-  const all = recentItems(); if (!all.length) return '';
-  const X = T.rcn, list = all.slice(0, RC_MAX), now = Date.now();
-  return `<div class="rccard"><div class="tdhead"><b>🆕 ${esc(X.title)}</b><button class="link" data-act="rcHide">${esc(X.hide)}</button></div>
-    ${list.map(r => `<button class="rcrow${now - r.t < 15 * 60e3 ? ' new' : ''}" data-act="${r.act}" data-id="${esc(r.id)}"><span class="rci">${r.ic}</span><span class="rcm"><b>${esc(r.txt)}</b><small>${esc(r.sub)}</small></span><span class="rct">${esc(rcAgo(r.t))}</span></button>`).join('')}
-    ${all.length > RC_MAX ? `<div class="hintline" style="margin:4px 0 0">${esc(X.more(all.length - RC_MAX))}</div>` : ''}</div>`;
+function homeTilesRow(){
+  const tl = homeTiles(); if (!tl.length) return '';
+  return `<div class="hctiles">${tl.map(([k, ic, n, lab, nw]) => `<button class="hct${nw ? ' new' : ''}" data-act="hcOpen" data-v="${k}" aria-label="${esc(lab + ': ' + n)}"><span class="hci">${ic}<em>${esc(String(n))}</em></span><small>${esc(lab)}</small></button>`).join('')}</div>`;
 }
 const RCN = {
-  rcHide: () => { state.settings.rcHide = Date.now(); save(); render(); haptic(); },
-  rcList: el => { LX.lo = el.dataset.id || ''; openSheet(listsSheet()); }
+  hcOpen: el => {
+    const k = el.dataset.v, S = state.settings; S.hcSeen = Object.assign({}, S.hcSeen, { [k]: Date.now() }); save();
+    if (k === 'lists') { const ls = state.lists.filter(l => l.items.some(i => !i.d)); LX.lo = ls.length === 1 ? ls[0].id : ''; openSheet(listsSheet()); }
+    else if (k === 'wish') A.lfWish();
+    else if (k === 'goals') A.lfGoals();
+    else if (k === 'fin') A.lfFin();
+    else if (k === 'tasks') { ui.tab = 'plan'; render(); window.scrollTo(0, 0); }
+    setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) r.outerHTML = homeTilesRow(); } }, 50);
+  }
 };
 
 /* ================= Dialogs ================= */
