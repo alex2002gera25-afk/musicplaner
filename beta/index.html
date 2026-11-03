@@ -518,6 +518,18 @@ nav.tabs button[hidden]{display:none}
 .gkind{margin:8px 0}.gkind>span{display:block;font-size:13px;color:var(--hint);margin:0 0 4px}
 .gkind .chipsel{flex-wrap:wrap}
 .gbox .sec{margin:12px 2px 2px}
+
+/* 7.4 subscriptions */
+.sbplan{padding:12px 14px;margin-bottom:10px}
+.sbplan.sbtop{border:2px solid var(--accent)}
+.sbplan{display:block}
+.sbnote{font-size:15px;line-height:1.4;margin:0 4px 12px}
+.sbhead b{font-size:17px}.sbhead small{display:block;opacity:.7;margin:2px 0 6px;font-size:13px;line-height:1.35}
+.sbrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.sbrow.best .sbl b{color:var(--accent)}
+.sbl small,.sbp small{display:block;opacity:.65;font-size:12px}
+.sbp{text-align:right;white-space:nowrap}
+.sbtag{font-size:11px;background:var(--accent);color:#fff;border-radius:8px;padding:2px 6px;vertical-align:2px}
 </style>
 </head>
 <body>
@@ -2614,7 +2626,91 @@ const GCD = {
     dayBeforeAt: (d, t) => d === 1 ? `the day before at ${t}` : `${d} days before at ${t}`, payTitle: (n, d, s) => `${n} — payment for the lesson on ${d} (${s})` }
 };
 const TABP = { ru: 'Планер', en: 'Planner', es: 'Agenda', it: 'Agenda', fr: 'Agenda' };
-for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en;
+/* neutral texts for everyone except Sasha's family (see famT in js_sub.js) */
+const NEU = {
+  ru: { loading: 'Загрузка… настраиваем микрофон 🎤', about: '«Мои ученики» — ученики, уроки, деньги и выступления в одном месте. Нашли баг или есть идея — напишите боту. А ещё здесь спрятаны пасхалки… 🤫',
+    tSavedSanya: 'Сохранено 👍', madeBy: 'Мои ученики · сделано с любовью к музыке ✨',
+    sanya: ['Привет! 👋', 'Ты отлично справляешься ❤️', 'Каждый урок — шаг вперёд 🎶', 'Ученикам повезло с тобой 💐', 'Сделай паузу и выпей воды 💧', 'Так держать! 💪', 'Ты на верном пути ✨', 'Музыка делает мир лучше 🎵'],
+    prizeL: 'Заслуженная награда', prizeX: 'Ты молодец! Такое достижение стоит отметить — побалуй себя: купи что-нибудь приятное, сходи в любимое кафе или по магазинам 🛍', prizeShow: 'Побалуй себя — ты это заслужил(а)!',
+    cheers: ['Аплодисменты стоя 👏', , 'Этим можно гордиться 📣', , , , 'Гордимся тобой до мурашек ❤️'],
+    ntNoApi: 'Чтобы бот присылал напоминания, к приложению один раз подключается маленький сервер. После этого всё заработает само.',
+    ntTestMsg: nm => `🔔 Проверка связи! ${nm}, уведомления работают 🎉`,
+    nb: { sign: '— Мои ученики ✨' },
+    egg: { label: 'Пасхалка', sanya: 'Мои ученики', searchT: 'Ищешь кого-то особенного? 😉', searchS: 'Особенные люди всегда рядом ❤️',
+      night: 'Ночная смена? Пора бы и поспать 😴', monday: 'Понедельник — день тяжёлый, но не для тебя! 🌅', friday: 'Пятница! Объявляем вечер отдыха 🥂', coffee: 'Четыре урока за день! Самое время для кофе и вкусняшки ☕🍰',
+      love: ['Ты делаешь мир музыкальнее ❤️', 'Твои ученики растут благодаря тебе ✅', 'Обнимашки от приложения 🤗', 'Напоминание: ты прекрасно справляешься 💐', 'Гордимся тобой каждый день ❤️', 'Это приложение работает на твоём вдохновении 🔋'],
+      hello: ['Привет-привет! 👋', 'Это кнопка обнимашек 🤗', 'Тук-тук! Кто там? 😄'],
+      roomOpenX: 'Это тайный уголок приложения. Теперь он всегда ждёт тебя во вкладке «Студия» 🤫', roomTitle: 'Секретная комната',
+      letter: '{n}, пусть каждый урок приносит радость, ученики поют всё лучше, а ты никогда не сомневаешься в себе. Так держать ❤️', more: 'Ещё комплимент',
+      list: { search: ['Особенный поиск'], jingle: ['Позывные'], coffee: ['Кофе-брейк'], secret: [, 'Послания прячутся в особенные даты 💌'] },
+      m143: '143 = I love you 💌 Музыка — это любовь!', poly: 'Полиглот! Mamma mia, сколько языков 🇮🇹😅', dark: 'Тёмная сторона силы… в бордовом 🦇',
+      jingleT: 'Позывные!', jingleX: 'До-ми-соль-до — секретные позывные. Пасхалка найдена 🎹', jingleAgain: 'Позывные приняты! 🎹',
+      bdayText: 'Пусть голос звучит, ученики радуют, а мечты сбываются одна за другой ❤️', secretTitle: 'Тайное послание' },
+    achGen: { eggs: [[, , 'Знает все секреты приложения']] },
+    wrapLetter: '{n}, это был потрясающий год. Столько людей запели благодаря тебе! Дальше будет ещё интереснее ❤️',
+    bx: { hintOff: 'Ввод через бота пока не настроен' },
+    bk: { how: [, , , , , 'Если экран приложения не грузится вообще — нажми «Скопировать данные» на экране ошибки и сохрани текст: из него всё восстановится.'] } },
+  en: { loading: 'Loading… tuning the microphone 🎤', about: '“My Students” — students, lessons, money and gigs in one place. Found a bug or have an idea — write to the bot. And there are hidden easter eggs… 🤫',
+    tSavedSanya: 'Saved 👍', madeBy: 'My Students · made with love for music ✨',
+    sanya: ['Hi there! 👋', 'You’re doing great ❤️', 'Every lesson is a step forward 🎶', 'Your students are lucky to have you 💐', 'Take a break and drink some water 💧', 'Keep it up! 💪', 'You’re on the right track ✨', 'Music makes the world better 🎵'],
+    prizeL: 'Well-deserved reward', prizeX: 'Well done! This is worth celebrating — treat yourself: buy something nice, go to your favourite café or go shopping 🛍', prizeShow: 'Treat yourself — you deserve it!',
+    cheers: ['A standing ovation 👏', , 'Something to be proud of 📣', , , , 'So proud of you ❤️'],
+    ntNoApi: 'For the bot to send reminders, a small server is connected to the app once. After that everything works by itself.',
+    ntTestMsg: nm => `🔔 Test! ${nm}, notifications work 🎉`,
+    nb: { sign: '— My Students ✨' },
+    egg: { label: 'Easter egg', sanya: 'My Students', searchT: 'Looking for someone special? 😉', searchS: 'Special people are always close ❤️',
+      night: 'Night shift? Time to get some sleep 😴', monday: 'Mondays are hard, but not for you! 🌅', friday: 'Friday! Time for an evening off 🥂', coffee: 'Four lessons in a day! Time for coffee and a treat ☕🍰',
+      love: ['You make the world more musical ❤️', 'Your students grow thanks to you ✅', 'A hug from the app 🤗', 'Reminder: you’re doing great 💐', 'Proud of you every day ❤️', 'This app runs on your inspiration 🔋'],
+      hello: ['Hi-hi! 👋', 'This is the hug button 🤗', 'Knock knock! Who’s there? 😄'],
+      roomOpenX: 'This is the app’s secret corner. It now waits for you in the “Studio” tab 🤫', roomTitle: 'Secret room',
+      letter: '{n}, may every lesson bring joy, your students sing better and better, and may you never doubt yourself. Keep it up ❤️', more: 'Another compliment',
+      list: { search: ['A special search'], jingle: ['Call sign'], coffee: ['Coffee break'], secret: [, 'Messages hide on special dates 💌'] },
+      m143: '143 = I love you 💌 Music is love!', poly: 'Polyglot! Mamma mia, so many languages 🇮🇹😅', dark: 'The dark side… in burgundy 🦇',
+      jingleT: 'Call sign!', jingleX: 'C-E-G-C — the secret call sign. Easter egg found 🎹', jingleAgain: 'Call sign received! 🎹',
+      bdayText: 'May your voice ring, your students delight you and your dreams come true one by one ❤️', secretTitle: 'Secret message' },
+    achGen: { eggs: [[, , 'Knows all the app’s secrets']] },
+    wrapLetter: '{n}, what an amazing year. So many people started singing thanks to you! The best is yet to come ❤️',
+    bx: { hintOff: 'Bot input is not set up yet' },
+    bk: { how: [, , , , , 'If the app screen doesn’t load at all, tap “Copy data” on the error screen and save the text: everything can be restored from it.'] } }
+};
+globalThis.NEU_T = NEU;
+const SBD = {
+  ru: { title: 'Подписка', plans: 'Тарифы и цены', codeL: 'Код подписки', activate: 'Активировать', enterCode: 'Введи код, например MAX-7K2M9Q', buy: 'Купить код',
+    planName: { free: 'Бесплатно', pro: 'Про', max: 'Макс' },
+    planDesc: { free: n => `${n} дней «Макс» бесплатно, один раз — чтобы всё попробовать`, pro: 'Всё без ограничений: ученики, Google Календарь, копии в Google Drive, ученики в боте, бот текстом, выступления, коллективы, песни, райдер', max: 'Всё из Про + голосовые и напетые мелодии в боте' },
+    terms: { y: 'Учебный год', m6: 'Полугодие', m3: 'Четверть', m1: 'Попробовать' },
+    termSub: { y: '13 месяцев — месяц в подарок, цена фиксируется', m6: '6 месяцев + 2 недели в подарок', m3: '3 месяца', m1: '1 месяц' },
+    best: 'выгоднее всего', perMonth: n => `≈${n} ₽/мес`, perDay: n => `≈${n} ₽ в день`,
+    lockTitle: p => `Доступно в тарифе ${p}`, lockText: p => `Эта функция открывается с тарифом «${p}». Введи код подписки — и всё заработает сразу.`,
+    stuLimit: n => `Бесплатно можно вести до ${n} учеников. Чтобы добавить ещё — нужен тариф «Про» или «Макс».`,
+    roTitle: 'Режим просмотра', roText: n => `Подписка закончилась — поэтому сейчас можно только смотреть. Все данные на месте, копию можно скачать. Введи новый код — и всё снова заработает.`,
+    roBanner: 'Подписка закончилась — режим просмотра. Нажми, чтобы продлить',
+    soon: n => n <= 1 ? 'Подписка заканчивается завтра — продли кодом' : `Подписка заканчивается через ${n} дн. — продли кодом`,
+    active: (p, u) => `Тариф «${p}» · ${u}`, until: d => `до ${d}`, forever: 'навсегда', freeNow: n => 'Без подписки — только просмотр', trialOn: u => `Пробный период «Макс» · ${u}`, trialName: 'Пробный период', trialBtn: n => `Попробовать ${n} дней бесплатно`, trialDone: n => `Пробный период включён: ${n} дней всё открыто!`,
+    roNew: n => `Сейчас приложение в режиме просмотра. Чтобы добавлять учеников, уроки и всё остальное — введи код подписки или включи пробный период: ${n} дней всё бесплатно.`, roBannerNew: 'Режим просмотра — нажми, чтобы попробовать бесплатно или ввести код', ended: d => `Подписка закончилась ${d}`, admin: 'Ты владелец — всё включено навсегда',
+    done: p => `Готово! Тариф «${p}» включён`, howBuy: 'Нажми «Купить код» — откроется чат, где можно купить код. Ввести его можно здесь или просто отправить боту. Слово TEST в боте включает пробный период.',
+    buyText: 'Привет! Хочу купить код на «Мои ученики»',
+    errs: { trialUsed: 'Пробный период уже был на этом аккаунте — нужен код подписки', hasSub: 'У тебя уже есть подписка 🙂', nocode: 'Такого кода нет — проверь буквы и цифры', used: 'Этот код уже использован', revoked: 'Этот код отменён', mine: 'Ты уже активировал этот код', life: 'У тебя уже вечная подписка этого уровня', fail: 'Не получилось — проверь интернет и попробуй ещё раз' },
+    f: { income: 'Доходы по источникам', week: 'Обзор недели' }, open: 'Открыть' },
+  en: { title: 'Subscription', plans: 'Plans & prices', codeL: 'Subscription code', activate: 'Activate', enterCode: 'Enter a code, e.g. MAX-7K2M9Q', buy: 'Buy a code',
+    planName: { free: 'Free', pro: 'Pro', max: 'Max' },
+    planDesc: { free: n => `${n} days of “Max” for free, once — to try everything`, pro: 'Everything unlimited: students, Google Calendar, Google Drive backups, students in the bot, bot by text, gigs, bands, songs, rider', max: 'Everything in Pro + voice messages and hummed melodies in the bot' },
+    terms: { y: 'School year', m6: 'Half-year', m3: 'Term', m1: 'Try it' },
+    termSub: { y: '13 months — one month free, price locked', m6: '6 months + 2 weeks free', m3: '3 months', m1: '1 month' },
+    best: 'best value', perMonth: n => `≈${n} ₽/mo`, perDay: n => `≈${n} ₽ a day`,
+    lockTitle: p => `Available in ${p}`, lockText: p => `This feature comes with the “${p}” plan. Enter a subscription code and it works right away.`,
+    stuLimit: n => `The free plan covers up to ${n} students. To add more you need “Pro” or “Max”.`,
+    roTitle: 'View-only mode', roText: n => `Your subscription has ended, so for now you can only view. All your data is safe and you can download a backup. Enter a new code and everything works again.`,
+    roBanner: 'Subscription ended — view-only mode. Tap to renew',
+    soon: n => n <= 1 ? 'Subscription ends tomorrow — renew with a code' : `Subscription ends in ${n} days — renew with a code`,
+    active: (p, u) => `“${p}” plan · ${u}`, until: d => `until ${d}`, forever: 'forever', freeNow: n => 'No subscription — view only', trialOn: u => `“Max” trial · ${u}`, trialName: 'Free trial', trialBtn: n => `Try ${n} days for free`, trialDone: n => `Trial is on: ${n} days, everything unlocked!`,
+    roNew: n => `The app is in view-only mode. To add students, lessons and everything else, enter a subscription code or start the free trial: ${n} days, everything free.`, roBannerNew: 'View-only mode — tap to try for free or enter a code', ended: d => `Subscription ended ${d}`, admin: 'You are the owner — everything is on forever',
+    done: p => `Done! “${p}” plan is on`, howBuy: 'Tap “Buy a code” to open the chat where you can buy one. Enter it here or just send it to the bot. Sending TEST to the bot starts the trial.',
+    buyText: 'Hi! I want to buy a code for the app',
+    errs: { trialUsed: 'This account has already had a trial — a subscription code is needed', hasSub: 'You already have a subscription 🙂', nocode: 'No such code — check the letters and digits', used: 'This code has already been used', revoked: 'This code was cancelled', mine: 'You have already activated this code', life: 'You already have a lifetime plan of this level', fail: 'Didn’t work — check the internet and try again' },
+    f: { income: 'Income by source', week: 'Weekly review' }, open: 'Open' }
+};
+for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -2627,7 +2723,7 @@ function buildQuotes(){
   quoteIdx = 0;
 }
 function applyLang(code){
-  L = I18N[code] ? code : 'ru'; T = I18N[L]; LOC = LANGS[L].loc;
+  L = I18N[code] ? code : 'ru'; T = I18N[L]; try { T = famT(L); } catch (e) {} LOC = LANGS[L].loc;
   const mk = o => { try { return new Intl.DateTimeFormat(LOC, o); } catch (e) { return new Intl.DateTimeFormat(undefined, o); } };
   F = { month: mk({ month: 'long' }), monthShort: mk({ month: 'short' }), dm: mk({ day: 'numeric', month: 'long' }),
     dmShort: mk({ day: 'numeric', month: 'short' }), wdShort: mk({ weekday: 'short' }), wdLong: mk({ weekday: 'long' }),
@@ -4123,6 +4219,7 @@ function settingsSheet(){
       <div class="langs">${Object.keys(LANGS).map(c => `<button data-act="setLang" data-v="${c}" class="${c === L ? 'on' : ''}"><span class="fl">${LANGS[c].flag}</span>${esc(LANGS[c].name)}</button>`).join('')}</div>
       <div class="sec" style="margin-top:0"><span>${esc(T.theme)}</span></div>
       <div class="chipsel" style="margin:0 0 10px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${S.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>
+      ${safe(subSettingsBtn, '')}
       <button class="btn soft" data-act="help" style="margin:0 0 10px">📖 ${esc(T.hp.btn)}</button>
       <button class="btn ghost" data-act="look" style="margin:0 0 10px">🎨 ${esc(T.lk.btn)}</button>
       <button class="btn ghost" data-act="mods" style="margin:0 0 10px">🧩 ${esc(T.md.title)}</button>
@@ -4410,7 +4507,7 @@ function secretRoom(){
       <div class="prog">${esc(T.egg.found(f.length, EGGS.length))}</div>
       <div class="card">${EGGS.map(([id, icon]) => { const has = f.includes(id);
         return `<div class="li"><span style="font-size:20px;flex:none${has ? '' : ';opacity:.45'}">${has ? icon : '❓'}</span><span class="tx">${esc(has ? T.egg.list[id][0] : T.egg.list[id][1])}</span></div>`; }).join('')}</div>
-      <button class="btn ghost" data-act="prizeBank">🔒 ${esc(T.bankT)}</button>
+      ${famOn() ? `<button class="btn ghost" data-act="prizeBank">🔒 ${esc(T.bankT)}</button>` : ''}
       <button class="btn" data-act="sanyaLove">❤️ ${esc(T.egg.more)}</button>`;
   };
 }
@@ -4426,6 +4523,7 @@ const isBooking = startParam === 'book';
 let requests = [];
 try { requests = JSON.parse(lsGetK('vs_reqs') || '[]'); } catch (e) {}
 function handleServer(j){
+  if (j.sub) safe(() => subApply(j.sub));
   if (j.gcal && typeof j.gcal === 'object' && JSON.stringify(j.gcal) !== JSON.stringify(state.settings.gcal || {})) { state.settings.gcal = j.gcal; save(); const top = stack[stack.length - 1]; if (top && top.isCal) setTimeout(refreshSheet, 50); }
   if (j.cal && j.cal.full && (!state.settings.calLinks || state.settings.calLinks.full !== j.cal.full)) { state.settings.calLinks = j.cal; save(); }
   if (j.bot) { botUser = j.bot; lsSetK('vs_bot', j.bot); }
@@ -5076,8 +5174,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 18;
+const APP_VER = 19;
 const CHANGES = [
+  { v: 19, name: '7.4', date: '2026-11-03',
+    ru: { add: ['💎 Подписки по кодам: тарифы «Про» и «Макс» и пробный период на 5 дней — ⚙️ Настройки → 💎 Подписка. Код можно ввести в приложении или просто отправить боту', '🎓 Сроки как в школе: Четверть, Полугодие и Учебный год — чем дольше, тем выгоднее, а к году — месяц в подарок'],
+      better: ['🔒 Данные никогда не удаляются: если подписка закончится, всё останется на месте'] },
+    en: { add: ['💎 Subscriptions by codes: Pro and Max plans plus a 5-day free trial — ⚙️ Settings → 💎 Subscription. Enter a code in the app or just send it to the bot', '🎓 Terms like at school: Term, Half-year and School year — the longer, the cheaper, plus a free month with the year'],
+      better: ['🔒 Your data is never deleted: if a subscription ends, everything stays in place'] } },
   { v: 18, name: '7.3.1', date: '2026-11-01',
     ru: { better: ['📗 Google Календарь подключается бесплатно — без Google Cloud и без карты: помощник работает внутри твоего аккаунта и раз в 5 минут переносит изменения', '🎨 Календари создаются только для того, что у тебя есть'] },
     en: { better: ['📗 Google Calendar connects for free — no Google Cloud, no card: a helper runs inside your own account and copies changes every 5 minutes', '🎨 Calendars are created only for what you actually use'] } },
@@ -7029,6 +7132,15 @@ const HELP_DOC = [
     'Студия → «Лист ожидания»: кто хочет заниматься, какое время ему удобно, контакт.',
     'Когда урок отменяется (тобой или учеником через бота), на Главной появится подсказка: освободилось такое-то время, первая в листе — такая-то. Нажми — откроется список с кнопкой «Написать».',
     '«Сделать учеником» — переносит человека из листа в ученики со всеми заметками.' ] },
+  { id: 'sub', ic: '💎', t: 'Подписка и коды', p: [
+    'Тарифы: без подписки приложение работает в режиме просмотра. «Про» — всё без ограничений: ученики, Google Календарь, копии в Google Drive, ученики в боте, бот текстом, выступления, коллективы, песни, райдер. «Макс» — всё из Про плюс голосовые и напетые мелодии в боте.',
+    'Сроки и цены. Макс: Учебный год (13 месяцев — месяц в подарок) 2 599 ₽, Полугодие (+2 недели) 1 690 ₽, Четверть 990 ₽, Попробовать (1 месяц) 390 ₽. Про: 1 590 / 1 090 / 649 / 249 ₽.',
+    'Как активировать: код выглядит как MAX-7K2M9Q или PRO-3HQ8TZ. Отправь его боту в чат — или в приложении: ⚙️ Настройки → 💎 Подписка → введи код → «Активировать». Регистр и пробелы не важны.',
+    'Купить код: ⚙️ Настройки → 💎 Подписка → «Купить код» — откроется чат, где его можно купить. Каждый код одноразовый и привязывается к твоему аккаунту Telegram.',
+    'Пробный период: 5 дней «Макс» бесплатно, один раз на аккаунт. Отправь боту слово TEST или нажми «🎁 Попробовать 5 дней бесплатно» в приложении.',
+    'Продление: просто введи новый код — дни добавятся к оставшимся. За 3 дня до конца бот напомнит.',
+    'Когда подписка закончилась: данные никогда не удаляются. Включается режим просмотра: всё видно, копию можно скачать, но новое не добавляется. Новый код — и всё снова работает.',
+    'Закрытые функции отмечаются замком 🔒 — нажми, и там же можно ввести код.' ] },
   { id: 'gcal', ic: '📗', t: 'Google Календарь с напоминаниями', p: [
     'Это бесплатно, карта и Google Cloud не нужны. Настройки → «Календарь в телефоне» → «Подключить Google Календарь». Откроется Google: войди в свой аккаунт и нажми «Разрешить». Если Google напишет «Приложение не проверено» — это нормально для личных приложений: «Дополнительно» → «Перейти» → «Разрешить». Бот напишет «📗 Google Календарь подключён».',
     'Приложение создаст в твоём Google отдельные календари с цветами: «🎵 Уроки», «🎤 Выступления», «🎸 Репетиции», «✅ Дела и события», «🎂 Дни рождения», «💳 Оплаты» — и будет их вести само: новые, перенесённые и отменённые уроки и события повторяются там в течение 5 минут. Календари создаются только для того, что у тебя есть (нет выступлений — не будет и календаря «Выступления»).',
@@ -7097,7 +7209,7 @@ const HELP_DOC = [
     'Неправильно посчитался долг — проверь статусы уроков (пришёл / пропуск) и отметки оплаты; урок из абонемента долгом не считается.',
     'Как удалить урок — открой урок → «Удалить».',
     'Можно ли пользоваться с двух телефонов — да, данные хранятся в Telegram, на любом устройстве с твоим аккаунтом они одни и те же.',
-    'Что-то сломалось — сначала закрой и открой приложение. Если не помогло, Настройки → «Для разработчика» покажет ошибки (нужен пароль у Саши).' ] }
+    'Что-то сломалось — сначала закрой и открой приложение. Если не помогло, Настройки → «Для разработчика» покажет ошибки (нужен пароль разработчика). Или напиши о проблеме боту.' ] }
 ];
 const helpPlain = () => HELP_DOC.map(s => `## ${s.ic} ${s.t}\n` + s.p.map(x => '- ' + x).join('\n')).join('\n\n');
 const HX = { q: '', open: '', chat: [], busy: false, err: '' };
@@ -7204,6 +7316,155 @@ const MD = {
     toast('✅ ' + T.md.uiCleared);
   }
 };
+/* ================= 7.4: subscriptions by codes (PRO-XXXXXX / MAX-XXXXXX) =================
+   The server is the source of truth: sync returns `sub` = { on, p, until, life, admin, seller, free }.
+   While sales are off (on: false) — or before the server has answered — everything is open (plan = max).
+   One table SUB_GATE decides which action needs which plan; every action of A is wrapped by subGate(). */
+const PLAN_R = { free: 0, pro: 1, max: 2 };
+const SUB_PRICES = { max: { y: 2599, m6: 1690, m3: 990, m1: 390 }, pro: { y: 1590, m6: 1090, m3: 649, m1: 249 } };
+const SUB_DAYS = { y: 395, m6: 196, m3: 91, m1: 30 };
+const SUB_FREE = 0;   // without a subscription: view only
+/* action → minimal plan */
+const SUB_GATE = { plGroups: 'pro', plGroup: 'pro', plNewIn: 'pro', plRep: 'pro', plSong: 'pro', plSet: 'pro', muWorkshop: 'pro', muComp: 'pro', muArtist: 'pro', muPrep: 'pro', muRun: 'pro',
+  muRiderSend: 'pro', x2Warm: 'pro', x2WaitOpen: 'pro', x2Wait: 'pro', x2WaitNew: 'pro', x2Cal: 'pro', gcConnect: 'pro', bkDrive: 'pro', bkDriveNow: 'pro', x2HwSend: 'pro', x2StuLink: 'pro' };
+const SUB_KINDS = { gig: 1, reh: 1, post: 1 };          // plNew / plKind with these kinds → Про
+/* view-only mode (subscription ended, more students than the free plan allows): these actions change data */
+const SUB_RO = /^(save(?!Settings$|Api$)\w*|delete\w*|add\w*|archiveStudent|mark|togglePaid|payAll|assignEx|resched|cert(New|Save|Del)|rc(Add|Del)|d(Add|Del|Toggle)|songSave|quizSave|giveNote|req(Ok|No)|swPkg|prizeGive|fab|pl(New|NewDay|NewIn|Save|Del|Done|ClearDone|GroupSave|GroupDel|PersonSave|PersonDel|PersonNew|SongSave|SongDel|SetAdd|SetRm|SetMv)|mu(Save|Del|ArtistSave|Chk|ChkAdd|ChkRm|ChkReset|RelStep|CoAdd|CoRm|VerUse)|x2(WaitSave|WaitDel|WaitToStudent|WarmSave|HwSend|WaitNew))$/;
+
+const subS = () => { const s = state.settings.sub; return s && typeof s === 'object' ? s : null; };
+const subOn = () => { const s = subS(); return !!(s && s.on); };
+function plan(){ const s = subS(); if (!s || !s.on || s.admin) return 'max'; return PLAN_R[s.p] !== undefined ? s.p : 'free'; }
+const can = need => PLAN_R[plan()] >= PLAN_R[need || 'free'];
+const planName = p => T.sb.planName[p] || p;
+const subStudents = () => state.students.filter(s => !s.archived).length;
+const readOnly = () => subOn() && plan() === 'free';
+const subDate = ms => new Date(ms).toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' });
+
+function subGate(k, el){
+  if (!subOn()) return true;
+  if (readOnly() && SUB_RO.test(k)) { lockSheet('ro'); return false; }
+  let need = SUB_GATE[k];
+  if ((k === 'plNew' || k === 'plKind') && el && el.dataset && SUB_KINDS[el.dataset.v]) need = 'pro';
+  if (need && !can(need)) { lockSheet(need); return false; }
+  return true;
+}
+function subWrap(){
+  Object.keys(A).forEach(k => {
+    const f = A[k];
+    if (typeof f !== 'function' || f.__sub || /^sub/.test(k)) return;
+    const w = function(el){ return subGate(k, el) ? f.apply(this, arguments) : undefined; };
+    w.__sub = 1; A[k] = w;
+  });
+}
+
+/* ---------- UI ---------- */
+function subStatus(){
+  const s = subS(); if (!s || !s.on) return '';
+  if (s.admin) return T.sb.admin;
+  const p = plan();
+  if (p === 'free') return s.until && s.until < Date.now() ? T.sb.ended(subDate(s.until)) : T.sb.freeNow(SUB_FREE);
+  const u = s.life ? T.sb.forever : T.sb.until(subDate(s.until));
+  return s.inTrial ? T.sb.trialOn(u) : T.sb.active(planName(p), u);
+}
+function subCodeForm(){
+  return `<div class="group"><div class="field"><label for="sb_code">🎟 ${esc(T.sb.codeL)}</label><input id="sb_code" placeholder="MAX-7K2M9Q" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="16"></div></div>
+    <button class="btn" data-act="subRedeem">${esc(T.sb.activate)}</button>`;
+}
+function subTrialBtn(){ const s = subS(); return s && s.on && s.trialOk && plan() === 'free' ? `<button class="btn soft" data-act="subTrial">🎁 ${esc(T.sb.trialBtn(s.trialDays || 5))}</button>` : ''; }
+function subBuyBtn(){ const s = subS(); return s && s.seller ? `<button class="btn ghost" data-act="subBuy">💬 ${esc(T.sb.buy)}</button>` : ''; }
+function subPlans(){
+  const row = (p, t) => {
+    const pr = SUB_PRICES[p][t], per = Math.round(pr / SUB_DAYS[t] * 30), day = Math.round(pr / SUB_DAYS[t]);
+    return `<div class="sbrow${t === 'y' ? ' best' : ''}"><div class="sbl"><b>${esc(T.sb.terms[t])}</b>${t === 'y' ? ` <span class="sbtag">⭐ ${esc(T.sb.best)}</span>` : ''}<small>${esc(T.sb.termSub[t])}${t === 'y' ? ' · ' + esc(T.sb.perDay(day)) : ''}</small></div>
+      <div class="sbp"><b>${pr.toLocaleString('ru-RU')} ₽</b><small>${esc(T.sb.perMonth(per))}</small></div></div>`;
+  };
+  return ['max', 'pro'].map(p => `<div class="card sbplan${p === 'max' ? ' sbtop' : ''}"><div class="sbhead"><b>${p === 'max' ? '⭐ ' : ''}${esc(planName(p))}</b><small>${esc(T.sb.planDesc[p])}</small></div>${['y', 'm6', 'm3', 'm1'].map(t => row(p, t)).join('')}</div>`).join('')
+    + `<div class="card sbplan"><div class="sbhead"><b>🎁 ${esc(T.sb.trialName)} · 0 ₽</b><small>${esc(T.sb.planDesc.free((subS() || {}).trialDays || 5))}</small></div></div>`;
+}
+function subSheet(){
+  const fn = () => sheetHead('💎 ' + T.sb.title) + `<div class="sbnote">${esc(subStatus())}</div>` + subTrialBtn() + subCodeForm() + subBuyBtn()
+    + `<div class="hintline">${esc(T.sb.howBuy)}</div><div class="sec"><span>${esc(T.sb.plans)}</span></div>` + subPlans();
+  fn.isSub = true; return fn;
+}
+function lockSheet(k){
+  const ro = k === 'ro', need = k === 'max' ? 'max' : 'pro';
+  const title = ro ? T.sb.roTitle : T.sb.lockTitle(planName(need));
+  const s = subS() || {}, text = ro ? (s.until ? T.sb.roText(SUB_FREE) : T.sb.roNew(s.trialDays || 5)) : k === 'students' ? T.sb.stuLimit(SUB_FREE) : T.sb.lockText(planName(need));
+  const fn = () => sheetHead('🔒 ' + title) + `<div class="sbnote">${esc(text)}</div>` + subTrialBtn() + subCodeForm() + subBuyBtn()
+    + `<div class="sec"><span>${esc(T.sb.plans)}</span></div>` + subPlans();
+  fn.isSub = true; openSheet(fn);
+}
+function lockCard(name){ return `<div class="alerts"><div class="alert" data-act="subOpen"><span class="ai">🔒</span><span class="at">${esc(name)} — ${esc(T.sb.lockTitle(planName('pro')))}</span><span class="chev">›</span></div></div>`; }
+function subBanner(){
+  const s = subS(); if (!s || !s.on || s.admin) return '';
+  if (readOnly()) return `<div class="alert" data-act="subOpen"><span class="ai">🔒</span><span class="at">${esc(s.until ? T.sb.roBanner : T.sb.roBannerNew)}</span><span class="chev">›</span></div>`;
+  if (plan() !== 'free' && !s.life && s.until) {
+    const d = Math.ceil((s.until - Date.now()) / 864e5);
+    if (d >= 0 && d <= 3) return `<div class="alert" data-act="subOpen"><span class="ai">⏳</span><span class="at">${esc(T.sb.soon(Math.max(1, d)))}</span><span class="chev">›</span></div>`;
+  }
+  return '';
+}
+function subSettingsBtn(){ return subOn() ? `<button class="btn soft" data-act="subOpen" style="margin:0 0 10px">💎 ${esc(subStatus())}</button>` : ''; }
+let subShown = false;
+function subApply(sub){
+  if (!sub || typeof sub !== 'object') return;
+  if (JSON.stringify(sub) === JSON.stringify(state.settings.sub || {})) return;
+  state.settings.sub = sub; save();
+  try { lsSetK('vs_fam', sub.fam === false ? '0' : '1'); } catch (e) {}
+  safe(() => { if (T !== famT(L)) { applyLang(L); renderNav(); } });
+  /* first time without a subscription: show how to start (trial / code) once per session */
+  if (sub.on && readOnly() && !subShown && !stack.length && ready) { subShown = true; setTimeout(() => { if (!stack.length) openSheet(subSheet()); }, 800); }
+  const top = stack[stack.length - 1];
+  if (top && (top.isSub || top.isSettings)) refreshSheet(); else if (!stack.length) render();
+}
+/* paid-only blocks inside screens */
+safe(() => { incomeBlock = (o => m => can('pro') ? o(m) : lockCard(T.sb.f.income))(incomeBlock); });
+safe(() => { weekReview = (o => ds => can('pro') ? o(ds) : '')(weekReview); });
+safe(() => { waitAlert = (o => () => subBanner() + (safe(o) || ''))(waitAlert); });
+
+const SB = {
+  subOpen: () => openSheet(subSheet()),
+  subPlans: () => openSheet(subSheet()),
+  subBuy: () => { const s = subS(); if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
+  subTrial: () => SB.subRedeem('TEST'),
+  subRedeem: async (code) => {
+    const inp = $('sb_code'), c = (typeof code === 'string' ? code : (inp && inp.value || '')).trim();
+    if (!c) return toast(T.sb.enterCode, 2500);
+    try {
+      const j = await botPost({ a: 'redeem', code: c }, 30000);
+      closeSheet(true); subApply(j.sub); render(); haptic();
+      toast('🎉 ' + (j.trial ? T.sb.trialDone((j.sub && j.sub.trialDays) || 5) : T.sb.done(planName(j.sub && j.sub.p || 'pro'))), 3500);
+    } catch (e) { toast(T.sb.errs[e && e.message] || T.sb.errs.fail, 3500); }
+  }
+};
+try { window.__vs = { famOn: () => famOn(), get T(){ return T; }, plan: () => plan(), readOnly: () => readOnly(), subApply: x => subApply(x), get state(){ return state; }, save: () => save(), render: () => render() }; } catch (e) {}
+
+/* ================= personal mode: Sasha's surprises are only for «family» (Anya) =================
+   The server says sub.fam. Old server (no `sub`) → as before. For everyone else the app is neutral:
+   no Sanya, no letters / secret messages / voices / prize bank, achievements say «treat yourself». */
+function famOn(){
+  try {
+    const s = state && state.settings && state.settings.sub;
+    if (s && typeof s.fam === 'boolean') return s.fam;
+    const c = lsGetK('vs_fam'); if (c === '0' || c === '1') return c === '1';
+    return !!(state && state.students && state.students.length);
+  } catch (e) { return true; }
+}
+function famMerge(base, over){
+  if (over === undefined) return base;
+  if (Array.isArray(base) && Array.isArray(over)) return base.map((v, i) => i in over ? famMerge(v, over[i]) : v);
+  if (base && over && typeof base === 'object' && typeof over === 'object' && !Array.isArray(over)) { const o = Object.assign({}, base); for (const k in over) o[k] = famMerge(base[k], over[k]); return o; }
+  return over;
+}
+const FAM_T = {};
+function famT(code){
+  if (famOn()) return I18N[code];
+  return FAM_T[code] || (FAM_T[code] = famMerge(I18N[code], (globalThis.NEU_T || {})[code] || (globalThis.NEU_T || {}).en));
+}
+safe(() => { maybeSecret = (o => (...a) => famOn() ? o(...a) : undefined)(maybeSecret); });
+safe(() => { checkCapsules = (o => (...a) => famOn() ? o(...a) : undefined)(checkCapsules); });
+safe(() => { if (T !== famT(L)) applyLang(L); });
+safe(() => { playVoice = (o => (...a) => famOn() ? o(...a) : undefined)(playVoice); });
 
 /* ================= Dialogs ================= */
 let toastT;
@@ -7705,7 +7966,8 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB);
+safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
