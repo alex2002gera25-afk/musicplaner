@@ -2865,7 +2865,7 @@ globalThis.NEU_T = NEU;
 const SBD = {
   ru: { title: 'Подписка', plans: 'Тарифы и цены', codeL: 'Код подписки', activate: 'Активировать', enterCode: 'Введи код, например MAX-7K2M9Q', buy: 'Купить код',
     planName: { free: 'Бесплатно', pro: 'Про', max: 'Макс' },
-    planDesc: { free: n => `${n} дней «Макс» бесплатно, один раз — чтобы всё попробовать`, pro: 'Вся работа педагога: ученики, уроки, абонементы, деньги, расписание, планер, выступления, коллективы, песни, райдер, Google Календарь, копии, ученики в боте, бот текстом. Плюс личное: до 3 привычек, списки, цели, вишлист', max: 'Всё из Про + до 15 привычек, мои финансы (бюджет, платежи, копилки), дневник голоса, ссылка на вишлист для близких, бот голосом и про личное («такси 450»), напетые мелодии' },
+    planDesc: { free: n => `${n} дней бесплатно — выдаёт создатель приложения по заявке: нажми «Запросить пробный доступ», бот задаст два вопроса`, pro: 'Вся работа педагога: ученики, уроки, абонементы, деньги, расписание, планер, выступления, коллективы, песни, райдер, Google Календарь, копии, ученики в боте, бот текстом. Плюс личное: до 3 привычек, списки, цели, вишлист', max: 'Всё из Про + до 15 привычек, мои финансы (бюджет, платежи, копилки), дневник голоса, ссылка на вишлист для близких, бот голосом и про личное («такси 450»), напетые мелодии' },
     terms: { y: 'Учебный год', m6: 'Полугодие', m3: 'Четверть', m1: 'Попробовать' },
     termSub: { y: '13 месяцев — месяц в подарок, цена фиксируется', m6: '6 месяцев + 2 недели в подарок', m3: '3 месяца', m1: '1 месяц' },
     best: 'выгоднее всего', perMonth: n => `≈${n} ₽/мес`, perDay: n => `≈${n} ₽ в день`,
@@ -2874,11 +2874,11 @@ const SBD = {
     roTitle: 'Режим просмотра', roText: n => `Подписка закончилась — поэтому сейчас можно только смотреть. Все данные на месте, копию можно скачать. Введи новый код — и всё снова заработает.`,
     roBanner: 'Подписка закончилась — режим просмотра. Нажми, чтобы продлить',
     soon: n => n <= 1 ? 'Подписка заканчивается завтра — продли кодом' : `Подписка заканчивается через ${n} дн. — продли кодом`,
-    active: (p, u) => `Тариф «${p}» · ${u}`, until: d => `до ${d}`, forever: 'навсегда', freeNow: n => 'Без подписки — только просмотр', trialOn: u => `Пробный период «Макс» · ${u}`, trialName: 'Пробный период', trialBtn: n => `Попробовать ${n} дней бесплатно`, trialDone: n => `Пробный период включён: ${n} дней всё открыто!`, trialLeft: n => `Пробный период: осталось ${n} ${n === 1 ? 'день' : n < 5 ? 'дня' : 'дней'} — нажми, чтобы выбрать подписку`, trialLastBanner: 'Последний день пробного периода — выбери подписку, чтобы ничего не потерять', trialLastT: 'Последний день пробного периода', trialLastX: 'Завтра приложение перейдёт в режим просмотра. Все данные сохранятся — выбери подписку, и всё продолжит работать без перерыва. Выгоднее всего «Учебный год»: месяц в подарок.',
-    roNew: n => `Сейчас приложение в режиме просмотра. Чтобы добавлять учеников, уроки и всё остальное — введи код подписки или включи пробный период: ${n} дней всё бесплатно.`, roBannerNew: 'Режим просмотра — нажми, чтобы попробовать бесплатно или ввести код', ended: d => `Подписка закончилась ${d}`, admin: 'Ты владелец — всё включено навсегда',
-    done: p => `Готово! Тариф «${p}» включён`, howBuy: 'Нажми «Купить код» — откроется чат, где можно купить код. Ввести его можно здесь или просто отправить боту. Слово TEST в боте включает пробный период.',
+    active: (p, u) => `Тариф «${p}» · ${u}`, until: d => `до ${d}`, forever: 'навсегда', freeNow: n => 'Без подписки — только просмотр', trialOn: u => `Пробный период «Макс» · ${u}`, trialName: 'Пробный период', trialBtn: n => `Запросить пробный доступ на ${n} дней`, trialSent: 'Заявка на пробный доступ отправлена — создатель приложения скоро напишет тебе в Telegram', trialAsked: 'Бот написал тебе в чат — ответь на два коротких вопроса, и заявка уйдёт', trialDone: n => `Пробный период включён: ${n} дней всё открыто!`, trialLeft: n => `Пробный период: осталось ${n} ${n === 1 ? 'день' : n < 5 ? 'дня' : 'дней'} — нажми, чтобы выбрать подписку`, trialLastBanner: 'Последний день пробного периода — выбери подписку, чтобы ничего не потерять', trialLastT: 'Последний день пробного периода', trialLastX: 'Завтра приложение перейдёт в режим просмотра. Все данные сохранятся — выбери подписку, и всё продолжит работать без перерыва. Выгоднее всего «Учебный год»: месяц в подарок.',
+    roNew: n => `Сейчас приложение в режиме просмотра. Чтобы добавлять учеников, уроки и всё остальное — введи код подписки или запроси пробный доступ на ${n} дней: нажми кнопку ниже, бот задаст два вопроса, и создатель приложения откроет доступ.`, roBannerNew: 'Режим просмотра — нажми, чтобы запросить пробный доступ или ввести код', ended: d => `Подписка закончилась ${d}`, admin: 'Ты владелец — всё включено навсегда',
+    done: p => `Готово! Тариф «${p}» включён`, howBuy: 'Нажми «Купить код» — откроется чат, где можно купить код. Ввести его можно здесь или просто отправить боту. Пробный доступ — по заявке: кнопка выше или /trial в боте.',
     buyText: 'Привет! Хочу купить код на «Мои ученики»',
-    errs: { trialUsed: 'Пробный период уже был на этом аккаунте — нужен код подписки', hasSub: 'У тебя уже есть подписка 🙂', nocode: 'Такого кода нет — проверь буквы и цифры', used: 'Этот код уже использован', revoked: 'Этот код отменён', mine: 'Ты уже активировал этот код', life: 'У тебя уже вечная подписка этого уровня', fail: 'Не получилось — проверь интернет и попробуй ещё раз' },
+    errs: { trialReq: 'Пробный доступ — по заявке: бот написал тебе в чат', trialUsed: 'Пробный период уже был на этом аккаунте — нужен код подписки', hasSub: 'У тебя уже есть подписка 🙂', nocode: 'Такого кода нет — проверь буквы и цифры', used: 'Этот код уже использован', revoked: 'Этот код отменён', mine: 'Ты уже активировал этот код', life: 'У тебя уже вечная подписка этого уровня', fail: 'Не получилось — проверь интернет и попробуй ещё раз' },
     cmpT: 'Чем отличаются тарифы', cmp: [
       ['Ученики, уроки, абонементы, расписание', '✓', '✓'], ['Деньги с уроков, долги, отчёты', '✓', '✓'], ['Планер, выступления, коллективы, песни, райдер', '✓', '✓'],
       ['Google Календарь, копии в Google Drive', '✓', '✓'], ['Ученики в боте: домашка, переносы', '✓', '✓'], ['Бот текстом: уроки, оплаты, дела', '✓', '✓'],
@@ -2887,7 +2887,7 @@ const SBD = {
     f: { income: 'Доходы по источникам', week: 'Обзор недели' }, open: 'Открыть', banT: 'Доступ закрыт', banX: 'Доступ к приложению для этого аккаунта закрыт.' },
   en: { title: 'Subscription', plans: 'Plans & prices', codeL: 'Subscription code', activate: 'Activate', enterCode: 'Enter a code, e.g. MAX-7K2M9Q', buy: 'Buy a code',
     planName: { free: 'Free', pro: 'Pro', max: 'Max' },
-    planDesc: { free: n => `${n} days of “Max” for free, once — to try everything`, pro: 'All teaching work: students, lessons, packages, money, schedule, planner, gigs, bands, songs, rider, Google Calendar, backups, students in the bot, bot by text. Plus personal: up to 3 habits, lists, goals, wishlist', max: 'Everything in Pro + up to 15 habits, my money (budget, bills, savings), voice diary, wishlist link for close ones, the bot by voice and for personal things (“taxi 450”), hummed melodies' },
+    planDesc: { free: n => `${n} days for free — granted by the app’s creator on request: tap “Request a free trial”, the bot asks two questions`, pro: 'All teaching work: students, lessons, packages, money, schedule, planner, gigs, bands, songs, rider, Google Calendar, backups, students in the bot, bot by text. Plus personal: up to 3 habits, lists, goals, wishlist', max: 'Everything in Pro + up to 15 habits, my money (budget, bills, savings), voice diary, wishlist link for close ones, the bot by voice and for personal things (“taxi 450”), hummed melodies' },
     terms: { y: 'School year', m6: 'Half-year', m3: 'Term', m1: 'Try it' },
     termSub: { y: '13 months — one month free, price locked', m6: '6 months + 2 weeks free', m3: '3 months', m1: '1 month' },
     best: 'best value', perMonth: n => `≈${n} ₽/mo`, perDay: n => `≈${n} ₽ a day`,
@@ -2896,11 +2896,11 @@ const SBD = {
     roTitle: 'View-only mode', roText: n => `Your subscription has ended, so for now you can only view. All your data is safe and you can download a backup. Enter a new code and everything works again.`,
     roBanner: 'Subscription ended — view-only mode. Tap to renew',
     soon: n => n <= 1 ? 'Subscription ends tomorrow — renew with a code' : `Subscription ends in ${n} days — renew with a code`,
-    active: (p, u) => `“${p}” plan · ${u}`, until: d => `until ${d}`, forever: 'forever', freeNow: n => 'No subscription — view only', trialOn: u => `“Max” trial · ${u}`, trialName: 'Free trial', trialBtn: n => `Try ${n} days for free`, trialDone: n => `Trial is on: ${n} days, everything unlocked!`, trialLeft: n => `Free trial: ${n} ${n === 1 ? 'day' : 'days'} left — tap to choose a plan`, trialLastBanner: 'Last day of the trial — choose a plan so you don’t lose anything', trialLastT: 'Last day of the trial', trialLastX: 'Tomorrow the app switches to view-only. All data is kept — choose a plan and everything keeps working without a break. Best value: “School year” with a free month.',
-    roNew: n => `The app is in view-only mode. To add students, lessons and everything else, enter a subscription code or start the free trial: ${n} days, everything free.`, roBannerNew: 'View-only mode — tap to try for free or enter a code', ended: d => `Subscription ended ${d}`, admin: 'You are the owner — everything is on forever',
-    done: p => `Done! “${p}” plan is on`, howBuy: 'Tap “Buy a code” to open the chat where you can buy one. Enter it here or just send it to the bot. Sending TEST to the bot starts the trial.',
+    active: (p, u) => `“${p}” plan · ${u}`, until: d => `until ${d}`, forever: 'forever', freeNow: n => 'No subscription — view only', trialOn: u => `“Max” trial · ${u}`, trialName: 'Free trial', trialBtn: n => `Request a ${n}-day free trial`, trialSent: 'Your trial request has been sent — the app’s creator will message you on Telegram soon', trialAsked: 'The bot has messaged you — answer two short questions and the request goes out', trialDone: n => `Trial is on: ${n} days, everything unlocked!`, trialLeft: n => `Free trial: ${n} ${n === 1 ? 'day' : 'days'} left — tap to choose a plan`, trialLastBanner: 'Last day of the trial — choose a plan so you don’t lose anything', trialLastT: 'Last day of the trial', trialLastX: 'Tomorrow the app switches to view-only. All data is kept — choose a plan and everything keeps working without a break. Best value: “School year” with a free month.',
+    roNew: n => `The app is in view-only mode. To add students, lessons and everything else, enter a subscription code or request a ${n}-day free trial: tap the button below, the bot asks two questions and the app’s creator opens access.`, roBannerNew: 'View-only mode — tap to request a free trial or enter a code', ended: d => `Subscription ended ${d}`, admin: 'You are the owner — everything is on forever',
+    done: p => `Done! “${p}” plan is on`, howBuy: 'Tap “Buy a code” to open the chat where you can buy one. Enter it here or just send it to the bot. Free trial — on request: the button above or /trial in the bot.',
     buyText: 'Hi! I want to buy a code for the app',
-    errs: { trialUsed: 'This account has already had a trial — a subscription code is needed', hasSub: 'You already have a subscription 🙂', nocode: 'No such code — check the letters and digits', used: 'This code has already been used', revoked: 'This code was cancelled', mine: 'You have already activated this code', life: 'You already have a lifetime plan of this level', fail: 'Didn’t work — check the internet and try again' },
+    errs: { trialReq: 'The free trial is on request — the bot has messaged you', trialUsed: 'This account has already had a trial — a subscription code is needed', hasSub: 'You already have a subscription 🙂', nocode: 'No such code — check the letters and digits', used: 'This code has already been used', revoked: 'This code was cancelled', mine: 'You have already activated this code', life: 'You already have a lifetime plan of this level', fail: 'Didn’t work — check the internet and try again' },
     cmpT: 'How the plans differ', cmp: [
       ['Students, lessons, packages, schedule', '✓', '✓'], ['Lesson income, debts, reports', '✓', '✓'], ['Planner, gigs, bands, songs, rider', '✓', '✓'],
       ['Google Calendar, Google Drive backups', '✓', '✓'], ['Students in the bot: homework, moves', '✓', '✓'], ['Bot by text: lessons, payments, tasks', '✓', '✓'],
@@ -2908,7 +2908,22 @@ const SBD = {
       ['💳 My money: budget, bills, savings', '—', '✓'], ['📔 Voice and mood diary', '—', '✓'], ['🎙 Bot by voice, hummed melodies', '—', '✓'], ['🤖 Bot for personal things: “taxi 450”', '—', '✓']],
     f: { income: 'Income by source', week: 'Weekly review' }, open: 'Open', banT: 'Access closed', banX: 'Access to the app is closed for this account.' }
 };
-for (const c in I18N) { I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
+/* 7.7 packages: any size, price per package, validity, freeze, templates */
+const PKD = {
+  ru: { name: 'Название (необязательно)', namePh: 'Например: Месяц вокала', tpl: 'Виды абонементов', tplHint: 'Готовые абонементы: нажми — и количество, цена и срок подставятся сами. Свои виды — в «Студия» → «Услуги и цены» → «Виды абонементов».',
+    mode: 'Цена', modeTot: 'За весь абонемент', modePer: 'За урок', priceTot: c => `Цена абонемента, ${c}`, pricePer: c => `Цена урока, ${c}`, perLesson: s => `≈ ${s} за урок`,
+    days: 'Срок действия', noLimit: 'Без срока', dN: n => `${n} дн.`, daysPh: 'дней', until: d => `Действует до ${d}`, untilFrz: (d, n) => `Действует до ${d} (с учётом заморозки +${n} дн.)`, forever: 'Без срока — пока не закончатся уроки',
+    frz: 'Заморозка', frzHint: 'Пауза на болезнь или отпуск: срок абонемента продлится на столько же дней, уроки в эти дни не списываются.', frzFrom: 'С какого дня', frzN: 'На сколько дней', frzBtn: '❄️ Заморозить', frzRow: (d, n) => `❄️ с ${d} на ${n} дн.`, frzDone: n => `Заморожено на ${n} дн. — срок продлён`, frzNeed: 'Укажи, на сколько дней', frzOff: 'Снять', frozenNow: 'сейчас заморожен ❄️',
+    expired: d => `Срок вышел ${d}`, burnt: n => `сгорело ${n}`, expSoon: (nm, l, d) => `${nm}: абонемент действует до ${d}, осталось ${l} — успейте`,
+    tplT: 'Виды абонементов', tplAdd: '+ Вид абонемента', tplNew: 'Новый вид абонемента', tplEdit: 'Вид абонемента', tplNone: 'Пока нет своих видов. Добавь, например: «8 занятий — 18 000, 45 дней».', tplN: 'Сколько занятий', tplTot: c => `Цена за весь абонемент, ${c}`, tplSvc: 'Услуга (необязательно)', tplAny: 'Любая', tplDel: 'Удалить вид', tplLine: (n, s, d) => `${n} зан. · ${s}${d ? ' · ' + d + ' дн.' : ''}`, tplSaved: 'Вид абонемента сохранён', tplNeedN: 'Укажи количество занятий' },
+  en: { name: 'Name (optional)', namePh: 'e.g. A month of vocals', tpl: 'Package types', tplHint: 'Ready-made packages: tap one and the lessons, price and term fill in. Your own types — Studio → Services & prices → Package types.',
+    mode: 'Price', modeTot: 'For the whole package', modePer: 'Per lesson', priceTot: c => `Package price, ${c}`, pricePer: c => `Price per lesson, ${c}`, perLesson: s => `≈ ${s} per lesson`,
+    days: 'Valid for', noLimit: 'No limit', dN: n => `${n} days`, daysPh: 'days', until: d => `Valid until ${d}`, untilFrz: (d, n) => `Valid until ${d} (incl. freeze +${n} days)`, forever: 'No limit — until the lessons run out',
+    frz: 'Freeze', frzHint: 'A pause for illness or a holiday: the package term is extended by the same number of days, lessons on those days are not deducted.', frzFrom: 'From', frzN: 'For how many days', frzBtn: '❄️ Freeze', frzRow: (d, n) => `❄️ from ${d} for ${n} days`, frzDone: n => `Frozen for ${n} days — term extended`, frzNeed: 'Enter the number of days', frzOff: 'Remove', frozenNow: 'frozen now ❄️',
+    expired: d => `Expired ${d}`, burnt: n => `${n} expired`, expSoon: (nm, l, d) => `${nm}: the package is valid until ${d}, ${l} left`,
+    tplT: 'Package types', tplAdd: '+ Package type', tplNew: 'New package type', tplEdit: 'Package type', tplNone: 'No package types yet. Add one, e.g. “8 lessons — 18,000, 45 days”.', tplN: 'Number of lessons', tplTot: c => `Price for the whole package, ${c}`, tplSvc: 'Service (optional)', tplAny: 'Any', tplDel: 'Delete type', tplLine: (n, s, d) => `${n} lessons · ${s}${d ? ' · ' + d + ' days' : ''}`, tplSaved: 'Package type saved', tplNeedN: 'Enter the number of lessons' }
+};
+for (const c in I18N) { I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -2933,7 +2948,7 @@ function applyLang(code){
 applyLang(lsGetK('vs_lang') || 'ru');
 
 /* ================= State ================= */
-const DEF = { price: 0, rent: 0, dur: 60, cur: '₽', name: '', lang: 'ru', theme: 'light', goal: 0, tax: 0, bday: '', api: '', init: 0,
+const DEF = { pkgT: [], price: 0, rent: 0, dur: 60, cur: '₽', name: '', lang: 'ru', theme: 'light', goal: 0, tax: 0, bday: '', api: '', init: 0,
   work: { days: [1, 2, 3, 4, 5, 6], from: '10:00', to: '21:00' },
   nt: { on: 1, morning: 9, before: 60, evening: 21, debts: 1, monthly: 1, ach: 1, week: 1 } };
 const listOf = x => Array.isArray(x) ? x.filter(y => y && y.id) : [];
@@ -2961,7 +2976,7 @@ function normalize(d){
   return {
     v: 3, settings, students, lessons,
     services: listOf(d.services).map(x => Object.assign({ name: '', price: 0, rent: 0, p4: 0, p8: 0, online: false, trial: false }, x)),
-    packages: listOf(d.packages).map(x => Object.assign({ sid: '', svc: '', n: 4, price: 0, rent: 0, date: today(), note: '' }, x)),
+    packages: listOf(d.packages).map(x => Object.assign({ sid: '', svc: '', n: 4, price: 0, rent: 0, date: today(), note: '', name: '', tot: 0, days: 0, frz: [] }, x, { frz: Array.isArray(x.frz) ? x.frz.filter(f => f && f.from && +f.n > 0) : [] })),
     expenses: listOf(d.expenses).map(x => Object.assign({ date: today(), cat: 'other', amount: 0, note: '' }, x)),
     events: listOf(d.events).map(x => { const e = Object.assign({ title: '', date: today(), time: '', place: '', program: '' }, x); e.sids = Array.isArray(x.sids) ? x.sids : []; return e; }),
     exercises: listOf(d.exercises).map(x => Object.assign({ title: '', text: '' }, x)),
@@ -3278,9 +3293,15 @@ const isDemo = () => !inTG && state.students.some(s => String(s.id).startsWith('
 
 /* ================= Calculations ================= */
 const paidMonth = l => String(l.paidAt || l.date).slice(0, 7);
-const pkgTotal = p => (+p.n || 0) * ((+p.price || 0) + (+p.rent || 0));
+const pkgTotal = p => (+p.tot > 0 ? +p.tot : (+p.n || 0) * (+p.price || 0)) + (+p.n || 0) * (+p.rent || 0);
 const pkgUsed = p => lessonsOf(p.sid).filter(l => l.pkg === p.id).length;
-const pkgLeft = p => Math.max(0, (+p.n || 0) - pkgUsed(p));
+/* 7.7: validity (days from the purchase date, extended by freezes) and freezes */
+const pkgFrzDays = p => (p.frz || []).reduce((a, f) => a + (+f.n || 0), 0);
+const pkgUntil = p => +p.days > 0 && /^\d{4}-\d{2}-\d{2}$/.test(p.date || '') ? ymd(addDays(parseD(p.date), +p.days + pkgFrzDays(p) - 1)) : '';
+const pkgExpired = (p, d) => { const u = pkgUntil(p); return !!u && (d || today()) > u; };
+const pkgFrozenOn = (p, d) => (p.frz || []).some(f => d >= f.from && d < ymd(addDays(parseD(f.from), +f.n)));
+const pkgLeft = p => pkgExpired(p) ? 0 : Math.max(0, (+p.n || 0) - pkgUsed(p));
+const pkgBurnt = p => pkgExpired(p) ? Math.max(0, (+p.n || 0) - pkgUsed(p)) : 0;
 const lastPkg = sid => state.packages.filter(p => p.sid === sid).sort((a, b) => (b.date + b.id).localeCompare(a.date + a.id))[0];
 function monthIndex(){
   const mm = memoFresh();
@@ -3344,7 +3365,8 @@ function applyPackages(sid){
   const release = l => { l.pkg = ''; l.paid = false; l.paidAt = ''; l.price = priceFor(l.sid, l.svc); l.rent = rentFor(l.svc, l.online); };
   /* a lesson takes a slot from the package as soon as it is held OR scheduled; a no-show without payment gives it back */
   const elig = l => (counts(l) || l.st === 'plan') && !l.noPkg;
-  ls.forEach(l => { if (l.pkg && (!byId[l.pkg] || !elig(l) || (l.date < byId[l.pkg].date && !l.pkgForce))) release(l); });
+  const outside = (p, l) => !l.pkgForce && (l.date < p.date || pkgExpired(p, l.date) || pkgFrozenOn(p, l.date));
+  ls.forEach(l => { if (l.pkg && (!byId[l.pkg] || !elig(l) || outside(byId[l.pkg], l))) release(l); });
   const used = {}; pk.forEach(p => { used[p.id] = 0; });
   ls.forEach(l => { if (l.pkg) used[l.pkg]++; });
   pk.forEach(p => {
@@ -3354,13 +3376,15 @@ function applyPackages(sid){
   ls.forEach(l => {
     if (l.pkg) { const p = byId[l.pkg]; l.paid = true; l.paidAt = p.date; l.price = +p.price || 0; l.rent = l.online ? 0 : (+p.rent || 0); return; }
     if (!elig(l) || l.paid) return;
-    const p = pk.find(x => (x.date <= l.date || l.pkgForce) && used[x.id] < x.n);
+    const p = pk.find(x => !outside(x, l) && used[x.id] < x.n);
     if (!p) return;
     l.pkg = p.id; l.paid = true; l.paidAt = p.date; l.price = +p.price || 0; l.rent = l.online ? 0 : (+p.rent || 0); used[p.id]++;
   });
   pk.forEach(p => {
     const left = p.n - used[p.id];
     if (left <= 1 && used[p.id] > 0) { const s = stu(sid); if (s) queueEvent(`pk_${p.id}_${left}`, '🎟 ' + T.pkgEnding(firstName(s.name), left)); }
+    const un = pkgUntil(p);
+    if (un && left > 0 && un >= today() && daysBetween(today(), un) <= 3) { const s = stu(sid); if (s && T.pk) queueEvent(`pkx_${p.id}_${un}`, '🎟 ' + T.pk.expSoon(firstName(s.name), left, shortDate(un))); }
   });
 }
 function bdayIn(b){
@@ -4283,7 +4307,7 @@ function studentCard(id){
       s.bday ? `🎂 ${dayMonth(s.bday)}${bd !== null && bd <= 30 ? ' · ' + T.inDays(bd) : ''}` : '', s.src ? T.srcs[s.src] || '' : ''].filter(Boolean);
     const p = ss.pkg;
     const pkg = p ? `<div class="pkgbox" data-act="editPackage" data-id="${p.id}"><b>🎟 ${esc(T.pkgTitle(p.n, svcName(p.svc)))}</b>
-      <div class="barbg"><i style="width:${Math.round(pkgUsed(p) * 100 / Math.max(1, p.n))}%"></i></div><small>${esc(T.pkgLeftL(ss.left, p.n, shortDate(p.date)))}</small></div>` : '';
+      <div class="barbg"><i style="width:${Math.round(pkgUsed(p) * 100 / Math.max(1, p.n))}%"></i></div><small>${esc(T.pkgLeftL(ss.left, p.n, shortDate(p.date)))}${T.pk && (+p.days > 0 || (p.frz || []).length) ? ' · ' + esc(pkgUntilText(p)) : ''}${T.pk && pkgBurnt(p) ? ' · ' + esc(T.pk.burnt(pkgBurnt(p))) : ''}${T.pk && pkgFrozenOn(p, today()) ? ' · ' + esc(T.pk.frozenNow) : ''}</small></div>` : '';
     const dsum = [s.range.lo !== '' && s.range.hi !== '' ? `🎤 ${noteName(s.range.lo)}–${noteName(s.range.hi)}` : '',
       s.songs.length ? `🎵 ${s.songs.filter(x => x.done).length}/${s.songs.length}` : '', s.hw.length ? `📝 ${s.hw.filter(x => x.done).length}/${s.hw.length}` : '']
       .filter(Boolean).map(x => `<span class="chip">${esc(x)}</span>`).join('');
@@ -4371,39 +4395,89 @@ function songsSheet(id){
 }
 
 /* ---------- Packages ---------- */
+/* 7.7: any number of lessons, price for the whole package or per lesson, validity, freezes, ready-made types */
+let PKF = null;
+function pkgUntilText(p){
+  const X = T.pk, u = pkgUntil(p);
+  if (!u) return X.forever;
+  return pkgExpired(p) ? X.expired(shortDate(u)) : pkgFrzDays(p) ? X.untilFrz(shortDate(u), pkgFrzDays(p)) : X.until(shortDate(u));
+}
 function packageForm(sid, pid){
   const ex = pid ? state.packages.find(p => p.id === pid) : null;
   const sidX = ex ? ex.sid : sid;
   const pkPrice = (svc, n) => { const sv = svcOf(svc); return sv && +n === 4 && +sv.p4 ? +sv.p4 : sv && +n === 8 && +sv.p8 ? +sv.p8 : priceFor(sidX, svc); };
-  const P0 = ex ? Object.assign({}, ex) : { svc: defSvcFor(sidX), n: 8, date: today() };
-  if (!ex) { P0.price = pkPrice(P0.svc, 8); P0.rent = rentFor(P0.svc, false); }
+  const P0 = ex ? Object.assign({}, ex, { mode: +ex.tot > 0 ? 'tot' : 'per', pr: +ex.tot > 0 ? +ex.tot : ex.price }) : { svc: defSvcFor(sidX), n: 8, date: today(), mode: 'per', days: 0, name: '' };
+  if (!ex) { P0.pr = pkPrice(P0.svc, 8); P0.rent = rentFor(P0.svc, false); }
+  PKF = P0;
   const fn = () => {
-    const s = stu(sidX), cur = state.settings.cur;
+    const s = stu(sidX), cur = state.settings.cur, X = T.pk, tpl = state.settings.pkgT || [];
+    const chips = tpl.length ? tpl.map(t => `<button type="button" data-act="pkT" data-id="${t.id}">${esc(t.name || X.tplLine(t.n, money(t.tot), 0))}</button>`).join('')
+      : [4, 8, 12].map(n => `<button type="button" data-act="pkN" data-v="${n}" class="${+P0.n === n ? 'on' : ''}">${n}</button>`).join('');
+    const dchips = [0, 30, 45, 60, 90].map(d => `<button type="button" data-act="pkD" data-v="${d}" class="${+P0.days === d ? 'on' : ''}">${esc(d ? X.dN(d) : X.noLimit)}</button>`).join('');
+    const frz = ex ? `<div class="sec"><span>❄️ ${esc(X.frz)}</span></div><div class="group">
+        ${(ex.frz || []).map((f, i) => `<div class="field toggle"><span>${esc(X.frzRow(shortDate(f.from), f.n))}</span><button type="button" class="mini" data-act="pkFrzDel" data-id="${ex.id}" data-i="${i}">${esc(X.frzOff)}</button></div>`).join('')}
+        <div class="two"><div class="field"><label for="p_fzf">${esc(X.frzFrom)}</label><input type="date" id="p_fzf" value="${esc(today())}"></div>
+        <div class="field"><label for="p_fzn">${esc(X.frzN)}</label><input type="number" inputmode="numeric" min="1" id="p_fzn" placeholder="7"></div></div>
+        <button type="button" class="btn soft sm" data-act="pkFrz" data-id="${ex.id}">${esc(X.frzBtn)}</button></div>
+      <div class="hintline" style="margin:-4px 8px 8px">${esc(X.frzHint)}</div>` : '';
     return sheetHead(ex ? T.pkgEdit : T.sellPkg) + note(s ? s.name : T.removed) + `
-      <div class="group"><div class="field"><label for="p_svc">${esc(T.fSvc)}</label><select id="p_svc">${svcOptions(P0.svc)}</select></div>
-        <div class="field"><span class="lb">${esc(T.pkgN)}</span><div class="inl"><div class="chipsel" style="margin:0">${[4, 8].map(n => `<button type="button" data-act="pkN" data-v="${n}" class="${+P0.n === n ? 'on' : ''}">${n}</button>`).join('')}</div>
-          <input type="number" inputmode="numeric" min="1" id="p_n" value="${esc(P0.n)}" style="max-width:90px"></div></div></div>
-      <div class="group"><div class="two"><div class="field"><label for="p_price">${esc(T.pkgPrice(cur))}</label><input type="number" inputmode="numeric" min="0" id="p_price" value="${esc(P0.price)}"></div>
+      <div class="group"><div class="field"><span class="lb">${esc(tpl.length ? X.tpl : T.pkgN)}</span><div class="chipsel" style="margin:0" id="p_tpl">${chips}</div></div>
+        <div class="two"><div class="field"><label for="p_n">${esc(T.pkgN)}</label><input type="number" inputmode="numeric" min="1" id="p_n" value="${esc(P0.n)}"></div>
+        <div class="field"><label for="p_svc">${esc(T.fSvc)}</label><select id="p_svc">${svcOptions(P0.svc)}</select></div></div>
+        <div class="field"><label for="p_name">${esc(X.name)}</label><input id="p_name" value="${esc(P0.name || '')}" placeholder="${esc(X.namePh)}" autocomplete="off"></div></div>
+      <div class="group"><div class="field"><span class="lb">${esc(X.mode)}</span><div class="chipsel" style="margin:0" id="p_mode"><button type="button" data-act="pkM" data-v="tot" class="${P0.mode === 'tot' ? 'on' : ''}">${esc(X.modeTot)}</button><button type="button" data-act="pkM" data-v="per" class="${P0.mode !== 'tot' ? 'on' : ''}">${esc(X.modePer)}</button></div></div>
+        <div class="two"><div class="field"><label for="p_price" id="p_priceL">${esc(P0.mode === 'tot' ? X.priceTot(cur) : X.pricePer(cur))}</label><input type="number" inputmode="numeric" min="0" id="p_price" value="${esc(P0.pr)}"></div>
         <div class="field"><label for="p_rent">${esc(T.fRent(cur))}</label><input type="number" inputmode="numeric" min="0" id="p_rent" value="${esc(P0.rent)}"></div></div>
         <div class="field"><label for="p_date">${esc(T.pkgDate)}</label><input type="date" id="p_date" value="${esc(P0.date)}"></div></div>
-      <div class="pkgbox" style="margin-top:0"><b id="p_total"></b><small>${esc(T.pkgHint)}</small></div>
-      ${ex ? `<div class="hintline center">${esc(T.pkgUsedL(pkgUsed(ex), ex.n))}</div>` : ''}
+      <div class="group"><div class="field"><span class="lb">${esc(X.days)}</span><div class="chipsel" style="margin:0" id="p_dch">${dchips}</div></div>
+        <div class="field"><input type="number" inputmode="numeric" min="0" id="p_days" value="${+P0.days ? esc(P0.days) : ''}" placeholder="${esc(X.daysPh)}"></div>
+        <div class="hintline" id="p_until" style="margin:0 4px 4px"></div></div>
+      <div class="pkgbox" style="margin-top:0"><b id="p_total"></b><small id="p_per" style="display:block"></small><small>${esc(T.pkgHint)}</small></div>
+      ${ex ? `<div class="hintline center">${esc(T.pkgUsedL(pkgUsed(ex), ex.n))}${pkgBurnt(ex) ? ' · ' + esc(X.burnt(pkgBurnt(ex))) : ''}${pkgFrozenOn(ex, today()) ? ' · ' + esc(X.frozenNow) : ''}</div>` : ''}
+      ${frz}
       ${ex ? rcBlock('p', ex) : ''}
       <button class="btn" data-act="savePackage" data-id="${ex ? ex.id : ''}" data-sid="${sidX}">${esc(ex ? T.save : T.pkgSellBtn)}</button>
       ${ex ? `<button class="btn danger" data-act="deletePackage" data-id="${ex.id}">${esc(T.pkgDel)}</button>` : ''}`;
   };
   fn.mount = () => {
+    const X = T.pk;
     const tot = () => {
-      const n = Math.max(0, Math.round(+$('p_n').value || 0));
-      $('p_total').textContent = T.pkgTotal(n, money(n * ((+$('p_price').value || 0) + (+$('p_rent').value || 0))));
+      const n = Math.max(0, Math.round(+$('p_n').value || 0)), pr = +$('p_price').value || 0, rent = +$('p_rent').value || 0, isTot = P0.mode === 'tot';
+      const sum = isTot ? pr + n * rent : n * (pr + rent);
+      $('p_total').textContent = T.pkgTotal(n, money(sum));
+      $('p_per').textContent = isTot && n ? X.perLesson(money(Math.round(pr / n))) : '';
+      const days = Math.max(0, Math.round(+$('p_days').value || 0));
+      $('p_until').textContent = pkgUntilText({ date: $('p_date').value || today(), days, frz: ex ? ex.frz : [] });
       document.querySelectorAll('[data-act=pkN]').forEach(b => b.classList.toggle('on', +b.dataset.v === n));
+      document.querySelectorAll('[data-act=pkD]').forEach(b => b.classList.toggle('on', +b.dataset.v === days));
+      Object.assign(P0, { n, pr, rent, days, svc: $('p_svc').value, date: $('p_date').value, name: $('p_name').value });
     };
-    $('p_svc').onchange = () => { $('p_price').value = pkPrice($('p_svc').value, +$('p_n').value); $('p_rent').value = rentFor($('p_svc').value, false); tot(); };
-    $('p_n').oninput = () => { $('p_price').value = pkPrice($('p_svc').value, +$('p_n').value); tot(); };
-    $('p_price').oninput = tot; $('p_rent').oninput = tot;
+    $('p_svc').onchange = () => { if (P0.mode !== 'tot') $('p_price').value = pkPrice($('p_svc').value, +$('p_n').value); $('p_rent').value = rentFor($('p_svc').value, false); tot(); };
+    $('p_n').oninput = () => { if (P0.mode !== 'tot') $('p_price').value = pkPrice($('p_svc').value, +$('p_n').value); tot(); };
+    $('p_price').oninput = tot; $('p_rent').oninput = tot; $('p_days').oninput = tot; $('p_date').onchange = tot; $('p_name').oninput = tot;
     tot();
   };
   return fn;
+}
+function pkgTplSheet(){
+  return () => {
+    const X = T.pk, tpl = state.settings.pkgT || [];
+    return sheetHead(X.tplT, `<button class="r" data-act="pkTplNew">${esc(T.add)}</button>`) + note(X.tplHint, 'text-align:left')
+      + (tpl.length ? `<div class="card">${tpl.map(t => `<div class="row" data-act="pkTplEdit" data-id="${t.id}"><div class="main"><div class="name">${esc(t.name || X.tplLine(t.n, money(t.tot), 0))}</div>
+        <div class="sub one">${esc(X.tplLine(t.n, money(t.tot), t.days) + (t.svc && svcName(t.svc) ? ' · ' + svcName(t.svc) : ''))}</div></div><div class="right"><span class="chev">›</span></div></div>`).join('')}</div>`
+        : `<div class="empty">${esc(X.tplNone)}</div>`) + `<button class="btn soft" data-act="pkTplNew">${esc(X.tplAdd)}</button>`;
+  };
+}
+function pkgTplForm(id){
+  const X = T.pk, ex = id ? (state.settings.pkgT || []).find(t => t.id === id) : null, V = ex || { name: '', n: 8, tot: 0, days: 0, svc: '' }, cur = state.settings.cur;
+  return () => sheetHead(ex ? X.tplEdit : X.tplNew) + `
+    <div class="group"><div class="field"><label for="pt_name">${esc(X.name)}</label><input id="pt_name" value="${esc(V.name)}" placeholder="${esc(X.namePh)}" autocomplete="off"></div>
+      <div class="two"><div class="field"><label for="pt_n">${esc(X.tplN)}</label><input type="number" inputmode="numeric" min="1" id="pt_n" value="${esc(V.n)}"></div>
+      <div class="field"><label for="pt_tot">${esc(X.tplTot(cur))}</label><input type="number" inputmode="numeric" min="0" id="pt_tot" value="${+V.tot ? esc(V.tot) : ''}" placeholder="0"></div></div>
+      <div class="two"><div class="field"><label for="pt_days">${esc(X.days)}</label><input type="number" inputmode="numeric" min="0" id="pt_days" value="${+V.days ? esc(V.days) : ''}" placeholder="${esc(X.noLimit)}"></div>
+      <div class="field"><label for="pt_svc">${esc(X.tplSvc)}</label><select id="pt_svc"><option value="">${esc(X.tplAny)}</option>${state.services.map(v => `<option value="${v.id}"${v.id === V.svc ? ' selected' : ''}>${esc(v.name)}</option>`).join('')}</select></div></div></div>
+    <button class="btn" data-act="pkTplSave" data-id="${ex ? ex.id : ''}">${esc(T.save)}</button>
+    ${ex ? `<button class="btn danger" data-act="pkTplDel" data-id="${ex.id}">${esc(X.tplDel)}</button>` : ''}`;
 }
 
 /* ---------- Settings ---------- */
@@ -4499,7 +4573,8 @@ function servicesSheet(){
   return () => sheetHead(T.stSvc, `<button class="r" data-act="addService">${esc(T.add)}</button>`) + note(T.svcHint, 'text-align:left')
     + (state.services.length ? `<div class="card">${state.services.map(sv => `<div class="row" data-act="editService" data-id="${sv.id}"><div class="main"><div class="name">${esc(sv.name)}</div>
       <div class="sub one">${esc(svcLine(sv))}</div></div><div class="right"><span class="price">${money(sv.price)}</span><span class="chev">›</span></div></div>`).join('')}</div>`
-      : `<div class="empty">${esc(T.noSvcYet)}</div>`);
+      : `<div class="empty">${esc(T.noSvcYet)}</div>`)
+    + `<button class="btn soft" data-act="pkTpl">🎟 ${esc(T.pk.tplT)}${(state.settings.pkgT || []).length ? ' · ' + state.settings.pkgT.length : ''}</button>`;
 }
 function serviceForm(id){
   const ex = id ? svcOf(id) : null;
@@ -5357,7 +5432,10 @@ function applyAct(a, out, touched){
       const total = bxNum(a.total), per = bxNum(a.per_lesson) || (total ? Math.round(total / n) : 0) || bxNum(a.price);
       const def = sv && n === 4 && +sv.p4 ? +sv.p4 : sv && n === 8 && +sv.p8 ? +sv.p8 : priceFor(s.id, svc);
       /* a named sum is what the student paid in total: keep it exact (price per lesson, no extra rent) */
-      state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: '' });
+      /* 7.7: no sum named → a ready-made package type with the same number of lessons (its price for the whole package and term) */
+      const tp = !total && !per ? (state.settings.pkgT || []).find(x => +x.n === n && (!x.svc || x.svc === svc)) : null;
+      if (tp && +tp.tot > 0) state.packages.push({ id: uid(), sid: s.id, svc, n, price: Math.round(tp.tot / n), tot: +tp.tot, rent, date: bxDate(a.date) || t, note: '', name: tp.name || '', days: +tp.days || 0, frz: [] });
+      else state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, tot: total && !bxNum(a.per_lesson) ? total : 0, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: '', days: Math.max(0, Math.min(400, bxNum(a.days) || (tp ? +tp.days || 0 : 0))), frz: [] });
       touched.add(s.id); out.push('📦 ' + T2.pkg(s.name, n)); return;
     }
     case 'add_expense': {
@@ -5402,8 +5480,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 29;
+const APP_VER = 30;
 const CHANGES = [
+  { v: 30, name: '7.7', date: '2026-11-03', big: true,
+    ru: { add: ['🎟 Абонементы — полностью под себя: любое количество занятий, цена за весь абонемент или за урок, название и срок действия', '❄️ Заморозка абонемента на любое количество дней — срок сам продлевается', '📋 Свои виды абонементов (Студия → Услуги и цены): при продаже нажми — количество, цена и срок подставятся сами', '⏳ Напоминание за 3 дня до конца срока абонемента'],
+      better: ['🙋 Пробный доступ на 7 дней — теперь по заявке: бот покажет тарифы, задаст два вопроса, и создатель приложения откроет доступ'] },
+    en: { add: ['🎟 Packages your way: any number of lessons, price for the whole package or per lesson, a name and a term', '❄️ Freeze a package for any number of days — the term extends by itself', '📋 Your own package types (Studio → Services & prices): tap one when selling — lessons, price and term fill in', '⏳ A reminder 3 days before a package term ends'],
+      better: ['🙋 The 7-day free trial is now on request: the bot shows the plans, asks two questions and the app’s creator opens access'] } },
   { v: 29, name: '7.6.1', date: '2026-11-03',
     ru: { add: [], better: ['📖 Справка и гайд обновлены: привычки, личные финансы, вишлист, тарифы Про и Макс, общие цены, команды /тарифы и /купить', '🤖 В /help бота — примеры для личного: «такси 450», «хочу синтезатор», «сделала йогу»'], removed: [] },
     en: { add: [], better: ['📖 Help and guide updated: habits, personal money, wishlist, Pro and Max plans, common prices, /tariffs and /buy commands', '🤖 Bot /help now has personal examples'], removed: [] } },
@@ -7804,11 +7887,14 @@ const HELP_DOC = [
     'Если урок совпадает по времени с выступлением или репетицией из Планера, приложение предупредит.',
     'Свободные окна: Календарь → «Свободные окна» — приложение само считает свободное время по твоему рабочему графику, список можно скопировать и отправить.' ] },
   { id: 'packages', ic: '🎟', t: 'Абонементы', p: [
-    'Продать абонемент: карточка ученика → «Абонемент». Количество занятий и цена (за всё или за урок).',
+    'Продать абонемент: карточка ученика → «Абонемент». Можно настроить всё под себя: любое количество занятий, цена за весь абонемент или за урок, название, срок действия и аренда.',
+    'Виды абонементов: Студия → «Услуги и цены» → «🎟 Виды абонементов». Создай свои, например «Месяц вокала — 8 занятий, 18 000, 45 дней». При продаже нажми нужный — количество, цена и срок подставятся сами. Бот тоже их знает: «Маша купила абонемент на 8» — возьмёт цену и срок из вида на 8 занятий.',
+    'Срок действия: без срока или любое число дней (кнопки 30, 45, 60, 90 или своё). Приложение покажет «действует до …». Уроки после срока из абонемента не списываются, неиспользованные занятия сгорают — это видно в карточке («сгорело 2»). За 3 дня до конца срока, если занятия остались, придёт напоминание.',
+    'Заморозка: открой абонемент → «❄️ Заморозка» → с какого дня и на сколько дней → «Заморозить». Срок продлится на столько же дней, уроки в эти дни не списываются. Заморозок может быть сколько угодно, любую можно снять.',
     'Урок списывается из абонемента сразу, как только поставлен в расписание. Пропуск без оплаты возвращает занятие обратно.',
     'Переключатель «Списать из абонемента» в уроке: выключи, если именно этот урок ученик оплачивает отдельно.',
     'Сколько занятий осталось — видно в списке учеников (🎟 2) и в карточке. Когда остаётся 1 занятие, бот напомнит.',
-    'Цены абонементов на 4 и 8 занятий задаются в Студии → «Услуги и цены».' ] },
+    'Цены абонементов на 4 и 8 занятий за урок можно задать и у услуги (Студия → «Услуги и цены») — они подставятся, если не выбран вид абонемента.' ] },
   { id: 'money', ic: '💰', t: 'Деньги', p: [
     'Заработано за месяц, получено, ждём оплаты, сравнение с прошлым месяцем, прогноз до конца месяца.',
     'Чистая прибыль: получено минус аренда, расходы и налог (процент налога — в Настройках).',
@@ -7893,7 +7979,7 @@ const HELP_DOC = [
     'Сроки и цены. Макс: Учебный год (13 месяцев — месяц в подарок) 2 599 ₽, Полугодие (+2 недели) 1 690 ₽, Четверть 990 ₽, Попробовать (1 месяц) 390 ₽. Про: 1 590 / 1 090 / 649 / 249 ₽.',
     'Как активировать: код выглядит как MAX-7K2M9Q или PRO-3HQ8TZ. Отправь его боту в чат — или в приложении: ⚙️ Настройки → 💎 Подписка → введи код → «Активировать». Регистр и пробелы не важны.',
     'Купить код: ⚙️ Настройки → 💎 Подписка → «Купить код» — откроется чат, где его можно купить. Каждый код одноразовый и привязывается к твоему аккаунту Telegram.',
-    'Пробный период: 5 дней «Макс» бесплатно, один раз на аккаунт. Отправь боту слово TEST или нажми «🎁 Попробовать 5 дней бесплатно» в приложении.',
+    'Пробный доступ на 7 дней — по заявке. Нажми в приложении «🙋 Запросить пробный доступ» (⚙️ Настройки → 💎 Подписка) или отправь боту /trial. Бот покажет тарифы и задаст два вопроса: какой тариф хочешь и чем занимаешься. Заявка уйдёт создателю приложения — он напишет тебе в Telegram и откроет доступ.',
     'Продление: просто введи новый код — дни добавятся к оставшимся. За 3 дня до конца бот напомнит.',
     'Когда подписка закончилась: данные никогда не удаляются. Включается режим просмотра: всё видно, копию можно скачать, но новое не добавляется. Новый код — и всё снова работает.',
     'Закрытые функции отмечаются замком 🔒 — нажми, и там же можно ввести код.' ] },
@@ -7929,7 +8015,7 @@ const HELP_DOC = [
     'Личное тоже через бота: «такси 450» (расход в «Мои финансы»), «хочу синтезатор» (в вишлист), «купить молоко и хлеб» (в список покупок), «сделала йогу» (отметит привычку), «голос устал, спала 6 часов» (в дневник).',
     'Бот отвечает и на вопросы о приложении: напиши «как перенести урок?».',
     'Что зависит от тарифа: на «Про» бот вносит рабочее текстом; голосовые и личные записи (финансы, привычки, дневник) — на «Макс». Если функция закрыта, бот подскажет, какой тариф нужен.',
-    'Команды: /start, /help — примеры; /тарифы — чем отличаются Про и Макс; /купить — купить подписку или подарочный код; TEST — 5 дней Макс бесплатно (один раз). Код вида MAX-XXXXXX можно просто отправить боту.' ] },
+    'Команды: /start, /help — примеры; /тарифы — чем отличаются Про и Макс; /купить — купить подписку или подарочный код; /trial — попросить пробный доступ на 7 дней. Код вида MAX-XXXXXX можно просто отправить боту.' ] },
   { id: 'studio', ic: '🎹', t: 'Студия', p: [
     'Пианино — сыграть ноту или распевку; метроном; тюнер — показывает, какую ноту поёт ученик.',
     'Упражнения — твоя библиотека распевок и упражнений с описанием.',
@@ -7943,7 +8029,7 @@ const HELP_DOC = [
     '🧩 Разделы приложения: выключи то, чем не пользуешься — ученики и уроки, деньги, студия, планер и его части, привычки, личные финансы, вишлист, списки, цели, дневник, достижения. Данные не удаляются, включишь — всё вернётся.',
     '🔊 Звуки и вибрация — можно сделать приложение полностью тихим.',
     'Карточка бота вверху: напоминание, что всё можно внести через бота, и кнопка «Открыть бота».',
-    '💎 Подписка: твой тариф и срок, ввод кода, «Попробовать 5 дней», сравнение Про и Макс, «Купить код».',
+    '💎 Подписка: твой тариф и срок, ввод кода, «Запросить пробный доступ», сравнение Про и Макс, «Купить код».',
     '🧭 Обучение: пошаговый тур с подсветкой и «Скачать полный гайд».',
     'Имя, подпись на главной (любой текст, «-» — без подписи), день рождения, цель на месяц, налог, длительность урока, валюта, рабочие дни и часы.',
     'Деньги: «Цена урока (для всех услуг)» и «Аренда студии за урок (для всех)» — одна цифра на все услуги, можно 0. Ниже «Каждая услуга отдельно» — своя цена и аренда у каждой услуги, ссылка «Поставить всем общие» выравнивает их.',
@@ -7971,7 +8057,7 @@ const HELP_DOC = [
     'Не приходят напоминания — Настройки → уведомления включены? Нажала «Старт» в боте? Бот не заблокирован?',
     'Неправильно посчитался долг — проверь статусы уроков (пришёл / пропуск) и отметки оплаты; урок из абонемента долгом не считается.',
     'Как удалить урок — открой урок → «Удалить».',
-    'Ничего не нажимается, только смотреть — это режим просмотра без подписки. Отправь боту TEST (5 дней бесплатно) или код подписки. Данные при этом не теряются.',
+    'Ничего не нажимается, только смотреть — это режим просмотра без подписки. Запроси пробный доступ (⚙️ Настройки → 💎 Подписка или /trial в боте) или введи код подписки. Данные при этом не теряются.',
     'Замок 🔒 на кнопке — функция из тарифа выше. Нажми — увидишь, какой тариф нужен, и сможешь ввести код.',
     'Почему у урока цена 0 — общая цена урока в ⚙️ Настройках → «Деньги» не задана (по умолчанию 0). Поставь её — она подставится во все услуги.',
     'Не вижу вкладку «Привычки» — пролистай нижнее меню влево или включи раздел в Настройки → «Разделы приложения».',
@@ -8147,7 +8233,12 @@ function subCodeForm(){
   return `<div class="group"><div class="field"><label for="sb_code">🎟 ${esc(T.sb.codeL)}</label><input id="sb_code" placeholder="MAX-7K2M9Q" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="16"></div></div>
     <button class="btn" data-act="subRedeem">${esc(T.sb.activate)}</button>`;
 }
-function subTrialBtn(){ const s = subS(); return s && s.on && s.trialOk && plan() === 'free' ? `<button class="btn soft" data-act="subTrial">🎁 ${esc(T.sb.trialBtn(s.trialDays || 5))}</button>` : ''; }
+function subTrialBtn(){
+  const s = subS(); if (!s || !s.on || plan() !== 'free') return '';
+  if (s.trq === 'sent') return `<div class="sbnote">⏳ ${esc(T.sb.trialSent)}</div>`;
+  /* new server: a request to the owner (anyone without a subscription may ask); old server: trialOk + self-trial */
+  return s.trq !== undefined || s.trialOk ? `<button class="btn soft" data-act="subTrial">🙋 ${esc(T.sb.trialBtn(s.trialDays || 7))}</button>` : '';
+}
 function subBuyBtn(){ const s = subS(); return s && s.seller ? `<button class="btn ghost" data-act="subBuy">💬 ${esc(T.sb.buy)}</button>` : ''; }
 function subCompare(){
   const X = T.sb;
@@ -8160,7 +8251,7 @@ function subPlans(){
       <div class="sbp"><b>${pr.toLocaleString('ru-RU')} ₽</b><small>${esc(T.sb.perMonth(per))}</small></div></div>`;
   };
   return subCompare() + ['max', 'pro'].map(p => `<div class="card sbplan${p === 'max' ? ' sbtop' : ''}"><div class="sbhead"><b>${p === 'max' ? '⭐ ' : ''}${esc(planName(p))}</b><small>${esc(T.sb.planDesc[p])}</small></div>${['y', 'm6', 'm3', 'm1'].map(t => row(p, t)).join('')}</div>`).join('')
-    + `<div class="card sbplan"><div class="sbhead"><b>🎁 ${esc(T.sb.trialName)} · 0 ₽</b><small>${esc(T.sb.planDesc.free((subS() || {}).trialDays || 5))}</small></div></div>`;
+    + `<div class="card sbplan"><div class="sbhead"><b>🎁 ${esc(T.sb.trialName)} · 0 ₽</b><small>${esc(T.sb.planDesc.free((subS() || {}).trialDays || 7))}</small></div></div>`;
 }
 function subSheet(last){
   const fn = () => sheetHead(last ? '⏳ ' + T.sb.trialLastT : '💎 ' + T.sb.title) + `<div class="sbnote">${esc(last ? T.sb.trialLastX : subStatus())}</div>` + subTrialBtn() + subCodeForm() + subBuyBtn()
@@ -8170,7 +8261,7 @@ function subSheet(last){
 function lockSheet(k){
   const ro = k === 'ro', need = k === 'max' || k === 'hb3' ? 'max' : 'pro';
   const title = ro ? T.sb.roTitle : T.sb.lockTitle(planName(need));
-  const s = subS() || {}, text = ro ? (s.until ? T.sb.roText(SUB_FREE) : T.sb.roNew(s.trialDays || 5)) : k === 'students' ? T.sb.stuLimit(SUB_FREE) : k === 'hb3' ? T.lf.hb.limitPro(HB_PRO, HB_MAX) : T.sb.lockText(planName(need));
+  const s = subS() || {}, text = ro ? (s.until ? T.sb.roText(SUB_FREE) : T.sb.roNew(s.trialDays || 7)) : k === 'students' ? T.sb.stuLimit(SUB_FREE) : k === 'hb3' ? T.lf.hb.limitPro(HB_PRO, HB_MAX) : T.sb.lockText(planName(need));
   const fn = () => sheetHead('🔒 ' + title) + `<div class="sbnote">${esc(text)}</div>` + subTrialBtn() + subCodeForm() + subBuyBtn()
     + `<div class="sec"><span>${esc(T.sb.plans)}</span></div>` + subPlans();
   fn.isSub = true; openSheet(fn);
@@ -8225,7 +8316,17 @@ const SB = {
   subOpen: () => openSheet(subSheet()),
   subPlans: () => openSheet(subSheet()),
   subBuy: () => { const s = subS(); if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
-  subTrial: () => SB.subRedeem('TEST'),
+  subTrial: async () => {
+    const s = subS() || {};
+    if (s.trq === undefined) return SB.subRedeem('TEST');   // old server: self-service trial
+    try {
+      const j = await botPost({ a: 'trialReq' }, 30000);
+      if (j.sub) subApply(j.sub);
+      closeSheet(true); render(); haptic();
+      toast(j.st === 'has' ? T.sb.errs.hasSub : j.st === 'sent' ? '⏳ ' + T.sb.trialSent : '💬 ' + T.sb.trialAsked, 4500);
+      if (j.st === 'asked' && botUser) setTimeout(() => openUrl('https://t.me/' + botUser, true), 700);
+    } catch (e) { toast(T.sb.errs[e && e.message] || T.sb.errs.fail, 3500); }
+  },
   subRedeem: async (code) => {
     const inp = $('sb_code'), c = (typeof code === 'string' ? code : (inp && inp.value || '')).trim();
     if (!c) return toast(T.sb.enterCode, 2500);
@@ -8698,14 +8799,50 @@ const A = {
   addPackage: el => openSheet(packageForm(el.dataset.id, '')),
   editPackage: el => openSheet(packageForm('', el.dataset.id)),
   pkN: el => { $('p_n').value = el.dataset.v; $('p_n').oninput(); haptic(); },
+  pkM: el => { if (!PKF) return; PKF.mode = el.dataset.v; document.querySelectorAll('[data-act=pkM]').forEach(b => b.classList.toggle('on', b === el)); $('p_priceL').textContent = PKF.mode === 'tot' ? T.pk.priceTot(state.settings.cur) : T.pk.pricePer(state.settings.cur);
+    const n = Math.max(1, +$('p_n').value || 1), v = +$('p_price').value || 0; $('p_price').value = PKF.mode === 'tot' ? v * n : Math.round(v / n); $('p_price').oninput(); haptic(); },
+  pkD: el => { $('p_days').value = +el.dataset.v ? el.dataset.v : ''; $('p_days').oninput(); haptic(); },
+  pkT: el => {
+    const t = (state.settings.pkgT || []).find(x => x.id === el.dataset.id); if (!t || !PKF) return;
+    if (t.svc && svcOf(t.svc)) $('p_svc').value = t.svc;
+    $('p_n').value = t.n; $('p_name').value = t.name || ''; $('p_days').value = +t.days ? t.days : '';
+    if (+t.tot > 0) { PKF.mode = 'tot'; document.querySelectorAll('[data-act=pkM]').forEach(b => b.classList.toggle('on', b.dataset.v === 'tot')); $('p_priceL').textContent = T.pk.priceTot(state.settings.cur); $('p_price').value = t.tot; }
+    $('p_rent').value = rentFor($('p_svc').value, false);
+    document.querySelectorAll('[data-act=pkT]').forEach(b => b.classList.toggle('on', b === el));
+    $('p_price').oninput(); haptic();
+  },
+  pkFrz: el => {
+    const p = state.packages.find(x => x.id === el.dataset.id); if (!p) return;
+    const n = Math.round(+$('p_fzn').value || 0), from = $('p_fzf').value || today();
+    if (n < 1) return toast(T.pk.frzNeed);
+    p.frz = (p.frz || []).concat({ from, n }); applyPackages(p.sid); save(); hapticOk(); refreshSheet(); toast('❄️ ' + T.pk.frzDone(n), 2600);
+  },
+  pkFrzDel: el => {
+    const p = state.packages.find(x => x.id === el.dataset.id); if (!p) return;
+    p.frz = (p.frz || []).filter((f, i) => i !== +el.dataset.i); applyPackages(p.sid); save(); haptic(); refreshSheet();
+  },
+  pkTpl: () => openSheet(pkgTplSheet()),
+  pkTplNew: () => openSheet(pkgTplForm('')),
+  pkTplEdit: el => openSheet(pkgTplForm(el.dataset.id)),
+  pkTplSave: el => {
+    const n = Math.round(+$('pt_n').value || 0); if (n < 1) return toast(T.pk.tplNeedN);
+    const S = state.settings, d = { name: $('pt_name').value.trim().slice(0, 40), n, tot: Math.max(0, +$('pt_tot').value || 0), days: Math.max(0, Math.round(+$('pt_days').value || 0)), svc: $('pt_svc').value };
+    S.pkgT = Array.isArray(S.pkgT) ? S.pkgT : [];
+    const ex = el.dataset.id && S.pkgT.find(t => t.id === el.dataset.id);
+    if (ex) Object.assign(ex, d); else S.pkgT.push(Object.assign({ id: uid() }, d));
+    save(); hapticOk(); closeSheet(); refreshSheet(); toast(T.pk.tplSaved);
+  },
+  pkTplDel: el => { const S = state.settings; S.pkgT = (S.pkgT || []).filter(t => t.id !== el.dataset.id); save(); closeSheet(); refreshSheet(); toast(T.tDeleted); },
   savePackage: el => {
     const n = Math.round(+$('p_n').value || 0);
     if (n < 1) return toast(T.tPkgN);
-    const data = { svc: $('p_svc').value, n, price: Math.max(0, +$('p_price').value || 0), rent: Math.max(0, +$('p_rent').value || 0), date: $('p_date').value || today() };
+    const isTot = PKF && PKF.mode === 'tot', pr = Math.max(0, +$('p_price').value || 0);
+    const data = { svc: $('p_svc').value, n, price: isTot ? Math.round(pr / n) : pr, tot: isTot ? pr : 0, rent: Math.max(0, +$('p_rent').value || 0), date: $('p_date').value || today(),
+      days: Math.max(0, Math.round(+$('p_days').value || 0)), name: ($('p_name').value || '').trim().slice(0, 40) };
     const id = el.dataset.id, sid = el.dataset.sid;
     let nid = '';
     if (id) { const p = state.packages.find(x => x.id === id); if (p) Object.assign(p, data); }
-    else { nid = uid(); state.packages.push(Object.assign({ id: nid, sid, note: '' }, data)); }
+    else { nid = uid(); state.packages.push(Object.assign({ id: nid, sid, note: '', frz: [] }, data)); }
     applyPackages(sid);
     save(); hapticOk(); closeSheet(); render();
     if (nid && rcHintOk('p')) snack(T.tPkgSold, '📎 ' + T.rc.attachShort, 'rcAdd', { k: 'p', id: nid }); else toast(savedMsg(), 2600);
@@ -9005,6 +9142,8 @@ async function start(){
   setTimeout(pollOps, 400);
   checkWhatsNew();
 }
+/* test hooks (7.7) */
+try { Object.assign(window.__vs || (window.__vs = {}), { closeSheet: a => closeSheet(a), pkgUntil: p => pkgUntil(p), pkgLeft: p => pkgLeft(p), pkgBurnt: p => pkgBurnt(p), pkgTotal: p => pkgTotal(p), applyPackages: s => applyPackages(s), ymd: d => ymd(d), addDays: (d, n) => addDays(d, n), parseD: s => parseD(s) }); } catch (e) {}
 start().catch(rescueScreen);
 })();
 </script>
