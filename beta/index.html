@@ -588,11 +588,20 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .sbl small,.sbp small{display:block;opacity:.65;font-size:12px}
 .sbp{text-align:right;white-space:nowrap}
 .sbtag{font-size:11px;background:var(--accent);color:#fff;border-radius:8px;padding:2px 6px;vertical-align:2px}
+
+/* 7.9 two «+» buttons: right = work & money, left = tasks & personal */
+.fab.fabw,.fab.fabl{width:auto;height:50px;border-radius:25px;padding:0 18px 0 14px;display:flex;align-items:center;gap:6px;font:600 15px/1 var(--fb, inherit)}
+.fab.fabl{right:auto;left:18px;background:var(--card, #fff);color:var(--accent);border:1.5px solid var(--accent);box-shadow:0 6px 16px rgba(0,0,0,.14)}
+.fab .fl{white-space:nowrap}
+.fab.fabw .fl:empty,.fab.fabl .fl:empty{display:none}
+.fab[hidden]{display:none!important}
+.fabgrid .tool{min-height:92px}
 </style>
 </head>
 <body>
 <div class="wrap" id="app"></div>
-<button class="fab" id="fab" data-act="fab" aria-label="+"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+<button class="fab fabw" id="fab" data-act="fab" aria-label="+"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="fl" id="fabL"></span></button>
+<button class="fab fabl" id="fab2" data-act="fab2" aria-label="+" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="fl" id="fab2L"></span></button>
 <nav class="tabs" id="tabs">
   <button data-act="tab" data-v="home" class="on"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span class="tl"></span></button>
   <button data-act="tab" data-v="lessons"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg><span class="tl"></span></button>
@@ -2742,7 +2751,8 @@ const TRD = {
   ru: { btn: 'Обучение: как пользоваться', next: 'Далее', back: 'Назад', skip: 'Пропустить', done: 'Готово!', of: (a, b) => `${a} из ${b}`,
     steps: {
       hi: ['Привет! 👋', 'Это «Мои ученики» — ученики, уроки, деньги и выступления в одном месте. Покажу самое важное — это займёт минуту.'],
-      fab: ['Кнопка «+» — главная', 'Добавляет то, что нужно на этой вкладке: на «Учениках» — ученика, в расписании — урок, в планере — дело или выступление. Начни с неё: добавь первого ученика.'],
+      fab: ['Правый «+» — работа и деньги', 'Урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания — всё, что связано с учениками и заработком. Нажми — откроется меню. Начни с первого ученика.'],
+      fab2: ['Левый «+» — дела и личное', 'Дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Всё, что не про деньги с уроков.'],
       students: ['Ученики', 'Карточка каждого ученика: телефон, цена, абонементы, домашка, песни, история уроков. Отсюда можно написать ученику в Telegram или WhatsApp одним нажатием.'],
       lessons: ['Расписание', 'Календарь уроков по дням. Нажми на урок, чтобы отметить «пришёл», «пропустил» или «оплачено» — деньги посчитаются сами.'],
       kpis: ['Главная — сводка', 'Сколько учеников, уроков в этом месяце, сколько заработано и кто должен. Нажми на любую плитку — откроется подробнее.'],
@@ -2779,7 +2789,8 @@ const TRD = {
   en: { btn: 'Tutorial: how to use it', next: 'Next', back: 'Back', skip: 'Skip', done: 'Done!', of: (a, b) => `${a} of ${b}`,
     steps: {
       hi: ['Hi there! 👋', 'This is “My Students” — students, lessons, money and gigs in one place. I’ll show you the most important things — it takes a minute.'],
-      fab: ['The “+” button', 'Adds what fits the current tab: a student on “Students”, a lesson in the schedule, a task or gig in the planner. Start here: add your first student.'],
+      fab: ['Right “+” — work and money', 'Lesson, student, package, gig, expense, certificate, waiting list — everything about students and income. Tap it to open the menu. Start with your first student.'],
+      fab2: ['Left “+” — tasks and personal', 'Task, note, rehearsal, post, birthday, habit, personal spending, shopping, wish, goal, diary. Everything that is not lesson income.'],
       students: ['Students', 'A card for every student: phone, price, packages, homework, songs, lesson history. Message a student on Telegram or WhatsApp with one tap.'],
       lessons: ['Schedule', 'Lessons by day. Tap a lesson to mark “came”, “missed” or “paid” — money is counted automatically.'],
       kpis: ['Home — summary', 'Students, lessons this month, earnings and who owes you. Tap any tile for details.'],
@@ -2937,7 +2948,17 @@ const ST8D = {
     subPrices: (p, n) => `lesson ${p}${n ? ' · ' + n + ' package types' : ' · packages'}`, subWork: (d, f, t) => `${d} days a week · ${f}–${t}`, subNtOn: 'the bot sends reminders', subNtMute: 'off', subNtOff: 'needs the bot', subMe: n => `${n} · app sections`, subDataCloud: 'Telegram cloud + backups', subDataLocal: 'backups and restore',
     hubHint: 'Settings are split into groups — tap one. Each has tips inside.', priceSec: 'Lesson price and rent', moneyMore: 'Goal, tax, currency, length', modsHint: 'Turn off sections you don’t use: students and lessons, money, studio, planner, habits, personal money, wishlist, diary and more. Data is kept — turn them back on and everything returns.', modsBtn: 'Choose app sections' }
 };
-for (const c in I18N) { I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
+const FXD = {
+  ru: { work: 'Работа', life: 'Дела', workT: 'Работа и деньги', lifeT: 'Дела и личное', workD: 'Всё, что связано с учениками и заработком.', lifeD: 'Дела, планы и личное — всё, что не про деньги с уроков.',
+    lesson: 'Урок', lessonS: 'в расписание', student: 'Ученик', studentS: 'новый ученик', pkg: 'Абонемент', pkgS: 'продать ученику', gig: 'Выступление', gigS: 'концерт, гонорар', exp: 'Расход', expS: 'аренда, реклама, ноты', cert: 'Сертификат', certS: 'подарочный', wait: 'Лист ожидания', waitS: 'кто хочет заниматься', event: 'Концерт учеников', eventS: 'отчётный, мастер-класс',
+    task: 'Дело', taskS: 'задача, напоминание', note: 'Заметка', noteS: 'мысль, идея', reh: 'Репетиция', rehS: 'с коллективом', post: 'Пост', postS: 'контент-план', bday: 'День рождения', bdayS: 'близкого человека', habit: 'Привычка', habitS: 'новая привычка', spend: 'Личная трата', spendS: 'в мои финансы', list: 'Покупки', listS: 'списки', wish: 'Желание', wishS: 'в вишлист', goal: 'Цель', goalS: 'с шагами', diary: 'Дневник', diaryS: 'настроение, голос',
+    botT: 'Ещё быстрее — через бота', botWork: 'Напиши или скажи: «Маша завтра в 15:00», «Петя оплатил 2000», «Оля купила абонемент на 8» — бот всё внесёт сам.', botLife: 'Напиши или скажи: «напомни в пятницу купить струны», «такси 450», «купить молоко и хлеб», «сделала йогу» — бот всё внесёт сам.' },
+  en: { work: 'Work', life: 'To-do', workT: 'Work and money', lifeT: 'Tasks and personal', workD: 'Everything about students and income.', lifeD: 'Tasks, plans and personal things — everything that is not lesson income.',
+    lesson: 'Lesson', lessonS: 'to the schedule', student: 'Student', studentS: 'new student', pkg: 'Package', pkgS: 'sell to a student', gig: 'Gig', gigS: 'concert, fee', exp: 'Expense', expS: 'rent, ads, sheet music', cert: 'Certificate', certS: 'gift', wait: 'Waiting list', waitS: 'who wants lessons', event: 'Student concert', eventS: 'recital, workshop',
+    task: 'Task', taskS: 'to-do, reminder', note: 'Note', noteS: 'thought, idea', reh: 'Rehearsal', rehS: 'with the band', post: 'Post', postS: 'content plan', bday: 'Birthday', bdayS: 'of someone close', habit: 'Habit', habitS: 'new habit', spend: 'Spending', spendS: 'to my money', list: 'Shopping', listS: 'lists', wish: 'Wish', wishS: 'to the wishlist', goal: 'Goal', goalS: 'with steps', diary: 'Diary', diaryS: 'mood, voice',
+    botT: 'Even faster — via the bot', botWork: 'Write or say: “Masha tomorrow at 3 pm”, “Petya paid 2000”, “Olya bought an 8-lesson package” — the bot adds it.', botLife: 'Write or say: “remind me on Friday to buy strings”, “taxi 450”, “buy milk and bread”, “did yoga” — the bot adds it.' }
+};
+for (const c in I18N) { I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 
@@ -4132,7 +4153,6 @@ function renderStudio(){
 const tabOn = v => v === 'habits' ? lfOn('habits') : v === 'home' || (v === 'lessons' ? mod('students') || mod('plan') : v === 'students' ? mod('students') : mod(v));
 function renderNav(){
   document.querySelectorAll('#tabs button').forEach(b => { b.hidden = !tabOn(b.dataset.v); b.classList.toggle('on', b.dataset.v === ui.tab); b.querySelector('.tl').textContent = b.dataset.v === 'lessons' && !mod('students') ? T.md.cal : T.tabs[b.dataset.v]; });
-  $('fab').setAttribute('aria-label', T.add);
   const on = document.querySelector('#tabs button.on'); if (on && $('tabs').scrollWidth > $('tabs').clientWidth) try { on.scrollIntoView({ inline: 'nearest', block: 'nearest' }); } catch (e) {}
 }
 function render(){
@@ -4142,7 +4162,7 @@ function render(){
   const fn = { home: renderHome, lessons: renderCalendar, students: renderStudents, money: renderMoney, studio: renderStudio, habits: () => safe(renderHabitsTab, header(T.tabs.habits)), plan: () => safe(renderPlan, header(T.tabs.plan) + `<div class="empty">⚠️ ${esc(T.bk.oops)}</div>`) }[ui.tab] || renderHome;
   $('app').innerHTML = fn() + footer();
   renderNav();
-  $('fab').hidden = ui.tab === 'money' || ui.tab === 'studio' || ui.tab === 'habits' || (!mod('students') ? !mod('plan') : (ui.tab !== 'students' && ui.tab !== 'plan' && !state.students.length));
+  safe(fabSync);
   setSync(syncState);
   const se = $('search');
   if (se) se.oninput = e => { ui.q = e.target.value; $('slist').innerHTML = studentsList(); };
@@ -5554,8 +5574,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 31;
+const APP_VER = 32;
 const CHANGES = [
+  { v: 32, name: '7.9', date: '2026-11-03', big: true,
+    ru: { add: ['➕ Две кнопки «+» на каждой вкладке: справа «Работа» — урок, ученик, абонемент, выступление, расход, сертификат; слева «Дела» — дело, заметка, репетиция, день рождения, привычка, трата, покупки, желание, цель, дневник'],
+      better: ['🎟 Абонемент теперь продаётся прямо с «+»', '📖 Справка и обучение рассказывают про обе кнопки'] },
+    en: { add: ['➕ Two “+” buttons on every tab: right “Work” — lesson, student, package, gig, expense, certificate; left “To-do” — task, note, rehearsal, birthday, habit, spending, shopping, wish, goal, diary'],
+      better: ['🎟 Sell a package right from “+”', '📖 Help and tutorial explain both buttons'] } },
   { v: 31, name: '7.8', date: '2026-11-03', big: true,
     ru: { add: ['🎟 Окно «Абонементы» — все абонементы учеников в одном месте: сколько действует, сколько занятий осталось, у кого кончается срок, кто заморожен, виды абонементов и «Продать абонемент». Студия → «Абонементы»'],
       better: ['⚙️ Настройки разделены на понятные группы: 💰 Цены и абонементы, 📅 Работа и запись, 🔔 Уведомления, 🧩 Под себя, 🎨 Оформление, 🛟 Данные и копии', '💰 Виды абонементов теперь прямо в «Цены и абонементы» — ничего не нужно искать', '🧩 «Разделы приложения» — в группе «Под себя»', '📖 Справка, гайд и обучение обновлены под новые настройки'] },
@@ -7936,7 +7961,7 @@ const HELP_DOC = [
     'При первом запуске приложение за 3 коротких шага настраивается под тебя (имя и чем занимаешься → цены, аренда, рабочие дни → напоминания, тема и личные разделы), а потом показывает обучение с подсветкой. Повторить: ⚙️ Настройки → «🧭 Обучение».',
     'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — и уроки, и деньги, и личное (расходы, покупки, привычки, вишлист).',
     'Шестерёнка ⚙️ справа вверху — Настройки, разделены на 6 групп: цены и абонементы, работа и запись, уведомления, под себя, оформление, данные. Там же эта справка.',
-    'Большая круглая кнопка «+» внизу справа добавляет то, что нужно на текущей вкладке: урок, ученика или запись в планер.',
+    'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
   { id: 'home', ic: '🏠', t: 'Главная', p: [
     'Приветствие, подпись (её можно поменять: ⚙️ Настройки → 🧩 Под себя) и цитата дня — нажми на цитату, чтобы сменить её.',
@@ -7947,7 +7972,7 @@ const HELP_DOC = [
     '«Сегодня» — уроки на сегодня. Отметь каждый: пришёл ✅, пропуск ❌, оплачен 💰.',
     'Подсказки сверху (например, «отметь прошедшие уроки», «есть долги») — нажми, чтобы перейти к делу.' ] },
   { id: 'students', ic: '👥', t: 'Ученики', p: [
-    'Добавить ученика: вкладка «Ученики» → «+». Имя обязательно, остальное — по желанию: телефон, Telegram, день рождения, своя цена урока, услуга, откуда пришёл, заметки.',
+    'Добавить ученика: «＋ Работа» → «Ученик». Имя обязательно, остальное — по желанию: телефон, Telegram, день рождения, своя цена урока, услуга, откуда пришёл, заметки.',
     'Поиск — строка сверху, ищет по имени, телефону, нику и заметкам.',
     'Карточка ученика: все уроки, долг, абонемент, статистика, песни, распевки, домашние задания, диапазон голоса (нижняя и верхняя нота), значки-достижения ученика.',
     'Песни ученика: название, тональность, ссылка на минус, текст. Отмечай выученные.',
@@ -7956,7 +7981,7 @@ const HELP_DOC = [
     '«Давно не были» — список тех, кто давно не приходил, с кнопкой написать.',
     'Удалить ученика можно в его карточке; перед удалением приложение само делает резервную копию.' ] },
   { id: 'lessons', ic: '📅', t: 'Уроки и календарь', p: [
-    'Добавить урок: «+» на Главной или в Календаре, или «Добавить на…» под выбранным днём. Выбери ученика (или нескольких — получится групповой урок), дату, время, длительность, услугу, цену.',
+    'Добавить урок: «＋ Работа» → «Урок» (на любой вкладке), или «Добавить на…» под выбранным днём. Выбери ученика (или нескольких — получится групповой урок), дату, время, длительность, услугу, цену.',
     'Повтор: можно сразу создать урок на несколько недель вперёд — «Повторять каждую неделю».',
     'Онлайн-урок: включи «Онлайн», можно добавить ссылку на звонок; аренда зала для онлайн не считается.',
     'Статусы урока: запланирован, пришёл ✅, пропуск ❌, пропуск оплачен (ученик не пришёл, но урок оплачен).',
@@ -7967,7 +7992,7 @@ const HELP_DOC = [
     'Свободные окна: Календарь → «Свободные окна» — приложение само считает свободное время по твоему рабочему графику, список можно скопировать и отправить.' ] },
   { id: 'packages', ic: '🎟', t: 'Абонементы', p: [
     'Все абонементы в одном окне: Студия → «🎟 Абонементы» (или ⚙️ Настройки → 💰 Цены и абонементы → «Все абонементы учеников», или вкладка «Деньги»). Там видно, сколько абонементов действует, сколько занятий осталось, у кого кончается срок, кто заморожен, — и кнопка «＋ Продать абонемент».',
-    'Продать абонемент: карточка ученика → «Абонемент» или Студия → «Абонементы» → «Продать абонемент». Можно настроить всё под себя: любое количество занятий, цена за весь абонемент или за урок, название, срок действия и аренда.',
+    'Продать абонемент: «＋ Работа» → «Абонемент», карточка ученика → «Абонемент» или Студия → «Абонементы» → «Продать абонемент». Можно настроить всё под себя: любое количество занятий, цена за весь абонемент или за урок, название, срок действия и аренда.',
     'Виды абонементов: ⚙️ Настройки → 💰 Цены и абонементы (или Студия → «Абонементы»). Создай свои, например «Месяц вокала — 8 занятий, 18 000, 45 дней». При продаже нажми нужный — количество, цена и срок подставятся сами. Бот тоже их знает: «Маша купила абонемент на 8» — возьмёт цену и срок из вида на 8 занятий.',
     'Срок действия: без срока или любое число дней (кнопки 30, 45, 60, 90 или своё). Приложение покажет «действует до …». Уроки после срока из абонемента не списываются, неиспользованные занятия сгорают — это видно в карточке («сгорело 2»). За 3 дня до конца срока, если занятия остались, придёт напоминание.',
     'Заморозка: открой абонемент → «❄️ Заморозка» → с какого дня и на сколько дней → «Заморозить». Срок продлится на столько же дней, уроки в эти дни не списываются. Заморозок может быть сколько угодно, любую можно снять.',
@@ -7986,7 +8011,7 @@ const HELP_DOC = [
     'Вкладка «Деньги» — это работа (уроки, гонорары, расходы на студию). Личные траты, бюджет, платежи и копилки — отдельно: Планер → 🌿 Жизнь и личное → 💳 Мои финансы. Они не смешиваются.' ] },
   { id: 'plan', ic: '📒', t: 'Планер', p: [
     'Всё, что не уроки: 🎤 выступления, 🎸 репетиции, ✅ дела, 📝 заметки, 📌 события, 📱 контент для Инстаграма, 🎂 дни рождения.',
-    'Добавить: кнопки вверху Планера или «+». Вид записи можно сменить прямо в форме.',
+    'Добавить: кнопки вверху Планера или «＋ Дела» внизу слева. Вид записи можно сменить прямо в форме.',
     'Дата и время, место, коллектив, напоминание (в момент, за 15 минут, за час, за 3 часа, за день, утром в этот день), повтор (каждую неделю, месяц, год).',
     'Дело может быть без даты — оно лежит в списке «Дела», пока не отметишь кружок ✓. Повторяющиеся дела отмечаются для каждого дня отдельно.',
     'Выступление: сбор, начало, окончание, место, коллектив, гонорар и «получен», заказчик и его телефон, сет-лист, чек-лист «что взять».',
@@ -8261,14 +8286,14 @@ const SUB_GATE = { plGroups: 'pro', plGroup: 'pro', plNewIn: 'pro', plRep: 'pro'
   lfWish: 'pro', lfLists: 'pro', lfGoals: 'pro', lfHabits: 'pro', hbT: 'pro', wsShare: 'max', lfFin: 'max', lfDiary: 'max' };
 const SUB_KINDS = { gig: 1, reh: 1, post: 1 };          // plNew / plKind with these kinds → Про
 /* view-only mode (subscription ended, more students than the free plan allows): these actions change data */
-const SUB_RO = /^(save(?!Settings$|Api$)\w*|delete\w*|add\w*|archiveStudent|mark|togglePaid|payAll|assignEx|resched|cert(New|Save|Del)|rc(Add|Del)|d(Add|Del|Toggle)|songSave|quizSave|giveNote|req(Ok|No)|swPkg|prizeGive|fab|pl(New|NewDay|NewIn|Save|Del|Done|ClearDone|GroupSave|GroupDel|PersonSave|PersonDel|PersonNew|SongSave|SongDel|SetAdd|SetRm|SetMv)|mu(Save|Del|ArtistSave|Chk|ChkAdd|ChkRm|ChkReset|RelStep|CoAdd|CoRm|VerUse)|x2(WaitSave|WaitDel|WaitToStudent|WarmSave|HwSend|WaitNew)|hb(Save|Del|Pre|T)|fn(OpSave|OpDel|BudgetSave|BillSave|BillDel|Pay|SaveSave|SaveDel|DepGo)|ws(Save|Got|SaveUp|Del)|ls(Create|Pre|Add|T|Clear|Del)|gl(New|Save|Add|T|StepDel|Done|Del)|dy(Mood|Voice|Save)|pk(Frz|FrzDel|TplSave|TplDel))$/;
+const SUB_RO = /^(save(?!Settings$|Api$)\w*|delete\w*|add\w*|archiveStudent|mark|togglePaid|payAll|assignEx|resched|cert(New|Save|Del)|rc(Add|Del)|d(Add|Del|Toggle)|songSave|quizSave|giveNote|req(Ok|No)|swPkg|prizeGive|fab|pl(New|NewDay|NewIn|Save|Del|Done|ClearDone|GroupSave|GroupDel|PersonSave|PersonDel|PersonNew|SongSave|SongDel|SetAdd|SetRm|SetMv)|mu(Save|Del|ArtistSave|Chk|ChkAdd|ChkRm|ChkReset|RelStep|CoAdd|CoRm|VerUse)|x2(WaitSave|WaitDel|WaitToStudent|WarmSave|HwSend|WaitNew)|hb(Save|Del|Pre|T)|fn(OpSave|OpDel|BudgetSave|BillSave|BillDel|Pay|SaveSave|SaveDel|DepGo)|ws(Save|Got|SaveUp|Del)|ls(Create|Pre|Add|T|Clear|Del)|gl(New|Save|Add|T|StepDel|Done|Del)|dy(Mood|Voice|Save)|pk(Frz|FrzDel|TplSave|TplDel)|fab2|fnQuick)$/;
 
 const subS = () => { const s = state.settings.sub; return s && typeof s === 'object' ? s : null; };
 const subBanned = () => { const s = subS(); return !!(s && s.banned); };
 function showBanned(){
   try { closeSheet(true); } catch (e) {}
   $('app').innerHTML = `<div class="empty" style="margin-top:90px"><div class="big">🚫</div><b>${esc(T.sb.banT)}</b>${esc(T.sb.banX)}</div>`;
-  $('fab').hidden = true; $('tabs').hidden = true;
+  $('fab').hidden = true; if ($('fab2')) $('fab2').hidden = true; $('tabs').hidden = true;
 }
 const subOn = () => { const s = subS(); return !!(s && s.on); };
 function plan(){ const s = subS(); if (!s || !s.on || s.admin) return 'max'; return PLAN_R[s.p] !== undefined ? s.p : 'free'; }
@@ -8444,7 +8469,7 @@ safe(() => { playVoice = (o => (...a) => famOn() ? o(...a) : undefined)(playVoic
 /* ================= 7.5: guided tour (spotlight + explanation), settings hints, downloadable guide ================= */
 /* steps from the most important to the least; target = selector (on the Home tab) or null for a centred card */
 const TOUR = [
-  ['hi', null], ['bot', null, true], ['fab', '#fab', false, 'students'], ['students', '#tabs [data-v=students]', false, 'students'], ['lessons', '#tabs [data-v=lessons]'],
+  ['hi', null], ['bot', null, true], ['fab', '#fab', false, 'students'], ['fab2', '#fab2', false, 'students'], ['students', '#tabs [data-v=students]', false, 'students'], ['lessons', '#tabs [data-v=lessons]'],
   ['kpis', '#app .kpis'], ['week', '#app .week'], ['money', '#tabs [data-v=money]'], ['plan', '#tabs [data-v=plan]'], ['habits', '#tabs [data-v=habits]'],
   ['studio', '#tabs [data-v=studio]'], ['settings', '#app [data-act=settings]'], ['end', null]
 ];
@@ -8611,6 +8636,64 @@ Object.assign(TR, {
   obGo: () => obFinish(true),
   obLater: () => obFinish(false)
 });
+/* ================= 7.9: two «+» buttons =================
+   Right (accent) — work and money: lesson, student, package, gig, expense, certificate, waiting list.
+   Left (outlined) — tasks and personal: task, note, rehearsal, post, birthday, habit, spending, list, wish, goal, diary. */
+function fabWorkItems(){
+  const X = T.fx, st = mod('students');
+  return [
+    st && ['addLesson', '', '📅', X.lesson, X.lessonS],
+    st && ['addStudent', '', '👤', X.student, X.studentS],
+    st && ['pkgSell', '', '🎟', X.pkg, X.pkgS],
+    mod('plan') && ['plNew', 'gig', '🎤', X.gig, X.gigS],
+    mod('money') && ['addExpense', '', '💸', X.exp, X.expS],
+    st && ['certNew', '', '🎁', X.cert, X.certS],
+    st && ['x2WaitNew', '', '⏳', X.wait, X.waitS],
+    mod('plan') && st && ['plNew', 'event', '🎭', X.event, X.eventS]
+  ].filter(Boolean);
+}
+function fabLifeItems(){
+  const X = T.fx, pl = mod('plan');
+  return [
+    pl && ['plNew', 'task', '✅', X.task, X.taskS],
+    pl && kindOn('note') && ['plNew', 'note', '📝', X.note, X.noteS],
+    pl && ['plNew', 'reh', '🎵', X.reh, X.rehS],
+    pl && kindOn('post') && ['plNew', 'post', '📱', X.post, X.postS],
+    pl && mod('people') && ['plPersonNew', '', '🎂', X.bday, X.bdayS],
+    lfOn('habits') && ['hbEdit', '', '🌱', X.habit, X.habitS],
+    lfOn('fin') && ['fnQuick', 'out', '💳', X.spend, X.spendS],
+    lfOn('lists') && ['lfLists', '', '🛒', X.list, X.listS],
+    lfOn('wish') && ['wsEdit', '', '🎁', X.wish, X.wishS],
+    lfOn('goals') && ['lfGoals', '', '🎯', X.goal, X.goalS],
+    lfOn('diary') && ['lfDiary', '', '📔', X.diary, X.diaryS]
+  ].filter(Boolean);
+}
+function fabSheet(k){
+  return () => {
+    const X = T.fx, items = k === 'work' ? fabWorkItems() : fabLifeItems();
+    return sheetHead(k === 'work' ? X.workT : X.lifeT) + `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(k === 'work' ? X.workD : X.lifeD)}</div>
+      <div class="tools fabgrid">${items.map(([a, v, ic, t, s]) => `<button class="tool" data-act="fabGo" data-v="${a}" data-x="${v}"><span class="ti">${ic}</span><b>${esc(t)}</b><small>${esc(s)}</small></button>`).join('')}</div>
+      ${inTG && botUser ? `<div class="tourcard" style="margin-top:12px"><b>🤖 ${esc(X.botT)}</b><small>${esc(k === 'work' ? X.botWork : X.botLife)}</small></div>` : ''}`;
+  };
+}
+const fabWorkOn = () => fabWorkItems().length > 0, fabLifeOn = () => fabLifeItems().length > 0;
+function fabSync(){
+  const f1 = $('fab'), f2 = $('fab2'); if (!f1 || !f2) return;
+  const X = T.fx || {}, off = !!(state.settings && state.settings.__noFab);
+  f1.hidden = off || !fabWorkOn(); f2.hidden = off || !fabLifeOn();
+  const l1 = $('fabL'), l2 = $('fab2L'); if (l1) l1.textContent = X.work || ''; if (l2) l2.textContent = X.life || '';
+  f1.setAttribute('aria-label', X.workT || '+'); f2.setAttribute('aria-label', X.lifeT || '+');
+}
+const FB = {
+  fab: () => openSheet(fabSheet('work')),
+  fab2: () => openSheet(fabSheet('life')),
+  fabGo: el => {
+    const a = el.dataset.v, x = el.dataset.x || '';
+    closeSheet(true);
+    setTimeout(() => { if (A[a]) A[a]({ dataset: { v: x, id: '' } }); }, 40);
+  },
+  fnQuick: el => { if (typeof SUB_GATE !== 'undefined' && subOn() && !can(SUB_GATE.lfFin || 'max')) return lockSheet('max'); openSheet(fnOpForm(null, (el && el.dataset.v) || 'out')); }
+};
 
 /* ================= Dialogs ================= */
 let toastT;
@@ -9168,7 +9251,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB);
 safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
