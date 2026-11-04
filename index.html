@@ -3052,7 +3052,15 @@ const WPD = {
     keepT: 'Kept', keep: ['Your subscription and its term', 'The bot connection and language'], chat: '📎 Backup files the bot sent you stay in the chat — delete them there if needed.',
     saveFirst: 'Save a copy as a file first', go: 'Delete everything for good', busy: 'Deleting all data…', done: 'Everything is deleted. Starting over ✨', doneLocal: 'Device data deleted. The server is unreachable — its part will be erased later' }
 };
-for (const c in I18N) { I18N[c].wp = WPD[c] || WPD.en; I18N[c].pf = PFD[c] || PFD.en; I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
+const DLD = {
+  ru: { title: 'Похоже, пропала часть данных', text: (a, b, n, l) => `Недавно здесь было ${a} уч. и ${b} уроков, а сейчас ${n} и ${l}. Если ты ничего не удалял(а) — данные можно вернуть из резервной копии.`,
+    howT: 'Как восстановить', how: ['Нажми кнопку ниже — вернётся самая полная копия за последние дни. Или открой «Резервные копии» и выбери копию сам(а).', 'Перед восстановлением приложение само сохранит то, что есть сейчас, — ничего не потеряется.', 'Есть файл-копия из чата с ботом? «Резервные копии» → «Восстановить из файла».', 'Не получается — напиши создателю приложения, он поможет.'],
+    restoreBest: (d, n, l) => `Вернуть копию от ${d} (${n} уч., ${l} ур.)`, open: 'Открыть резервные копии', write: u => `Написать создателю @${u}`, ok: 'Всё в порядке, я удалял(а) сам(а)' },
+  en: { title: 'Some data seems to be missing', text: (a, b, n, l) => `Recently there were ${a} students and ${b} lessons, now ${n} and ${l}. If you didn’t delete anything, restore a backup.`,
+    howT: 'How to restore', how: ['Tap the button below to bring back the fullest backup of the last days, or open “Backups” and choose one.', 'Before restoring, the app saves what is here now — nothing is lost.', 'Have a backup file from the bot chat? “Backups” → “Restore from a file”.', 'Doesn’t work — message the app’s creator, he will help.'],
+    restoreBest: (d, n, l) => `Restore the backup from ${d} (${n} st., ${l} les.)`, open: 'Open backups', write: u => `Message the creator @${u}`, ok: 'All fine, I deleted it myself' }
+};
+for (const c in I18N) { I18N[c].dl = DLD[c] || DLD.en; I18N[c].wp = WPD[c] || WPD.en; I18N[c].pf = PFD[c] || PFD.en; I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
 /* ================= 7.10: profession — the app adapts its words and motivation =================
@@ -5787,7 +5795,7 @@ function botCtx(){
   return { students: state.students.map(s => Object.assign({ id: s.id, n: s.name }, s.phone ? { ph: s.phone } : {}, s.archived ? { a: 1 } : {})),
     svcs: state.services.map(s => Object.assign({ id: s.id, n: s.name, p: priceFor('', s.id) }, s.online ? { on: 1 } : {})), up, dur: +state.settings.dur || 60, price: +state.settings.price || 0, cur: state.settings.cur || '₽',
     pk: state.students.filter(s => !s.archived).map(s => { const ss = studentStats(s.id); return ss.pkg ? `${s.name}: ${ss.left}` : ''; }).filter(Boolean),
-    work: `${state.settings.work.from}-${state.settings.work.to}`, prof: safe(() => profOf() ? profName(profOf(), 'ru') : '', ''), ...safe(planCtx, {}), ...safe(lifeCtx, {}) };
+    work: `${state.settings.work.from}-${state.settings.work.to}`, prof: safe(() => profOf() ? profName(profOf(), 'ru') : '', ''), cnt: { s: state.students.length, l: state.lessons.length, x: (state.items || []).length + (state.habits || []).length + (state.wish || []).length + (state.goals || []).length + (state.fin || []).length + (state.lists || []).reduce((a, l) => a + l.items.length, 0) }, ...safe(planCtx, {}), ...safe(lifeCtx, {}) };
 }
 async function pollOps(){
   if (!inTG || !state.settings.api || !ready || opsBusy || document.hidden) return;
@@ -5968,8 +5976,11 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 37;
+const APP_VER = 38;
 const CHANGES = [
+  { v: 38, name: '8.0.1', date: '2026-11-04',
+    ru: { add: ['🛟 Защита от пропажи данных: если вдруг стало заметно меньше учеников или уроков, приложение и бот сразу подскажут, как одним нажатием вернуть резервную копию, и дадут связь с создателем приложения'], better: [] },
+    en: { add: ['🛟 Data-loss guard: if students or lessons suddenly drop, the app and the bot show how to bring back a backup in one tap and how to reach the app’s creator'], better: [] } },
   { v: 37, name: '8.0', date: '2026-11-04', big: true,
     ru: { add: ['💼 Профессия: больше 200 вариантов с поиском — тренеры, репетиторы, учителя, хореографы, фитнес, логопеды, инструкторы по вождению и другие. Приложение подстраивается: тренировки или занятия вместо уроков, спортсмены или клиенты вместо учеников, своя мотивация, свои инструменты. ⚙️ Настройки → 🧩 Под себя', '🖥 Красиво на любом экране: iPhone и Android, планшеты, Mac и Windows — шире на больших экранах, меню-панель по центру, окна по центру', '📱 Полный экран на телефоне: ⚙️ Настройки → 🎨 Оформление', '🗑 «Сбросить всё и начать заново»: ⚙️ Настройки → 🛟 Данные и копии — с двойным подтверждением, подписка сохраняется'],
       better: ['🎨 Цвета исправлены во всех темах и в своих цветах: текст на цветном фоне всегда читается (например, выбранный день в календаре), светлый свой цвет и тёмный фон тоже работают', '🤖 Бот понимает слова твоей профессии: «тренировка», «занятие», «клиент», «спортсмен»', '⚡ Быстрее и стабильнее: проверены все экраны на 5 языках и 5 размерах'] },
@@ -8577,6 +8588,7 @@ const HELP_DOC = [
     '🛟 Данные и копии: где хранятся данные, резервные копии, сохранить копию файлом и восстановить. Внизу — «🗑 Сбросить всё и начать заново»: приложение дважды спросит, точно ли, покажет, что удалится (все данные, копии на телефоне и в Google Диске, напоминания), и только потом всё сотрёт. Подписка останется.',
     'Ниже групп: 🧭 Обучение (тур с подсветкой), 📖 Справка с поиском и вопросами боту, 🆕 «Что нового» — история обновлений.' ] },
   { id: 'backup', ic: '🛟', t: 'Резервные копии и восстановление', p: [
+    'Если вдруг пропала часть данных: приложение само заметит, что учеников или уроков стало резко меньше, чем в копиях за последние дни, и предложит «Вернуть копию» одним нажатием. Бот тоже напишет, как восстановить, и даст ссылку на создателя приложения. Если удалял(а) сам(а) — нажми «Всё в порядке».',
     'Копии делаются сами в трёх местах: 📱 на телефоне (каждый час работы, каждый день, перед каждым обновлением), ☁️ на Google Диске (через пару минут после изменений), 💬 в чате с ботом (раз в день, если были изменения, без звука).',
     'Два вида: код (файл .json — восстанавливает всё в один тап) и вся база текстом (файл …tekst.txt — читается где угодно, а в конце — код для восстановления).',
     'Посмотреть или скопировать всю базу текстом: Настройки → Резервные копии → «Вся база текстом».',
@@ -9206,7 +9218,35 @@ async function wipeAll(){
   toast('✅ ' + (srvOk ? X.done : X.doneLocal), 4000);
   setTimeout(() => { try { location.reload(); } catch (e) {} }, 1600);
 }
+/* ================= 8.0.1: «похоже, пропала часть данных» =================
+   Compares what is in the app now with the phone backups of the last 3 days. A big drop (and not a «Сбросить всё») →
+   one sheet: how to restore a backup + a link to the app's creator. Shown once per drop; «Всё в порядке» hides it. */
+async function dropCheck(){
+  try {
+    if (!ready || wiping) return;
+    const since = Math.max(Date.now() - 3 * 864e5, +state.settings.dropOk || 0), list = (await bk.all()).filter(o => o.at > since);
+    if (!list.length) return;
+    const maxN = Math.max(...list.map(o => +o.n || 0)), maxL = Math.max(...list.map(o => +o.l || 0));
+    const n = state.students.length, l = state.lessons.length;
+    const drop = (maxN >= 3 && n < maxN * .6) || (maxL >= 10 && l < maxL * .6);
+    if (!drop) return;
+    const best = list.filter(o => (+o.n || 0) === maxN).sort((a, b) => b.at - a.at)[0];
+    openSheet(dropSheet(maxN, maxL, n, l, best));
+  } catch (e) {}
+}
+function dropSheet(maxN, maxL, n, l, best){
+  return () => {
+    const X = T.dl, s = subS ? subS() : null, seller = s && s.seller;
+    return sheetHead('⚠️ ' + X.title) + `<div class="sbnote" style="text-align:left">${esc(X.text(maxN, maxL, n, l))}</div>
+      <div class="sec"><span>🛟 ${esc(X.howT)}</span></div><div class="card bkhow">${X.how.map((x, i) => `<div class="li"><span class="tx"><b>${i + 1}.</b> ${esc(x)}</span></div>`).join('')}</div>
+      ${best ? `<button class="btn" data-act="bkRestore" data-id="${esc(best.id)}">↩️ ${esc(X.restoreBest(shortDate(new Date(best.at).toISOString().slice(0, 10)) + ' ' + new Date(best.at).toTimeString().slice(0, 5), best.n, best.l))}</button>` : ''}
+      <button class="btn ghost" data-act="backups">🛟 ${esc(X.open)}</button>
+      ${seller ? `<button class="btn ghost" data-act="openTg" data-v="https://t.me/${esc(seller)}">💬 ${esc(X.write(seller))}</button>` : ''}
+      <button class="btn ghost sm" data-act="dropOk" style="margin-top:8px">${esc(X.ok)}</button>`;
+  };
+}
 const RCN = {
+  dropOk: () => { state.settings.dropOk = Date.now(); save(); closeSheet(); },
   wipeAsk: async () => {
     const X = T.wp;
     if (!await ask(X.q1, X.yes1, true)) return;
@@ -9817,6 +9857,7 @@ async function start(){
   }
   if ((state.settings.lang || 'ru') !== L || state.settings.prof) applyLang(state.settings.lang || L);
   safe(fsApply);
+  setTimeout(() => safe(dropCheck), 5000);
   loadedCounts = { n: state.students.length, l: state.lessons.length };
   const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
   if (updating) { await snapshot('upd'); setTimeout(() => chatBackup(T.bk.beforeUpd), 6000); }
