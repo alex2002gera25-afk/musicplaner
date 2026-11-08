@@ -704,6 +704,15 @@ body.lgl-lock{overflow:hidden}
 .price.pkp{font-size:13px;font-weight:600;color:var(--hint);white-space:nowrap}
 /* 8.3: an action is running — the button dims and ignores taps */
 .busy{opacity:.55;pointer-events:none;transition:opacity .15s}
+/* 8.3: family surprise pieces */
+.card.surp{display:flex;gap:12px;align-items:center;padding:12px 16px;margin:10px 0;cursor:pointer;background:linear-gradient(135deg,rgba(255,182,193,.22),rgba(255,228,196,.25))}
+.surp .sp-ic{font-size:26px}
+.surp .sp-tx b{display:block;font-size:15px}
+.surp .sp-tx small{color:var(--hint);font-size:13px}
+.sp-li p{margin:12px 14px;line-height:1.5;font-size:15px}
+.surp-pop{text-align:center;padding:26px 14px 10px}
+.surp-pop .sp-big{font-size:64px;margin-bottom:8px}
+.surp-pop p{font-size:18px;line-height:1.45;margin:0 0 20px}
 </style>
 </head>
 <body>
@@ -3712,8 +3721,9 @@ const userName = () => String(state.settings.name || (tgUser && tgUser.first_nam
 const withName = s => String(s).replace(/\{n\}/g, userName());
 /* the line under the greeting: anyone can write their own (studio, company…); "-" hides it */
 const brandLine = () => { const b = String(state.settings.brand == null ? '' : state.settings.brand).trim(); return !b ? (typeof famOn === 'function' && !famOn() ? '' : I18N[L].brand) : b === '-' ? '' : b.slice(0, 60); };
-const quoteNow = () => withName(quotePool.length ? quotePool[quoteIdx % quotePool.length] : '');
-const praise = () => withName(pick(T.praise));
+const quoteNow = () => { const s = typeof surpMotd === 'function' && !quoteSkip ? safe(surpMotd, '') : ''; return s || withName(quotePool.length ? quotePool[quoteIdx % quotePool.length] : ''); };
+let quoteSkip = false;
+const praise = () => (typeof surpPraise === 'function' && safe(surpPraise, '')) || withName(pick(T.praise));
 const savedMsg = () => Math.random() < 0.3 ? T.tSavedSanya : T.tSaved;
 function seedDefaults(){
   if (state.settings.init) return false;
@@ -4575,7 +4585,7 @@ function renderHome(){
       <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
       <div class="topbtns"><button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
-  const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
+  const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>` + safe(surpCard, '');
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
   if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + safe(homeTilesRow, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
@@ -4830,7 +4840,9 @@ function render(){
   const se = $('search');
   if (se) se.oninput = e => { ui.q = e.target.value; $('slist').innerHTML = studentsList(); };
 }
-function nextQuote(){
+function nextQuote(manual){
+  if (!manual && !quoteSkip && safe(surpMotd, '')) return;   // a family hint stays until tapped
+  if (manual) quoteSkip = true;
   quoteIdx++;
   const el = $('quoteTxt'); if (!el) return;
   el.classList.add('fade');
@@ -5633,6 +5645,7 @@ function handleServer(j){
   if (Array.isArray(j.requests)) { const was = requests.length; requests = j.requests; lsSetK('vs_reqs', JSON.stringify(requests)); if (requests.length !== was && ui.tab === 'home' && !stack.length) render(); }
   if (Array.isArray(j.capsules)) { lsSetK('vs_caps', JSON.stringify(j.capsules)); checkCapsules(); }
   if (typeof j.ai === 'boolean') { botAi = j.ai; lsSetK('vs_ai', j.ai ? '1' : '0'); }
+  if (Array.isArray(j.surp)) safe(() => surpSet(j.surp));
   if (Array.isArray(j.ops)) applyOps(j.ops);
 }
 let voiceAt = 0;
@@ -6088,6 +6101,38 @@ function studentNotes(){
   return out;
 }
 
+/* ================= 8.3: family surprises (hints by schedule) =================
+   The server sends only the items whose time has come (server clock), and only to family accounts —
+   nothing about them is in the app code. motd: shown instead of «motivation of the day» for 24 h;
+   praise: once, instead of the praise after marking a lesson; piece: collected into the 🧩 card on Home. */
+let surp = [];
+try { surp = JSON.parse(lsGetK('vs_surp') || '[]'); } catch (e) {}
+function surpSet(list){
+  const was = surp.map(x => x.id).join();
+  surp = list.filter(x => x && x.id && x.x).slice(0, 30);
+  lsSetK('vs_surp', JSON.stringify(surp));
+  if (surp.map(x => x.id).join() !== was && ui.tab === 'home' && !stack.length) render();
+}
+const surpSeen = () => { try { return JSON.parse(lsGetK('vs_surpSeen') || '{}'); } catch (e) { return {}; } };
+function surpMotd(){ const now = Date.now(); const m = surp.filter(x => x.app === 'motd' && now - x.at < 864e5).sort((a, b) => b.at - a.at)[0]; return m ? m.x : ''; }
+function surpPraise(){
+  const seen = surpSeen(), p = surp.find(x => x.app === 'praise' && !seen['p_' + x.id] && Date.now() - x.at < 3 * 864e5); if (!p) return '';
+  seen['p_' + p.id] = 1; lsSetK('vs_surpSeen', JSON.stringify(seen)); return p.x;
+}
+const surpPieces = () => surp.filter(x => x.piece && Date.now() - x.at < 5 * 864e5).sort((a, b) => a.piece - b.piece);
+function surpCard(){
+  const pc = surpPieces(); if (!pc.length) return '';
+  return `<div class="card surp" data-act="surpOpen"><span class="sp-ic">🧩</span><span class="sp-tx"><b>${pc.length} из ${pc[0].of} ❤️</b><small>${esc(L === 'ru' ? 'Кто-то оставляет тебе кусочки… нажми' : 'Someone is leaving you pieces… tap')}</small></span></div>`;
+}
+function surpPop(msg){
+  openSheet(() => `<div class="surp-pop"><div class="sp-big">🎁</div><p>${esc(msg)}</p><button class="btn" data-act="closeSheet">❤️</button></div>`);
+  hapticOk();
+}
+const SURPA = {
+  surpOpen: () => openSheet(() => sheetHead('🧩 ' + surpPieces().length + ' из ' + (surpPieces()[0] || {}).of + ' ❤️') +
+    surpPieces().map(x => `<div class="card sp-li"><p>${esc(x.x).replace(/\n/g, '<br>')}</p></div>`).join(''))
+};
+
 /* ================= Bot input: text & voice → data (actions queued on the server) ================= */
 let botAi = lsGetK('vs_ai') === '1', opsBusy = false, opsAck = [], opsWait = [], opsToastAt = 0;
 try { opsAck = JSON.parse(lsGetK('vs_ack') || '[]').filter(x => typeof x === 'string').slice(-100); } catch (e) {}
@@ -6238,8 +6283,8 @@ function applyAct(a, out, touched){
       /* a named sum is what the student paid in total: keep it exact (price per lesson, no extra rent) */
       /* 7.7: no sum named → a ready-made package type with the same number of lessons (its price for the whole package and term) */
       const tp = !total && !per ? (state.settings.pkgT || []).find(x => +x.n === n && (!x.svc || x.svc === svc)) : null;
-      if (tp && +tp.tot > 0) state.packages.push({ id: uid(), sid: s.id, svc, n, price: Math.round(tp.tot / n), tot: +tp.tot, rent, date: bxDate(a.date) || t, note: '', name: tp.name || '', days: +tp.days || 0, frz: [] });
-      else state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, tot: total && !bxNum(a.per_lesson) ? total : 0, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: '', days: Math.max(0, Math.min(400, bxNum(a.days) || (tp ? +tp.days || 0 : 0))), frz: [] });
+      if (tp && +tp.tot > 0) state.packages.push({ id: uid(), sid: s.id, svc, n, price: Math.round(tp.tot / n), tot: +tp.tot, rent, date: bxDate(a.date) || t, note: String(a.note || '').slice(0, 200), name: tp.name || '', days: +tp.days || 0, frz: [] });
+      else state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, tot: total && !bxNum(a.per_lesson) ? total : 0, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: String(a.note || '').slice(0, 200), days: Math.max(0, Math.min(400, bxNum(a.days) || (tp ? +tp.days || 0 : 0))), frz: [] });
       touched.add(s.id); out.push('📦 ' + T2.pkg(s.name, n)); return;
     }
     case 'add_expense': {
@@ -6278,6 +6323,9 @@ function applyOps(ops){
   touched.forEach(sid => applyPackages(sid));
   save(); render(); if (stack.length) refreshSheet(); hapticOk();
   opsToastAt = Date.now();
+  /* a family surprise brings its own words instead of the bot report */
+  const msg = fresh.map(o => o.msg).filter(Boolean)[0];
+  if (msg) { safe(() => surpPop(msg)); setTimeout(pollOps, 1500); return; }
   toast('🤖 ' + T.bx.title + '\n' + out.slice(0, 8).join('\n') + (out.length > 8 ? '\n…' : ''), 3000 + 900 * Math.min(out.length, 6));
   setTimeout(pollOps, 1500);
 }
@@ -9854,7 +9902,7 @@ const A = {
   calMode: el => { ui.calMode = el.dataset.v; render(); haptic(); },
   goDay: el => { ui.selDay = el.dataset.v; ui.month = el.dataset.v.slice(0, 7); ui.calMode = 'day'; ui.tab = 'lessons'; render(); window.scrollTo(0, 0); haptic(); },
   mmonth: el => { ui.moneyMonth = shiftMonth(ui.moneyMonth, +el.dataset.v); render(); haptic(); },
-  nextQuote: () => { nextQuote(); haptic(); },
+  nextQuote: () => { nextQuote(true); haptic(); },
   sanya: () => {
     const now = Date.now();
     footTaps = footTaps.filter(t => now - t < 6000).concat(now);
@@ -10351,7 +10399,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA, SURPA);
 safe(subWrap);
 /* ===== 8.3: protection from double taps =====
    Actions that create, change or delete something (save/add/sell/pay/delete…) run once per tap:
