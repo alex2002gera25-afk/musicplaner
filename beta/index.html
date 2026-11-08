@@ -694,7 +694,13 @@ body.lgl-lock{overflow:hidden}
 .modal-btns.col{grid-template-columns:1fr}
 .modal-btns.col button+button{border-left:0;border-top:1px solid var(--line)}
 .chip.un{background:var(--soft,rgba(0,0,0,.06));font-weight:600}
-#f_n button{font-size:13px}
+.stepper{display:flex;align-items:center;gap:10px;margin-top:4px}
+.field .stepper button,.stepper button{width:44px;height:40px;min-width:0;padding:0;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--soft,rgba(0,0,0,.06));font-size:24px;font-weight:600;line-height:1;color:var(--text);flex:none}
+.stepper b{min-width:24px;text-align:center;font-size:20px;font-family:var(--num,inherit)}
+.pkrow small{display:block;font-size:13px;color:var(--hint);margin-top:2px}
+.pkrow.off{opacity:.75}
+#priceRow.dis input{opacity:.45;background:transparent}
+#priceRow.dis label{color:var(--hint)}
 </style>
 </head>
 <body>
@@ -3111,11 +3117,20 @@ try {
 
 /* 8.3: several lessons in one entry */
 try {
-  I18N.ru.un = { title: 'Сколько занятий', opt: k => k === 1 ? '1' : k === 2 ? '2 (двойное)' : String(k), chip: 'занятия',
-    hint: 'Одна запись = несколько занятий: из абонемента спишется столько же, цена умножится.', will: (n, l) => `Спишется с абонемента ${n} — осталось ${l}`, short: (l, n) => `В абонементе осталось ${l}, а занятий ${n} — отметь оплату отдельно или продли абонемент` };
-  I18N.en.un = { title: 'How many lessons', opt: k => k === 1 ? '1' : k === 2 ? '2 (double)' : String(k), chip: 'lessons',
-    hint: 'One entry = several lessons: the package is charged the same number, the price is multiplied.', will: (n, l) => `${n} will be taken from the package — ${l} left`, short: (l, n) => `Only ${l} left in the package for ${n} lessons — mark the payment separately or extend the package` };
-  ['es', 'it', 'fr'].forEach(c => { if (I18N[c] && !I18N[c].un) I18N[c].un = I18N.en.un; });
+  const rN = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
+  I18N.ru.un = { title: 'Количество занятий', chip: 'занятия', pkgT: 'Списать с абонемента', noPkg: 'Абонемента нет',
+    noPkgX: 'Занятие оплачивается отдельно. Продать абонемент — в карточке ученика.', off: l => `Выключено — оплата отдельно (в абонементе ${l})`,
+    will2: (n, after, tot) => `Спишется ${n} ${rN(n, 'занятие', 'занятия', 'занятий')} · останется ${after}${tot ? ' из ' + tot : ''}`,
+    short: (l, n) => `В абонементе осталось ${l}, а занятий ${n} — продли абонемент или выключи списание`,
+    hint2: (n, d) => `Одна запись = ${n} ${rN(n, 'занятие', 'занятия', 'занятий')}${d ? ' по ' + d + ' мин' : ''}`,
+    priceOff: 'Стоимость — оплачено абонементом', paidPh: 'абонемент', priceN: (n, c) => `Стоимость за ${n} ${rN(n, 'занятие', 'занятия', 'занятий')}, ${c || '₽'}` };
+  I18N.en.un = { title: 'Number of lessons', chip: 'lessons', pkgT: 'Take from the package', noPkg: 'No package',
+    noPkgX: 'Paid separately. Sell a package in the student card.', off: l => `Off — paid separately (${l} in the package)`,
+    will2: (n, after, tot) => `${n} will be taken · ${after}${tot ? ' of ' + tot : ''} left`,
+    short: (l, n) => `Only ${l} left in the package for ${n} lessons — extend it or switch this off`,
+    hint2: (n, d) => `One entry = ${n} lessons${d ? ' of ' + d + ' min' : ''}`,
+    priceOff: 'Price — paid by the package', paidPh: 'package', priceN: (n, c) => `Price for ${n} lessons, ${c || '₽'}` };
+  ['es', 'it', 'fr'].forEach(c => { if (I18N[c]) I18N[c].un = I18N.en.un; });
 } catch (e) {}
 /* ================= 7.10: profession — the app adapts its words and motivation =================
    S.prof = catalog id. No prof (old users) or a vocal profession → everything as before.
@@ -4851,32 +4866,45 @@ const fmtTime = ts => { const d = new Date(ts); return `${pad(d.getHours())}:${p
 const note = (txt, style = '') => `<div class="hintline" style="margin:-4px 8px 10px;text-align:center;${style}">${esc(txt)}</div>`;
 
 /* ---------- Lesson form ---------- */
-const curN = () => { const b = $('f_n') && $('f_n').querySelector('.on'); return b ? +b.dataset.v : 1; };
-/* number of lessons in one entry: the price follows (unit price × n) unless typed by hand; 120 min suggests 2 */
+const curN = () => { const b = $('f_n'); return b ? Math.max(1, +b.dataset.v || 1) : 1; };
+/* «Количество занятий» — a stepper 1…10: one entry can be a double/triple lesson.
+   Duration follows (base × n) unless typed; typing 120/180 min suggests 2/3; price = unit price × n unless typed. */
 function pickN(v, auto){
   const box = $('f_n'); if (!box) return;
-  const was = curN(); v = Math.max(1, Math.min(4, +v || 1));
-  box.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.v === v));
+  const was = curN(); v = Math.max(1, Math.min(10, Math.round(+v || 1)));
+  box.dataset.v = v; if ($('f_nv')) $('f_nv').textContent = v;
   if (!auto) box.dataset.touched = '1';
-  const pr = $('f_price'); if (pr && !pr.dataset.touched && was) { const unit = Math.round((+pr.value || 0) / was); pr.value = unit * v; }
+  const pr = $('f_price'); if (pr && !pr.dataset.touched && was) { const cur = pr.disabled ? +pr.dataset.keep || 0 : +pr.value || 0, unit = Math.round(cur / was); if (pr.disabled) pr.dataset.keep = unit * v; else pr.value = unit * v; }
   const d = $('f_dur'); if (d && !auto && !d.dataset.touched) { const base = +state.settings.dur || 60; d.value = base * v; }
-  if ($('unHint')) $('unHint').hidden = v < 2;
   pkgInfo();
 }
 const curSt = () => { const b = $('f_st') && $('f_st').querySelector('.on'); return b ? b.dataset.v : 'done'; };
 function pickSt(v){ $('f_st').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === v)); $('paidRow').hidden = v === 'miss'; pkgInfo(); }
 function pkgInfo(){
   const el = $('pkgInfo'); if (!el) return;
-  const st = curSt(), sid = swOn('f_grp') ? '' : $('f_sid').value, had = !!el.dataset.pkg;
-  const left = sid ? state.packages.filter(p => p.sid === sid).reduce((a, p) => a + pkgLeft(p), 0) : 0;
-  const show = st !== 'miss' && !!sid && (had || left > 0), on = show && swOn('f_pkg');
-  el.hidden = !show;
-  const n = curN(), short = on && !had && left < n;
-  if (show) $('pkgTxt').textContent = '🎟 ' + (on ? (had ? T.inPkg : short ? T.un.short(left, n) : n > 1 ? T.un.will(n, left) : T.willPkg(left)) : T.pkgSw);
-  $('paidRow').hidden = st === 'miss' || (on && !short);
-  /* paid by the package → no price to enter: the money was taken when the package was sold */
-  const pr = $('priceRow'); if (pr) pr.hidden = on && !short;
+  const st = curSt(), sid = swOn('f_grp') ? '' : $('f_sid').value, had = !!el.dataset.pkg, X = T.un, n = curN();
+  const pks = sid ? state.packages.filter(p => p.sid === sid && !pkgExpired(p)) : [];
+  const left = pks.reduce((a, p) => a + pkgLeft(p), 0) + (had ? n : 0), tot = pks.reduce((a, p) => a + (+p.n || 0), 0);
+  const can = st !== 'miss' && !!sid && left > 0, on = can && swOn('f_pkg'), short = on && left < n;
+  /* the row is always there for one student: the user sees the option even when there is no package */
+  el.hidden = !sid || st === 'miss';
+  el.classList.toggle('off', !can);
+  if ($('f_pkg')) $('f_pkg').hidden = !can;
+  if ($('pkgTxt')) $('pkgTxt').textContent = '🎟 ' + (can ? X.pkgT : X.noPkg);
+  if ($('pkgSub')) $('pkgSub').textContent = !can ? (sid ? X.noPkgX : '') : on ? (short ? X.short(left, n) : X.will2(n, left - n, tot)) : X.off(left);
+  if ($('unHint')) { const d = +$('f_dur').value || 0; $('unHint').textContent = n > 1 ? X.hint2(n, Math.round(d / n)) : ''; $('unHint').hidden = n < 2; }
+  /* paid by the package → the price is greyed out and empty: the money came when the package was sold */
+  const pr = $('f_price'), lab = $('priceLab'), pays = on && !short;
+  if (pr) {
+    if (pays && !pr.disabled) { pr.dataset.keep = pr.value; pr.value = ''; pr.disabled = true; }
+    else if (!pays && pr.disabled) { pr.disabled = false; pr.value = pr.dataset.keep || ''; }
+    pr.placeholder = pays ? X.paidPh : '';
+    $('priceRow').classList.toggle('dis', pays);
+  }
+  if (lab) lab.textContent = pays ? X.priceOff : n > 1 ? X.priceN(n, state.settings.cur) : T.fPrice(state.settings.cur);
+  $('paidRow').hidden = st === 'miss' || pays;
 }
+
 function setOnline(on){
   const b = $('f_online'); if (!b) return;
   b.classList.toggle('on', on);
@@ -4915,9 +4943,10 @@ function lessonForm(id, preset = {}){
         <div class="two"><div class="field"><label for="f_date">${esc(T.fDate)}</label><input type="date" id="f_date" value="${esc(L0.date)}"></div>
           <div class="field"><label for="f_time">${esc(T.fTime)}</label><input type="time" id="f_time" value="${esc(L0.time)}"></div></div>
         <div class="two"><div class="field"><label for="f_dur">${esc(T.fDur)}</label><input type="number" inputmode="numeric" min="0" id="f_dur" value="${esc(L0.dur)}"></div>
-          <div class="field" id="priceRow"><label for="f_price">${esc(T.fPrice(cur))}</label><input type="number" inputmode="numeric" min="0" id="f_price" value="${esc(L0.price)}"></div></div>
-        <div class="field"><span class="lb">${esc(T.un.title)}</span><div class="seg" id="f_n">${[1, 2, 3, 4].map(k => `<button type="button" data-act="pickN" data-v="${k}" class="${units(L0) === k ? 'on' : ''}">${esc(T.un.opt(k))}</button>`).join('')}</div>
-          <div class="hintline" id="unHint" style="margin:6px 4px 0;text-align:left"${units(L0) > 1 ? '' : ' hidden'}>${esc(T.un.hint)}</div></div>
+          <div class="field"><span class="lb">${esc(T.un.title)}</span><div class="stepper" id="f_n" data-v="${units(L0)}"><button type="button" data-act="stepN" data-v="-1" aria-label="−">−</button><b id="f_nv">${units(L0)}</b><button type="button" data-act="stepN" data-v="1" aria-label="+">+</button></div></div></div>
+        <div class="hintline" id="unHint" style="margin:-2px 8px 8px;text-align:left" hidden></div>
+        <div class="field toggle pkrow" id="pkgInfo" hidden${ex && ex.pkg ? ' data-pkg="1"' : ''}><span><span id="pkgTxt"></span><small id="pkgSub"></small></span><button type="button" class="sw${ex && ex.noPkg ? '' : ' on'}" id="f_pkg" data-act="swPkg" aria-label="🎟"></button></div>
+        <div class="field" id="priceRow"><label for="f_price" id="priceLab">${esc(T.fPrice(cur))}</label><input type="number" inputmode="numeric" min="0" id="f_price" value="${esc(L0.price)}"></div>
         <div class="two"><div class="field"><label for="f_rent">${esc(T.fRent(cur))}</label><input type="number" inputmode="numeric" min="0" id="f_rent" value="${esc(L0.rent)}"></div>
           <div class="field toggle"><span>💻 ${esc(T.fOnline)}</span><button type="button" class="sw${L0.online ? ' on' : ''}" id="f_online" data-act="swOnline" aria-label="${esc(T.fOnline)}"></button></div></div>
         <div class="field" id="linkRow"${L0.online ? '' : ' hidden'}><label for="f_link">${esc(T.fLink)}</label><input type="url" id="f_link" value="${esc(L0.link)}" placeholder="https://zoom.us/j/…" autocapitalize="off" autocomplete="off" spellcheck="false"></div>
@@ -4926,7 +4955,6 @@ function lessonForm(id, preset = {}){
         <div class="field"><span class="lb">${esc(T.fStatus)}</span><div class="seg" id="f_st">
           ${Object.keys(T.st).map(k => `<button type="button" data-act="pickSt" data-v="${k}" class="${L0.st === k ? 'on' : ''}">${esc(T.st[k][0])}</button>`).join('')}</div></div>
         <div class="field toggle" id="paidRow"${L0.st === 'miss' ? ' hidden' : ''}><span>${esc(T.fPaid)}</span><button type="button" class="sw${L0.paid ? ' on' : ''}" id="f_paid" data-act="swToggle" aria-label="${esc(T.fPaid)}"></button></div>
-        <div class="field toggle" id="pkgInfo" hidden${ex && ex.pkg ? ' data-pkg="1"' : ''}><span id="pkgTxt"></span><button type="button" class="sw${ex && ex.noPkg ? '' : ' on'}" id="f_pkg" data-act="swPkg" aria-label="🎟"></button></div>
       </div>
       ${ex && ex.st !== 'miss' ? rcBlock('l', ex) : ''}
       ${!ex ? `<div class="group"><div class="field"><label for="f_rep">${esc(T.fRepeat)}</label><select id="f_rep">
@@ -4944,7 +4972,7 @@ function lessonForm(id, preset = {}){
     $('f_price').oninput = () => { $('f_price').dataset.touched = '1'; };
     /* 120 min with a 60-min lesson → suggest 2 lessons (until «сколько занятий» is chosen by hand) */
     $('f_dur').oninput = () => { $('f_dur').dataset.touched = '1'; const base = +state.settings.dur || 60, d = +$('f_dur').value || 0;
-      if (!$('f_n').dataset.touched && d >= base * 1.75) pickN(Math.round(d / base), true); else if (!$('f_n').dataset.touched && d < base * 1.75 && curN() > 1) pickN(1, true); };
+      if (!$('f_n').dataset.touched) pickN(d >= base * 1.75 ? Math.round(d / base) : 1, true); else pkgInfo(); };
     $('f_sid').onchange = e => {
       if (!ex) { const s = stu(e.target.value); if (s && svcOf(s.svc)) $('f_svc').value = s.svc; const sv = svcOf($('f_svc').value); if (sv) setOnline(!!sv.online); upd(); }
       pkgInfo();
@@ -4963,10 +4991,10 @@ function readLessonForm(){
   const sids = grp ? [...$('f_sids').querySelectorAll('input:checked')].map(i => i.value) : [$('f_sid').value].filter(Boolean);
   return {
     grp, sids, sid: sids[0] || '', svc: $('f_svc').value, date: $('f_date').value, time: $('f_time').value,
-    dur: Math.max(0, Math.round(+$('f_dur').value || 0)), price: Math.max(0, +$('f_price').value || 0),
+    dur: Math.max(0, Math.round(+$('f_dur').value || 0)), price: Math.max(0, +($('f_price').disabled ? $('f_price').dataset.keep : $('f_price').value) || 0),
     rent: online ? 0 : Math.max(0, +$('f_rent').value || 0), online, link: online ? $('f_link').value.trim() : '',
     st, paid: st !== 'miss' && !$('paidRow').hidden && swOn('f_paid'), note: $('f_note').value.trim(), rep: $('f_rep') ? +$('f_rep').value : 0, n: curN(),
-    pkgMode: $('pkgInfo') && !$('pkgInfo').hidden ? (swOn('f_pkg') ? 'on' : 'off') : '',
+    pkgMode: $('pkgInfo') && !$('pkgInfo').hidden && $('f_pkg') && !$('f_pkg').hidden ? (swOn('f_pkg') ? 'on' : 'off') : '',
     rem: $('f_rem') ? ($('f_rem').value === '' ? undefined : +$('f_rem').value) : undefined
   };
 }
@@ -6247,9 +6275,9 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 43;
+const APP_VER = 44;
 const CHANGES = [
-  {"v": 43, "name": "8.3", "date": "2026-11-08", "big": true, "ru": {"add": ["💳 Подключили ЮKassa — оплата подписки прямо в приложении и в боте. ⚙️ Настройки → 💎 Подписка → «Купить подписку» (или /тарифы в боте): выбираешь тариф, платишь через ЮKassa любой картой или по СБП — и подписка включается сама за пару минут, без кодов и ожидания", "🎁 Подписка в подарок: оплачиваешь — бот присылает одноразовый код, его можно переслать кому угодно", "💼 Профессия меняет всё приложение: карточка ученика, дневник, навыки, анкета, шаблоны сообщений, напоминания, достижения, события и услуги говорят словами твоей профессии — тренировка, занятие или сессия; спортсмены или клиенты", "🎯 Свои навыки для каждой профессии (у хоккеиста — катание, бросок, тактика, у языка — грамматика, говорение…), «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие»", "📄 Документы и согласия: при первом входе — короткое понятное окно о том, как хранятся твои данные. Всё можно перечитать и изменить: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия»", "📋 Готовый текст согласия для учеников и родителей — копируешь и отправляешь в один тап"], "better": ["✌️ Двойное занятие одной записью: «Сколько занятий» — 1, 2, 3 или 4 (120 минут подскажут 2). Из абонемента спишется столько же, цена умножится сама", "🎟 Занятие из абонемента больше не просит цену — оно уже оплачено абонементом; задним числом тоже работает", "🗑 Удалить занятие — как будто его не было: деньги, долг и абонемент пересчитываются сразу, приложение пишет, что изменилось («в абонементе снова 5 из 8»)", "🔁 У повторяющихся занятий — «только это» или «это и следующие», у групповых — «для всей группы»", "❌ Отмена занятия учеником через бот сразу возвращает занятие в абонемент", "🎤 Песни, распевки и диапазон голоса — только у музыкантов; вернёшься в музыку — всё вернётся само", "🗓 В онлайн-записи клиент отмечает согласие на обработку данных", "🔒 Оплата через ЮKassa защищена: данные карты видит только ЮKassa, сумму задаёт только сервер, каждый платёж засчитывается один раз"]}, "en": {"add": ["💳 YooKassa is connected — pay for a subscription right in the app and the bot, by any card or SBP. ⚙️ Settings → 💎 Subscription → “Buy a subscription” (or /plans in the bot): pick a plan, pay on the secure YooKassa page — it switches on by itself in a couple of minutes, no codes, no waiting", "🎁 Subscription as a gift: pay — the bot sends a one-time code you can forward to anyone", "💼 Your profession adapts the whole app: student card, diary, skills, questionnaire, messages, reminders, achievements, events and services use your profession’s words", "🎯 Own skills for every profession, competitions or events instead of concerts, a “Wellbeing” diary", "📄 Documents and consents: a short clear window on first start about how your data is stored. Review or change any time: ⚙️ Settings → 🛟 Data & backups → “Documents and consents”", "📋 A ready consent text for students and parents — copy and send in one tap"], "better": ["✌️ A double lesson in one entry: “How many lessons” — 1 to 4 (120 minutes suggests 2). The package is charged the same number, the price multiplies by itself", "🎟 A lesson paid by a package no longer asks for a price — back-dated lessons too", "🗑 Deleting a lesson works as if it never happened: money, debts and the package are recalculated at once and the app tells you what changed", "🔁 Repeating lessons: “only this” or “this and following”; group lessons: “whole group”", "❌ A student cancelling through the bot returns the lesson to the package at once", "🎤 Songs, warm-ups and vocal range only for musicians", "🗓 Online booking asks the client for consent to data processing", "🔒 Payments are protected: only the server sets the amount, each payment counts once"]}},
+  {"v": 44, "name": "8.3", "date": "2026-11-08", "big": true, "ru": {"add": ["💳 Подключили ЮKassa — оплата подписки прямо в приложении и в боте. ⚙️ Настройки → 💎 Подписка → «Купить подписку» (или /тарифы в боте): выбираешь тариф, платишь через ЮKassa любой картой или по СБП — и подписка включается сама за пару минут, без кодов и ожидания", "🎁 Подписка в подарок: оплачиваешь — бот присылает одноразовый код, его можно переслать кому угодно", "💼 Профессия меняет всё приложение: карточка ученика, дневник, навыки, анкета, шаблоны сообщений, напоминания, достижения, события и услуги говорят словами твоей профессии — тренировка, занятие или сессия; спортсмены или клиенты", "🎯 Свои навыки для каждой профессии (у хоккеиста — катание, бросок, тактика, у языка — грамматика, говорение…), «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие»", "📄 Документы и согласия: при первом входе — короткое понятное окно о том, как хранятся твои данные. Всё можно перечитать и изменить: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия»", "📋 Готовый текст согласия для учеников и родителей — копируешь и отправляешь в один тап"], "better": ["✌️ Занятие-конструктор: «Количество занятий» − / + рядом с длительностью — двойное, тройное и больше одной записью (120 минут подскажут 2, 180 — 3). С абонемента спишется столько же, и сразу видно «Спишется 2 занятия · останется 5 из 8»", "🎟 Списание с абонемента — переключатель прямо над стоимостью: включил — стоимость становится серой «оплачено абонементом», выключил — цена за все занятия считается сама. Задним числом тоже работает", "🗑 Удалить занятие — как будто его не было: деньги, долг и абонемент пересчитываются сразу, приложение пишет, что изменилось («в абонементе снова 5 из 8»)", "🔁 У повторяющихся занятий — «только это» или «это и следующие», у групповых — «для всей группы»", "❌ Отмена занятия учеником через бот сразу возвращает занятие в абонемент", "🎤 Песни, распевки и диапазон голоса — только у музыкантов; вернёшься в музыку — всё вернётся само", "🗓 В онлайн-записи клиент отмечает согласие на обработку данных", "🔒 Оплата через ЮKassa защищена: данные карты видит только ЮKassa, сумму задаёт только сервер, каждый платёж засчитывается один раз"]}, "en": {"add": ["💳 YooKassa is connected — pay for a subscription right in the app and the bot, by any card or SBP. ⚙️ Settings → 💎 Subscription → “Buy a subscription” (or /plans in the bot): pick a plan, pay on the secure YooKassa page — it switches on by itself in a couple of minutes, no codes, no waiting", "🎁 Subscription as a gift: pay — the bot sends a one-time code you can forward to anyone", "💼 Your profession adapts the whole app: student card, diary, skills, questionnaire, messages, reminders, achievements, events and services use your profession’s words", "🎯 Own skills for every profession, competitions or events instead of concerts, a “Wellbeing” diary", "📄 Documents and consents: a short clear window on first start about how your data is stored. Review or change any time: ⚙️ Settings → 🛟 Data & backups → “Documents and consents”", "📋 A ready consent text for students and parents — copy and send in one tap"], "better": ["✌️ Lesson builder: “Number of lessons” − / + next to the duration — double, triple and more in one entry (120 minutes suggests 2, 180 — 3). The package is charged the same, with “2 will be taken · 5 of 8 left”", "🎟 “Take from the package” sits right above the price: on — the price turns grey “paid by the package”, off — the price for all lessons is counted by itself", "🗑 Deleting a lesson works as if it never happened: money, debts and the package are recalculated at once and the app tells you what changed", "🔁 Repeating lessons: “only this” or “this and following”; group lessons: “whole group”", "❌ A student cancelling through the bot returns the lesson to the package at once", "🎤 Songs, warm-ups and vocal range only for musicians", "🗓 Online booking asks the client for consent to data processing", "🔒 Payments are protected: only the server sets the amount, each payment counts once"]}},
   { v: 38, name: '8.0.1', date: '2026-11-04',
     ru: { add: ['🛟 Защита от пропажи данных: если вдруг стало заметно меньше учеников или уроков, приложение и бот сразу подскажут, как одним нажатием вернуть резервную копию, и дадут связь с создателем приложения'], better: [] },
     en: { add: ['🛟 Data-loss guard: if students or lessons suddenly drop, the app and the bot show how to bring back a backup in one tap and how to reach the app’s creator'], better: [] } },
@@ -8888,7 +8916,7 @@ const HELP_DOC = [
     'Пропала вкладка или кнопка — проверь Настройки → 🧩 Под себя → «Разделы приложения».',
     'Не приходят напоминания — ⚙️ Настройки → 🔔 Уведомления включены? Нажала «Старт» в боте? Бот не заблокирован?',
     'Неправильно посчитался долг — проверь статусы уроков (пришёл / пропуск) и отметки оплаты; урок из абонемента долгом не считается.',
-    'Двойной урок (или 3–4 подряд) — одной записью: в форме урока «Сколько занятий» → 2. Длительность станет 120 мин (и наоборот: поставишь 120 мин — приложение предложит 2). Если урок из абонемента — спишется 2 занятия, поле цены скрыто (уже оплачено абонементом); если без абонемента — цена умножится. Если в абонементе осталось меньше — приложение предупредит. Боту можно сказать «вчера два урока с Никитой из абонемента».',
+    'Двойной урок (или 3–4 подряд) — одной записью: в форме урока «Количество занятий» − / + (рядом с длительностью) → 2. Длительность станет 120 мин (и наоборот: 120 мин — приложение предложит 2, 180 — 3). Ниже переключатель «Списать с абонемента»: включён — пишет «Спишется 2 занятия · останется 5 из 8», а стоимость становится серой «оплачено абонементом»; выключен — стоимость за все занятия считается сама. Если абонемента нет, там написано «Абонемента нет». Если в абонементе осталось меньше — приложение предупредит. Боту можно сказать «вчера два урока с Никитой из абонемента».',
     'Как удалить урок — открой урок → «Удалить». Он исчезнет, как будто его не было: деньги, долг и абонемент пересчитаются сами, приложение покажет, что изменилось (например, «в абонементе снова 5 из 8»). У повторяющихся уроков можно удалить «только это» или «это и следующие», у групповых — «для всей группы». Если ученик просто не пришёл, лучше отметить «Пропуск» — тогда видно историю.',
     'Ничего не нажимается, только смотреть — это режим просмотра без подписки. Запроси пробный доступ (⚙️ Настройки → 💎 Подписка или /trial в боте) или введи код подписки. Данные при этом не теряются.',
     'Замок 🔒 на кнопке — функция из тарифа выше. Нажми — увидишь, какой тариф нужен, и сможешь ввести код.',
@@ -9843,7 +9871,7 @@ const A = {
   addLessonFor: el => openSheet(lessonForm(null, { sid: el.dataset.id })),
   editLesson: el => openSheet(lessonForm(el.dataset.id)),
   pickSt: el => { pickSt(el.dataset.v); haptic(); },
-  pickN: el => { pickN(el.dataset.v); haptic(); },
+  stepN: el => { pickN(curN() + (+el.dataset.v || 0)); haptic(); },
   swToggle: el => { el.classList.toggle('on'); haptic(); },
   swGroup: el => {
     el.classList.toggle('on'); const on = el.classList.contains('on');
