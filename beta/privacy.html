@@ -24,7 +24,7 @@ p,li{margin:6px 0}ul{padding-left:20px}.lang{margin:30px 0 10px;color:var(--mut)
 <li>Технические сведения: версия приложения, часовой пояс, дни и время входа, откуда ты узнал о Сервисе (например, по ссылке записи), количество записей (для защиты от пропажи данных).</li>
 <li>Люди, которые сами пользуются Сервисом через тебя: кто записывается к тебе через страницу онлайн-записи (имя, телефон, Telegram, дата, комментарий — передаются тебе) и ученики, которые подключились к боту, чтобы получать домашние задания и напоминания (их Telegram-идентификатор связывается с карточкой у тебя). Они дают своё согласие сами в форме записи или в боте.</li>
 </ul>
-<p>Сервис не получает данные банковских карт: оплата проходит на странице платёжного сервиса ЮKassa (ООО НКО «ЮМани»), Сервис получает от него только статус и сумму платежа.</p>
+<p>Сервис не получает данные банковских карт: оплата проходит на странице платёжного сервиса ЮKassa (ООО НКО «ЮМани»), Сервис получает от него только статус и сумму платежа. При оплате звёздами Telegram платёж проходит внутри Telegram; Сервис получает идентификатор платежа, тариф и сумму в звёздах.</p>
 <h3>3. Зачем</h3>
 <ul>
 <li>чтобы приложение и бот работали: расписание, напоминания, деньги, абонементы, отчёты;</li>
@@ -81,8 +81,9 @@ p,li{margin:6px 0}ul{padding-left:20px}.lang{margin:30px 0 10px;color:var(--mut)
 <ul>
 <li>Подписка даёт доступ к функциям тарифа на оплаченный срок. Срок, тариф и остаток дней видны в боте и в приложении.</li>
 <li>Пробный период выдаёт Оператор по заявке; он бесплатный и заканчивается сам, без списаний.</li>
-<li>Оплата — картой или по СБП через ЮKassa (кнопка в боте /тарифы или в приложении), либо кодом доступа. Подписка включается автоматически после оплаты; чек самозанятого Оператор отправляет после оплаты. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.</li>
-<li>Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»).</li>
+<li>Оплата — картой или по СБП через ЮKassa, звёздами Telegram (Telegram Stars) — кнопкой в боте /тарифы или в приложении, — либо кодом доступа. Звёзды списываются внутри Telegram; цены в звёздах указаны при выборе тарифа. Подписка включается автоматически после оплаты; чек самозанятого Оператор отправляет после оплаты. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.</li>
+<li>Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»). Покупки звёздами возвращаются звёздами на твой счёт в Telegram.</li>
+<li>Вопросы по оплате — команда /paysupport в боте или «Поддержка» в /тарифы. Служба поддержки Telegram по покупкам в этом боте помочь не сможет — по ним отвечает Оператор.</li>
 </ul>
 <h3>4. Твои обязанности</h3>
 <ul>
@@ -114,7 +115,7 @@ p,li{margin:6px 0}ul{padding-left:20px}.lang{margin:30px 0 10px;color:var(--mut)
 <li>Technical details: app version, time zone, days and times of visits, how you found the Service, record counts (to protect against data loss).</li>
 <li>People who use the Service through you: those who book with you via your booking page (name, phone, Telegram, date, comment — passed to you) and students who connect to the bot for homework and reminders (their Telegram ID is linked to their card). They give their own consent in the booking form or the bot.</li>
 </ul>
-<p>We never receive card details: payment happens on the YooKassa page (NBCO YooMoney LLC); we only get the payment status and amount.</p>
+<p>We never receive card details: payment happens on the YooKassa page (NBCO YooMoney LLC); we only get the payment status and amount. With Telegram Stars the payment happens inside Telegram; we get the payment ID, the plan and the amount in Stars.</p>
 <h3>3. Why</h3>
 <p>To run the app and the bot, sync and back up your data, recognise messages with an AI service, manage subscriptions, support you and tell you about changes to the Service. News and offers only with your separate consent.</p>
 <h3>4. Where data is stored and who receives it</h3>
@@ -141,7 +142,7 @@ p,li{margin:6px 0}ul{padding-left:20px}.lang{margin:30px 0 10px;color:var(--mut)
 <h3>1. Agreement</h3>
 <p>These terms are between Alexander Gerasimov («Operator») and you, the user of «Studium» (bot @musicplaner_bot and mini app). Tapping «Accept and continue» means you accept them in full. If you disagree, please don&#x27;t use the Service.</p>
 <h3>2. Subscription</h3>
-<p>Some features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. You pay by card or SBP via YooKassa (bot /plans or the app) or with an access code; the subscription switches on automatically after payment. Subscriptions never renew without your separate consent. If the Service didn&#x27;t work through the Operator&#x27;s fault or you cancel, unused full days are refunded on request within 10 days.</p>
+<p>Some features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. You pay by card or SBP via YooKassa, with Telegram Stars (bot /plans or the app) or with an access code; the subscription switches on automatically after payment. Subscriptions never renew without your separate consent. If the Service didn&#x27;t work through the Operator&#x27;s fault or you cancel, unused full days are refunded on request within 10 days; Stars purchases are refunded in Stars. Payment questions: /paysupport in the bot. Telegram support cannot help with purchases made in this bot — the Operator handles them.</p>
 <h3>3. Your duties</h3>
 <p>Enter data about your students and clients lawfully — they (or their parents) must agree; a ready consent text is in ⚙️ Settings → Data &amp; backups → Documents and consents. No spam, fraud or other illegal use; don&#x27;t share access codes.</p>
 <h3>4. Data</h3>
