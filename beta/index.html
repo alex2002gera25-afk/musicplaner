@@ -701,6 +701,7 @@ body.lgl-lock{overflow:hidden}
 .pkrow.off{opacity:.75}
 #priceRow.dis input{opacity:.45;background:transparent}
 #priceRow.dis label{color:var(--hint)}
+.price.pkp{font-size:13px;font-weight:600;color:var(--hint);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -3118,13 +3119,13 @@ try {
 /* 8.3: several lessons in one entry */
 try {
   const rN = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
-  I18N.ru.un = { title: 'Количество занятий', chip: 'занятия', pkgT: 'Списать с абонемента', noPkg: 'Абонемента нет',
+  I18N.ru.un = { rowPk: n => n > 1 ? `${n} из абонем.` : 'абонемент', title: 'Количество занятий', chip: 'занятия', pkgT: 'Списать с абонемента', noPkg: 'Абонемента нет',
     noPkgX: 'Занятие оплачивается отдельно. Продать абонемент — в карточке ученика.', off: l => `Выключено — оплата отдельно (в абонементе ${l})`,
     will2: (n, after, tot) => `Спишется ${n} ${rN(n, 'занятие', 'занятия', 'занятий')} · останется ${after}${tot ? ' из ' + tot : ''}`,
     short: (l, n) => `В абонементе осталось ${l}, а занятий ${n} — продли абонемент или выключи списание`,
     hint2: (n, d) => `Одна запись = ${n} ${rN(n, 'занятие', 'занятия', 'занятий')}${d ? ' по ' + d + ' мин' : ''}`,
     priceOff: 'Стоимость — оплачено абонементом', paidPh: 'абонемент', priceN: (n, c) => `Стоимость за ${n} ${rN(n, 'занятие', 'занятия', 'занятий')}, ${c || '₽'}` };
-  I18N.en.un = { title: 'Number of lessons', chip: 'lessons', pkgT: 'Take from the package', noPkg: 'No package',
+  I18N.en.un = { rowPk: n => n > 1 ? `${n} from package` : 'package', title: 'Number of lessons', chip: 'lessons', pkgT: 'Take from the package', noPkg: 'No package',
     noPkgX: 'Paid separately. Sell a package in the student card.', off: l => `Off — paid separately (${l} in the package)`,
     will2: (n, after, tot) => `${n} will be taken · ${after}${tot ? ' of ' + tot : ''} left`,
     short: (l, n) => `Only ${l} left in the package for ${n} lessons — extend it or switch this off`,
@@ -4523,14 +4524,19 @@ function lessonRow(l, opts = {}){
   return `<div class="row" data-act="editLesson" data-id="${l.id}">
     <div class="time">${esc(l.time || '—')}${opts.withDate ? `<small>${esc(shortDate(l.date))}</small>` : +l.dur ? `<small>${+l.dur} ${esc(T.min)}</small>` : ''}</div>
     <div class="main"><div class="name">${title}</div><div class="sub">${sub}</div></div>
-    <div class="right"><span class="price${l.st === 'miss' ? ' off' : ''}">${money(val(l))}</span>${pay}</div></div>`;
+    <div class="right">${l.pkg ? `<span class="price pkp">${esc(T.un.rowPk(units(l)))}</span>` : `<span class="price${l.st === 'miss' ? ' off' : ''}">${money(val(l))}</span>`}${pay}</div></div>`;
+}
+/* day / today totals: money only for lessons paid separately; package lessons show as «🎟 2» (they were paid when the package was sold) */
+function daySum(c){
+  const cash = vsum(c.filter(l => !l.pkg)), pk = usum(c.filter(l => l.pkg));
+  return [cash || !pk ? money(cash) : '', pk ? '🎟 ' + pk : ''].filter(Boolean).join(' · ');
 }
 function groupByDay(list, asc){
   const days = {};
   list.forEach(l => (days[l.date] = days[l.date] || []).push(l));
   return Object.keys(days).sort((a, b) => asc ? a.localeCompare(b) : b.localeCompare(a)).map(d => {
     const c = days[d].filter(counts);
-    return `<div class="sec"><span>${esc(dayLabel(d))}</span><span>${c.length ? money(vsum(c)) : ''}</span></div>
+    return `<div class="sec"><span>${esc(dayLabel(d))}</span><span>${c.length ? esc(daySum(c)) : ''}</span></div>
       <div class="card">${days[d].sort(byDateAsc).map(l => lessonRow(l)).join('')}</div>`;
   }).join('');
 }
@@ -4591,7 +4597,7 @@ function renderHome(){
   let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + safe(todayCard, '') + safe(homeTilesRow, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
     + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week;
   if (mod('plan')) out += safe(planHomeBlock);
-  out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${money(vsum(todays.filter(counts)))}</span>` : ''}</div>`
+  out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${esc(daySum(todays.filter(counts)))}</span>` : ''}</div>`
     + (todays.length ? `<div class="card">${todays.map(l => lessonRow(l)).join('')}</div>`
       : `<div class="empty" style="margin-top:0;padding:20px">${esc(T.freeDay)}<button class="btn soft" data-act="addLessonDay" data-v="${t}">${esc(T.addToday)}</button></div>`);
   if (unmarked.length) out += `<div class="sec"><span>${esc(T.toMarkSec(unmarked.length))}</span></div><div class="card">${unmarked.slice(0, 5).map(l => lessonRow(l, { withDate: true })).join('')}</div>`;
@@ -4639,7 +4645,7 @@ function renderCalendar(){
   if (ui.calMode === 'day') {
     const ls = (by[ui.selDay] || []).sort(byDateAsc), c = ls.filter(counts), evs = evBy[ui.selDay] || [];
     ui.planDay = ui.selDay; const pr = PLN ? safe(() => dayAgenda(ui.selDay), []) : []; ui.planDay = '';
-    list = `<div class="sec"><span>${esc(dayLabel(ui.selDay))}</span><span>${c.length ? money(vsum(c)) : ''}</span></div>`
+    list = `<div class="sec"><span>${esc(dayLabel(ui.selDay))}</span><span>${c.length ? esc(daySum(c)) : ''}</span></div>`
       + (evs.length ? `<div class="card" style="margin-bottom:8px">${evs.map(evRow).join('')}</div>` : '')
       + (pr.length ? `<div class="card" style="margin-bottom:8px">${pr.join('')}</div>` : '')
       + (ls.length ? `<div class="card">${ls.map(l => lessonRow(l)).join('')}</div>` : evs.length || pr.length ? '' : `<div class="empty" style="margin-top:0;padding:20px">${esc(LS ? T.noLessons : T.pl.none)}</div>`)
