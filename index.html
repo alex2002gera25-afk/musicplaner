@@ -662,6 +662,37 @@ nav.tabs{padding-bottom:calc(6px + var(--sab))}
 .wd.today b{color:var(--accent-text)}
 .hci em{color:var(--text)}
 .ava{color:#FFFFFF}
+/* ===== 8.2 consent window ===== */
+.lgl{position:fixed;inset:0;z-index:9000;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;transition:opacity .25s;padding:calc(var(--sat,0px) + 24px) 16px calc(var(--sab,0px) + 24px)}
+.lgl.on{opacity:1}
+body.lgl-lock{overflow:hidden}
+.lgl-box{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.lgl-logo{font-size:44px;text-align:center;margin-top:8px}
+.lgl h2{text-align:center;margin:2px 0 0;font-size:24px}
+.lgl-sub{text-align:center;color:var(--hint);margin-bottom:6px}
+.lgl-pts{background:var(--card);border-radius:18px;padding:6px 14px;box-shadow:var(--shadow,0 1px 3px rgba(0,0,0,.06))}
+.lgl-pt{display:flex;gap:12px;padding:10px 0;align-items:flex-start}
+.lgl-pt+.lgl-pt{border-top:1px solid var(--line,rgba(0,0,0,.07))}
+.lgl-pi{font-size:22px;line-height:1.2}
+.lgl-pt b{display:block;font-size:15px}
+.lgl-pt span{font-size:14px;color:var(--hint)}
+.lgl-ck{display:flex;gap:10px;align-items:flex-start;background:var(--card);border-radius:14px;padding:12px 14px;font-size:14.5px;line-height:1.4;cursor:pointer}
+.lgl-ck input{width:22px;height:22px;flex:none;margin:0;accent-color:var(--accent)}
+.lgl-ck a,.lgl-doc a{color:var(--ink,var(--accent));text-decoration:underline}
+.lgl-need{text-align:center;font-size:13px;color:var(--hint);margin-top:-4px}
+.lgl .btn{width:100%}
+.lgl-back{align-self:flex-start;background:none;border:0;color:var(--ink,var(--accent));font-size:16px;padding:6px 0;cursor:pointer}
+.lgl-doc{background:var(--card);border-radius:18px;padding:4px 18px 12px;font-size:14.5px;line-height:1.55}
+.lgl-doc h2{text-align:left;font-size:20px;margin:14px 0 4px}
+.lgl-doc h3{font-size:16px;margin:16px 0 4px}
+.lgl-doc p,.lgl-doc li{margin:6px 0}
+.lgl-doc ul{padding-left:18px;margin:4px 0}
+.sheet .lgl-doc{background:none;padding:0 6px}
+.lgl-stu{white-space:pre-wrap;font-size:14px;margin:0 4px 8px}
+.bk-ck{margin:12px 0 4px}
+@media (min-width:700px){.lgl{padding-top:48px}}
+.modal-btns.col{grid-template-columns:1fr}
+.modal-btns.col button+button{border-left:0;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -3063,13 +3094,22 @@ const DLD = {
 for (const c in I18N) { I18N[c].dl = DLD[c] || DLD.en; I18N[c].wp = WPD[c] || WPD.en; I18N[c].pf = PFD[c] || PFD.en; I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
+
+/* 8.2: deleting lessons («как будто не было») */
+try {
+  I18N.ru.ud = { one: 'Только это занятие', ser: n => `Это и следующие (${n})`, grp: n => `Для всей группы (${n})`, hint: 'Занятие исчезнет, как будто его не было: деньги, долг и абонемент пересчитаются сами.',
+    many: n => `🗑 Удалено занятий: ${n}`, pk: (n, l, t) => `🎟 ${n}: в абонементе снова ${l} из ${t}`, money: '💰 Деньги пересчитаны' };
+  I18N.en.ud = { one: 'Only this lesson', ser: n => `This and following (${n})`, grp: n => `Whole group (${n})`, hint: 'It disappears as if it never happened: money, debts and the package are recalculated.',
+    many: n => `🗑 Lessons deleted: ${n}`, pk: (n, l, t) => `🎟 ${n}: ${l} of ${t} left in the package again`, money: '💰 Money recalculated' };
+  ['es', 'it', 'fr'].forEach(c => { if (I18N[c] && !I18N[c].ud) I18N[c].ud = I18N.en.ud; });
+} catch (e) {}
 /* ================= 7.10: profession — the app adapts its words and motivation =================
    S.prof = catalog id. No prof (old users) or a vocal profession → everything as before.
    A group gives: words for students / lessons, motivation & praise (ru, en), which studio tools make sense,
    which music-only sections to hide when the profession is picked. */
 const PROF_G = {
   voc: { ic: '🎤', l: 'u', s: 'u', music: 1 }, mus: { ic: '🎹', l: 'u', s: 'u', music: 1 }, dance: { ic: '💃', l: 'z', s: 'u', metro: 1 },
-  team: { ic: '🏒', l: 't', s: 'a' }, sport: { ic: '🏅', l: 't', s: 'a' }, fit: { ic: '💪', l: 't', s: 'c', metro: 1 }, out: { ic: '🏔️', l: 'z', s: 'u' },
+  team: { ic: '🏒', l: 't', s: 'a', sport: 1 }, sport: { ic: '🏅', l: 't', s: 'a', sport: 1 }, fit: { ic: '💪', l: 't', s: 'c', metro: 1 }, out: { ic: '🏔️', l: 'z', s: 'u' },
   lang: { ic: '🌍', l: 'u', s: 'u' }, school: { ic: '📚', l: 'u', s: 'u' }, kids: { ic: '🧸', l: 'z', s: 'u' }, art: { ic: '🎨', l: 'z', s: 'u' },
   stage: { ic: '🎭', l: 'z', s: 'u' }, it: { ic: '💻', l: 'z', s: 'u' }, drive: { ic: '🚗', l: 'z', s: 'u' }, cook: { ic: '👩‍🍳', l: 'z', s: 'u' },
   beauty: { ic: '💄', l: 'z', s: 'u' }, mind: { ic: '🧠', l: 's', s: 'c' }, other: { ic: '✨', l: 'z', s: 'u' }
@@ -3277,7 +3317,182 @@ function profT(T0){
     if (!G.music && T0 !== I18N[L]) { T1.madeBy = lang === 'ru' ? 'Мои ученики · сделано с любовью к твоему делу ✨' : 'My students · made with love for what you do ✨'; T1.loading = lang === 'ru' ? 'Загрузка… ✨' : 'Loading… ✨'; }
     if (T0.tr) T1.tr = Object.assign({}, T0.tr, { defSvc: W.svc[G.l].map((n, i) => Object.assign({ name: n, price: 0 }, i === 1 ? { trial: true } : i === 2 ? { online: true } : {})) });
   }
+  if (lang && !G.music) Object.assign(T1, profNoMusic(T1, lang, G, p));
+  if (lang && (G.l !== 'u' || G.s !== 'u' || !G.music)) {
+    const fn = lang === 'ru' ? x => profWordsRu(x, G) : x => profWordsEn(x, G), skip = { motiv: 1, praise: 1, appTitle: 1 };
+    Object.keys(T1).forEach(k => { if (!skip[k]) T1[k] = profDeep(T1[k], fn, 0); });
+  }
   return (PROF_T[key] = T1);
+}
+/* ================= 8.1: words everywhere =================
+   Every text of the app (T, deep) goes through profWords(): «урок» → тренировка / занятие / сессия with the right case and
+   gender of the adjective before it, «ученик/ученица» → спортсмен(ка) / клиент(ка). «Мои ученики» (the app's name) stays. */
+const RU_L_FORMS = {
+  t: { sg: ['тренировка', 'тренировки', 'тренировке', 'тренировку', 'тренировкой', 'тренировке'], pl: ['тренировки', 'тренировок', 'тренировкам', 'тренировки', 'тренировками', 'тренировках'], g: 'f' },
+  z: { sg: ['занятие', 'занятия', 'занятию', 'занятие', 'занятием', 'занятии'], pl: ['занятия', 'занятий', 'занятиям', 'занятия', 'занятиями', 'занятиях'], g: 'n' },
+  s: { sg: ['сессия', 'сессии', 'сессии', 'сессию', 'сессией', 'сессии'], pl: ['сессии', 'сессий', 'сессиям', 'сессии', 'сессиями', 'сессиях'], g: 'f' }
+};
+/* урок endings → [number, case] (0 nom, 1 gen, 2 dat, 3 acc, 4 ins, 5 prep) */
+const RU_UROK = { '': ['sg', 0], 'а': ['sg', 1], 'у': ['sg', 2], 'ом': ['sg', 4], 'е': ['sg', 5], 'и': ['pl', 0], 'ы': ['pl', 0], 'ов': ['pl', 1], 'ам': ['pl', 2], 'ами': ['pl', 4], 'ах': ['pl', 5] };
+const RU_EVENT = { sport: { sg: ['соревнование', 'соревнования', 'соревнованию', 'соревнование', 'соревнованием', 'соревновании'], pl: ['соревнования', 'соревнований', 'соревнованиям', 'соревнования', 'соревнованиями', 'соревнованиях'], g: 'n' },
+  other: { sg: ['мероприятие', 'мероприятия', 'мероприятию', 'мероприятие', 'мероприятием', 'мероприятии'], pl: ['мероприятия', 'мероприятий', 'мероприятиям', 'мероприятия', 'мероприятиями', 'мероприятиях'], g: 'n' } };
+const RU_ACC_PREV = /^(на|в|во|за|про|через|под|отменить|перенести|записать|поставить|провести|отметить|добавить|удалить|оплатить|отменил|отменила|перенёс|перенесла|отметь|перенеси|запиши|добавь|удали|отмени|проведи|создай|выбери|купить|пропустить|пропустил|пропустила|начать|закончить|вести|ведёшь|ведёт|провёл|провела|спасибо)$/i;
+const RU_PRON = { 'один': ['одна', 'одну', 'одно'], 'этот': ['эта', 'эту', 'это'], 'тот': ['та', 'ту', 'то'], 'твой': ['твоя', 'твою', 'твоё'], 'мой': ['моя', 'мою', 'моё'], 'свой': ['своя', 'свою', 'своё'], 'весь': ['вся', 'всю', 'всё'], 'ваш': ['ваша', 'вашу', 'ваше'], 'наш': ['наша', 'нашу', 'наше'] };
+function ruAdj(w, cs, g){
+  /* w: masculine adjective in case cs (sg); return the f/n form */
+  const lw = w.toLowerCase(), cap = w !== lw, C = x => cap ? x.charAt(0).toUpperCase() + x.slice(1) : x;
+  if (RU_PRON[lw] && (cs === 0 || cs === 3)) return C(g === 'n' ? RU_PRON[lw][2] : cs === 3 ? RU_PRON[lw][1] : RU_PRON[lw][0]);
+  if (g === 'n') { if (cs === 0 || cs === 3) { if (/ый$|ой$/.test(lw)) return C(lw.replace(/(ый|ой)$/, 'ое')); if (/ий$/.test(lw)) return C(lw.replace(/ий$/, /[жшщчц]ий$/.test(lw) ? 'ее' : /[гкх]ий$/.test(lw) ? 'ое' : 'ее')); } return w; }
+  const soft = /нний$|нний$|[^гкх]ний$/.test(lw) && !/[жшщчгкх]ий$/.test(lw) && /ний$/.test(lw), sib = /[жшщч]ий$|[жшщч]его$|[жшщч]ему$|[жшщч]им$|[жшщч]ем$/.test(lw);
+  if (cs === 0) { if (/(ый|ой)$/.test(lw)) return C(lw.replace(/(ый|ой)$/, 'ая')); if (/ий$/.test(lw)) return C(lw.replace(/ий$/, soft ? 'яя' : 'ая')); }
+  if (cs === 3) { if (/(ый|ой)$/.test(lw)) return C(lw.replace(/(ый|ой)$/, 'ую')); if (/ий$/.test(lw)) return C(lw.replace(/ий$/, soft ? 'юю' : 'ую')); }
+  if (cs === 1) { if (/ого$/.test(lw)) return C(lw.replace(/ого$/, 'ой')); if (/его$/.test(lw)) return C(lw.replace(/его$/, 'ей')); }
+  if (cs === 2) { if (/ому$/.test(lw)) return C(lw.replace(/ому$/, 'ой')); if (/ему$/.test(lw)) return C(lw.replace(/ему$/, 'ей')); }
+  if (cs === 4) { if (/ым$/.test(lw)) return C(lw.replace(/ым$/, 'ой')); if (/им$/.test(lw)) return C(lw.replace(/им$/, sib || soft ? 'ей' : 'ой')); }
+  if (cs === 5) { if (/ом$/.test(lw)) return C(lw.replace(/ом$/, 'ой')); if (/ем$/.test(lw)) return C(lw.replace(/ем$/, 'ей')); }
+  return w;
+}
+const RU_ADJ_RE = /^(?:[А-Яа-яЁё]+(?:ый|ий|ой|ого|его|ому|ему|ым|им|ом|ем)|один|этот|тот|твой|мой|свой|весь|ваш|наш|онлайн)$/i;
+const RU_S_FORMS = {
+  a: { m: ['спортсмен', 'Спортсмен'], f: ['спортсменк', 'Спортсменк'] },
+  c: { m: ['клиент', 'Клиент'], f: ['клиентк', 'Клиентк'] }
+};
+const RU_F_END = { 'а': 'а', 'ы': 'и', 'е': 'е', 'у': 'у', 'ей': 'ой', 'ам': 'ам', 'ами': 'ами', 'ах': 'ах', '': 'ок' };
+/* swap a masculine noun (урок, концерт…) for F's forms, fixing the adjective before it and nom/acc */
+function ruSwap(s, stem, _re, F, first){
+  return s.replace(new RegExp('(^|[^А-Яа-яЁё])((?:[А-Яа-яЁё]+[\\s-])?)([' + first + '])' + stem + '(ами|ах|ам|ов|ом|у|е|и|ы|а)?(?![А-Яа-яЁё])', 'g'), (m, pre, adjPart, u, e, off, all) => {
+      const [num, cs0] = RU_UROK[e || ''];
+      let cs = cs0, adj = adjPart ? adjPart.slice(0, -1) : '', sep = adjPart ? adjPart.slice(-1) : '';
+      const isAdj = adj && RU_ADJ_RE.test(adj);
+      /* «урок» without ending: nominative or accusative — look at the word before (and before the adjective) */
+      if (num === 'sg' && cs === 0) {
+        const before = all.slice(0, off + pre.length).replace(/\([а-я]+\)/g, '').trim().split(/[\s«»"'(]+/).pop() || '';
+        const prev = isAdj ? before : (adj || before);
+        if (RU_ACC_PREV.test(prev.replace(/[^А-Яа-яЁё]/g, ''))) cs = 3;
+      }
+      let w = F[num][cs]; if (u === first.charAt(0) && !(adj && !isAdj)) w = w.charAt(0).toUpperCase() + w.slice(1);
+      if (u === first.charAt(0) && adj && !isAdj) w = w.charAt(0).toUpperCase() + w.slice(1);
+      if (isAdj && num === 'sg' && adj.toLowerCase() !== 'онлайн') adj = ruAdj(adj, cs, F.g);
+      return pre + (adjPart ? adj + sep : '') + w;
+  });
+}
+function profWordsRu(x, G){
+  if (typeof x !== 'string' || !/[Уу]ро|[Уу]чени|онцерт|ыступлени|вокал/.test(x)) return x;
+  let s = x.replace(/Мои ученики/g, '\u0001');
+  if (G.s !== 'u') {
+    const S = RU_S_FORMS[G.s];
+    s = s.replace(/([Уу])чени(к|ц)\(ца\)/g, (m, u) => (u === 'У' ? S.m[1] : S.m[0]) + '(' + (G.s === 'a' ? 'ка' : 'ка') + ')');
+    s = s.replace(/([Уу])ченик(ами|ах|ам|ов|ом|у|е|и|а)?(?![А-Яа-яЁё])/g, (m, u, e) => (u === 'У' ? S.m[1] : S.m[0]) + ((e || '') === 'и' ? 'ы' : (e || '')));
+    s = s.replace(/([Уу])чениц(ами|ах|ам|ей|а|ы|е|у)?(?![А-Яа-яЁё])/g, (m, u, e) => (u === 'У' ? S.f[1] : S.f[0]) + (RU_F_END[e || ''] != null ? RU_F_END[e || ''] : e));
+  }
+  if (G.l !== 'u') {
+    const F = RU_L_FORMS[G.l];
+    s = s.replace(/([Уу])рок\(ов\)/g, (m, u) => { const w = F.pl[1]; return u === 'У' ? w.charAt(0).toUpperCase() + w.slice(1) : w; });
+    s = ruSwap(s, 'рок', /[Уу]/, F, 'Уу');
+    /* short participles right after a singular noun: «тренировка использован» → «использована» */
+    if (F.g !== 'm') s = s.replace(new RegExp('(' + F.sg[0] + '|' + F.sg[0].charAt(0).toUpperCase() + F.sg[0].slice(1) + ')\\s(использован|отменён|перенесён|проведён|оплачен|удалён|отмечен|найден|добавлен|записан|списан)(?![А-Яа-яЁё])', 'g'), (m, n, v) => n + ' ' + v.replace(/ён$/, F.g === 'f' ? 'ена' : 'ено').replace(/ан$/, F.g === 'f' ? 'ана' : 'ано').replace(/ен$/, F.g === 'f' ? 'ена' : 'ено'));
+    s = s.replace(/(Удалён|Добавлен|Перенесён|Отменён)(\s)(тренировка|сессия|занятие)/g, (m, v, sp, n) => v.replace(/ён$/, n === 'занятие' ? 'ено' : 'ена').replace(/ен$/, n === 'занятие' ? 'ено' : 'ена') + sp + n);
+  }
+  if (!G.music) {
+    const E = RU_EVENT[G.sport ? 'sport' : 'other'], st = G.sport ? 'соревновани' : 'мероприяти';
+    s = ruSwap(s, 'онцерт', null, E, 'Кк');
+    s = s.replace(/([Вв])ыступлени(е|я|ю|ем|и|й|ям|ями|ях)(?![А-Яа-яЁё])/g, (m, v, e) => (v === 'В' ? st.charAt(0).toUpperCase() + st.slice(1) : st) + e);
+    s = s.replace(/ в вокале/g, '').replace(/\bвокал(а|у|ом|е)?\b/g, (m) => m);
+  }
+  return s.replace(/\u0001/g, 'Мои ученики');
+}
+function profWordsEn(x, G){
+  if (typeof x !== 'string') return x;
+  if (!G.music && /[Cc]oncert/.test(x)) { const e = G.sport ? ['competition', 'competitions'] : ['event', 'events'], up = t => t.charAt(0).toUpperCase() + t.slice(1);
+    x = x.replace(/CONCERTS/g, e[1].toUpperCase()).replace(/CONCERT/g, e[0].toUpperCase()).replace(/Concerts/g, up(e[1])).replace(/concerts/g, e[1]).replace(/Concert/g, up(e[0])).replace(/concert/g, e[0]); }
+  if (!/[Ll]esson|[Ss]tudent/.test(x)) return x;
+  let s = x.replace(/My students/g, '\u0001');
+  if (G.l !== 'u') s = profEnWord(s, PROF_EN_L[G.l]);
+  if (G.s !== 'u') { const w = G.s === 'a' ? ['athlete', 'athletes'] : ['client', 'clients'], cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+    s = s.replace(/Students/g, cap(w[1])).replace(/students/g, w[1]).replace(/Student/g, cap(w[0])).replace(/student/g, w[0]); }
+  return s.replace(/\u0001/g, 'My students');
+}
+/* deep copy of T with every text adapted; functions are wrapped */
+function profDeep(v, fn, depth){
+  if (depth > 6) return v;
+  if (typeof v === 'string') return fn(v);
+  if (typeof v === 'function') { const f = v; return function(){ const r = f.apply(this, arguments); return typeof r === 'string' ? fn(r) : Array.isArray(r) ? r.map(x => typeof x === 'string' ? fn(x) : x) : r; }; }
+  if (Array.isArray(v)) return v.map(x => profDeep(x, fn, depth + 1));
+  if (v && typeof v === 'object') { const o = {}; Object.keys(v).forEach(k => { o[k] = profDeep(v[k], fn, depth + 1); }); return o; }
+  return v;
+}
+/* texts that only make sense for music, rewritten for everyone else */
+function profNoMusic(T0, lang, G, p){
+  const ru = lang === 'ru', subj = profSubj(p, lang) || '', o = {};
+  const ev = G.sport ? (ru ? ['Соревнования', 'Турниры, матчи, сборы', 'Соревнований пока нет. Запланируй первое — ученикам важно показать результат!', 'Запланировать соревнование', 'Соревнование'] : ['Competitions', 'Tournaments, matches, camps', 'No competitions yet. Plan the first one — students love to show results!', 'Plan a competition', 'Competition'])
+    : (ru ? ['Мероприятия', 'Открытые уроки, показы, экзамены', 'Мероприятий пока нет. Запланируй первое — ученикам важно показать результат!', 'Запланировать мероприятие', 'Мероприятие'] : ['Events', 'Open lessons, showcases, exams', 'No events yet. Plan the first one — students love to show results!', 'Plan an event', 'Event']);
+  Object.assign(o, { stEv: ev[0], stEvSub: ev[1], evEmpty: ev[2], evAdd: ev[3], evTitle: ev[4] });
+  if (T0.cats) o.cats = Object.assign({}, T0.cats, { notes: ru ? 'Материалы' : 'Materials' });
+  if (T0.bx && T0.bx.brandHint) o.bx = Object.assign({}, T0.bx, { brandHint: ru ? `Например: «Школа ${subj || 'Марии'}» или «Мария · ${subj || 'английский'}». Пусто — стандартная подпись, «-» — без подписи.` : `E.g. “Maria · ${subj || 'English'}”. Empty — the default line, “-” — no line.` });
+  if (typeof T0.repText === 'function') o.repText = (n, m, k) => ru ? `${n}, твой ${m}: ${k} уроков 💪\nТы молодец, двигаемся дальше! ❤️` : `${n}, your ${m}: ${k} lessons 💪\nGreat job, let’s keep going! ❤️`;
+  if (typeof T0.wrapHi === 'function') o.wrapHi = (n, y) => ru ? `${n}, вот каким был твой ${y} год ✨` : `${n}, here is your ${y} ✨`;
+  if (T0.pl) o.pl = Object.assign({}, T0.pl, { music: ru ? 'Работа и жизнь' : 'Work and life', gigsSub: G.sport ? (ru ? 'Матчи, турниры, сборы' : 'Matches, tournaments, camps') : (ru ? 'Мероприятия, показы, события' : 'Events and showcases') });
+  if (T0.fx) o.fx = Object.assign({}, T0.fx, { gigS: G.sport ? (ru ? 'матч, турнир, сборы' : 'match, tournament') : (ru ? 'событие, показ' : 'event, showcase'), eventS: ru ? 'открытый урок, показ' : 'open lesson, showcase' });
+  { const list = ru ? (PROF_SKILLS[p[1]] || PROF_SKILLS.other) : PROF_SKILLS.en, sk = {}; PROF_SKILL_KEYS.forEach((k, i) => { sk[k] = list[i]; }); o.skills = sk; }
+  if (T0.quizQ) o.quizQ = ru ? { goals: 'Цели: чего хочет добиться', exp: 'Опыт: занимался(лась) ли раньше, где', artists: 'Кумиры и примеры для вдохновения', genres: 'Что нравится больше всего, интересы', health: 'Здоровье, ограничения, заметки' }
+    : { goals: 'Goals: what they want to achieve', exp: 'Experience: done it before, where', artists: 'Role models and inspiration', genres: 'What they like most, interests', health: 'Health, limits, notes' };
+  if (T0.tpl && T0.tpl.quiz) o.tpl = Object.assign({}, T0.tpl, { quiz: [T0.tpl.quiz[0], v => ru ? `${v.name}, привет! Чтобы занятия были максимально полезными, ответь, пожалуйста:\n1. Чего хочешь добиться?\n2. Занимался(лась) раньше? Где и сколько?\n3. Кто тебя вдохновляет?\n4. Что нравится больше всего?\n5. Есть ли ограничения по здоровью, о которых мне важно знать?` : `Hi ${v.name}! To make our sessions as useful as possible, please answer:\n1. What do you want to achieve?\n2. Have you done it before? Where and how long?\n3. Who inspires you?\n4. What do you like most?\n5. Any health limits I should know about?`] });
+  if (T0.ach) { const a = Object.assign({}, T0.ach); Object.keys(a).forEach(k => { if (Array.isArray(a[k]) && /Концертный сезон|Concert season/.test([].concat(a[k][0]).join(' '))) a[k] = [Array.isArray(a[k][0]) ? (ru ? (G.sport ? ['На старт!', 'Соревновательный сезон', 'Организатор'] : ['Событие!', 'Сезон мероприятий', 'Организатор']) : (G.sport ? ['Game on!', 'Competition season', 'Organizer'] : ['Event!', 'Event season', 'Organizer'])) : (ru ? (G.sport ? 'Соревновательный сезон' : 'Сезон мероприятий') : (G.sport ? 'Competition season' : 'Event season')), a[k][1]]; }); o.ach = a; }
+  if (T0.achGen) { const g = Object.assign({}, T0.achGen), sp = G.sport, nm = ru ? {
+      held: ['Разминка', 'Набираем ход', 'Легенда профессии'], hours: ['Первые часы', 'Часы мастерства', 'Время — это опыт'],
+      early: ['Ранняя пташка', 'Утренняя смена', 'Повелительница рассвета'], weekend: ['Без выходных', sp ? 'Выходные на площадке' : 'Рабочие выходные', 'Трудоголик'],
+      events: sp ? ['На старт!', 'Соревновательный сезон', 'Организатор'] : ['Событие!', 'Сезон мероприятий', 'Организатор'],
+      group: sp ? ['Пара', 'Команда', 'Большая команда'] : ['Вдвоём', 'Мини-группа', 'Большая группа'], skills: ['Прокачка', 'Мастерство', 'Профи'],
+      earned: null } : {
+      held: ['Warm-up', 'Gaining pace', 'Legend of the craft'], hours: ['First hours', 'Hours of mastery', 'Time is experience'],
+      early: ['Early bird', 'Morning shift', 'Queen of dawn'], weekend: ['No days off', 'Weekend shift', 'Workaholic'],
+      events: sp ? ['Game on!', 'Competition season', 'Organizer'] : ['Event!', 'Event season', 'Organizer'],
+      group: sp ? ['Pair', 'Team', 'Big team'] : ['Duo', 'Small group', 'Big group'], skills: ['Level up', 'Mastery', 'Pros'],
+      earned: ['Piggy bank', 'Capital', 'Business empire'] };
+    Object.keys(nm).forEach(k => { if (nm[k] && Array.isArray(g[k])) g[k] = [nm[k], g[k][1]]; }); o.achGen = g; }
+  if (T0.wrapLetter && !/Аня|Anya/.test(T0.egg && T0.egg.sanya || '') && /запели|started singing/.test(T0.wrapLetter)) o.wrapLetter = ru ? '{n}, это был потрясающий год. Столько людей стали сильнее и увереннее благодаря тебе! Дальше будет ещё интереснее ❤️' : '{n}, what an amazing year. So many people grew thanks to you! The best is yet to come ❤️';
+  if (T0.stMetroSub) o.stMetroSub = ru ? 'Темп для упражнений' : 'Tempo for exercises';
+  if (T0.lk && T0.lk.brandHint) o.lk = Object.assign({}, T0.lk, { brandHint: ru ? `Например: «Школа ${subj || 'Марии'}» или «Мария · ${subj || 'английский'}». Пусто — стандартная подпись, «-» — без подписи.` : `E.g. “Maria · ${subj || 'English'}”. Empty — the default line, “-” — no line.` });
+  if (T0.lf) {
+    const lf = Object.assign({}, T0.lf);
+    if (lf.dy) lf.dy = Object.assign({}, lf.dy, ru ? { voice: 'Самочувствие', voices: { ok: '💪 В форме', tired: '😮‍💨 Устал(а)', sore: '🤒 Болею' }, sang: 'Работа, часов',
+      tips: Object.assign({}, lf.dy.tips, { rest: '🍵 Усталость несколько дней подряд — запланируй день отдыха и сон.', sore: '🤒 Плохо себя чувствуешь — лучше снизить нагрузку и отдохнуть.', much: '⚠️ Больше 10 часов работы в день — делай паузы.', sleep: '😴 Мало сна несколько дней — тебе нужен отдых.' }) }
+      : { voice: 'How I feel', voices: { ok: '💪 Great', tired: '😮‍💨 Tired', sore: '🤒 Ill' }, sang: 'Work, hours', tips: Object.assign({}, lf.dy.tips, { rest: '🍵 Tired several days in a row — plan a day off and sleep.', sore: '🤒 Feeling unwell — lower the load and rest.', much: '⚠️ More than 10 hours of work a day — take breaks.', sleep: '😴 Little sleep for several days — you need rest.' }) });
+    if (lf.tiles && lf.tiles.diary) lf.tiles = Object.assign({}, lf.tiles, { diary: [lf.tiles.diary[0], lf.tiles.diary[1], ru ? 'Настроение и самочувствие' : 'Mood and how you feel'] });
+    if (lf.hb && lf.hb.presets) lf.hb = Object.assign({}, lf.hb, { presets: lf.hb.presets.map(x => /Распев|Warm/i.test(x[1]) ? [G.sport || G.metro ? '🏋️' : '📚', G.sport || G.metro ? (ru ? 'Тренировка' : 'Workout') : (ru ? 'Подготовка к занятиям' : 'Prep for classes')] : x) });
+    o.lf = lf;
+  }
+  return o;
+}
+/* student progress skills (8 slots, same keys as the vocal ones) */
+const PROF_SKILLS = {
+  sport: ['Техника', 'Скорость', 'Выносливость', 'Сила', 'Координация', 'Тактика', 'Дисциплина', 'Соревновательный настрой'],
+  fit: ['Сила', 'Выносливость', 'Гибкость', 'Техника', 'Баланс', 'Осанка', 'Регулярность', 'Самочувствие'],
+  dance: ['Техника', 'Ритм', 'Координация', 'Гибкость', 'Выразительность', 'Память хореографии', 'Выносливость', 'Сценический образ'],
+  lang: ['Говорение', 'Аудирование', 'Чтение', 'Письмо', 'Грамматика', 'Словарный запас', 'Произношение', 'Уверенность'],
+  school: ['Понимание темы', 'Решение задач', 'Внимательность', 'Скорость', 'Самостоятельность', 'Домашние задания', 'Подготовка к экзамену', 'Мотивация'],
+  kids: ['Внимание', 'Речь', 'Память', 'Моторика', 'Самостоятельность', 'Общение', 'Эмоции', 'Мотивация'],
+  art: ['Техника', 'Композиция', 'Цвет и форма', 'Аккуратность', 'Идеи', 'Скорость', 'Самостоятельность', 'Мотивация'],
+  stage: ['Дикция', 'Голос и интонация', 'Уверенность', 'Импровизация', 'Структура речи', 'Контакт с публикой', 'Темп', 'Мотивация'],
+  it: ['Логика', 'Синтаксис', 'Алгоритмы', 'Отладка', 'Проекты', 'Самостоятельность', 'Скорость', 'Мотивация'],
+  drive: ['Теория (ПДД)', 'Управление', 'Парковка', 'Город', 'Внимательность', 'Уверенность', 'Манёвры', 'Готовность к экзамену'],
+  cook: ['Техника', 'Вкус', 'Подача', 'Скорость', 'Чистота', 'Рецептуры', 'Самостоятельность', 'Мотивация'],
+  beauty: ['Техника', 'Аккуратность', 'Скорость', 'Гигиена', 'Работа с клиентом', 'Портфолио', 'Самостоятельность', 'Мотивация'],
+  mind: ['Осознанность', 'Цели', 'Действия', 'Эмоции', 'Отношения', 'Ресурс', 'Привычки', 'Мотивация'],
+  out: ['Техника', 'Безопасность', 'Уверенность', 'Выносливость', 'Баланс', 'Навигация', 'Самостоятельность', 'Мотивация'],
+  other: ['Техника', 'Понимание', 'Практика', 'Скорость', 'Самостоятельность', 'Регулярность', 'Уверенность', 'Мотивация'],
+  en: ['Technique', 'Understanding', 'Practice', 'Speed', 'Independence', 'Consistency', 'Confidence', 'Motivation']
+};
+PROF_SKILLS.team = PROF_SKILLS.sport;
+const PROF_SKILL_KEYS = ['breath', 'pitch', 'reso', 'mix', 'high', 'vibrato', 'diction', 'stage'];
+const profMusic = () => { const G = PROF_G[profG()] || PROF_G.other; return !!G.music; };
+/* achievements about songs, warm-ups, voice and stage are hidden for non-music professions */
+let ACH_NM = null;
+function achList(){
+  if (profMusic()) return ACH;
+  if (!ACH_NM) { const ru = (I18N.ru || {}).ach || {}, bad = /песн|распев|сцен|голос|диапазон|вокал|\bнот|поёт|петь|пою/i;
+    ACH_NM = ACH.filter(a => { const m = GEN_META[a[0]]; if (m && /^(songs|songsAll|warm)$/.test(m.fam)) return false; const t = ru[a[0]]; return !(t && bad.test(t.join(' '))); }); }
+  return ACH_NM;
 }
 /* lesson words in the most visible places (ru written out by gender; en by replacing lesson → word) */
 const PROF_RU_L = {
@@ -3338,15 +3553,29 @@ function profSheet(mode){
 function profApply(id, quiet){
   const p = PROF_BY[id]; if (!p) return;
   const S = state.settings, was = S.prof, g = p[1];
+  const prevSubj = was && PROF_BY[was] ? profSubj(PROF_BY[was], 'ru') : '';
   S.prof = id; if (p[4] || p[6]) S.subj = profSubj(p, 'ru') || S.subj;
+  else if (S.subj && (S.subj === prevSubj || /вокал|vocal/i.test(S.subj))) S.subj = '';
   /* music-only sections: hide when switching to a non-music profession (can be turned back on in «Разделы») */
   let hid = 0;
   if (!PROF_G[g].music && (!was || (PROF_BY[was] && PROF_G[PROF_BY[was][1]].music))) {
     S.mods = Object.assign({}, S.mods);
-    ['rep', 'groups', 'comps', 'artist'].forEach(k => { if (S.mods[k] !== 0) { S.mods[k] = 0; hid++; } });
+    const h = []; ['rep', 'groups', 'comps', 'artist'].forEach(k => { if (S.mods[k] !== 0) { S.mods[k] = 0; hid++; h.push(k); } }); if (h.length) S.profHid = h;
+  } else if (PROF_G[g].music && Array.isArray(S.profHid)) {
+    /* back to a music profession: bring back the sections we hid ourselves */
+    S.mods = Object.assign({}, S.mods); S.profHid.forEach(k => { delete S.mods[k]; }); delete S.profHid;
   }
+  profSvcNames();
   applyLang(L); save(); safe(scheduleBotSync);
   if (!quiet) toast('✅ ' + T.pf.done(profName(p)) + (hid ? '\n' + T.pf.hidMusic : ''), 3800);
+}
+/* default service names follow the profession («Урок» → «Тренировка», «Пробный урок» → «Пробная тренировка»…); names the user typed stay */
+function profSvcNames(){
+  const G = PROF_G[profG()] || PROF_G.other, W = PROF_W[L === 'en' ? 'en' : 'ru'];
+  const all = ['ru', 'en'].map(k => PROF_W[k].svc).flatMap(o => Object.keys(o).map(x => o[x]));
+  const target = W.svc[G.l];
+  state.services.forEach(v => { all.forEach(set => { const i = set.indexOf(v.name); if (i >= 0 && !(i === 0 && v.name !== set[0])) v.name = target[i]; }); });
+  try { CAT_IC.notes = G.music ? '🎼' : '📚'; } catch (e) {}
 }
 const PF = {
   profOpen: () => openSheet(profSheet('set')),
@@ -3915,8 +4144,8 @@ function achCtx(){
     students: state.students.length, earnedAll: vsum(held), maxDay: Math.max(0, ...Object.values(byDay)), maxWeek: Math.max(0, ...Object.values(byWeek)),
     early: held.some(l => l.time && l.time < '10:00'), late: held.some(l => l.time && l.time >= '21:00'),
     weekend: held.some(l => [0, 6].includes(parseD(l.date).getDay())), pkgs: state.packages.length,
-    hw: state.students.some(s => s.hw.length), song: state.students.some(s => s.songs.some(x => x.done)),
-    diary: state.students.some(s => s.range.lo !== '' || s.songs.length || Object.keys(s.skills).length),
+    hw: state.students.some(s => (s.hw || []).length), song: state.students.some(s => (s.songs || []).some(x => x.done)),
+    diary: state.students.some(s => (s.range && s.range.lo !== '' && s.range.lo != null) || (s.songs || []).length || Object.keys(s.skills || {}).length),
     events: state.events.length, group: state.lessons.some(l => l.grp && counts(l)),
     debt: vsum(held.filter(l => !l.paid)), goal: +state.settings.goal || 0, curEarned: months[cur] || 0,
     hasPrev: prevMs.length > 0, prevMax: Math.max(0, ...prevMs.map(m => months[m])),
@@ -3930,7 +4159,7 @@ function checkAch(){
   const silent = state.ach === null;
   if (silent) state.ach = {};
   const c = achCtx();
-  const fresh = ACH.filter(([id, , test]) => !state.ach[id] && test(c)).map(a => a[0]);
+  const fresh = (typeof achList === 'function' ? achList() : ACH).filter(([id, , test]) => !state.ach[id] && test(c)).map(a => a[0]);
   if (!fresh.length) { if (silent) save(); return; }
   fresh.forEach(id => { state.ach[id] = today(); });
   save();
@@ -4084,11 +4313,11 @@ async function botPost(body, ms){
 }
 async function botSync(force){
   if (!inTG || !state.settings.api) return;
-  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ wish: mod('life') && mod('wish') ? wishPub() : undefined, stu: stuSched(), cal: calEvents(), gev: state.settings.gcal && state.settings.gcal.on ? gEvents() : undefined, calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
+  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ wish: mod('life') && mod('wish') ? wishPub() : undefined, stu: stuSched(), cal: calEvents(), gev: state.settings.gcal && state.settings.gcal.on ? gEvents() : undefined, calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra, state.settings.legal || 0]);
   if (!force && hash === lastPayload) return;
   const sentKeys = new Set(evQueue.map(e => e.k)), ack = opsAck.slice();
   try {
-    const j = await botPost(Object.assign({ a: 'sync', notes, pub, ctx, ack }, extra));
+    const j = await botPost(Object.assign({ a: 'sync', notes, pub, ctx, ack }, state.settings.legal ? { lg: state.settings.legal } : {}, extra));
     opsAck = opsAck.filter(x => !ack.includes(x)); saveAck();
     handleServer(j);
     lastPayload = hash; botStatus = 'ok'; botLast = Date.now();
@@ -4194,7 +4423,7 @@ achCtx = function(){
     loyal: Object.values(per).filter(n => n >= 10).length,
     earlyN: held.filter(l => l.time && l.time < '10:00').length, lateN: held.filter(l => l.time && l.time >= '21:00').length,
     weekendN: wd[0] + wd[6], wd,
-    songsDone: S.reduce((a, s) => a + s.songs.filter(x => x.done).length, 0), songsAll: S.reduce((a, s) => a + s.songs.length, 0),
+    songsDone: S.reduce((a, s) => a + (s.songs || []).filter(x => x.done).length, 0), songsAll: S.reduce((a, s) => a + (s.songs || []).length, 0),
     warmAll: S.reduce((a, s) => a + (s.warm || []).length, 0),
     hwAll: S.reduce((a, s) => a + s.hw.length, 0), hwDone: S.reduce((a, s) => a + s.hw.filter(x => x.done).length, 0),
     skillMax: S.reduce((a, s) => a + Object.values(s.skills).filter(v => +v >= 3).length, 0),
@@ -4236,13 +4465,13 @@ function header(title){
 const monthNav = (m, act) => `<div class="month"><button data-act="${act}" data-v="-1" aria-label="${esc(T.prev)}">‹</button><b>${esc(monthTitle(m))}</b><button data-act="${act}" data-v="1" aria-label="${esc(T.next)}">›</button></div>`;
 const welcome = () => `<div class="empty"><div class="big">🎤</div><b>${esc(T.welcome)}</b>${esc(T.welcomeText)}<button class="btn" data-act="addStudent">${esc(T.addStudent)}</button></div>`;
 const svcName = id => (svcOf(id) || {}).name || '';
-const achN = () => state.ach ? ACH.filter(a => state.ach[a[0]]).length : 0;
+const achN = () => state.ach ? achList().filter(a => state.ach[a[0]]).length : 0;
 const inDays = ds => T.inDays(daysBetween(today(), ds));
 const evSorted = () => state.events.slice().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 const evRow = e => `<div class="row evrow" data-act="openEvent" data-id="${e.id}"><div class="ava">🎭</div>
   <div class="main"><div class="name">${esc(e.title || T.evTitle)}</div><div class="sub one">${esc([shortDate(e.date), e.time, e.place].filter(Boolean).join(' · '))}</div></div>
   <div class="right"><span class="chip">${esc(inDays(e.date))}</span><span class="chev">›</span></div></div>`;
-const achRow = () => `<button class="achrow" data-act="achievements"><span>🏆 ${esc(T.achTitle)}</span><span>${achN()} / ${ACH.length} ›</span></button>`;
+const achRow = () => `<button class="achrow" data-act="achievements"><span>🏆 ${esc(T.achTitle)}</span><span>${achN()} / ${achList().length} ›</span></button>`;
 
 function lessonRow(l, opts = {}){
   const s = stu(l.sid);
@@ -4534,7 +4763,7 @@ function renderStudio(){
     ['slots', '🗓', T.stSlots, T.stSlotsSub(slotsN), ''],
     ['x2WaitOpen', '⏳', T.x2.wait, T.x2.waitSub, state.wait.length || ''],
     ['x2Warm', '🌬', T.x2.warm, T.x2.warmSub, ''],
-    ['achievements', '🏆', T.achTitle, T.stAchSub, `${achN()}/${ACH.length}`],
+    ['achievements', '🏆', T.achTitle, T.stAchSub, `${achN()}/${achList().length}`],
     ['tuner', '🎯', T.stTuner, T.stTunerSub, ''],
     ['certs', '🎁', T.stCert, T.stCertSub, state.certs.length || ''],
     ['wrap', '🎉', T.stWrap, T.stWrapSub, '']
@@ -4757,7 +4986,7 @@ function studentCard(id){
       ${pkg}
       <div class="btnrow"><button class="btn" data-act="addLessonFor" data-id="${id}">${esc(T.addLessonBtn)}</button><button class="btn ghost" data-act="addPackage" data-id="${id}">🎟 ${esc(T.sellPkg)}</button></div>
       <div class="btnrow"><button class="btn ghost" data-act="diary" data-id="${id}">📒 ${esc(T.diary)}</button><button class="btn ghost" data-act="writeTo" data-id="${id}">💬 ${esc(T.writeBtn)}</button></div>
-      <button class="btn ghost" data-act="songs" data-id="${id}">🎵 ${esc(T.songsBtn)}${s.songs.length ? ` · ${s.songs.filter(x => !x.done).length} ${esc(T.songsInWork)}` : ''}</button>
+      ${safe(profMusic, true) ? `<button class="btn ghost" data-act="songs" data-id="${id}">🎵 ${esc(T.songsBtn)}${s.songs.length ? ` · ${s.songs.filter(x => !x.done).length} ${esc(T.songsInWork)}` : ''}</button>` : ''}
       ${cardExtra(id)}
       ${dsum ? `<div class="dsum" style="justify-content:center">${dsum}</div>` : ''}
       ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}
@@ -4784,12 +5013,14 @@ function diarySheet(id){
     const lst = (arr, kind) => arr.map(x => `<div class="li${x.done ? ' done' : ''}"><button class="box${x.done ? ' on' : ''}" data-act="dToggle" data-k="${kind}" data-id="${x.id}" aria-label="✓">${x.done ? '✓' : ''}</button>
       <span class="tx">${esc(x.t)}${x.key ? `<small>${esc(x.key)}</small>` : ''}</span><button class="x" data-act="dDel" data-k="${kind}" data-id="${x.id}" aria-label="${esc(T.del)}">×</button></div>`).join('');
     const hasR = s.range.lo !== '' && s.range.hi !== '';
-    return sheetHead(T.diary) + note(s.name) + `
+    const mus = safe(profMusic, true);
+    return sheetHead(T.diary) + note(s.name) + (mus ? `
       <div class="sec" style="margin-top:0"><span>🎤 ${esc(T.dRange)}</span>${hasR ? `<span>${esc(T.dSemis(Math.abs(s.range.hi - s.range.lo)))}</span>` : ''}</div>
       <div class="group"><div class="two"><div class="field"><label for="d_lo">${esc(T.dLow)}</label><select id="d_lo">${noteOptions(s.range.lo)}</select></div>
         <div class="field"><label for="d_hi">${esc(T.dHigh)}</label><select id="d_hi">${noteOptions(s.range.hi)}</select></div></div></div>
       <div class="sec"><span>🎵 ${esc(T.dSongs)}</span></div>
       <div class="card">${lst(s.songs, 'songs')}<div class="addrow"><input id="d_song" placeholder="${esc(T.dSongPh)}" autocomplete="off"><input id="d_key" class="k" placeholder="${esc(T.dKeyPh)}" autocomplete="off" autocapitalize="off"><button class="mini ok" data-act="dAdd" data-k="songs">+</button></div></div>
+` : '') + `
       <div class="sec"><span>📝 ${esc(T.dHw)}</span><button class="link" data-act="exercises" data-sid="${id}">📚 ${esc(T.dFromLib)}</button></div>
       <div class="card">${lst(s.hw, 'hw')}<div class="addrow"><input id="d_hw" placeholder="${esc(T.dHwPh)}" autocomplete="off"><button class="mini ok" data-act="dAdd" data-k="hw">+</button></div></div>
       ${safe(() => hwBotBlock(s))}
@@ -4801,9 +5032,9 @@ function diarySheet(id){
   fn.mount = () => {
     const s = stu(id); if (!s) return;
     const setR = (k, v) => { s.range[k] = v === '' ? '' : +v; save(); refreshSheet(); };
-    $('d_lo').onchange = e => setR('lo', e.target.value);
-    $('d_hi').onchange = e => setR('hi', e.target.value);
-    [['d_song', 'songs'], ['d_key', 'songs'], ['d_hw', 'hw']].forEach(([i, k]) => { $(i).onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); A.dAdd({ dataset: { k } }); } }; });
+    if ($('d_lo')) $('d_lo').onchange = e => setR('lo', e.target.value);
+    if ($('d_hi')) $('d_hi').onchange = e => setR('hi', e.target.value);
+    [['d_song', 'songs'], ['d_key', 'songs'], ['d_hw', 'hw']].forEach(([i, k]) => { if ($(i)) $(i).onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); A.dAdd({ dataset: { k } }); } }; });
   };
   return fn;
 }
@@ -5017,6 +5248,7 @@ function settingsPart(k){
       <button class="btn ghost" data-act="backup">${esc(T.backupBtn)}</button>
       <button class="btn ghost" data-act="restore">${esc(T.restoreBtn)}</button>
       <div class="hintline center">${esc(T.dbCount(state.students.length, state.lessons.length))}</div>
+      <button class="btn ghost" data-act="legal">📄 ${esc(safe(() => lgX().title, 'Документы'))}</button>
       <div class="sec" style="margin-top:22px"><span>⚠️ ${esc(T.wp.sec)}</span></div>
       <div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(T.wp.hint)}</div>
       <button class="btn danger" data-act="wipeAsk">🗑 ${esc(T.wp.btn)}</button>`;
@@ -5284,14 +5516,14 @@ function exerciseForm(id){
 /* ---------- Achievements & Sanya's secret room ---------- */
 function achSheet(){
   return () => {
-    const got = state.ach || {}, n = achN(), pct = Math.round(n * 100 / ACH.length);
+    const got = state.ach || {}, n = achN(), pct = Math.round(n * 100 / achList().length);
     const card = (id, icon, on) => on
       ? `<div class="ach" data-act="achShow" data-id="${id}"><div class="ai">${icon}</div><b>${esc(T.ach[id][0])}</b><small>${esc(T.ach[id][1])}</small><small style="color:var(--gold)">✓ ${esc(shortDate(got[id]))}</small>${isPrize(id) ? `<small style="color:var(--title);font-weight:600">🎁 ${esc(T.prizeShow)}</small>` : ''}</div>`
       : `<div class="ach off"><div class="ai">${icon}</div><b>${esc(T.ach[id][0])}</b><small>${esc(T.ach[id][1])}</small>${isPrize(id) ? `<small style="color:var(--title)">🎁 ${esc(T.prizeL)}</small>` : ''}</div>`;
-    const opened = ACH.filter(a => got[a[0]]).sort((x, y) => String(got[y[0]]).localeCompare(String(got[x[0]])));
+    const opened = achList().filter(a => got[a[0]]).sort((x, y) => String(got[y[0]]).localeCompare(String(got[x[0]])));
     const seen = {}, next = [];
-    ACH.forEach(a => { if (got[a[0]]) return; const f = GEN_META[a[0]] ? GEN_META[a[0]].fam : a[0]; if (seen[f]) return; seen[f] = 1; next.push(a); });
-    return sheetHead(T.achTitle) + `<div class="prog">${esc(T.achProg(n, ACH.length))}</div><div class="barbg" style="margin:0 4px 14px"><i style="width:${pct}%"></i></div>
+    achList().forEach(a => { if (got[a[0]]) return; const f = GEN_META[a[0]] ? GEN_META[a[0]].fam : a[0]; if (seen[f]) return; seen[f] = 1; next.push(a); });
+    return sheetHead(T.achTitle) + `<div class="prog">${esc(T.achProg(n, achList().length))}</div><div class="barbg" style="margin:0 4px 14px"><i style="width:${pct}%"></i></div>
       ${opened.length ? `<div class="sec" style="margin-top:0"><span>${esc(T.achOpened)} · ${opened.length}</span></div><div class="achgrid">${opened.slice(0, fn_lim(opened.length)).map(a => card(a[0], a[1], true)).join('')}</div>` : ''}
       <div class="sec"><span>${esc(T.achNext)} · ${next.length}</span></div><div class="achgrid">${next.map(a => card(a[0], a[1], false)).join('')}</div>`;
   };
@@ -5653,16 +5885,18 @@ async function startBooking(){
         <div class="field"><label for="b_name">${esc(T.fName)}</label><input id="b_name" value="${esc((tgUser && [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ')) || '')}"></div>
         <div class="field"><label for="b_phone">${esc(T.fPhone)}</label><input id="b_phone" type="tel"></div>
         <div class="field"><label for="b_note">${esc(T.fNote)}</label><textarea id="b_note" placeholder="${esc(T.bkNotePh)}"></textarea></div></div>
+      <label class="lgl-ck bk-ck"><input type="checkbox" id="b_ok"${sel.ok ? ' checked' : ''}><span>${esc(safe(() => lgX().bkC[0], ''))}<a href="${esc(safe(lgUrl, 'privacy.html'))}" target="_blank" rel="noopener">${esc(safe(() => lgX().bkC[1], ''))}</a>${esc(safe(() => lgX().bkC[2](pub.name || ''), ''))}</span></label>
       <button class="btn" id="b_go">${esc(T.bkSend)}</button><div class="madeby">${esc(T.madeBy)}</div>`;
     box.querySelectorAll('[data-bk]').forEach(b => b.onclick = () => { [sel.ds, sel.time] = b.dataset.bk.split('|'); keep(); draw(); haptic(); });
-    const keep = () => { const n = $('b_name'), p = $('b_phone'), s = $('b_svc'), t = $('b_note'); sel.name = n && n.value; sel.phone = p && p.value; sel.svc = s ? s.value : sel.svc; sel.note = t && t.value; };
+    const keep = () => { const ok = $('b_ok'); if (ok) sel.ok = ok.checked; const n = $('b_name'), p = $('b_phone'), s = $('b_svc'), t = $('b_note'); sel.name = n && n.value; sel.phone = p && p.value; sel.svc = s ? s.value : sel.svc; sel.note = t && t.value; };
     ['b_name', 'b_phone', 'b_note'].forEach(i => { if (sel[i.slice(2)] != null) $(i).value = sel[i.slice(2)]; });
     $('b_go').onclick = async () => {
       keep();
       if (!sel.ds) return toast(T.bkPick);
       if (!String(sel.name || '').trim()) return toast(T.tName);
+      if (!sel.ok) return toast(safe(() => lgX().bkNeed, '☑️'), 3000);
       try { if (ver('6.9') && !(tgUser && tgUser.allows_write_to_pm)) await new Promise(r => tg.requestWriteAccess(() => r())); } catch (e) {}
-      try { const j = await call({ a: 'book', b: { ds: sel.ds, time: sel.time, svc: sel.svc, name: sel.name.trim(), phone: sel.phone || '', note: sel.note || '' } }); if (!j.ok) throw 0; }
+      try { const j = await call({ a: 'book', b: { ds: sel.ds, time: sel.time, svc: sel.svc, name: sel.name.trim(), phone: sel.phone || '', note: sel.note || '' }, lg: { v: LEGAL_V, at: Date.now(), book: 1 } }); if (!j.ok) throw 0; }
       catch (e) { return toast(T.ntErr, 3000); }
       box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🎉</div><b>${esc(T.bkDone)}</b>${esc(T.bkDoneX(dayLabel(sel.ds) + ', ' + sel.time))}</div>`;
       confetti(); hapticOk();
@@ -5870,7 +6104,7 @@ function bxLessonFor(s, a, needDate){
 function applyAct(a, out, touched){
   if (/^(add_item|done_task|add_person|add_rep_song)$/.test(a.type)) return safe(() => applyPlanAct(a, out));
   if (/^(add_comp|artist_add)$/.test(a.type)) return safe(() => applyMusicAct(a, out));
-  if (/^stu_(link|hw|cancel|move)$/.test(a.type)) return safe(() => applyStuAct(a, out));
+  if (/^stu_(link|hw|cancel|move)$/.test(a.type)) return safe(() => applyStuAct(a, out, touched));
   if (/^(add_spend|add_wish|add_list_item|habit_done|add_mood)$/.test(a.type)) return safe(() => applyLifeAct(a, out));
   const T2 = T.bx, t = today();
   const need = () => { const s = bxFind(a.student); if (!s) out.push('⚠️ ' + T2.notFound(a.student || '?')); return s; };
@@ -5893,11 +6127,12 @@ function applyAct(a, out, touched){
       const rep = Math.min(52, Math.max(0, Math.round(+a.repeat_weeks || 0)));
       const pkgF = a.pkg === true ? { noPkg: false, pkgForce: true } : a.pkg === false ? { noPkg: true } : {};
       const paid = a.pkg === true ? false : a.paid === true;
+      const ser = rep ? uid() : '';
       for (let k = 0; k <= rep; k++) {
         const d = ymd(addDays(parseD(date), 7 * k));
         const l = { id: uid(), sid: s.id, svc, date: d, time, dur: bxNum(a.dur) || +state.settings.dur || 60, price: bxNum(a.price) || priceFor(s.id, svc), rent: rentFor(svc, online),
           online, link: '', grp: '', pkg: '', st: k ? 'plan' : st, paid: k ? false : paid, paidAt: '', note: k ? '' : String(a.note || '').slice(0, 500) };
-        Object.assign(l, pkgF);
+        Object.assign(l, pkgF); if (ser) l.ser = ser;
         if (l.paid) l.paidAt = d < t ? d : t;
         state.lessons.push(l);
       }
@@ -5976,8 +6211,9 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 38;
+const APP_VER = 42;
 const CHANGES = [
+  {"v": 42, "name": "8.3", "date": "2026-11-08", "big": true, "ru": {"add": ["💳 Подключили ЮKassa — оплата подписки прямо в приложении и в боте. ⚙️ Настройки → 💎 Подписка → «Купить подписку» (или /тарифы в боте): выбираешь тариф, платишь через ЮKassa любой картой или по СБП — и подписка включается сама за пару минут, без кодов и ожидания", "🎁 Подписка в подарок: оплачиваешь — бот присылает одноразовый код, его можно переслать кому угодно", "💼 Профессия меняет всё приложение: карточка ученика, дневник, навыки, анкета, шаблоны сообщений, напоминания, достижения, события и услуги говорят словами твоей профессии — тренировка, занятие или сессия; спортсмены или клиенты", "🎯 Свои навыки для каждой профессии (у хоккеиста — катание, бросок, тактика, у языка — грамматика, говорение…), «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие»", "📄 Документы и согласия: при первом входе — короткое понятное окно о том, как хранятся твои данные. Всё можно перечитать и изменить: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия»", "📋 Готовый текст согласия для учеников и родителей — копируешь и отправляешь в один тап"], "better": ["🗑 Удалить занятие — как будто его не было: деньги, долг и абонемент пересчитываются сразу, приложение пишет, что изменилось («в абонементе снова 5 из 8»)", "🔁 У повторяющихся занятий — «только это» или «это и следующие», у групповых — «для всей группы»", "❌ Отмена занятия учеником через бот сразу возвращает занятие в абонемент", "🎤 Песни, распевки и диапазон голоса — только у музыкантов; вернёшься в музыку — всё вернётся само", "🗓 В онлайн-записи клиент отмечает согласие на обработку данных", "🔒 Оплата через ЮKassa защищена: данные карты видит только ЮKassa, сумму задаёт только сервер, каждый платёж засчитывается один раз"]}, "en": {"add": ["💳 YooKassa is connected — pay for a subscription right in the app and the bot, by any card or SBP. ⚙️ Settings → 💎 Subscription → “Buy a subscription” (or /plans in the bot): pick a plan, pay on the secure YooKassa page — it switches on by itself in a couple of minutes, no codes, no waiting", "🎁 Subscription as a gift: pay — the bot sends a one-time code you can forward to anyone", "💼 Your profession adapts the whole app: student card, diary, skills, questionnaire, messages, reminders, achievements, events and services use your profession’s words", "🎯 Own skills for every profession, competitions or events instead of concerts, a “Wellbeing” diary", "📄 Documents and consents: a short clear window on first start about how your data is stored. Review or change any time: ⚙️ Settings → 🛟 Data & backups → “Documents and consents”", "📋 A ready consent text for students and parents — copy and send in one tap"], "better": ["🗑 Deleting a lesson works as if it never happened: money, debts and the package are recalculated at once and the app tells you what changed", "🔁 Repeating lessons: “only this” or “this and following”; group lessons: “whole group”", "❌ A student cancelling through the bot returns the lesson to the package at once", "🎤 Songs, warm-ups and vocal range only for musicians", "🗓 Online booking asks the client for consent to data processing", "🔒 Payments are protected: only the server sets the amount, each payment counts once"]}},
   { v: 38, name: '8.0.1', date: '2026-11-04',
     ru: { add: ['🛟 Защита от пропажи данных: если вдруг стало заметно меньше учеников или уроков, приложение и бот сразу подскажут, как одним нажатием вернуть резервную копию, и дадут связь с создателем приложения'], better: [] },
     en: { add: ['🛟 Data-loss guard: if students or lessons suddenly drop, the app and the bot show how to bring back a backup in one tap and how to reach the app’s creator'], better: [] } },
@@ -7738,13 +7974,14 @@ function hwBotBlock(s){
   if (!s.tgId) return `<div class="hintline">🔗 ${esc(X.linkHint)}</div><button class="btn ghost sm" data-act="x2StuLink" data-id="${s.id}">🔗 ${esc(X.linkCopy)}</button>` + replies;
   return `<button class="btn ghost sm" data-act="x2HwSend" data-id="${s.id}">📨 ${esc(X.hwSend)}</button>` + replies;
 }
-function applyStuAct(a, out){
+function applyStuAct(a, out, touched){
   const s = stu(a.sid);
   if (a.type === 'stu_link') { if (!s) return; s.tgId = +a.tg || s.tgId; if (!s.tg && a.uname) s.tg = a.uname; out.push('🔗 ' + T.x2.linked(s.name)); return; }
   if (a.type === 'stu_hw') { if (!s) return; s.hwIn = (s.hwIn || []).concat({ at: +a.at || Date.now(), x: String(a.x || '').slice(0, 3000), f: String(a.f || '').slice(0, 300) }).slice(-40); out.push('🎧 ' + T.x2.hwGot(s.name)); return; }
   if (a.type === 'stu_cancel' || a.type === 'stu_move') {
     const l = state.lessons.find(x => x.id === a.lid); if (!l || !s) return;
     const was = shortDate(l.date) + (l.time ? ' ' + l.time : '');
+    if (touched) touched.add(l.sid);   // packages and money follow the cancelled / moved lesson
     if (a.type === 'stu_cancel') {
       if (a.late) { l.st = 'misspaid'; l.note = bxAppend(l.note, T.x2.lateNote); out.push('❌ ' + T.x2.cancelLate(s.name, was)); }
       else { state.lessons = state.lessons.filter(x => x !== l); out.push('❌ ' + T.x2.cancelled(s.name, was)); }
@@ -8170,7 +8407,7 @@ function dyTips(){
   const X = T.lf.dy.tips, last = [0, 1, 2].map(i => state.diary[ymd(addDays(parseD(today()), -i))] || {}), out = [];
   if (last[0].v === 'sore') out.push(X.sore);
   else if (last.filter(e => e.v === 'tired' || e.v === 'sore').length >= 2) out.push(X.rest);
-  if (last.some(e => +e.h > 4)) out.push(X.much);
+  if (last.some(e => +e.h > (safe(profMusic, true) ? 4 : 10))) out.push(X.much);
   if (last.filter(e => e.s && +e.s < 6).length >= 2) out.push(X.sleep);
   return out;
 }
@@ -8183,7 +8420,7 @@ function lifeDiarySheet(){
       + `<div class="sec"><span>${esc(ds === today() ? X.today : shortDate(ds))}</span></div>
       <div class="field"><span class="lb">${esc(X.mood)}</span><div class="dymood">${X.moods.map((m, i) => `<button data-act="dyMood" data-v="${i + 1}" class="${e.m === i + 1 ? 'on' : ''}">${m}</button>`).join('')}</div></div>
       <div class="field"><span class="lb">${esc(X.voice)}</span><div class="chipsel">${Object.keys(X.voices).map(k => `<button type="button" data-act="dyVoice" data-v="${k}" class="${e.v === k ? 'on' : ''}">${esc(X.voices[k])}</button>`).join('')}</div></div>
-      <div class="group"><div class="two"><div class="field"><label for="dy_h">🎤 ${esc(X.sang)}</label><input id="dy_h" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.h || '')}"></div>
+      <div class="group"><div class="two"><div class="field"><label for="dy_h">${safe(profMusic, true) ? '🎤' : '⏱'} ${esc(X.sang)}</label><input id="dy_h" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.h || '')}"></div>
         <div class="field"><label for="dy_s">😴 ${esc(X.sleep)}</label><input id="dy_s" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.s || '')}"></div></div>
         <div class="field"><textarea id="dy_n" placeholder="${esc(X.notePh)}" rows="3">${esc(e.n || '')}</textarea></div></div>
       <button class="btn" data-act="dySave">${esc(T.lf.save)}</button>
@@ -8406,10 +8643,16 @@ const HELP_DOC = [
     'Шестерёнка ⚙️ справа вверху — Настройки, разделены на 6 групп: цены и абонементы, работа и запись, уведомления, под себя, оформление, данные. Там же эта справка.',
     'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
+  { id: 'legal', ic: '📄', t: 'Документы, согласия и твои данные', p: [
+    'При первом входе приложение показывает короткое окно: как хранятся данные, ссылки на Политику обработки данных, Пользовательское соглашение и Согласие на обработку данных. Продолжить можно, отметив две обязательные галочки; новости и предложения — по желанию.',
+    'Где хранятся данные: в Telegram, на телефоне (резервные копии) и на сервере приложения (Google). Cookie, рекламных трекеров и аналитики нет. Данные не продаются.',
+    'Перечитать документы, включить или выключить новости, отозвать согласие: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия». Отзыв согласия ведёт к удалению всех данных (подписка сохраняется).',
+    'Ученики и клиенты: прежде чем вносить их данные, отправь им готовый текст согласия — он там же, кнопка «Копировать». За детей согласие дают родители. В онлайн-записи клиент сам отмечает согласие.',
+    'В боте: /privacy — ссылка на документы; «удалите мои данные» — запрос на удаление, его получит создатель приложения (ответ в течение 10 рабочих дней).' ] },
   { id: 'prof', ic: '💼', t: 'Профессия: приложение под тебя', p: [
     'Приложение подходит не только для вокала: тренерам (хоккей, футбол, фигурное катание, единоборства, плавание…), репетиторам (английский, математика, ЕГЭ…), учителям, хореографам, фитнес-тренерам, логопедам, инструкторам по вождению, психологам и ещё 200 профессиям.',
     'Выбрать профессию: при первом запуске («Другая профессия — найти в списке») или ⚙️ Настройки → 🧩 Под себя → «Профессия». Есть поиск: напиши «хоккей», «англ», «вождение».',
-    'Что подстраивается: слова (урок / тренировка / занятие / сессия, ученики / спортсмены / клиенты) на главной, во вкладках и в кнопке «＋ Работа»; мотивация дня; названия услуг при первой настройке; инструменты в Студии (пианино и тюнер — только для музыкантов).',
+    'Что подстраивается: слова (урок / тренировка / занятие / сессия, ученики / спортсмены / клиенты) на главной, во вкладках и в кнопке «＋ Работа»; мотивация дня; названия услуг при первой настройке; инструменты в Студии (пианино и тюнер — только для музыкантов). С 8.1 подстраивается всё внутри: карточка ученика, дневник, навыки (у каждой профессии свои), анкета, шаблоны сообщений и напоминаний, достижения, события («Соревнования» у тренеров, «Мероприятия» у остальных), названия услуг. Песни, распевки и диапазон голоса видят только музыканты. Сменил профессию — слова меняются сразу.',
     'При выборе немузыкальной профессии музыкальные разделы (песни, репертуар, коллективы, райдер) скрываются — вернуть можно в 🧩 «Разделы приложения». Данные не удаляются.',
     'Бот тоже знает твою профессию: «тренировка с Петей в среду в 18:00» или «клиентка Оля оплатила» он поймёт так же, как «урок».' ] },
   { id: 'home', ic: '🏠', t: 'Главная', p: [
@@ -8529,6 +8772,7 @@ const HELP_DOC = [
     'Полный гайд одним файлом: Справка → «📄 Скачать полный гайд» — бот пришлёт текстовый файл со всеми инструкциями в чат.',
     'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — покажет, что понял, ты жмёшь «✅ Внести».' ] },
   { id: 'sub', ic: '💎', t: 'Подписка и коды', p: [
+    'Как купить: ⚙️ Настройки → 💎 Подписка → «Купить подписку — карта или СБП», или в боте /тарифы. Выбери тариф → «Оплатить» → оплата на странице ЮKassa. Подписка включается сама за пару минут; если не включилась — нажми в боте «✅ Я оплатил — проверить». В подарок: /тарифы → «Купить в подарок» — после оплаты бот пришлёт код.',
     'Тарифы: без подписки приложение работает в режиме просмотра. «Про» — вся работа педагога: ученики, уроки, абонементы, деньги, расписание, планер, выступления, коллективы, песни, райдер, Google Календарь, копии, ученики в боте, бот текстом; плюс личное: до 3 привычек, списки, цели, вишлист. «Макс» — всё из Про плюс до 15 привычек, мои финансы (бюджет, платежи, копилки), дневник голоса, ссылка на вишлист для близких, бот голосом и про личное («такси 450», «хочу синтезатор»), напетые мелодии.',
     'Сравнить тарифы: ⚙️ Настройки → 💎 Подписка — там таблица «Чем отличаются тарифы». В боте — команда /тарифы. Бот сам присылает сравнение, когда заканчивается пробный период или подписка.',
     'Сроки и цены. Макс: Учебный год (13 месяцев — месяц в подарок) 2 599 ₽, Полугодие (+2 недели) 1 690 ₽, Четверть 990 ₽, Попробовать (1 месяц) 390 ₽. Про: 1 590 / 1 090 / 649 / 249 ₽.',
@@ -8608,7 +8852,7 @@ const HELP_DOC = [
     'Пропала вкладка или кнопка — проверь Настройки → 🧩 Под себя → «Разделы приложения».',
     'Не приходят напоминания — ⚙️ Настройки → 🔔 Уведомления включены? Нажала «Старт» в боте? Бот не заблокирован?',
     'Неправильно посчитался долг — проверь статусы уроков (пришёл / пропуск) и отметки оплаты; урок из абонемента долгом не считается.',
-    'Как удалить урок — открой урок → «Удалить».',
+    'Как удалить урок — открой урок → «Удалить». Он исчезнет, как будто его не было: деньги, долг и абонемент пересчитаются сами, приложение покажет, что изменилось (например, «в абонементе снова 5 из 8»). У повторяющихся уроков можно удалить «только это» или «это и следующие», у групповых — «для всей группы». Если ученик просто не пришёл, лучше отметить «Пропуск» — тогда видно историю.',
     'Ничего не нажимается, только смотреть — это режим просмотра без подписки. Запроси пробный доступ (⚙️ Настройки → 💎 Подписка или /trial в боте) или введи код подписки. Данные при этом не теряются.',
     'Замок 🔒 на кнопке — функция из тарифа выше. Нажми — увидишь, какой тариф нужен, и сможешь ввести код.',
     'Почему у урока цена 0 — общая цена урока в ⚙️ Настройках → «Деньги» не задана (по умолчанию 0). Поставь её — она подставится во все услуги.',
@@ -8791,7 +9035,7 @@ function subTrialBtn(){
   /* new server: a request to the owner (anyone without a subscription may ask); old server: trialOk + self-trial */
   return s.trq !== undefined || s.trialOk ? `<button class="btn soft" data-act="subTrial">🙋 ${esc(T.sb.trialBtn(s.trialDays || 3))}</button>` : '';
 }
-function subBuyBtn(){ const s = subS(); return s && s.seller ? `<button class="btn ghost" data-act="subBuy">💬 ${esc(T.sb.buy)}</button>` : ''; }
+function subBuyBtn(){ const s = subS(); if (s && s.pay && s.bot) return `<button class="btn" data-act="subBuy">💳 ${esc(L === 'ru' ? 'Купить подписку через ЮKassa' : 'Buy a subscription via YooKassa')}</button>`; return s && s.seller ? `<button class="btn ghost" data-act="subBuy">💬 ${esc(T.sb.buy)}</button>` : ''; }
 function subCompare(){
   const X = T.sb;
   return `<div class="sec"><span>${esc(X.cmpT)}</span></div><div class="card sbcmp"><div class="sbcr sbch"><span></span><b>${esc(planName('pro'))}</b><b>⭐ ${esc(planName('max'))}</b></div>${X.cmp.map(([l, a, b]) => `<div class="sbcr"><span>${esc(l)}</span><i class="${a === '—' ? 'no' : ''}">${esc(a)}</i><i class="${b === '—' ? 'no' : 'yes'}">${esc(b)}</i></div>`).join('')}</div>`;
@@ -8867,7 +9111,7 @@ safe(() => { waitAlert = (o => () => subBanner() + (safe(o) || ''))(waitAlert); 
 const SB = {
   subOpen: () => openSheet(subSheet()),
   subPlans: () => openSheet(subSheet()),
-  subBuy: () => { const s = subS(); if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
+  subBuy: () => { const s = subS(); if (s && s.pay) return openSheet(payPick()); if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
   subTrial: async () => {
     const s = subS() || {};
     if (s.trq === undefined) return SB.subRedeem('TEST');   // old server: self-service trial
@@ -8917,6 +9161,62 @@ safe(() => { maybeSecret = (o => (...a) => famOn() ? o(...a) : undefined)(maybeS
 safe(() => { checkCapsules = (o => (...a) => famOn() ? o(...a) : undefined)(checkCapsules); });
 safe(() => { if (T !== profT(famT(L))) applyLang(L); });
 safe(() => { playVoice = (o => (...a) => famOn() ? o(...a) : undefined)(playVoice); });
+
+/* ================= 8.3: pay right in the app (ЮKassa) =================
+   Pick a plan → server creates the payment (the price comes from the server, not from the app) → ЮKassa page opens →
+   the subscription switches on by itself (server checks the payment); «Проверить оплату» asks right away. */
+const PAYX = {
+  ru: { title: 'Купить подписку', hint: 'Оплата через ЮKassa — любой картой или по СБП на защищённой странице. Подписка включится сама сразу после оплаты.', gift: '🎁 В подарок (пришлём код)',
+    wait: 'Открываю оплату…', err: 'Оплата сейчас не открылась. Попробуй через минуту или напиши в поддержку.', paidT: 'Ждём оплату',
+    paidX: 'Оплати на странице ЮKassa и возвращайся — подписка включится сама в течение пары минут. Бот тоже напишет.', chk: '✅ Проверить оплату', again: '💳 Открыть оплату ещё раз',
+    st: { paid: '🎉 Оплата прошла! Подписка включена', done: '🎉 Оплата прошла! Подписка включена', wait: '⏳ Оплата ещё не пришла — подожди минуту и проверь снова', canceled: '✖️ Платёж отменён, деньги не списаны', none: 'Платёж не найден — напиши в поддержку', bad: 'Платёж проверяется вручную — напиши в поддержку' },
+    terms: 'Оплачивая, ты принимаешь пользовательское соглашение', best: 'выгоднее всего' },
+  en: { title: 'Buy a subscription', hint: 'Pay by card or SBP on the secure YooKassa page. The subscription switches on by itself right after payment.', gift: '🎁 As a gift (we send a code)',
+    wait: 'Opening payment…', err: 'Payment didn’t open. Try again in a minute or contact support.', paidT: 'Waiting for payment',
+    paidX: 'Pay on the YooKassa page and come back — the subscription switches on by itself within a couple of minutes. The bot will message you too.', chk: '✅ Check payment', again: '💳 Open payment again',
+    st: { paid: '🎉 Paid! Subscription is on', done: '🎉 Paid! Subscription is on', wait: '⏳ Not paid yet — wait a minute and check again', canceled: '✖️ Payment cancelled, no money taken', none: 'Payment not found — contact support', bad: 'The payment is being checked manually — contact support' },
+    terms: 'By paying you accept the terms of use', best: 'best value' } };
+const payX = () => PAYX[L === 'ru' ? 'ru' : 'en'];
+const PAY = { gift: false, pid: '', url: '' };
+const TERM_N = { ru: { y: 'Учебный год (13 мес)', m6: 'Полугодие', m3: '3 месяца', m1: 'Месяц' }, en: { y: 'School year (13 mo)', m6: 'Half a year', m3: '3 months', m1: 'Month' } };
+function payPick(){
+  return () => {
+    const X = payX(), TN = TERM_N[L === 'ru' ? 'ru' : 'en'];
+    const row = (p, t) => `<button class="btn ${p === 'max' && t === 'y' ? '' : 'ghost'}" data-act="payGo" data-v="${p}:${t}" style="display:flex;justify-content:space-between;align-items:center;text-align:left">
+      <span>${p === 'max' ? '⭐ ' : '🔹 '}${esc(planName(p))} · ${esc(TN[t])}${t === 'y' ? ` <small style="opacity:.8">· ${esc(X.best)}</small>` : ''}</span><b>${fmtNum(SUB_PRICES[p][t])} ₽</b></button>`;
+    return sheetHead('💳 ' + X.title) + `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(X.hint)}</div>
+      ${['y', 'm6', 'm3', 'm1'].map(t => row('max', t)).join('')}<div style="height:8px"></div>${['y', 'm6', 'm3', 'm1'].map(t => row('pro', t)).join('')}
+      <div class="field toggle" style="margin-top:10px"><span>${esc(X.gift)}</span><button type="button" class="sw${PAY.gift ? ' on' : ''}" data-act="payGift" aria-label="${esc(X.gift)}"><i></i></button></div>
+      <div class="hintline center"><a href="#" data-act="openLink" data-v="${esc(safe(lgUrl, 'privacy.html'))}#terms-ru">${esc(X.terms)}</a></div>`;
+  };
+}
+function payWait(){
+  return () => { const X = payX();
+    return sheetHead('⏳ ' + X.paidT) + `<div class="sbnote">${esc(X.paidX)}</div>
+      <button class="btn" data-act="payChk">${esc(X.chk)}</button>${PAY.url ? `<button class="btn ghost" data-act="payOpen">${esc(X.again)}</button>` : ''}`; };
+}
+Object.assign(SB, {
+  payGift: () => { PAY.gift = !PAY.gift; haptic(); refreshSheet(); },
+  payGo: async el => {
+    const [p, t] = String(el.dataset.v).split(':'), X = payX();
+    toast(X.wait, 1500);
+    try {
+      const j = await botPost({ a: 'pay', p, t, g: PAY.gift ? 1 : 0 }, 30000);
+      if (!j || !j.ok || !j.url) throw 0;
+      PAY.pid = j.pid; PAY.url = j.url; openUrl(j.url); openSheet(payWait());
+    } catch (e) { toast(X.err, 3500); }
+  },
+  payOpen: () => { if (PAY.url) openUrl(PAY.url); },
+  payChk: async () => {
+    const X = payX(); if (!PAY.pid) return;
+    try {
+      const j = await botPost({ a: 'payChk', pid: PAY.pid }, 30000);
+      if (j && j.sub) subApply(j.sub);
+      toast((j && X.st[j.st]) || X.st.wait, 3500);
+      if (j && (j.st === 'paid' || j.st === 'done')) { hapticOk(); closeSheet(true); render(); }
+    } catch (e) { toast(X.st.wait, 3000); }
+  }
+});
 /* ================= 7.5: guided tour (spotlight + explanation), settings hints, downloadable guide ================= */
 /* steps from the most important to the least; target = selector (on the Home tab) or null for a centred card */
 const TOUR = [
@@ -9265,10 +9565,147 @@ const RCN = {
     setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) { const h = homeTilesInner(); if (h) r.outerHTML = h; else r.remove(); } } }, 50);
   }
 };
+const LEGAL_TXT = {"en": {"ads": "# Consent to news and offers\nI agree to receive messages from the Operator in @musicplaner_bot about new features, promotions and subscription offers, and partner ads (always marked «Ad»; my data is never given to advertisers). This is optional — the Service works fully without it. You can opt out at any time in ⚙️ Settings → Data & backups → Documents and consents. Service messages (updates, important changes, answers) are not advertising and go to everyone.\n", "consent": "# Consent to personal data processing\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\nI, the Telegram user who opened «My students» (bot @musicplaner_bot and mini app), freely and in my own interest consent to Alexander Gerasimov («Operator») processing my personal data: Telegram ID, name, username and language; what I enter in the app and send to the bot (name, profession, schedule, financial records, notes, plans, texts, voice messages, photos); subscription details; technical details.\n\n## Purpose\nProviding the Service, sync and backups, message recognition, subscriptions, support, service messages.\n\n## Actions\nCollection, recording, organisation, storage, updating, retrieval, use, transfer to the parties below, blocking, deletion and destruction, by automated means.\n\n## Recipients and cross-border transfer\nTelegram (Telegram FZ-LLC, UAE); Google LLC (USA) — the Service server (Google Apps Script, Google Drive), message recognition (Google Gemini), Google Calendar if connected. I agree to the transfer of data to these countries.\n\n## Term and withdrawal\nValid until withdrawn or until the data is deleted. Withdraw in the app (⚙️ Settings → Data & backups → Documents and consents) or by writing to @musicplaner_bot; the data is then deleted and the Service can no longer be used.\n", "privacy": "# Privacy Policy\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Who we are\nThe operator of personal data is Alexander Gerasimov («Operator»), the creator of «My students»: the Telegram bot @musicplaner_bot and its Telegram mini app («Service»). Contact: a message to @musicplaner_bot or the «Write to the creator» button in the app.\n\n## 2. What we process\n- Telegram data: user ID, name, username, language.\n- What you enter: name, profession, schedule, lessons, services and prices, income and expenses, packages, notes, tasks, goals, habits, shopping lists, wishlist, diary, settings.\n- Data about your students and clients that you enter (names, phones, Telegram links, birthdays, notes, payments). You are their data controller; the Service processes it on your behalf.\n- Messages, voice messages and photos you send to the bot.\n- Subscription details and trial requests.\n- Technical details: app version, time zone, days and times of visits, how you found the Service, record counts (to protect against data loss).\n- People who use the Service through you: those who book with you via your booking page (name, phone, Telegram, date, comment — passed to you) and students who connect to the bot for homework and reminders (their Telegram ID is linked to their card). They give their own consent in the booking form or the bot.\nWe never receive card details: payment happens on the YooKassa page (NBCO YooMoney LLC); we only get the payment status and amount.\n\n## 3. Why\nTo run the app and the bot, sync and back up your data, recognise messages with an AI service, manage subscriptions, support you and tell you about changes to the Service. News and offers only with your separate consent.\n\n## 4. Where data is stored and who receives it\nOn your device; in Telegram CloudStorage and your chat with the bot (daily backups); on the Service server — Google Apps Script and Google Drive (Google LLC); message recognition — Google Gemini; Google Calendar only if you connect it. Links you share yourself (wishlist, lesson calendar, booking page) are visible to anyone who has them. The Operator sees a service card for each user in the bot: name, username, plan and dates, days of use, number of students and lessons — for support and subscription checks. Telegram and Google servers are outside Russia, so data is transferred across borders. Data is never sold or used for advertising.\n\n## 5. Cookies\nNo cookies, ad pixels or analytics. Local storage is used only to run the app. Fonts load from Google Fonts, which sees your IP address.\n\n## 6. How long\nWhile you use the Service. «Reset everything» or withdrawing consent deletes your data from the server at once. Subscription and payment records are kept as long as the law requires, no longer than 3 years after the subscription ends.\n\n## 7. Your rights\nAccess, correction, deletion, withdrawing consent, opting out of news, complaining to the regulator (Roskomnadzor) or a court. Write to @musicplaner_bot — we answer within 10 working days. In the app: ⚙️ Settings → Data & backups → Documents and consents.\n\n## 8. Age\nThe Service is for people aged 18+. If you enter data about minors, their parent must agree — you obtain this yourself.\n", "students": "Hello! I keep track of our lessons in the «My students» app (Telegram). To plan lessons, send reminders and track payments, I record your name, contact (phone or Telegram), schedule, payments and lesson notes there. The data is stored in Telegram and on the app's server (Google), is never shared for advertising, and I'll delete it if you ask.\nIf you agree, please reply «I agree». If the student is a child, a parent gives consent.\n", "terms": "# Terms of Use\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Agreement\nThese terms are between Alexander Gerasimov («Operator») and you, the user of «My students» (bot @musicplaner_bot and mini app). Tapping «Accept and continue» means you accept them in full. If you disagree, please don't use the Service.\n\n## 2. Subscription\nSome features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. You pay by card or SBP via YooKassa (bot /plans or the app) or with an access code; the subscription switches on automatically after payment. Subscriptions never renew without your separate consent. If the Service didn't work through the Operator's fault or you cancel, unused full days are refunded on request within 10 days.\n\n## 3. Your duties\nEnter data about your students and clients lawfully — they (or their parents) must agree; a ready consent text is in ⚙️ Settings → Data & backups → Documents and consents. No spam, fraud or other illegal use; don't share access codes.\n\n## 4. Data\nYour data is yours. We make backups, but keep your own copy from time to time. The bot uses AI — check what it adds before confirming.\n\n## 5. Liability\nThe Service is provided «as is». The Operator isn't liable for outages of Telegram, Google, networks or devices. Liability is limited to what you paid for the last month of subscription.\n\n## 6. Ending and disputes\nYou can stop at any time and delete your data (⚙️ Settings → Data & backups → Reset everything). Disputes are solved by talking first (write to the bot, answer within 10 working days), then under Russian law. Contact: @musicplaner_bot.\n"}, "ru": {"ads": "# Согласие на новости и предложения\nДаю согласие получать от Оператора в Telegram-боте @musicplaner_bot сообщения о новых функциях, акциях и предложениях подписки, а также рекламу партнёров (она всегда помечена словом «Реклама»; мои данные рекламодателям не передаются) (ч. 1 ст. 18 Федерального закона «О рекламе»). Согласие необязательное: без него Сервис работает полностью. Отказаться можно в любой момент в приложении (⚙️ Настройки → Данные и копии → Документы и согласия). Сообщения о работе Сервиса (обновления, важные изменения, ответы на вопросы) рекламой не являются и приходят всем.\n", "consent": "# Согласие на обработку персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\nЯ, пользователь Telegram, открывший сервис «Мои ученики» (бот @musicplaner_bot и мини-приложение), свободно, своей волей и в своём интересе даю Герасимову Александру (далее — «Оператор») согласие на обработку моих персональных данных на следующих условиях.\n\n## Какие данные\nИдентификатор, имя, имя пользователя и язык в Telegram; данные, которые я ввожу в приложение и отправляю боту (имя, профессия, расписание, финансовые записи, заметки, планы, тексты, голосовые сообщения и фото); сведения о подписке; технические сведения о работе приложения.\n\n## Для чего\nПредоставление функций Сервиса, синхронизация и резервное копирование, распознавание сообщений, оформление подписки, поддержка, информационные сообщения о работе Сервиса.\n\n## Какие действия\nСбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача (предоставление доступа) лицам из списка ниже, блокирование, удаление, уничтожение. Обработка автоматизированная.\n\n## Кому передаются и где хранятся\nTelegram (Telegram FZ-LLC, ОАЭ) — хранилище и доставка сообщений; Google LLC (США) — сервер Сервиса (Google Apps Script, Google Drive), распознавание сообщений (Google Gemini), Google Календарь при его подключении. Я согласен на трансграничную передачу данных в эти страны.\n\n## Срок и отзыв\nСогласие действует до его отзыва или удаления данных. Отозвать его можно в приложении (⚙️ Настройки → Данные и копии → Документы и согласия) или сообщением в бот @musicplaner_bot. После отзыва данные удаляются, а пользоваться Сервисом нельзя.\n", "privacy": "# Политика обработки персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Кто обрабатывает данные\nОператор персональных данных — Герасимов Александр (далее — «Оператор»), создатель сервиса «Мои ученики»: Telegram-бот @musicplaner_bot и мини-приложение в Telegram (далее — «Сервис»). Связь с Оператором: сообщение в бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\nПолитика составлена по Федеральному закону от 27.07.2006 № 152-ФЗ «О персональных данных» и описывает, какие данные собирает Сервис, зачем, где они хранятся и как ими управлять.\n\n## 2. Какие данные мы обрабатываем\n- Данные Telegram: идентификатор, имя, имя пользователя (username), язык интерфейса — Telegram передаёт их при открытии приложения и при сообщениях боту.\n- Данные, которые ты вводишь сам: имя, профессия, предмет, расписание, занятия, услуги и цены, доходы и расходы, абонементы, заметки, задачи, цели, привычки, списки покупок, вишлист, дневник, настройки.\n- Данные твоих учеников и клиентов, которые ты вносишь: имена, телефоны, ссылки на Telegram, дни рождения, заметки, оплаты, посещения. Для этих данных оператором являешься ты, а Сервис обрабатывает их по твоему поручению (ч. 3 ст. 6 152-ФЗ) только для работы твоих функций.\n- Сообщения боту: тексты, голосовые сообщения и фото, которые ты отправляешь, чтобы бот внёс запись или ответил на вопрос.\n- Сведения о подписке: тариф, сроки, коды доступа, заявки на пробный период и ответы на вопросы в них.\n- Технические сведения: версия приложения, часовой пояс, дни и время входа, откуда ты узнал о Сервисе (например, по ссылке записи), количество записей (для защиты от пропажи данных).\n- Люди, которые сами пользуются Сервисом через тебя: кто записывается к тебе через страницу онлайн-записи (имя, телефон, Telegram, дата, комментарий — передаются тебе) и ученики, которые подключились к боту, чтобы получать домашние задания и напоминания (их Telegram-идентификатор связывается с карточкой у тебя). Они дают своё согласие сами в форме записи или в боте.\nСервис не получает данные банковских карт: оплата проходит на странице платёжного сервиса ЮKassa (ООО НКО «ЮМани»), Сервис получает от него только статус и сумму платежа.\n\n## 3. Зачем\n- чтобы приложение и бот работали: расписание, напоминания, деньги, абонементы, отчёты;\n- синхронизация между устройствами и резервные копии, защита от потери данных;\n- распознавание сообщений и голосовых для бота (с помощью ИИ-сервиса);\n- оформление и проверка подписки, пробный период;\n- поддержка и ответы на обращения;\n- информационные сообщения о работе Сервиса (обновления, важные изменения);\n- новости и предложения — только если ты дал на это отдельное согласие.\n\n## 4. Основания\nТвоё согласие (п. 1 ч. 1 ст. 6 152-ФЗ), исполнение пользовательского соглашения (п. 5 ч. 1 ст. 6), для данных учеников и клиентов — твоё поручение как их оператора.\n\n## 5. Где хранятся данные и кому передаются\n- На твоём устройстве — в хранилище Telegram и браузера, включая резервные копии на телефоне.\n- В облачном хранилище Telegram (Telegram CloudStorage) и в чате с ботом (ежедневные резервные копии).\n- На сервере Сервиса: Google Apps Script и Google Drive (Google LLC).\n- Распознавание сообщений: Google Gemini (Google LLC) — получает только текст сообщения или запись, которую нужно разобрать.\n- Google Календарь — только если ты сам подключишь синхронизацию.\nСсылки, которыми ты делишься сам (вишлист, календарь занятий, страница записи), видит любой, у кого есть ссылка; ссылку календаря можно сменить в настройках.\nОператор видит в боте служебную карточку пользователя: имя, username, тариф и сроки подписки, дни использования, количество учеников и занятий — это нужно для поддержки и проверки подписок.\nСерверы Telegram и Google находятся за пределами Российской Федерации, поэтому происходит трансграничная передача данных. Данные не продаются и не передаются для рекламы.\n\n## 6. Cookie и трекеры\nСервис не использует файлы cookie, рекламные пиксели и системы аналитики. Локальное хранилище устройства используется только для работы приложения (данные, настройки, копии). Шрифты интерфейса загружаются с серверов Google Fonts, при этом сервер видит IP-адрес.\n\n## 7. Сколько хранятся\nПока ты пользуешься Сервисом. Кнопка «⚙️ Настройки → Данные и копии → Сбросить всё» или отзыв согласия удаляют данные на сервере сразу, на устройстве — при сбросе. Резервные копии в чате с ботом ты можешь удалить сам. Сведения о подписке и оплатах хранятся столько, сколько требует закон, и не дольше 3 лет после окончания подписки.\n\n## 8. Твои права\nТы можешь узнать, какие данные о тебе обрабатываются, потребовать исправить или удалить их, отозвать согласие, отказаться от новостей, обжаловать действия Оператора в Роскомнадзоре или в суде. Запрос — сообщением в бот @musicplaner_bot; ответ — в течение 10 рабочих дней. Отозвать согласие и удалить данные можно в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n\n## 9. Защита\nВход только через Telegram с проверкой подписи, передача по HTTPS, доступ к серверу и ключам — только у Оператора, у каждого пользователя свои данные.\n\n## 10. Возраст\nСервис предназначен для лиц от 18 лет. Если ты вносишь данные несовершеннолетних учеников, согласие на это даёт их законный представитель (родитель) — ты получаешь его сам.\n\n## 11. Изменения\nНовая редакция публикуется в приложении и по ссылке на политику; при существенных изменениях приложение попросит подтвердить согласие заново.\n", "students": "Здравствуйте! Я веду учёт занятий в приложении «Мои ученики» (Telegram). Чтобы планировать занятия, напоминать о них и учитывать оплаты, я записываю туда ваше имя, контакт (телефон или Telegram), расписание, оплаты и заметки о занятиях. Данные хранятся в Telegram и на сервере приложения (Google), никому не передаются для рекламы, и я удалю их по вашей просьбе.\nЕсли вы согласны — ответьте, пожалуйста, «Согласен(на)». Если занимается ребёнок — согласие даёт родитель.\n", "terms": "# Пользовательское соглашение\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Общее\nСоглашение заключается между Герасимовым Александром (далее — «Оператор») и пользователем (далее — «ты») сервиса «Мои ученики»: Telegram-бота @musicplaner_bot и мини-приложения в Telegram (далее — «Сервис»). Нажимая «Принять и продолжить», ты принимаешь Соглашение полностью (ст. 437, 438 ГК РФ). Если не согласен — не пользуйся Сервисом.\n\n## 2. Что даёт Сервис\nУчёт учеников и клиентов, расписание, оплаты и абонементы, напоминания, личный планер, ответы и записи через бота, резервные копии. Часть функций доступна по подписке (Pro, Max). Состав тарифов и цены — в боте по команде /тарифы.\n\n## 3. Подписка и оплата\n- Подписка даёт доступ к функциям тарифа на оплаченный срок. Срок, тариф и остаток дней видны в боте и в приложении.\n- Пробный период выдаёт Оператор по заявке; он бесплатный и заканчивается сам, без списаний.\n- Оплата — картой или по СБП через ЮKassa (кнопка в боте /тарифы или в приложении), либо кодом доступа. Подписка включается автоматически после оплаты; чек самозанятого Оператор отправляет после оплаты. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.\n- Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»).\n\n## 4. Твои обязанности\n- Вносить данные учеников и клиентов законно: они должны знать, что ты ведёшь учёт, и согласиться на это (за несовершеннолетних — их родители). Готовый текст согласия есть в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n- Не использовать Сервис для рассылки спама, мошенничества и других незаконных действий.\n- Не передавать коды доступа другим людям и не пытаться обойти ограничения тарифов.\n\n## 5. Данные и копии\nТвои данные принадлежат тебе. Сервис делает резервные копии, но мы советуем время от времени сохранять копию у себя. Ответы бота и распознавание делает ИИ — проверяй, что он внёс, перед подтверждением.\n\n## 6. Ответственность\nСервис предоставляется «как есть». Оператор старается, чтобы он работал без перерывов, но не отвечает за сбои Telegram, Google, связи и устройства, а также за решения, принятые на основе данных из Сервиса. Ответственность Оператора ограничена суммой, которую ты заплатил за последний месяц подписки.\n\n## 7. Прекращение\nТы можешь в любой момент перестать пользоваться Сервисом и удалить данные (⚙️ Настройки → Данные и копии → Сбросить всё). Оператор может ограничить доступ при нарушении Соглашения, предупредив об этом в боте.\n\n## 8. Споры и изменения\nСпоры решаются переговорами: напиши в бот, ответ — в течение 10 рабочих дней. Если не договорились — по законодательству РФ. Новая редакция Соглашения публикуется в приложении; при существенных изменениях приложение попросит подтвердить её.\n\n## 9. Связь с Оператором\nTelegram-бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\n"}};
+/* ================= 8.2: documents and consent (152-ФЗ) =================
+   LEGAL_TXT (generated by assemble.py from build/legal/*.md) = { ru: {privacy, terms, consent, ads, students}, en: {…} }.
+   First start (and after a new edition LEGAL_V) → full-screen window #lgl: short summary, links to the documents,
+   two required checkboxes (agreement + policy; separate consent to personal data), one optional (news and offers).
+   The answer is kept in settings.legal = {v, ok, at, ads} and sent to the server with every sync (u.legal on the server). */
+const LEGAL_V = 1;
+const LGX = {
+  ru: { hi: 'Добро пожаловать!', upd: 'Мы обновили документы', sub: 'Перед началом — коротко о твоих данных',
+    p1: ['🔐', 'Твои данные — твои', 'Хранятся в Telegram, на твоём телефоне и на сервере приложения (Google). Мы их не продаём и не показываем рекламу.'],
+    p2: ['🍪', 'Без cookie и слежки', 'Никаких рекламных трекеров и аналитики — только то, что нужно для работы.'],
+    p3: ['🗑', 'Удалить — в любой момент', 'Одной кнопкой в настройках: данные удалятся с сервера сразу.'],
+    c1: ['Принимаю ', 'Пользовательское соглашение', ' и ', 'Политику обработки данных'],
+    c2: ['Даю ', 'согласие на обработку персональных данных', ', в том числе их передачу в Telegram и Google'],
+    c3: ['Хочу получать новости и предложения ', '(необязательно)'],
+    ok: 'Принять и продолжить', no: 'Не принимаю', need: 'Отметь две первые галочки, чтобы продолжить',
+    noT: 'Без согласия приложение не работает', noP: 'Приложение хранит твои данные на сервере и в Telegram — без твоего согласия мы не имеем права это делать. Можно вернуться и прочитать документы или закрыть приложение. Вопросы — в бот @musicplaner_bot.',
+    back: '← Назад', close: 'Закрыть приложение', ret: 'Вернуться',
+    docs: { privacy: 'Политика обработки данных', terms: 'Пользовательское соглашение', consent: 'Согласие на обработку данных', ads: 'Согласие на новости' },
+    title: 'Документы и согласия', st: (d, v) => `Приняты ${d} · редакция ${v}`, adsL: 'Новости и предложения в боте',
+    adsOn: 'Будем присылать новости 💌', adsOff: 'Больше не будем присылать новости',
+    stuT: '📋 Текст согласия для учеников', stuH: 'Отправь ученикам (за детей — родителям), прежде чем вносить их данные. Так требует закон о персональных данных.',
+    web: '🌐 Открыть документы на сайте', rev: 'Отозвать согласие и удалить данные',
+    revQ: 'Отозвать согласие? Без него приложением пользоваться нельзя, поэтому дальше откроется удаление всех данных (подписка сохранится).', revOk: 'Дальше',
+    bkC: ['Даю ', 'согласие на обработку моих данных', n => ` (имя, телефон, запись) и их передачу ${n ? n : 'преподавателю'} для записи на занятие`], bkNeed: 'Отметь согласие на обработку данных, чтобы записаться' },
+  en: { hi: 'Welcome!', upd: 'We updated our documents', sub: 'Before you start — a word about your data',
+    p1: ['🔐', 'Your data is yours', 'Stored in Telegram, on your phone and on the app server (Google). Never sold, no ads.'],
+    p2: ['🍪', 'No cookies, no tracking', 'No ad trackers or analytics — only what the app needs to work.'],
+    p3: ['🗑', 'Delete any time', 'One button in Settings removes your data from the server at once.'],
+    c1: ['I accept the ', 'Terms of Use', ' and the ', 'Privacy Policy'],
+    c2: ['I give ', 'consent to personal data processing', ', including transfer to Telegram and Google'],
+    c3: ['Send me news and offers ', '(optional)'],
+    ok: 'Accept and continue', no: 'I don’t accept', need: 'Tick the first two boxes to continue',
+    noT: 'The app can’t work without consent', noP: 'The app stores your data on its server and in Telegram — without your consent we are not allowed to. You can go back and read the documents or close the app. Questions — @musicplaner_bot.',
+    back: '← Back', close: 'Close the app', ret: 'Go back',
+    docs: { privacy: 'Privacy Policy', terms: 'Terms of Use', consent: 'Consent to data processing', ads: 'Consent to news' },
+    title: 'Documents and consents', st: (d, v) => `Accepted ${d} · version ${v}`, adsL: 'News and offers in the bot',
+    adsOn: 'We’ll send you news 💌', adsOff: 'No more news',
+    stuT: '📋 Consent text for students', stuH: 'Send it to your students (parents for children) before entering their data — the personal data law requires it.',
+    web: '🌐 Open the documents online', rev: 'Withdraw consent and delete data',
+    revQ: 'Withdraw consent? The app can’t be used without it, so data deletion opens next (your subscription stays).', revOk: 'Next',
+    bkC: ['I consent to ', 'the processing of my data', n => ` (name, phone, booking) and its transfer to ${n || 'the teacher'} for this booking`], bkNeed: 'Tick the consent box to book' }
+};
+const lgL = () => L === 'ru' ? 'ru' : 'en';
+const lgX = () => LGX[lgL()];
+const lgDocTxt = k => { const D = (typeof LEGAL_TXT !== 'undefined' && LEGAL_TXT) || {}; return (D[lgL()] || D.ru || {})[k] || ''; };
+/* tiny markdown: # title, ## heading, - list, other lines are paragraphs */
+function lgMd(md){
+  let h = '', ul = false;
+  String(md).split('\n').forEach(line => {
+    const t = line.trim(); if (!t) return;
+    if (/^- /.test(t)) { if (!ul) { h += '<ul>'; ul = true; } h += `<li>${esc(t.slice(2))}</li>`; return; }
+    if (ul) { h += '</ul>'; ul = false; }
+    if (/^## /.test(t)) h += `<h3>${esc(t.slice(3))}</h3>`;
+    else if (/^# /.test(t)) h += `<h2>${esc(t.slice(2))}</h2>`;
+    else h += `<p>${esc(t)}</p>`;
+  });
+  return h + (ul ? '</ul>' : '');
+}
+const legalNeed = () => { const g = state.settings.legal; return !(g && g.ok && +g.v >= LEGAL_V); };
+const lgUrl = () => { try { return new URL('privacy.html', location.href.split('#')[0]).href; } catch (e) { return 'privacy.html'; } };
+function legalGate(){
+  if ((window.__noTour || window.__mockCfg) && !window.__legal) return;   // automated tests
+  if (!legalNeed() || $('lgl')) return;
+  const X = lgX(), old = !!state.settings.legal || hasData(state);
+  const el = document.createElement('div'); el.id = 'lgl'; el.className = 'lgl'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+  const pt = p => `<div class="lgl-pt"><span class="lgl-pi">${p[0]}</span><div><b>${esc(p[1])}</b><span>${esc(p[2])}</span></div></div>`;
+  const a = (k, t) => `<a href="#" data-lg="${k}">${esc(t)}</a>`;
+  const main = () => `<div class="lgl-box">
+    <div class="lgl-logo">🎓</div>
+    <h2>${esc(old ? X.upd : X.hi)}</h2><div class="lgl-sub">${esc(X.sub)}</div>
+    <div class="lgl-pts">${pt(X.p1)}${pt(X.p2)}${pt(X.p3)}</div>
+    <label class="lgl-ck"><input type="checkbox" id="lg1"><span>${esc(X.c1[0])}${a('terms', X.c1[1])}${esc(X.c1[2])}${a('privacy', X.c1[3])}</span></label>
+    <label class="lgl-ck"><input type="checkbox" id="lg2"><span>${esc(X.c2[0])}${a('consent', X.c2[1])}${esc(X.c2[2])}</span></label>
+    <label class="lgl-ck"><input type="checkbox" id="lg3"><span>${esc(X.c3[0])}${a('ads', X.c3[1])}</span></label>
+    <button class="btn" id="lgOk" disabled>${esc(X.ok)}</button>
+    <div class="lgl-need" id="lgNeed">${esc(X.need)}</div>
+    <button class="btn ghost" id="lgNo">${esc(X.no)}</button></div>`;
+  const doc = k => `<div class="lgl-box lgl-docv"><button class="lgl-back" id="lgBack">${esc(X.back)}</button><div class="lgl-doc">${lgMd(lgDocTxt(k))}</div><button class="btn ghost" id="lgBack2">${esc(X.back)}</button></div>`;
+  const no = () => `<div class="lgl-box"><div class="lgl-logo">🤝</div><h2>${esc(X.noT)}</h2><div class="lgl-sub" style="text-align:left">${esc(X.noP)}</div>
+    <button class="btn" id="lgRet">${esc(X.ret)}</button><button class="btn ghost" id="lgClose">${esc(X.close)}</button></div>`;
+  let ck = [false, false, false];
+  const show = (html) => { el.innerHTML = html; el.scrollTop = 0; wire(); };
+  const sync = () => { const ok = ck[0] && ck[1]; const b = $('lgOk'); if (b) b.disabled = !ok; const n = $('lgNeed'); if (n) n.style.visibility = ok ? 'hidden' : 'visible'; };
+  function wire(){
+    el.querySelectorAll('[data-lg]').forEach(x => x.onclick = e => { e.preventDefault(); e.stopPropagation(); ck = [1, 2, 3].map(i => !!($('lg' + i) && $('lg' + i).checked)); show(doc(x.dataset.lg)); });
+    [1, 2, 3].forEach(i => { const c = $('lg' + i); if (c) { c.checked = ck[i - 1]; c.onchange = () => { ck[i - 1] = c.checked; haptic(); sync(); }; } });
+    const back = () => show(main());
+    if ($('lgBack')) $('lgBack').onclick = back; if ($('lgBack2')) $('lgBack2').onclick = back; if ($('lgRet')) $('lgRet').onclick = back;
+    if ($('lgNo')) $('lgNo').onclick = () => { ck = [1, 2, 3].map(i => !!($('lg' + i) && $('lg' + i).checked)); show(no()); };
+    if ($('lgClose')) $('lgClose').onclick = () => { try { tg.close(); } catch (e) {} };
+    if ($('lgOk')) $('lgOk').onclick = () => {
+      if (!(ck[0] && ck[1])) return;
+      state.settings.legal = { v: LEGAL_V, ok: 1, at: Date.now(), ads: ck[2] ? 1 : 0 };
+      save(); safe(scheduleBotSync); hapticOk();
+      el.classList.remove('on'); setTimeout(() => el.remove(), 260); document.body.classList.remove('lgl-lock');
+    };
+    sync();
+  }
+  document.body.appendChild(el); show(main()); document.body.classList.add('lgl-lock');
+  requestAnimationFrame(() => el.classList.add('on'));
+}
+/* Settings → Данные и копии → «Документы и согласия» */
+function legalSheet(){
+  return () => {
+    const X = lgX(), g = state.settings.legal || {};
+    const d = g.at ? new Date(g.at).toLocaleDateString(LOC) : '—';
+    return sheetHead(X.title) + `<div class="hintline" style="margin:0 8px 12px">${esc(X.st(d, g.v || LEGAL_V))}</div>
+      ${['privacy', 'terms', 'consent', 'ads'].map(k => `<button class="btn ghost" data-act="lgDoc" data-v="${k}" style="text-align:left">📄 ${esc(X.docs[k])}</button>`).join('')}
+      <div class="field toggle" style="margin-top:12px"><span>${esc(X.adsL)}</span><button type="button" class="sw${g.ads ? ' on' : ''}" data-act="lgAds" aria-label="${esc(X.adsL)}"><i></i></button></div>
+      <div class="sec" style="margin-top:18px"><span>${esc(X.stuT)}</span></div>
+      <div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(X.stuH)}</div>
+      <div class="note lgl-stu">${esc(lgDocTxt('students'))}</div>
+      <button class="btn ghost" data-act="lgStu">📋 ${esc(T.copy || 'Копировать')}</button>
+      <button class="btn ghost" data-act="openLink" data-v="${esc(lgUrl())}">${esc(X.web)}</button>
+      <button class="btn danger" data-act="lgRev" style="margin-top:18px">${esc(X.rev)}</button>`;
+  };
+}
+const LGA = {
+  legal: () => openSheet(legalSheet()),
+  lgDoc: el => openSheet(() => sheetHead(lgX().docs[el.dataset.v] || '') + `<div class="lgl-doc">${lgMd(lgDocTxt(el.dataset.v))}</div>`),
+  lgAds: () => { const g = state.settings.legal = Object.assign({ v: LEGAL_V, ok: 1, at: Date.now() }, state.settings.legal); g.ads = g.ads ? 0 : 1; g.adsAt = Date.now(); save(); safe(scheduleBotSync); haptic(); toast(g.ads ? lgX().adsOn : lgX().adsOff); refreshSheet(); },
+  lgStu: async () => { if (await copyText(lgDocTxt('students'))) toast(T.tCopiedText || '✅'); else showText(lgX().stuT, lgDocTxt('students')); },
+  lgRev: async () => { if (!(await ask(lgX().revQ, lgX().revOk, true))) return; safe(() => A.wipeAsk()); }
+};
 
 /* ================= Dialogs ================= */
 let toastT;
 function toast(msg, ms = 2200){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
+/* 8.2: pick one of up to 3 options (+ cancel) → resolves to the option id or '' */
+function choose(msg, opts){
+  return new Promise(resolve => {
+    if (inTG && ver('6.2')) {
+      try { tg.showPopup({ message: msg.slice(0, 256), buttons: opts.slice(0, 2).map(o => ({ id: o.id, type: o.danger ? 'destructive' : 'default', text: o.t.slice(0, 64) })).concat([{ id: '', type: 'cancel' }]) }, b => resolve(b || '')); return; } catch (e) {}
+    }
+    const m = $('modal');
+    m.innerHTML = `<div class="modal-box"><p>${esc(msg)}</p><div class="modal-btns col">${opts.map(o => `<button type="button" data-v="${esc(o.id)}" class="pri${o.danger ? ' danger' : ''}">${esc(o.t)}</button>`).join('')}<button type="button" data-v="">${esc(T.cancel)}</button></div></div>`;
+    m.classList.add('on');
+    m.onclick = e => { const b = e.target.closest('button'); if (!b && e.target !== m) return; m.classList.remove('on'); m.onclick = null; resolve(b ? b.dataset.v : ''); };
+  });
+}
 function ask(msg, okText, danger = false){
   okText = okText || T.yes;
   return new Promise(resolve => {
@@ -9405,10 +9842,11 @@ const A = {
       }
     } else {
       const dates = [f.date].concat(Array.from({ length: f.rep }, (_, k) => ymd(addDays(parseD(f.date), 7 * (k + 1)))));
+      const ser = dates.length > 1 ? uid() : '';
       dates.forEach((date, k) => {
         const grp = f.sids.length > 1 ? uid() : '';
         f.sids.forEach(sid => {
-          const l = Object.assign({ id: uid() }, base, { sid, date, grp });
+          const l = Object.assign({ id: uid() }, base, { sid, date, grp }, ser ? { ser } : {});
           if (k > 0) Object.assign(l, { st: 'plan', paid: false, note: '' });
           l.paidAt = paidAt(l);
           state.lessons.push(l); touched.add(sid);
@@ -9436,11 +9874,25 @@ const A = {
   },
   openLink: el => { const v = el.dataset.v; if (/^https?:\/\//i.test(v)) openUrl(v, /^https:\/\/t\.me\//i.test(v)); },
   deleteLesson: async el => {
-    if (!await ask(T.cDelLesson, T.del, true)) return;
-    const l = state.lessons.find(x => x.id === el.dataset.id);
-    state.lessons = state.lessons.filter(x => x.id !== el.dataset.id);
-    if (l) { applyPackages(l.sid); if (l.date >= today()) safe(() => markFreed(l.date, l.time)); }
-    save(); closeSheet(); render(); toast(T.tDeleted);
+    const l = state.lessons.find(x => x.id === el.dataset.id); if (!l) return;
+    const X = T.ud || {}, ser = l.ser ? state.lessons.filter(x => x.ser === l.ser && x.sid === l.sid && x.date > l.date && x !== l) : [];
+    const grp = l.grp ? state.lessons.filter(x => x.grp === l.grp && x.date === l.date && x !== l) : [];
+    let gone = [l];
+    if (ser.length || grp.length) {
+      const opts = [{ id: 'one', t: X.one || T.del, danger: true }];
+      if (ser.length) opts.push({ id: 'ser', t: X.ser ? X.ser(ser.length + 1) : '+' + ser.length, danger: true });
+      if (grp.length) opts.push({ id: 'grp', t: X.grp ? X.grp(grp.length + 1) : '+' + grp.length, danger: true });
+      const v = await choose(T.cDelLesson + (X.hint ? '\n' + X.hint : ''), opts); if (!v) return;
+      if (v === 'ser') gone = [l].concat(ser); else if (v === 'grp') gone = [l].concat(grp);
+    } else if (!await ask(T.cDelLesson + (X.hint ? '\n' + X.hint : ''), T.del, true)) return;
+    const sids = sidsOf(gone), before = {}; sids.forEach(sid => { const p = lastPkg(sid); if (p) before[sid] = pkgLeft(p); });
+    state.lessons = state.lessons.filter(x => !gone.includes(x));
+    sids.forEach(applyPackages);
+    gone.forEach(x => { if (x.date >= today()) safe(() => markFreed(x.date, x.time)); });
+    save(); closeSheet(); render();
+    /* tell what was recalculated: the package got its lesson back, the money follows */
+    const sum = sids.map(sid => { const p = lastPkg(sid); if (!p || before[sid] === undefined) return ''; const now = pkgLeft(p); return now !== before[sid] && X.pk ? X.pk(firstName((stu(sid) || {}).name || ''), now, +p.n || 0) : ''; }).filter(Boolean);
+    toast((gone.length > 1 && X.many ? X.many(gone.length) : T.tDeleted) + (sum.length ? '\n' + sum.join('\n') : '') + (X.money && gone.some(x => x.paid || counts(x)) ? '\n' + X.money : ''), sum.length ? 3800 : 2600);
   },
   mark: el => {
     const l = state.lessons.find(x => x.id === el.dataset.id); if (!l) return;
@@ -9822,7 +10274,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA);
 safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
@@ -9857,6 +10309,7 @@ async function start(){
   }
   if ((state.settings.lang || 'ru') !== L || state.settings.prof) applyLang(state.settings.lang || L);
   safe(fsApply);
+  safe(() => { if (state.settings.prof) { const before = JSON.stringify(state.services.map(v => v.name)); profSvcNames(); if (JSON.stringify(state.services.map(v => v.name)) !== before) save(); } });
   setTimeout(() => safe(dropCheck), 5000);
   loadedCounts = { n: state.students.length, l: state.lessons.length };
   const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
@@ -9868,6 +10321,7 @@ async function start(){
   if (pendingApi && API_RE.test(pendingApi) && pendingApi !== state.settings.api) { state.settings.api = pendingApi; dirty = true; }
   ready = true;
   safe(tourMaybe);
+  safe(legalGate);
   if (dirty) save();
   document.body.classList.remove('booting');
   render();
@@ -9881,7 +10335,7 @@ async function start(){
   checkWhatsNew();
 }
 /* test hooks (7.7) */
-try { Object.assign(window.__vs || (window.__vs = {}), { closeSheet: a => closeSheet(a), pkgUntil: p => pkgUntil(p), pkgLeft: p => pkgLeft(p), pkgBurnt: p => pkgBurnt(p), pkgTotal: p => pkgTotal(p), applyPackages: s => applyPackages(s), applyLook: f => applyLook(f), applyTheme: () => { lastTheme = ''; applyTheme(); }, ymd: d => ymd(d), addDays: (d, n) => addDays(d, n), parseD: s => parseD(s) }); } catch (e) {}
+try { Object.assign(window.__vs || (window.__vs = {}), { applyOps: o => applyOps(o), closeSheet: a => closeSheet(a), pkgUntil: p => pkgUntil(p), pkgLeft: p => pkgLeft(p), pkgBurnt: p => pkgBurnt(p), pkgTotal: p => pkgTotal(p), applyPackages: s => applyPackages(s), applyLook: f => applyLook(f), applyTheme: () => { lastTheme = ''; applyTheme(); }, ymd: d => ymd(d), addDays: (d, n) => addDays(d, n), parseD: s => parseD(s) }); } catch (e) {}
 start().catch(rescueScreen);
 })();
 </script>
