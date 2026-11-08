@@ -3069,7 +3069,7 @@ for (const c in I18N) { I18N[c].dl = DLD[c] || DLD.en; I18N[c].wp = WPD[c] || WP
    which music-only sections to hide when the profession is picked. */
 const PROF_G = {
   voc: { ic: '🎤', l: 'u', s: 'u', music: 1 }, mus: { ic: '🎹', l: 'u', s: 'u', music: 1 }, dance: { ic: '💃', l: 'z', s: 'u', metro: 1 },
-  team: { ic: '🏒', l: 't', s: 'a' }, sport: { ic: '🏅', l: 't', s: 'a' }, fit: { ic: '💪', l: 't', s: 'c', metro: 1 }, out: { ic: '🏔️', l: 'z', s: 'u' },
+  team: { ic: '🏒', l: 't', s: 'a', sport: 1 }, sport: { ic: '🏅', l: 't', s: 'a', sport: 1 }, fit: { ic: '💪', l: 't', s: 'c', metro: 1 }, out: { ic: '🏔️', l: 'z', s: 'u' },
   lang: { ic: '🌍', l: 'u', s: 'u' }, school: { ic: '📚', l: 'u', s: 'u' }, kids: { ic: '🧸', l: 'z', s: 'u' }, art: { ic: '🎨', l: 'z', s: 'u' },
   stage: { ic: '🎭', l: 'z', s: 'u' }, it: { ic: '💻', l: 'z', s: 'u' }, drive: { ic: '🚗', l: 'z', s: 'u' }, cook: { ic: '👩‍🍳', l: 'z', s: 'u' },
   beauty: { ic: '💄', l: 'z', s: 'u' }, mind: { ic: '🧠', l: 's', s: 'c' }, other: { ic: '✨', l: 'z', s: 'u' }
@@ -3277,7 +3277,182 @@ function profT(T0){
     if (!G.music && T0 !== I18N[L]) { T1.madeBy = lang === 'ru' ? 'Мои ученики · сделано с любовью к твоему делу ✨' : 'My students · made with love for what you do ✨'; T1.loading = lang === 'ru' ? 'Загрузка… ✨' : 'Loading… ✨'; }
     if (T0.tr) T1.tr = Object.assign({}, T0.tr, { defSvc: W.svc[G.l].map((n, i) => Object.assign({ name: n, price: 0 }, i === 1 ? { trial: true } : i === 2 ? { online: true } : {})) });
   }
+  if (lang && !G.music) Object.assign(T1, profNoMusic(T1, lang, G, p));
+  if (lang && (G.l !== 'u' || G.s !== 'u' || !G.music)) {
+    const fn = lang === 'ru' ? x => profWordsRu(x, G) : x => profWordsEn(x, G), skip = { motiv: 1, praise: 1, appTitle: 1 };
+    Object.keys(T1).forEach(k => { if (!skip[k]) T1[k] = profDeep(T1[k], fn, 0); });
+  }
   return (PROF_T[key] = T1);
+}
+/* ================= 8.1: words everywhere =================
+   Every text of the app (T, deep) goes through profWords(): «урок» → тренировка / занятие / сессия with the right case and
+   gender of the adjective before it, «ученик/ученица» → спортсмен(ка) / клиент(ка). «Мои ученики» (the app's name) stays. */
+const RU_L_FORMS = {
+  t: { sg: ['тренировка', 'тренировки', 'тренировке', 'тренировку', 'тренировкой', 'тренировке'], pl: ['тренировки', 'тренировок', 'тренировкам', 'тренировки', 'тренировками', 'тренировках'], g: 'f' },
+  z: { sg: ['занятие', 'занятия', 'занятию', 'занятие', 'занятием', 'занятии'], pl: ['занятия', 'занятий', 'занятиям', 'занятия', 'занятиями', 'занятиях'], g: 'n' },
+  s: { sg: ['сессия', 'сессии', 'сессии', 'сессию', 'сессией', 'сессии'], pl: ['сессии', 'сессий', 'сессиям', 'сессии', 'сессиями', 'сессиях'], g: 'f' }
+};
+/* урок endings → [number, case] (0 nom, 1 gen, 2 dat, 3 acc, 4 ins, 5 prep) */
+const RU_UROK = { '': ['sg', 0], 'а': ['sg', 1], 'у': ['sg', 2], 'ом': ['sg', 4], 'е': ['sg', 5], 'и': ['pl', 0], 'ы': ['pl', 0], 'ов': ['pl', 1], 'ам': ['pl', 2], 'ами': ['pl', 4], 'ах': ['pl', 5] };
+const RU_EVENT = { sport: { sg: ['соревнование', 'соревнования', 'соревнованию', 'соревнование', 'соревнованием', 'соревновании'], pl: ['соревнования', 'соревнований', 'соревнованиям', 'соревнования', 'соревнованиями', 'соревнованиях'], g: 'n' },
+  other: { sg: ['мероприятие', 'мероприятия', 'мероприятию', 'мероприятие', 'мероприятием', 'мероприятии'], pl: ['мероприятия', 'мероприятий', 'мероприятиям', 'мероприятия', 'мероприятиями', 'мероприятиях'], g: 'n' } };
+const RU_ACC_PREV = /^(на|в|во|за|про|через|под|отменить|перенести|записать|поставить|провести|отметить|добавить|удалить|оплатить|отменил|отменила|перенёс|перенесла|отметь|перенеси|запиши|добавь|удали|отмени|проведи|создай|выбери|купить|пропустить|пропустил|пропустила|начать|закончить|вести|ведёшь|ведёт|провёл|провела|спасибо)$/i;
+const RU_PRON = { 'один': ['одна', 'одну', 'одно'], 'этот': ['эта', 'эту', 'это'], 'тот': ['та', 'ту', 'то'], 'твой': ['твоя', 'твою', 'твоё'], 'мой': ['моя', 'мою', 'моё'], 'свой': ['своя', 'свою', 'своё'], 'весь': ['вся', 'всю', 'всё'], 'ваш': ['ваша', 'вашу', 'ваше'], 'наш': ['наша', 'нашу', 'наше'] };
+function ruAdj(w, cs, g){
+  /* w: masculine adjective in case cs (sg); return the f/n form */
+  const lw = w.toLowerCase(), cap = w !== lw, C = x => cap ? x.charAt(0).toUpperCase() + x.slice(1) : x;
+  if (RU_PRON[lw] && (cs === 0 || cs === 3)) return C(g === 'n' ? RU_PRON[lw][2] : cs === 3 ? RU_PRON[lw][1] : RU_PRON[lw][0]);
+  if (g === 'n') { if (cs === 0 || cs === 3) { if (/ый$|ой$/.test(lw)) return C(lw.replace(/(ый|ой)$/, 'ое')); if (/ий$/.test(lw)) return C(lw.replace(/ий$/, /[жшщчц]ий$/.test(lw) ? 'ее' : /[гкх]ий$/.test(lw) ? 'ое' : 'ее')); } return w; }
+  const soft = /нний$|нний$|[^гкх]ний$/.test(lw) && !/[жшщчгкх]ий$/.test(lw) && /ний$/.test(lw), sib = /[жшщч]ий$|[жшщч]его$|[жшщч]ему$|[жшщч]им$|[жшщч]ем$/.test(lw);
+  if (cs === 0) { if (/(ый|ой)$/.test(lw)) return C(lw.replace(/(ый|ой)$/, 'ая')); if (/ий$/.test(lw)) return C(lw.replace(/ий$/, soft ? 'яя' : 'ая')); }
+  if (cs === 3) { if (/(ый|ой)$/.test(lw)) return C(lw.replace(/(ый|ой)$/, 'ую')); if (/ий$/.test(lw)) return C(lw.replace(/ий$/, soft ? 'юю' : 'ую')); }
+  if (cs === 1) { if (/ого$/.test(lw)) return C(lw.replace(/ого$/, 'ой')); if (/его$/.test(lw)) return C(lw.replace(/его$/, 'ей')); }
+  if (cs === 2) { if (/ому$/.test(lw)) return C(lw.replace(/ому$/, 'ой')); if (/ему$/.test(lw)) return C(lw.replace(/ему$/, 'ей')); }
+  if (cs === 4) { if (/ым$/.test(lw)) return C(lw.replace(/ым$/, 'ой')); if (/им$/.test(lw)) return C(lw.replace(/им$/, sib || soft ? 'ей' : 'ой')); }
+  if (cs === 5) { if (/ом$/.test(lw)) return C(lw.replace(/ом$/, 'ой')); if (/ем$/.test(lw)) return C(lw.replace(/ем$/, 'ей')); }
+  return w;
+}
+const RU_ADJ_RE = /^(?:[А-Яа-яЁё]+(?:ый|ий|ой|ого|его|ому|ему|ым|им|ом|ем)|один|этот|тот|твой|мой|свой|весь|ваш|наш|онлайн)$/i;
+const RU_S_FORMS = {
+  a: { m: ['спортсмен', 'Спортсмен'], f: ['спортсменк', 'Спортсменк'] },
+  c: { m: ['клиент', 'Клиент'], f: ['клиентк', 'Клиентк'] }
+};
+const RU_F_END = { 'а': 'а', 'ы': 'и', 'е': 'е', 'у': 'у', 'ей': 'ой', 'ам': 'ам', 'ами': 'ами', 'ах': 'ах', '': 'ок' };
+/* swap a masculine noun (урок, концерт…) for F's forms, fixing the adjective before it and nom/acc */
+function ruSwap(s, stem, _re, F, first){
+  return s.replace(new RegExp('(^|[^А-Яа-яЁё])((?:[А-Яа-яЁё]+[\\s-])?)([' + first + '])' + stem + '(ами|ах|ам|ов|ом|у|е|и|ы|а)?(?![А-Яа-яЁё])', 'g'), (m, pre, adjPart, u, e, off, all) => {
+      const [num, cs0] = RU_UROK[e || ''];
+      let cs = cs0, adj = adjPart ? adjPart.slice(0, -1) : '', sep = adjPart ? adjPart.slice(-1) : '';
+      const isAdj = adj && RU_ADJ_RE.test(adj);
+      /* «урок» without ending: nominative or accusative — look at the word before (and before the adjective) */
+      if (num === 'sg' && cs === 0) {
+        const before = all.slice(0, off + pre.length).replace(/\([а-я]+\)/g, '').trim().split(/[\s«»"'(]+/).pop() || '';
+        const prev = isAdj ? before : (adj || before);
+        if (RU_ACC_PREV.test(prev.replace(/[^А-Яа-яЁё]/g, ''))) cs = 3;
+      }
+      let w = F[num][cs]; if (u === first.charAt(0) && !(adj && !isAdj)) w = w.charAt(0).toUpperCase() + w.slice(1);
+      if (u === first.charAt(0) && adj && !isAdj) w = w.charAt(0).toUpperCase() + w.slice(1);
+      if (isAdj && num === 'sg' && adj.toLowerCase() !== 'онлайн') adj = ruAdj(adj, cs, F.g);
+      return pre + (adjPart ? adj + sep : '') + w;
+  });
+}
+function profWordsRu(x, G){
+  if (typeof x !== 'string' || !/[Уу]ро|[Уу]чени|онцерт|ыступлени|вокал/.test(x)) return x;
+  let s = x.replace(/Мои ученики/g, '\u0001');
+  if (G.s !== 'u') {
+    const S = RU_S_FORMS[G.s];
+    s = s.replace(/([Уу])чени(к|ц)\(ца\)/g, (m, u) => (u === 'У' ? S.m[1] : S.m[0]) + '(' + (G.s === 'a' ? 'ка' : 'ка') + ')');
+    s = s.replace(/([Уу])ченик(ами|ах|ам|ов|ом|у|е|и|а)?(?![А-Яа-яЁё])/g, (m, u, e) => (u === 'У' ? S.m[1] : S.m[0]) + ((e || '') === 'и' ? 'ы' : (e || '')));
+    s = s.replace(/([Уу])чениц(ами|ах|ам|ей|а|ы|е|у)?(?![А-Яа-яЁё])/g, (m, u, e) => (u === 'У' ? S.f[1] : S.f[0]) + (RU_F_END[e || ''] != null ? RU_F_END[e || ''] : e));
+  }
+  if (G.l !== 'u') {
+    const F = RU_L_FORMS[G.l];
+    s = s.replace(/([Уу])рок\(ов\)/g, (m, u) => { const w = F.pl[1]; return u === 'У' ? w.charAt(0).toUpperCase() + w.slice(1) : w; });
+    s = ruSwap(s, 'рок', /[Уу]/, F, 'Уу');
+    /* short participles right after a singular noun: «тренировка использован» → «использована» */
+    if (F.g !== 'm') s = s.replace(new RegExp('(' + F.sg[0] + '|' + F.sg[0].charAt(0).toUpperCase() + F.sg[0].slice(1) + ')\\s(использован|отменён|перенесён|проведён|оплачен|удалён|отмечен|найден|добавлен|записан|списан)(?![А-Яа-яЁё])', 'g'), (m, n, v) => n + ' ' + v.replace(/ён$/, F.g === 'f' ? 'ена' : 'ено').replace(/ан$/, F.g === 'f' ? 'ана' : 'ано').replace(/ен$/, F.g === 'f' ? 'ена' : 'ено'));
+    s = s.replace(/(Удалён|Добавлен|Перенесён|Отменён)(\s)(тренировка|сессия|занятие)/g, (m, v, sp, n) => v.replace(/ён$/, n === 'занятие' ? 'ено' : 'ена').replace(/ен$/, n === 'занятие' ? 'ено' : 'ена') + sp + n);
+  }
+  if (!G.music) {
+    const E = RU_EVENT[G.sport ? 'sport' : 'other'], st = G.sport ? 'соревновани' : 'мероприяти';
+    s = ruSwap(s, 'онцерт', null, E, 'Кк');
+    s = s.replace(/([Вв])ыступлени(е|я|ю|ем|и|й|ям|ями|ях)(?![А-Яа-яЁё])/g, (m, v, e) => (v === 'В' ? st.charAt(0).toUpperCase() + st.slice(1) : st) + e);
+    s = s.replace(/ в вокале/g, '').replace(/\bвокал(а|у|ом|е)?\b/g, (m) => m);
+  }
+  return s.replace(/\u0001/g, 'Мои ученики');
+}
+function profWordsEn(x, G){
+  if (typeof x !== 'string') return x;
+  if (!G.music && /[Cc]oncert/.test(x)) { const e = G.sport ? ['competition', 'competitions'] : ['event', 'events'], up = t => t.charAt(0).toUpperCase() + t.slice(1);
+    x = x.replace(/CONCERTS/g, e[1].toUpperCase()).replace(/CONCERT/g, e[0].toUpperCase()).replace(/Concerts/g, up(e[1])).replace(/concerts/g, e[1]).replace(/Concert/g, up(e[0])).replace(/concert/g, e[0]); }
+  if (!/[Ll]esson|[Ss]tudent/.test(x)) return x;
+  let s = x.replace(/My students/g, '\u0001');
+  if (G.l !== 'u') s = profEnWord(s, PROF_EN_L[G.l]);
+  if (G.s !== 'u') { const w = G.s === 'a' ? ['athlete', 'athletes'] : ['client', 'clients'], cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+    s = s.replace(/Students/g, cap(w[1])).replace(/students/g, w[1]).replace(/Student/g, cap(w[0])).replace(/student/g, w[0]); }
+  return s.replace(/\u0001/g, 'My students');
+}
+/* deep copy of T with every text adapted; functions are wrapped */
+function profDeep(v, fn, depth){
+  if (depth > 6) return v;
+  if (typeof v === 'string') return fn(v);
+  if (typeof v === 'function') { const f = v; return function(){ const r = f.apply(this, arguments); return typeof r === 'string' ? fn(r) : Array.isArray(r) ? r.map(x => typeof x === 'string' ? fn(x) : x) : r; }; }
+  if (Array.isArray(v)) return v.map(x => profDeep(x, fn, depth + 1));
+  if (v && typeof v === 'object') { const o = {}; Object.keys(v).forEach(k => { o[k] = profDeep(v[k], fn, depth + 1); }); return o; }
+  return v;
+}
+/* texts that only make sense for music, rewritten for everyone else */
+function profNoMusic(T0, lang, G, p){
+  const ru = lang === 'ru', subj = profSubj(p, lang) || '', o = {};
+  const ev = G.sport ? (ru ? ['Соревнования', 'Турниры, матчи, сборы', 'Соревнований пока нет. Запланируй первое — ученикам важно показать результат!', 'Запланировать соревнование', 'Соревнование'] : ['Competitions', 'Tournaments, matches, camps', 'No competitions yet. Plan the first one — students love to show results!', 'Plan a competition', 'Competition'])
+    : (ru ? ['Мероприятия', 'Открытые уроки, показы, экзамены', 'Мероприятий пока нет. Запланируй первое — ученикам важно показать результат!', 'Запланировать мероприятие', 'Мероприятие'] : ['Events', 'Open lessons, showcases, exams', 'No events yet. Plan the first one — students love to show results!', 'Plan an event', 'Event']);
+  Object.assign(o, { stEv: ev[0], stEvSub: ev[1], evEmpty: ev[2], evAdd: ev[3], evTitle: ev[4] });
+  if (T0.cats) o.cats = Object.assign({}, T0.cats, { notes: ru ? 'Материалы' : 'Materials' });
+  if (T0.bx && T0.bx.brandHint) o.bx = Object.assign({}, T0.bx, { brandHint: ru ? `Например: «Школа ${subj || 'Марии'}» или «Мария · ${subj || 'английский'}». Пусто — стандартная подпись, «-» — без подписи.` : `E.g. “Maria · ${subj || 'English'}”. Empty — the default line, “-” — no line.` });
+  if (typeof T0.repText === 'function') o.repText = (n, m, k) => ru ? `${n}, твой ${m}: ${k} уроков 💪\nТы молодец, двигаемся дальше! ❤️` : `${n}, your ${m}: ${k} lessons 💪\nGreat job, let’s keep going! ❤️`;
+  if (typeof T0.wrapHi === 'function') o.wrapHi = (n, y) => ru ? `${n}, вот каким был твой ${y} год ✨` : `${n}, here is your ${y} ✨`;
+  if (T0.pl) o.pl = Object.assign({}, T0.pl, { music: ru ? 'Работа и жизнь' : 'Work and life', gigsSub: G.sport ? (ru ? 'Матчи, турниры, сборы' : 'Matches, tournaments, camps') : (ru ? 'Мероприятия, показы, события' : 'Events and showcases') });
+  if (T0.fx) o.fx = Object.assign({}, T0.fx, { gigS: G.sport ? (ru ? 'матч, турнир, сборы' : 'match, tournament') : (ru ? 'событие, показ' : 'event, showcase'), eventS: ru ? 'открытый урок, показ' : 'open lesson, showcase' });
+  { const list = ru ? (PROF_SKILLS[p[1]] || PROF_SKILLS.other) : PROF_SKILLS.en, sk = {}; PROF_SKILL_KEYS.forEach((k, i) => { sk[k] = list[i]; }); o.skills = sk; }
+  if (T0.quizQ) o.quizQ = ru ? { goals: 'Цели: чего хочет добиться', exp: 'Опыт: занимался(лась) ли раньше, где', artists: 'Кумиры и примеры для вдохновения', genres: 'Что нравится больше всего, интересы', health: 'Здоровье, ограничения, заметки' }
+    : { goals: 'Goals: what they want to achieve', exp: 'Experience: done it before, where', artists: 'Role models and inspiration', genres: 'What they like most, interests', health: 'Health, limits, notes' };
+  if (T0.tpl && T0.tpl.quiz) o.tpl = Object.assign({}, T0.tpl, { quiz: [T0.tpl.quiz[0], v => ru ? `${v.name}, привет! Чтобы занятия были максимально полезными, ответь, пожалуйста:\n1. Чего хочешь добиться?\n2. Занимался(лась) раньше? Где и сколько?\n3. Кто тебя вдохновляет?\n4. Что нравится больше всего?\n5. Есть ли ограничения по здоровью, о которых мне важно знать?` : `Hi ${v.name}! To make our sessions as useful as possible, please answer:\n1. What do you want to achieve?\n2. Have you done it before? Where and how long?\n3. Who inspires you?\n4. What do you like most?\n5. Any health limits I should know about?`] });
+  if (T0.ach) { const a = Object.assign({}, T0.ach); Object.keys(a).forEach(k => { if (Array.isArray(a[k]) && /Концертный сезон|Concert season/.test([].concat(a[k][0]).join(' '))) a[k] = [Array.isArray(a[k][0]) ? (ru ? (G.sport ? ['На старт!', 'Соревновательный сезон', 'Организатор'] : ['Событие!', 'Сезон мероприятий', 'Организатор']) : (G.sport ? ['Game on!', 'Competition season', 'Organizer'] : ['Event!', 'Event season', 'Organizer'])) : (ru ? (G.sport ? 'Соревновательный сезон' : 'Сезон мероприятий') : (G.sport ? 'Competition season' : 'Event season')), a[k][1]]; }); o.ach = a; }
+  if (T0.achGen) { const g = Object.assign({}, T0.achGen), sp = G.sport, nm = ru ? {
+      held: ['Разминка', 'Набираем ход', 'Легенда профессии'], hours: ['Первые часы', 'Часы мастерства', 'Время — это опыт'],
+      early: ['Ранняя пташка', 'Утренняя смена', 'Повелительница рассвета'], weekend: ['Без выходных', sp ? 'Выходные на площадке' : 'Рабочие выходные', 'Трудоголик'],
+      events: sp ? ['На старт!', 'Соревновательный сезон', 'Организатор'] : ['Событие!', 'Сезон мероприятий', 'Организатор'],
+      group: sp ? ['Пара', 'Команда', 'Большая команда'] : ['Вдвоём', 'Мини-группа', 'Большая группа'], skills: ['Прокачка', 'Мастерство', 'Профи'],
+      earned: null } : {
+      held: ['Warm-up', 'Gaining pace', 'Legend of the craft'], hours: ['First hours', 'Hours of mastery', 'Time is experience'],
+      early: ['Early bird', 'Morning shift', 'Queen of dawn'], weekend: ['No days off', 'Weekend shift', 'Workaholic'],
+      events: sp ? ['Game on!', 'Competition season', 'Organizer'] : ['Event!', 'Event season', 'Organizer'],
+      group: sp ? ['Pair', 'Team', 'Big team'] : ['Duo', 'Small group', 'Big group'], skills: ['Level up', 'Mastery', 'Pros'],
+      earned: ['Piggy bank', 'Capital', 'Business empire'] };
+    Object.keys(nm).forEach(k => { if (nm[k] && Array.isArray(g[k])) g[k] = [nm[k], g[k][1]]; }); o.achGen = g; }
+  if (T0.wrapLetter && !/Аня|Anya/.test(T0.egg && T0.egg.sanya || '') && /запели|started singing/.test(T0.wrapLetter)) o.wrapLetter = ru ? '{n}, это был потрясающий год. Столько людей стали сильнее и увереннее благодаря тебе! Дальше будет ещё интереснее ❤️' : '{n}, what an amazing year. So many people grew thanks to you! The best is yet to come ❤️';
+  if (T0.stMetroSub) o.stMetroSub = ru ? 'Темп для упражнений' : 'Tempo for exercises';
+  if (T0.lk && T0.lk.brandHint) o.lk = Object.assign({}, T0.lk, { brandHint: ru ? `Например: «Школа ${subj || 'Марии'}» или «Мария · ${subj || 'английский'}». Пусто — стандартная подпись, «-» — без подписи.` : `E.g. “Maria · ${subj || 'English'}”. Empty — the default line, “-” — no line.` });
+  if (T0.lf) {
+    const lf = Object.assign({}, T0.lf);
+    if (lf.dy) lf.dy = Object.assign({}, lf.dy, ru ? { voice: 'Самочувствие', voices: { ok: '💪 В форме', tired: '😮‍💨 Устал(а)', sore: '🤒 Болею' }, sang: 'Работа, часов',
+      tips: Object.assign({}, lf.dy.tips, { rest: '🍵 Усталость несколько дней подряд — запланируй день отдыха и сон.', sore: '🤒 Плохо себя чувствуешь — лучше снизить нагрузку и отдохнуть.', much: '⚠️ Больше 10 часов работы в день — делай паузы.', sleep: '😴 Мало сна несколько дней — тебе нужен отдых.' }) }
+      : { voice: 'How I feel', voices: { ok: '💪 Great', tired: '😮‍💨 Tired', sore: '🤒 Ill' }, sang: 'Work, hours', tips: Object.assign({}, lf.dy.tips, { rest: '🍵 Tired several days in a row — plan a day off and sleep.', sore: '🤒 Feeling unwell — lower the load and rest.', much: '⚠️ More than 10 hours of work a day — take breaks.', sleep: '😴 Little sleep for several days — you need rest.' }) });
+    if (lf.tiles && lf.tiles.diary) lf.tiles = Object.assign({}, lf.tiles, { diary: [lf.tiles.diary[0], lf.tiles.diary[1], ru ? 'Настроение и самочувствие' : 'Mood and how you feel'] });
+    if (lf.hb && lf.hb.presets) lf.hb = Object.assign({}, lf.hb, { presets: lf.hb.presets.map(x => /Распев|Warm/i.test(x[1]) ? [G.sport || G.metro ? '🏋️' : '📚', G.sport || G.metro ? (ru ? 'Тренировка' : 'Workout') : (ru ? 'Подготовка к занятиям' : 'Prep for classes')] : x) });
+    o.lf = lf;
+  }
+  return o;
+}
+/* student progress skills (8 slots, same keys as the vocal ones) */
+const PROF_SKILLS = {
+  sport: ['Техника', 'Скорость', 'Выносливость', 'Сила', 'Координация', 'Тактика', 'Дисциплина', 'Соревновательный настрой'],
+  fit: ['Сила', 'Выносливость', 'Гибкость', 'Техника', 'Баланс', 'Осанка', 'Регулярность', 'Самочувствие'],
+  dance: ['Техника', 'Ритм', 'Координация', 'Гибкость', 'Выразительность', 'Память хореографии', 'Выносливость', 'Сценический образ'],
+  lang: ['Говорение', 'Аудирование', 'Чтение', 'Письмо', 'Грамматика', 'Словарный запас', 'Произношение', 'Уверенность'],
+  school: ['Понимание темы', 'Решение задач', 'Внимательность', 'Скорость', 'Самостоятельность', 'Домашние задания', 'Подготовка к экзамену', 'Мотивация'],
+  kids: ['Внимание', 'Речь', 'Память', 'Моторика', 'Самостоятельность', 'Общение', 'Эмоции', 'Мотивация'],
+  art: ['Техника', 'Композиция', 'Цвет и форма', 'Аккуратность', 'Идеи', 'Скорость', 'Самостоятельность', 'Мотивация'],
+  stage: ['Дикция', 'Голос и интонация', 'Уверенность', 'Импровизация', 'Структура речи', 'Контакт с публикой', 'Темп', 'Мотивация'],
+  it: ['Логика', 'Синтаксис', 'Алгоритмы', 'Отладка', 'Проекты', 'Самостоятельность', 'Скорость', 'Мотивация'],
+  drive: ['Теория (ПДД)', 'Управление', 'Парковка', 'Город', 'Внимательность', 'Уверенность', 'Манёвры', 'Готовность к экзамену'],
+  cook: ['Техника', 'Вкус', 'Подача', 'Скорость', 'Чистота', 'Рецептуры', 'Самостоятельность', 'Мотивация'],
+  beauty: ['Техника', 'Аккуратность', 'Скорость', 'Гигиена', 'Работа с клиентом', 'Портфолио', 'Самостоятельность', 'Мотивация'],
+  mind: ['Осознанность', 'Цели', 'Действия', 'Эмоции', 'Отношения', 'Ресурс', 'Привычки', 'Мотивация'],
+  out: ['Техника', 'Безопасность', 'Уверенность', 'Выносливость', 'Баланс', 'Навигация', 'Самостоятельность', 'Мотивация'],
+  other: ['Техника', 'Понимание', 'Практика', 'Скорость', 'Самостоятельность', 'Регулярность', 'Уверенность', 'Мотивация'],
+  en: ['Technique', 'Understanding', 'Practice', 'Speed', 'Independence', 'Consistency', 'Confidence', 'Motivation']
+};
+PROF_SKILLS.team = PROF_SKILLS.sport;
+const PROF_SKILL_KEYS = ['breath', 'pitch', 'reso', 'mix', 'high', 'vibrato', 'diction', 'stage'];
+const profMusic = () => { const G = PROF_G[profG()] || PROF_G.other; return !!G.music; };
+/* achievements about songs, warm-ups, voice and stage are hidden for non-music professions */
+let ACH_NM = null;
+function achList(){
+  if (profMusic()) return ACH;
+  if (!ACH_NM) { const ru = (I18N.ru || {}).ach || {}, bad = /песн|распев|сцен|голос|диапазон|вокал|\bнот|поёт|петь|пою/i;
+    ACH_NM = ACH.filter(a => { const m = GEN_META[a[0]]; if (m && /^(songs|songsAll|warm)$/.test(m.fam)) return false; const t = ru[a[0]]; return !(t && bad.test(t.join(' '))); }); }
+  return ACH_NM;
 }
 /* lesson words in the most visible places (ru written out by gender; en by replacing lesson → word) */
 const PROF_RU_L = {
@@ -3338,15 +3513,29 @@ function profSheet(mode){
 function profApply(id, quiet){
   const p = PROF_BY[id]; if (!p) return;
   const S = state.settings, was = S.prof, g = p[1];
+  const prevSubj = was && PROF_BY[was] ? profSubj(PROF_BY[was], 'ru') : '';
   S.prof = id; if (p[4] || p[6]) S.subj = profSubj(p, 'ru') || S.subj;
+  else if (S.subj && (S.subj === prevSubj || /вокал|vocal/i.test(S.subj))) S.subj = '';
   /* music-only sections: hide when switching to a non-music profession (can be turned back on in «Разделы») */
   let hid = 0;
   if (!PROF_G[g].music && (!was || (PROF_BY[was] && PROF_G[PROF_BY[was][1]].music))) {
     S.mods = Object.assign({}, S.mods);
-    ['rep', 'groups', 'comps', 'artist'].forEach(k => { if (S.mods[k] !== 0) { S.mods[k] = 0; hid++; } });
+    const h = []; ['rep', 'groups', 'comps', 'artist'].forEach(k => { if (S.mods[k] !== 0) { S.mods[k] = 0; hid++; h.push(k); } }); if (h.length) S.profHid = h;
+  } else if (PROF_G[g].music && Array.isArray(S.profHid)) {
+    /* back to a music profession: bring back the sections we hid ourselves */
+    S.mods = Object.assign({}, S.mods); S.profHid.forEach(k => { delete S.mods[k]; }); delete S.profHid;
   }
+  profSvcNames();
   applyLang(L); save(); safe(scheduleBotSync);
   if (!quiet) toast('✅ ' + T.pf.done(profName(p)) + (hid ? '\n' + T.pf.hidMusic : ''), 3800);
+}
+/* default service names follow the profession («Урок» → «Тренировка», «Пробный урок» → «Пробная тренировка»…); names the user typed stay */
+function profSvcNames(){
+  const G = PROF_G[profG()] || PROF_G.other, W = PROF_W[L === 'en' ? 'en' : 'ru'];
+  const all = ['ru', 'en'].map(k => PROF_W[k].svc).flatMap(o => Object.keys(o).map(x => o[x]));
+  const target = W.svc[G.l];
+  state.services.forEach(v => { all.forEach(set => { const i = set.indexOf(v.name); if (i >= 0 && !(i === 0 && v.name !== set[0])) v.name = target[i]; }); });
+  try { CAT_IC.notes = G.music ? '🎼' : '📚'; } catch (e) {}
 }
 const PF = {
   profOpen: () => openSheet(profSheet('set')),
@@ -3915,8 +4104,8 @@ function achCtx(){
     students: state.students.length, earnedAll: vsum(held), maxDay: Math.max(0, ...Object.values(byDay)), maxWeek: Math.max(0, ...Object.values(byWeek)),
     early: held.some(l => l.time && l.time < '10:00'), late: held.some(l => l.time && l.time >= '21:00'),
     weekend: held.some(l => [0, 6].includes(parseD(l.date).getDay())), pkgs: state.packages.length,
-    hw: state.students.some(s => s.hw.length), song: state.students.some(s => s.songs.some(x => x.done)),
-    diary: state.students.some(s => s.range.lo !== '' || s.songs.length || Object.keys(s.skills).length),
+    hw: state.students.some(s => (s.hw || []).length), song: state.students.some(s => (s.songs || []).some(x => x.done)),
+    diary: state.students.some(s => (s.range && s.range.lo !== '' && s.range.lo != null) || (s.songs || []).length || Object.keys(s.skills || {}).length),
     events: state.events.length, group: state.lessons.some(l => l.grp && counts(l)),
     debt: vsum(held.filter(l => !l.paid)), goal: +state.settings.goal || 0, curEarned: months[cur] || 0,
     hasPrev: prevMs.length > 0, prevMax: Math.max(0, ...prevMs.map(m => months[m])),
@@ -3930,7 +4119,7 @@ function checkAch(){
   const silent = state.ach === null;
   if (silent) state.ach = {};
   const c = achCtx();
-  const fresh = ACH.filter(([id, , test]) => !state.ach[id] && test(c)).map(a => a[0]);
+  const fresh = (typeof achList === 'function' ? achList() : ACH).filter(([id, , test]) => !state.ach[id] && test(c)).map(a => a[0]);
   if (!fresh.length) { if (silent) save(); return; }
   fresh.forEach(id => { state.ach[id] = today(); });
   save();
@@ -4194,7 +4383,7 @@ achCtx = function(){
     loyal: Object.values(per).filter(n => n >= 10).length,
     earlyN: held.filter(l => l.time && l.time < '10:00').length, lateN: held.filter(l => l.time && l.time >= '21:00').length,
     weekendN: wd[0] + wd[6], wd,
-    songsDone: S.reduce((a, s) => a + s.songs.filter(x => x.done).length, 0), songsAll: S.reduce((a, s) => a + s.songs.length, 0),
+    songsDone: S.reduce((a, s) => a + (s.songs || []).filter(x => x.done).length, 0), songsAll: S.reduce((a, s) => a + (s.songs || []).length, 0),
     warmAll: S.reduce((a, s) => a + (s.warm || []).length, 0),
     hwAll: S.reduce((a, s) => a + s.hw.length, 0), hwDone: S.reduce((a, s) => a + s.hw.filter(x => x.done).length, 0),
     skillMax: S.reduce((a, s) => a + Object.values(s.skills).filter(v => +v >= 3).length, 0),
@@ -4236,13 +4425,13 @@ function header(title){
 const monthNav = (m, act) => `<div class="month"><button data-act="${act}" data-v="-1" aria-label="${esc(T.prev)}">‹</button><b>${esc(monthTitle(m))}</b><button data-act="${act}" data-v="1" aria-label="${esc(T.next)}">›</button></div>`;
 const welcome = () => `<div class="empty"><div class="big">🎤</div><b>${esc(T.welcome)}</b>${esc(T.welcomeText)}<button class="btn" data-act="addStudent">${esc(T.addStudent)}</button></div>`;
 const svcName = id => (svcOf(id) || {}).name || '';
-const achN = () => state.ach ? ACH.filter(a => state.ach[a[0]]).length : 0;
+const achN = () => state.ach ? achList().filter(a => state.ach[a[0]]).length : 0;
 const inDays = ds => T.inDays(daysBetween(today(), ds));
 const evSorted = () => state.events.slice().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 const evRow = e => `<div class="row evrow" data-act="openEvent" data-id="${e.id}"><div class="ava">🎭</div>
   <div class="main"><div class="name">${esc(e.title || T.evTitle)}</div><div class="sub one">${esc([shortDate(e.date), e.time, e.place].filter(Boolean).join(' · '))}</div></div>
   <div class="right"><span class="chip">${esc(inDays(e.date))}</span><span class="chev">›</span></div></div>`;
-const achRow = () => `<button class="achrow" data-act="achievements"><span>🏆 ${esc(T.achTitle)}</span><span>${achN()} / ${ACH.length} ›</span></button>`;
+const achRow = () => `<button class="achrow" data-act="achievements"><span>🏆 ${esc(T.achTitle)}</span><span>${achN()} / ${achList().length} ›</span></button>`;
 
 function lessonRow(l, opts = {}){
   const s = stu(l.sid);
@@ -4534,7 +4723,7 @@ function renderStudio(){
     ['slots', '🗓', T.stSlots, T.stSlotsSub(slotsN), ''],
     ['x2WaitOpen', '⏳', T.x2.wait, T.x2.waitSub, state.wait.length || ''],
     ['x2Warm', '🌬', T.x2.warm, T.x2.warmSub, ''],
-    ['achievements', '🏆', T.achTitle, T.stAchSub, `${achN()}/${ACH.length}`],
+    ['achievements', '🏆', T.achTitle, T.stAchSub, `${achN()}/${achList().length}`],
     ['tuner', '🎯', T.stTuner, T.stTunerSub, ''],
     ['certs', '🎁', T.stCert, T.stCertSub, state.certs.length || ''],
     ['wrap', '🎉', T.stWrap, T.stWrapSub, '']
@@ -4757,7 +4946,7 @@ function studentCard(id){
       ${pkg}
       <div class="btnrow"><button class="btn" data-act="addLessonFor" data-id="${id}">${esc(T.addLessonBtn)}</button><button class="btn ghost" data-act="addPackage" data-id="${id}">🎟 ${esc(T.sellPkg)}</button></div>
       <div class="btnrow"><button class="btn ghost" data-act="diary" data-id="${id}">📒 ${esc(T.diary)}</button><button class="btn ghost" data-act="writeTo" data-id="${id}">💬 ${esc(T.writeBtn)}</button></div>
-      <button class="btn ghost" data-act="songs" data-id="${id}">🎵 ${esc(T.songsBtn)}${s.songs.length ? ` · ${s.songs.filter(x => !x.done).length} ${esc(T.songsInWork)}` : ''}</button>
+      ${safe(profMusic, true) ? `<button class="btn ghost" data-act="songs" data-id="${id}">🎵 ${esc(T.songsBtn)}${s.songs.length ? ` · ${s.songs.filter(x => !x.done).length} ${esc(T.songsInWork)}` : ''}</button>` : ''}
       ${cardExtra(id)}
       ${dsum ? `<div class="dsum" style="justify-content:center">${dsum}</div>` : ''}
       ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}
@@ -4784,12 +4973,14 @@ function diarySheet(id){
     const lst = (arr, kind) => arr.map(x => `<div class="li${x.done ? ' done' : ''}"><button class="box${x.done ? ' on' : ''}" data-act="dToggle" data-k="${kind}" data-id="${x.id}" aria-label="✓">${x.done ? '✓' : ''}</button>
       <span class="tx">${esc(x.t)}${x.key ? `<small>${esc(x.key)}</small>` : ''}</span><button class="x" data-act="dDel" data-k="${kind}" data-id="${x.id}" aria-label="${esc(T.del)}">×</button></div>`).join('');
     const hasR = s.range.lo !== '' && s.range.hi !== '';
-    return sheetHead(T.diary) + note(s.name) + `
+    const mus = safe(profMusic, true);
+    return sheetHead(T.diary) + note(s.name) + (mus ? `
       <div class="sec" style="margin-top:0"><span>🎤 ${esc(T.dRange)}</span>${hasR ? `<span>${esc(T.dSemis(Math.abs(s.range.hi - s.range.lo)))}</span>` : ''}</div>
       <div class="group"><div class="two"><div class="field"><label for="d_lo">${esc(T.dLow)}</label><select id="d_lo">${noteOptions(s.range.lo)}</select></div>
         <div class="field"><label for="d_hi">${esc(T.dHigh)}</label><select id="d_hi">${noteOptions(s.range.hi)}</select></div></div></div>
       <div class="sec"><span>🎵 ${esc(T.dSongs)}</span></div>
       <div class="card">${lst(s.songs, 'songs')}<div class="addrow"><input id="d_song" placeholder="${esc(T.dSongPh)}" autocomplete="off"><input id="d_key" class="k" placeholder="${esc(T.dKeyPh)}" autocomplete="off" autocapitalize="off"><button class="mini ok" data-act="dAdd" data-k="songs">+</button></div></div>
+` : '') + `
       <div class="sec"><span>📝 ${esc(T.dHw)}</span><button class="link" data-act="exercises" data-sid="${id}">📚 ${esc(T.dFromLib)}</button></div>
       <div class="card">${lst(s.hw, 'hw')}<div class="addrow"><input id="d_hw" placeholder="${esc(T.dHwPh)}" autocomplete="off"><button class="mini ok" data-act="dAdd" data-k="hw">+</button></div></div>
       ${safe(() => hwBotBlock(s))}
@@ -4801,9 +4992,9 @@ function diarySheet(id){
   fn.mount = () => {
     const s = stu(id); if (!s) return;
     const setR = (k, v) => { s.range[k] = v === '' ? '' : +v; save(); refreshSheet(); };
-    $('d_lo').onchange = e => setR('lo', e.target.value);
-    $('d_hi').onchange = e => setR('hi', e.target.value);
-    [['d_song', 'songs'], ['d_key', 'songs'], ['d_hw', 'hw']].forEach(([i, k]) => { $(i).onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); A.dAdd({ dataset: { k } }); } }; });
+    if ($('d_lo')) $('d_lo').onchange = e => setR('lo', e.target.value);
+    if ($('d_hi')) $('d_hi').onchange = e => setR('hi', e.target.value);
+    [['d_song', 'songs'], ['d_key', 'songs'], ['d_hw', 'hw']].forEach(([i, k]) => { if ($(i)) $(i).onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); A.dAdd({ dataset: { k } }); } }; });
   };
   return fn;
 }
@@ -5284,14 +5475,14 @@ function exerciseForm(id){
 /* ---------- Achievements & Sanya's secret room ---------- */
 function achSheet(){
   return () => {
-    const got = state.ach || {}, n = achN(), pct = Math.round(n * 100 / ACH.length);
+    const got = state.ach || {}, n = achN(), pct = Math.round(n * 100 / achList().length);
     const card = (id, icon, on) => on
       ? `<div class="ach" data-act="achShow" data-id="${id}"><div class="ai">${icon}</div><b>${esc(T.ach[id][0])}</b><small>${esc(T.ach[id][1])}</small><small style="color:var(--gold)">✓ ${esc(shortDate(got[id]))}</small>${isPrize(id) ? `<small style="color:var(--title);font-weight:600">🎁 ${esc(T.prizeShow)}</small>` : ''}</div>`
       : `<div class="ach off"><div class="ai">${icon}</div><b>${esc(T.ach[id][0])}</b><small>${esc(T.ach[id][1])}</small>${isPrize(id) ? `<small style="color:var(--title)">🎁 ${esc(T.prizeL)}</small>` : ''}</div>`;
-    const opened = ACH.filter(a => got[a[0]]).sort((x, y) => String(got[y[0]]).localeCompare(String(got[x[0]])));
+    const opened = achList().filter(a => got[a[0]]).sort((x, y) => String(got[y[0]]).localeCompare(String(got[x[0]])));
     const seen = {}, next = [];
-    ACH.forEach(a => { if (got[a[0]]) return; const f = GEN_META[a[0]] ? GEN_META[a[0]].fam : a[0]; if (seen[f]) return; seen[f] = 1; next.push(a); });
-    return sheetHead(T.achTitle) + `<div class="prog">${esc(T.achProg(n, ACH.length))}</div><div class="barbg" style="margin:0 4px 14px"><i style="width:${pct}%"></i></div>
+    achList().forEach(a => { if (got[a[0]]) return; const f = GEN_META[a[0]] ? GEN_META[a[0]].fam : a[0]; if (seen[f]) return; seen[f] = 1; next.push(a); });
+    return sheetHead(T.achTitle) + `<div class="prog">${esc(T.achProg(n, achList().length))}</div><div class="barbg" style="margin:0 4px 14px"><i style="width:${pct}%"></i></div>
       ${opened.length ? `<div class="sec" style="margin-top:0"><span>${esc(T.achOpened)} · ${opened.length}</span></div><div class="achgrid">${opened.slice(0, fn_lim(opened.length)).map(a => card(a[0], a[1], true)).join('')}</div>` : ''}
       <div class="sec"><span>${esc(T.achNext)} · ${next.length}</span></div><div class="achgrid">${next.map(a => card(a[0], a[1], false)).join('')}</div>`;
   };
@@ -5976,8 +6167,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 38;
+const APP_VER = 39;
 const CHANGES = [
+  { v: 39, name: '8.1', date: '2026-11-08', big: true,
+    ru: { add: ['💼 Профессия теперь меняет всё приложение, а не только главную: карточка ученика, дневник, навыки, анкета, сообщения, напоминания, достижения, события, услуги и подсказки говорят словами твоей профессии — тренировка, занятие или сессия, спортсмены или клиенты'],
+      better: ['🎯 Для немузыкальных профессий: свои навыки (например, катание, бросок, тактика у хоккеиста), анкета без вопросов про голос и песни, «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие» вместо «Голос»', '🎤 Песни, распевки и диапазон голоса показываются только музыкантам'] },
+    en: { add: ['💼 Your profession now adapts the whole app: student card, diary, skills, questionnaire, messages, reminders, achievements, events, services and hints use your profession’s words'],
+      better: ['🎯 Non-music professions get their own skills, a questionnaire without voice questions, competitions or events instead of concerts', '🎤 Songs, warm-ups and vocal range are shown only to musicians'] } },
   { v: 38, name: '8.0.1', date: '2026-11-04',
     ru: { add: ['🛟 Защита от пропажи данных: если вдруг стало заметно меньше учеников или уроков, приложение и бот сразу подскажут, как одним нажатием вернуть резервную копию, и дадут связь с создателем приложения'], better: [] },
     en: { add: ['🛟 Data-loss guard: if students or lessons suddenly drop, the app and the bot show how to bring back a backup in one tap and how to reach the app’s creator'], better: [] } },
@@ -8170,7 +8366,7 @@ function dyTips(){
   const X = T.lf.dy.tips, last = [0, 1, 2].map(i => state.diary[ymd(addDays(parseD(today()), -i))] || {}), out = [];
   if (last[0].v === 'sore') out.push(X.sore);
   else if (last.filter(e => e.v === 'tired' || e.v === 'sore').length >= 2) out.push(X.rest);
-  if (last.some(e => +e.h > 4)) out.push(X.much);
+  if (last.some(e => +e.h > (safe(profMusic, true) ? 4 : 10))) out.push(X.much);
   if (last.filter(e => e.s && +e.s < 6).length >= 2) out.push(X.sleep);
   return out;
 }
@@ -8183,7 +8379,7 @@ function lifeDiarySheet(){
       + `<div class="sec"><span>${esc(ds === today() ? X.today : shortDate(ds))}</span></div>
       <div class="field"><span class="lb">${esc(X.mood)}</span><div class="dymood">${X.moods.map((m, i) => `<button data-act="dyMood" data-v="${i + 1}" class="${e.m === i + 1 ? 'on' : ''}">${m}</button>`).join('')}</div></div>
       <div class="field"><span class="lb">${esc(X.voice)}</span><div class="chipsel">${Object.keys(X.voices).map(k => `<button type="button" data-act="dyVoice" data-v="${k}" class="${e.v === k ? 'on' : ''}">${esc(X.voices[k])}</button>`).join('')}</div></div>
-      <div class="group"><div class="two"><div class="field"><label for="dy_h">🎤 ${esc(X.sang)}</label><input id="dy_h" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.h || '')}"></div>
+      <div class="group"><div class="two"><div class="field"><label for="dy_h">${safe(profMusic, true) ? '🎤' : '⏱'} ${esc(X.sang)}</label><input id="dy_h" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.h || '')}"></div>
         <div class="field"><label for="dy_s">😴 ${esc(X.sleep)}</label><input id="dy_s" type="number" inputmode="decimal" min="0" max="16" step="0.5" value="${esc(e.s || '')}"></div></div>
         <div class="field"><textarea id="dy_n" placeholder="${esc(X.notePh)}" rows="3">${esc(e.n || '')}</textarea></div></div>
       <button class="btn" data-act="dySave">${esc(T.lf.save)}</button>
@@ -8409,7 +8605,7 @@ const HELP_DOC = [
   { id: 'prof', ic: '💼', t: 'Профессия: приложение под тебя', p: [
     'Приложение подходит не только для вокала: тренерам (хоккей, футбол, фигурное катание, единоборства, плавание…), репетиторам (английский, математика, ЕГЭ…), учителям, хореографам, фитнес-тренерам, логопедам, инструкторам по вождению, психологам и ещё 200 профессиям.',
     'Выбрать профессию: при первом запуске («Другая профессия — найти в списке») или ⚙️ Настройки → 🧩 Под себя → «Профессия». Есть поиск: напиши «хоккей», «англ», «вождение».',
-    'Что подстраивается: слова (урок / тренировка / занятие / сессия, ученики / спортсмены / клиенты) на главной, во вкладках и в кнопке «＋ Работа»; мотивация дня; названия услуг при первой настройке; инструменты в Студии (пианино и тюнер — только для музыкантов).',
+    'Что подстраивается: слова (урок / тренировка / занятие / сессия, ученики / спортсмены / клиенты) на главной, во вкладках и в кнопке «＋ Работа»; мотивация дня; названия услуг при первой настройке; инструменты в Студии (пианино и тюнер — только для музыкантов). С 8.1 подстраивается всё внутри: карточка ученика, дневник, навыки (у каждой профессии свои), анкета, шаблоны сообщений и напоминаний, достижения, события («Соревнования» у тренеров, «Мероприятия» у остальных), названия услуг. Песни, распевки и диапазон голоса видят только музыканты. Сменил профессию — слова меняются сразу.',
     'При выборе немузыкальной профессии музыкальные разделы (песни, репертуар, коллективы, райдер) скрываются — вернуть можно в 🧩 «Разделы приложения». Данные не удаляются.',
     'Бот тоже знает твою профессию: «тренировка с Петей в среду в 18:00» или «клиентка Оля оплатила» он поймёт так же, как «урок».' ] },
   { id: 'home', ic: '🏠', t: 'Главная', p: [
@@ -9857,6 +10053,7 @@ async function start(){
   }
   if ((state.settings.lang || 'ru') !== L || state.settings.prof) applyLang(state.settings.lang || L);
   safe(fsApply);
+  safe(() => { if (state.settings.prof) { const before = JSON.stringify(state.services.map(v => v.name)); profSvcNames(); if (JSON.stringify(state.services.map(v => v.name)) !== before) save(); } });
   setTimeout(() => safe(dropCheck), 5000);
   loadedCounts = { n: state.students.length, l: state.lessons.length };
   const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
