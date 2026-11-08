@@ -662,6 +662,37 @@ nav.tabs{padding-bottom:calc(6px + var(--sab))}
 .wd.today b{color:var(--accent-text)}
 .hci em{color:var(--text)}
 .ava{color:#FFFFFF}
+/* ===== 8.2 consent window ===== */
+.lgl{position:fixed;inset:0;z-index:9000;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;transition:opacity .25s;padding:calc(var(--sat,0px) + 24px) 16px calc(var(--sab,0px) + 24px)}
+.lgl.on{opacity:1}
+body.lgl-lock{overflow:hidden}
+.lgl-box{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.lgl-logo{font-size:44px;text-align:center;margin-top:8px}
+.lgl h2{text-align:center;margin:2px 0 0;font-size:24px}
+.lgl-sub{text-align:center;color:var(--hint);margin-bottom:6px}
+.lgl-pts{background:var(--card);border-radius:18px;padding:6px 14px;box-shadow:var(--shadow,0 1px 3px rgba(0,0,0,.06))}
+.lgl-pt{display:flex;gap:12px;padding:10px 0;align-items:flex-start}
+.lgl-pt+.lgl-pt{border-top:1px solid var(--line,rgba(0,0,0,.07))}
+.lgl-pi{font-size:22px;line-height:1.2}
+.lgl-pt b{display:block;font-size:15px}
+.lgl-pt span{font-size:14px;color:var(--hint)}
+.lgl-ck{display:flex;gap:10px;align-items:flex-start;background:var(--card);border-radius:14px;padding:12px 14px;font-size:14.5px;line-height:1.4;cursor:pointer}
+.lgl-ck input{width:22px;height:22px;flex:none;margin:0;accent-color:var(--accent)}
+.lgl-ck a,.lgl-doc a{color:var(--ink,var(--accent));text-decoration:underline}
+.lgl-need{text-align:center;font-size:13px;color:var(--hint);margin-top:-4px}
+.lgl .btn{width:100%}
+.lgl-back{align-self:flex-start;background:none;border:0;color:var(--ink,var(--accent));font-size:16px;padding:6px 0;cursor:pointer}
+.lgl-doc{background:var(--card);border-radius:18px;padding:4px 18px 12px;font-size:14.5px;line-height:1.55}
+.lgl-doc h2{text-align:left;font-size:20px;margin:14px 0 4px}
+.lgl-doc h3{font-size:16px;margin:16px 0 4px}
+.lgl-doc p,.lgl-doc li{margin:6px 0}
+.lgl-doc ul{padding-left:18px;margin:4px 0}
+.sheet .lgl-doc{background:none;padding:0 6px}
+.lgl-stu{white-space:pre-wrap;font-size:14px;margin:0 4px 8px}
+.bk-ck{margin:12px 0 4px}
+@media (min-width:700px){.lgl{padding-top:48px}}
+.modal-btns.col{grid-template-columns:1fr}
+.modal-btns.col button+button{border-left:0;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -3063,6 +3094,15 @@ const DLD = {
 for (const c in I18N) { I18N[c].dl = DLD[c] || DLD.en; I18N[c].wp = WPD[c] || WPD.en; I18N[c].pf = PFD[c] || PFD.en; I18N[c].hc = RCND[c] || RCND.en; I18N[c].fx = FXD[c] || FXD.en; I18N[c].st8 = ST8D[c] || ST8D.en; I18N[c].pk = PKD[c] || PKD.en; I18N[c].pl = PLD[c] || PLD.en; I18N[c].tabs.plan = TABP[c] || TABP.en; I18N[c].tabs.habits = TABH[c] || TABH.en; I18N[c].md = MDD[c] || MDD.en; I18N[c].b2 = B2D[c] || B2D.en; I18N[c].mu = MUD[c] || MUD.en; I18N[c].hp = HPD[c] || HPD.en; I18N[c].x2 = X2D[c] || X2D.en; I18N[c].gc = GCD[c] || GCD.en; I18N[c].sb = SBD[c] || SBD.en; I18N[c].tr = TRD[c] || TRD.en; I18N[c].lf = LFD[c] || LFD.en;
   const h = BKH[c] || BKH.en; I18N[c].bk.kinds.hr = h.hr; I18N[c].bk.howT = h.howT; I18N[c].bk.how = h.how; if (BKH[c]) I18N[c].bk.hint = h.hint; }
 }
+
+/* 8.2: deleting lessons («как будто не было») */
+try {
+  I18N.ru.ud = { one: 'Только это занятие', ser: n => `Это и следующие (${n})`, grp: n => `Для всей группы (${n})`, hint: 'Занятие исчезнет, как будто его не было: деньги, долг и абонемент пересчитаются сами.',
+    many: n => `🗑 Удалено занятий: ${n}`, pk: (n, l, t) => `🎟 ${n}: в абонементе снова ${l} из ${t}`, money: '💰 Деньги пересчитаны' };
+  I18N.en.ud = { one: 'Only this lesson', ser: n => `This and following (${n})`, grp: n => `Whole group (${n})`, hint: 'It disappears as if it never happened: money, debts and the package are recalculated.',
+    many: n => `🗑 Lessons deleted: ${n}`, pk: (n, l, t) => `🎟 ${n}: ${l} of ${t} left in the package again`, money: '💰 Money recalculated' };
+  ['es', 'it', 'fr'].forEach(c => { if (I18N[c] && !I18N[c].ud) I18N[c].ud = I18N.en.ud; });
+} catch (e) {}
 /* ================= 7.10: profession — the app adapts its words and motivation =================
    S.prof = catalog id. No prof (old users) or a vocal profession → everything as before.
    A group gives: words for students / lessons, motivation & praise (ru, en), which studio tools make sense,
@@ -4273,11 +4313,11 @@ async function botPost(body, ms){
 }
 async function botSync(force){
   if (!inTG || !state.settings.api) return;
-  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ wish: mod('life') && mod('wish') ? wishPub() : undefined, stu: stuSched(), cal: calEvents(), gev: state.settings.gcal && state.settings.gcal.on ? gEvents() : undefined, calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra]);
+  const notes = buildNotes(), pub = pubData(), ctx = botCtx(), extra = safe(() => ({ wish: mod('life') && mod('wish') ? wishPub() : undefined, stu: stuSched(), cal: calEvents(), gev: state.settings.gcal && state.settings.gcal.on ? gEvents() : undefined, calAlarm: Array.isArray(state.settings.calAlarm) ? state.settings.calAlarm : [60], cancelH: state.settings.cancelH === undefined ? 24 : +state.settings.cancelH }), {}), hash = JSON.stringify([notes, appUrl(), L, pub, ctx, extra, state.settings.legal || 0]);
   if (!force && hash === lastPayload) return;
   const sentKeys = new Set(evQueue.map(e => e.k)), ack = opsAck.slice();
   try {
-    const j = await botPost(Object.assign({ a: 'sync', notes, pub, ctx, ack }, extra));
+    const j = await botPost(Object.assign({ a: 'sync', notes, pub, ctx, ack }, state.settings.legal ? { lg: state.settings.legal } : {}, extra));
     opsAck = opsAck.filter(x => !ack.includes(x)); saveAck();
     handleServer(j);
     lastPayload = hash; botStatus = 'ok'; botLast = Date.now();
@@ -5208,6 +5248,7 @@ function settingsPart(k){
       <button class="btn ghost" data-act="backup">${esc(T.backupBtn)}</button>
       <button class="btn ghost" data-act="restore">${esc(T.restoreBtn)}</button>
       <div class="hintline center">${esc(T.dbCount(state.students.length, state.lessons.length))}</div>
+      <button class="btn ghost" data-act="legal">📄 ${esc(safe(() => lgX().title, 'Документы'))}</button>
       <div class="sec" style="margin-top:22px"><span>⚠️ ${esc(T.wp.sec)}</span></div>
       <div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(T.wp.hint)}</div>
       <button class="btn danger" data-act="wipeAsk">🗑 ${esc(T.wp.btn)}</button>`;
@@ -5844,16 +5885,18 @@ async function startBooking(){
         <div class="field"><label for="b_name">${esc(T.fName)}</label><input id="b_name" value="${esc((tgUser && [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ')) || '')}"></div>
         <div class="field"><label for="b_phone">${esc(T.fPhone)}</label><input id="b_phone" type="tel"></div>
         <div class="field"><label for="b_note">${esc(T.fNote)}</label><textarea id="b_note" placeholder="${esc(T.bkNotePh)}"></textarea></div></div>
+      <label class="lgl-ck bk-ck"><input type="checkbox" id="b_ok"${sel.ok ? ' checked' : ''}><span>${esc(safe(() => lgX().bkC[0], ''))}<a href="${esc(safe(lgUrl, 'privacy.html'))}" target="_blank" rel="noopener">${esc(safe(() => lgX().bkC[1], ''))}</a>${esc(safe(() => lgX().bkC[2](pub.name || ''), ''))}</span></label>
       <button class="btn" id="b_go">${esc(T.bkSend)}</button><div class="madeby">${esc(T.madeBy)}</div>`;
     box.querySelectorAll('[data-bk]').forEach(b => b.onclick = () => { [sel.ds, sel.time] = b.dataset.bk.split('|'); keep(); draw(); haptic(); });
-    const keep = () => { const n = $('b_name'), p = $('b_phone'), s = $('b_svc'), t = $('b_note'); sel.name = n && n.value; sel.phone = p && p.value; sel.svc = s ? s.value : sel.svc; sel.note = t && t.value; };
+    const keep = () => { const ok = $('b_ok'); if (ok) sel.ok = ok.checked; const n = $('b_name'), p = $('b_phone'), s = $('b_svc'), t = $('b_note'); sel.name = n && n.value; sel.phone = p && p.value; sel.svc = s ? s.value : sel.svc; sel.note = t && t.value; };
     ['b_name', 'b_phone', 'b_note'].forEach(i => { if (sel[i.slice(2)] != null) $(i).value = sel[i.slice(2)]; });
     $('b_go').onclick = async () => {
       keep();
       if (!sel.ds) return toast(T.bkPick);
       if (!String(sel.name || '').trim()) return toast(T.tName);
+      if (!sel.ok) return toast(safe(() => lgX().bkNeed, '☑️'), 3000);
       try { if (ver('6.9') && !(tgUser && tgUser.allows_write_to_pm)) await new Promise(r => tg.requestWriteAccess(() => r())); } catch (e) {}
-      try { const j = await call({ a: 'book', b: { ds: sel.ds, time: sel.time, svc: sel.svc, name: sel.name.trim(), phone: sel.phone || '', note: sel.note || '' } }); if (!j.ok) throw 0; }
+      try { const j = await call({ a: 'book', b: { ds: sel.ds, time: sel.time, svc: sel.svc, name: sel.name.trim(), phone: sel.phone || '', note: sel.note || '' }, lg: { v: LEGAL_V, at: Date.now(), book: 1 } }); if (!j.ok) throw 0; }
       catch (e) { return toast(T.ntErr, 3000); }
       box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🎉</div><b>${esc(T.bkDone)}</b>${esc(T.bkDoneX(dayLabel(sel.ds) + ', ' + sel.time))}</div>`;
       confetti(); hapticOk();
@@ -6061,7 +6104,7 @@ function bxLessonFor(s, a, needDate){
 function applyAct(a, out, touched){
   if (/^(add_item|done_task|add_person|add_rep_song)$/.test(a.type)) return safe(() => applyPlanAct(a, out));
   if (/^(add_comp|artist_add)$/.test(a.type)) return safe(() => applyMusicAct(a, out));
-  if (/^stu_(link|hw|cancel|move)$/.test(a.type)) return safe(() => applyStuAct(a, out));
+  if (/^stu_(link|hw|cancel|move)$/.test(a.type)) return safe(() => applyStuAct(a, out, touched));
   if (/^(add_spend|add_wish|add_list_item|habit_done|add_mood)$/.test(a.type)) return safe(() => applyLifeAct(a, out));
   const T2 = T.bx, t = today();
   const need = () => { const s = bxFind(a.student); if (!s) out.push('⚠️ ' + T2.notFound(a.student || '?')); return s; };
@@ -6084,11 +6127,12 @@ function applyAct(a, out, touched){
       const rep = Math.min(52, Math.max(0, Math.round(+a.repeat_weeks || 0)));
       const pkgF = a.pkg === true ? { noPkg: false, pkgForce: true } : a.pkg === false ? { noPkg: true } : {};
       const paid = a.pkg === true ? false : a.paid === true;
+      const ser = rep ? uid() : '';
       for (let k = 0; k <= rep; k++) {
         const d = ymd(addDays(parseD(date), 7 * k));
         const l = { id: uid(), sid: s.id, svc, date: d, time, dur: bxNum(a.dur) || +state.settings.dur || 60, price: bxNum(a.price) || priceFor(s.id, svc), rent: rentFor(svc, online),
           online, link: '', grp: '', pkg: '', st: k ? 'plan' : st, paid: k ? false : paid, paidAt: '', note: k ? '' : String(a.note || '').slice(0, 500) };
-        Object.assign(l, pkgF);
+        Object.assign(l, pkgF); if (ser) l.ser = ser;
         if (l.paid) l.paidAt = d < t ? d : t;
         state.lessons.push(l);
       }
@@ -6167,8 +6211,13 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 39;
+const APP_VER = 40;
 const CHANGES = [
+  { v: 40, name: '8.2', date: '2026-11-08',
+    ru: { add: ['📄 Документы и согласия: при первом входе — короткое окно о том, как хранятся твои данные, с политикой, соглашением и согласиями. Всё можно перечитать и поменять: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия»', '📋 Готовый текст согласия для учеников — скопируй и отправь им перед тем, как вносить их данные'],
+      better: ['🗑 Удалить занятие — как будто его не было: деньги, долг и абонемент пересчитываются сразу, а приложение пишет, что изменилось. У повторяющихся — «только это» или «это и следующие», у групповых — «для всей группы»', '❌ Отмена занятия учеником через бот тоже сразу возвращает занятие в абонемент', '🗓 В онлайн-записи клиент отмечает согласие на обработку данных'] },
+    en: { add: ['📄 Documents and consents: a short window on first start explains how your data is stored, with the policy, terms and consents. Review or change them any time: ⚙️ Settings → 🛟 Data & backups → “Documents and consents”', '📋 A ready consent text for your students — copy it and send it before entering their data'],
+      better: ['🗑 Deleting a lesson works as if it never happened: money, debts and the package are recalculated at once. Repeating lessons: “only this” or “this and following”; group lessons: “whole group”', '🗓 Online booking now asks the client for consent to data processing'] } },
   { v: 39, name: '8.1', date: '2026-11-08', big: true,
     ru: { add: ['💼 Профессия теперь меняет всё приложение, а не только главную: карточка ученика, дневник, навыки, анкета, сообщения, напоминания, достижения, события, услуги и подсказки говорят словами твоей профессии — тренировка, занятие или сессия, спортсмены или клиенты'],
       better: ['🎯 Для немузыкальных профессий: свои навыки (например, катание, бросок, тактика у хоккеиста), анкета без вопросов про голос и песни, «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие» вместо «Голос»', '🎤 Песни, распевки и диапазон голоса показываются только музыкантам'] },
@@ -7934,13 +7983,14 @@ function hwBotBlock(s){
   if (!s.tgId) return `<div class="hintline">🔗 ${esc(X.linkHint)}</div><button class="btn ghost sm" data-act="x2StuLink" data-id="${s.id}">🔗 ${esc(X.linkCopy)}</button>` + replies;
   return `<button class="btn ghost sm" data-act="x2HwSend" data-id="${s.id}">📨 ${esc(X.hwSend)}</button>` + replies;
 }
-function applyStuAct(a, out){
+function applyStuAct(a, out, touched){
   const s = stu(a.sid);
   if (a.type === 'stu_link') { if (!s) return; s.tgId = +a.tg || s.tgId; if (!s.tg && a.uname) s.tg = a.uname; out.push('🔗 ' + T.x2.linked(s.name)); return; }
   if (a.type === 'stu_hw') { if (!s) return; s.hwIn = (s.hwIn || []).concat({ at: +a.at || Date.now(), x: String(a.x || '').slice(0, 3000), f: String(a.f || '').slice(0, 300) }).slice(-40); out.push('🎧 ' + T.x2.hwGot(s.name)); return; }
   if (a.type === 'stu_cancel' || a.type === 'stu_move') {
     const l = state.lessons.find(x => x.id === a.lid); if (!l || !s) return;
     const was = shortDate(l.date) + (l.time ? ' ' + l.time : '');
+    if (touched) touched.add(l.sid);   // packages and money follow the cancelled / moved lesson
     if (a.type === 'stu_cancel') {
       if (a.late) { l.st = 'misspaid'; l.note = bxAppend(l.note, T.x2.lateNote); out.push('❌ ' + T.x2.cancelLate(s.name, was)); }
       else { state.lessons = state.lessons.filter(x => x !== l); out.push('❌ ' + T.x2.cancelled(s.name, was)); }
@@ -8602,6 +8652,12 @@ const HELP_DOC = [
     'Шестерёнка ⚙️ справа вверху — Настройки, разделены на 6 групп: цены и абонементы, работа и запись, уведомления, под себя, оформление, данные. Там же эта справка.',
     'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
+  { id: 'legal', ic: '📄', t: 'Документы, согласия и твои данные', p: [
+    'При первом входе приложение показывает короткое окно: как хранятся данные, ссылки на Политику обработки данных, Пользовательское соглашение и Согласие на обработку данных. Продолжить можно, отметив две обязательные галочки; новости и предложения — по желанию.',
+    'Где хранятся данные: в Telegram, на телефоне (резервные копии) и на сервере приложения (Google). Cookie, рекламных трекеров и аналитики нет. Данные не продаются.',
+    'Перечитать документы, включить или выключить новости, отозвать согласие: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия». Отзыв согласия ведёт к удалению всех данных (подписка сохраняется).',
+    'Ученики и клиенты: прежде чем вносить их данные, отправь им готовый текст согласия — он там же, кнопка «Копировать». За детей согласие дают родители. В онлайн-записи клиент сам отмечает согласие.',
+    'В боте: /privacy — ссылка на документы; «удалите мои данные» — запрос на удаление, его получит создатель приложения (ответ в течение 10 рабочих дней).' ] },
   { id: 'prof', ic: '💼', t: 'Профессия: приложение под тебя', p: [
     'Приложение подходит не только для вокала: тренерам (хоккей, футбол, фигурное катание, единоборства, плавание…), репетиторам (английский, математика, ЕГЭ…), учителям, хореографам, фитнес-тренерам, логопедам, инструкторам по вождению, психологам и ещё 200 профессиям.',
     'Выбрать профессию: при первом запуске («Другая профессия — найти в списке») или ⚙️ Настройки → 🧩 Под себя → «Профессия». Есть поиск: напиши «хоккей», «англ», «вождение».',
@@ -8804,7 +8860,7 @@ const HELP_DOC = [
     'Пропала вкладка или кнопка — проверь Настройки → 🧩 Под себя → «Разделы приложения».',
     'Не приходят напоминания — ⚙️ Настройки → 🔔 Уведомления включены? Нажала «Старт» в боте? Бот не заблокирован?',
     'Неправильно посчитался долг — проверь статусы уроков (пришёл / пропуск) и отметки оплаты; урок из абонемента долгом не считается.',
-    'Как удалить урок — открой урок → «Удалить».',
+    'Как удалить урок — открой урок → «Удалить». Он исчезнет, как будто его не было: деньги, долг и абонемент пересчитаются сами, приложение покажет, что изменилось (например, «в абонементе снова 5 из 8»). У повторяющихся уроков можно удалить «только это» или «это и следующие», у групповых — «для всей группы». Если ученик просто не пришёл, лучше отметить «Пропуск» — тогда видно историю.',
     'Ничего не нажимается, только смотреть — это режим просмотра без подписки. Запроси пробный доступ (⚙️ Настройки → 💎 Подписка или /trial в боте) или введи код подписки. Данные при этом не теряются.',
     'Замок 🔒 на кнопке — функция из тарифа выше. Нажми — увидишь, какой тариф нужен, и сможешь ввести код.',
     'Почему у урока цена 0 — общая цена урока в ⚙️ Настройках → «Деньги» не задана (по умолчанию 0). Поставь её — она подставится во все услуги.',
@@ -9461,10 +9517,147 @@ const RCN = {
     setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) { const h = homeTilesInner(); if (h) r.outerHTML = h; else r.remove(); } } }, 50);
   }
 };
+const LEGAL_TXT = {"en": {"ads": "# Consent to news and offers\nI agree to receive messages from the Operator in @musicplaner_bot about new features, promotions and subscription offers, and partner ads (always marked «Ad»; my data is never given to advertisers). This is optional — the Service works fully without it. You can opt out at any time in ⚙️ Settings → Data & backups → Documents and consents. Service messages (updates, important changes, answers) are not advertising and go to everyone.\n", "consent": "# Consent to personal data processing\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\nI, the Telegram user who opened «My students» (bot @musicplaner_bot and mini app), freely and in my own interest consent to Alexander Gerasimov («Operator») processing my personal data: Telegram ID, name, username and language; what I enter in the app and send to the bot (name, profession, schedule, financial records, notes, plans, texts, voice messages, photos); subscription details; technical details.\n\n## Purpose\nProviding the Service, sync and backups, message recognition, subscriptions, support, service messages.\n\n## Actions\nCollection, recording, organisation, storage, updating, retrieval, use, transfer to the parties below, blocking, deletion and destruction, by automated means.\n\n## Recipients and cross-border transfer\nTelegram (Telegram FZ-LLC, UAE); Google LLC (USA) — the Service server (Google Apps Script, Google Drive), message recognition (Google Gemini), Google Calendar if connected. I agree to the transfer of data to these countries.\n\n## Term and withdrawal\nValid until withdrawn or until the data is deleted. Withdraw in the app (⚙️ Settings → Data & backups → Documents and consents) or by writing to @musicplaner_bot; the data is then deleted and the Service can no longer be used.\n", "privacy": "# Privacy Policy\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Who we are\nThe operator of personal data is Alexander Gerasimov («Operator»), the creator of «My students»: the Telegram bot @musicplaner_bot and its Telegram mini app («Service»). Contact: a message to @musicplaner_bot or the «Write to the creator» button in the app.\n\n## 2. What we process\n- Telegram data: user ID, name, username, language.\n- What you enter: name, profession, schedule, lessons, services and prices, income and expenses, packages, notes, tasks, goals, habits, shopping lists, wishlist, diary, settings.\n- Data about your students and clients that you enter (names, phones, Telegram links, birthdays, notes, payments). You are their data controller; the Service processes it on your behalf.\n- Messages, voice messages and photos you send to the bot.\n- Subscription details and trial requests.\n- Technical details: app version, time zone, days and times of visits, how you found the Service, record counts (to protect against data loss).\n- People who use the Service through you: those who book with you via your booking page (name, phone, Telegram, date, comment — passed to you) and students who connect to the bot for homework and reminders (their Telegram ID is linked to their card). They give their own consent in the booking form or the bot.\nWe never receive card details: payments go through a payment provider.\n\n## 3. Why\nTo run the app and the bot, sync and back up your data, recognise messages with an AI service, manage subscriptions, support you and tell you about changes to the Service. News and offers only with your separate consent.\n\n## 4. Where data is stored and who receives it\nOn your device; in Telegram CloudStorage and your chat with the bot (daily backups); on the Service server — Google Apps Script and Google Drive (Google LLC); message recognition — Google Gemini; Google Calendar only if you connect it. Links you share yourself (wishlist, lesson calendar, booking page) are visible to anyone who has them. The Operator sees a service card for each user in the bot: name, username, plan and dates, days of use, number of students and lessons — for support and subscription checks. Telegram and Google servers are outside Russia, so data is transferred across borders. Data is never sold or used for advertising.\n\n## 5. Cookies\nNo cookies, ad pixels or analytics. Local storage is used only to run the app. Fonts load from Google Fonts, which sees your IP address.\n\n## 6. How long\nWhile you use the Service. «Reset everything» or withdrawing consent deletes your data from the server at once. Subscription and payment records are kept as long as the law requires, no longer than 3 years after the subscription ends.\n\n## 7. Your rights\nAccess, correction, deletion, withdrawing consent, opting out of news, complaining to the regulator (Roskomnadzor) or a court. Write to @musicplaner_bot — we answer within 10 working days. In the app: ⚙️ Settings → Data & backups → Documents and consents.\n\n## 8. Age\nThe Service is for people aged 18+. If you enter data about minors, their parent must agree — you obtain this yourself.\n", "students": "Hello! I keep track of our lessons in the «My students» app (Telegram). To plan lessons, send reminders and track payments, I record your name, contact (phone or Telegram), schedule, payments and lesson notes there. The data is stored in Telegram and on the app's server (Google), is never shared for advertising, and I'll delete it if you ask.\nIf you agree, please reply «I agree». If the student is a child, a parent gives consent.\n", "terms": "# Terms of Use\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Agreement\nThese terms are between Alexander Gerasimov («Operator») and you, the user of «My students» (bot @musicplaner_bot and mini app). Tapping «Accept and continue» means you accept them in full. If you disagree, please don't use the Service.\n\n## 2. Subscription\nSome features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. Subscriptions never renew without your separate consent. If the Service didn't work through the Operator's fault or you cancel, unused full days are refunded on request within 10 days.\n\n## 3. Your duties\nEnter data about your students and clients lawfully — they (or their parents) must agree; a ready consent text is in ⚙️ Settings → Data & backups → Documents and consents. No spam, fraud or other illegal use; don't share access codes.\n\n## 4. Data\nYour data is yours. We make backups, but keep your own copy from time to time. The bot uses AI — check what it adds before confirming.\n\n## 5. Liability\nThe Service is provided «as is». The Operator isn't liable for outages of Telegram, Google, networks or devices. Liability is limited to what you paid for the last month of subscription.\n\n## 6. Ending and disputes\nYou can stop at any time and delete your data (⚙️ Settings → Data & backups → Reset everything). Disputes are solved by talking first (write to the bot, answer within 10 working days), then under Russian law. Contact: @musicplaner_bot.\n"}, "ru": {"ads": "# Согласие на новости и предложения\nДаю согласие получать от Оператора в Telegram-боте @musicplaner_bot сообщения о новых функциях, акциях и предложениях подписки, а также рекламу партнёров (она всегда помечена словом «Реклама»; мои данные рекламодателям не передаются) (ч. 1 ст. 18 Федерального закона «О рекламе»). Согласие необязательное: без него Сервис работает полностью. Отказаться можно в любой момент в приложении (⚙️ Настройки → Данные и копии → Документы и согласия). Сообщения о работе Сервиса (обновления, важные изменения, ответы на вопросы) рекламой не являются и приходят всем.\n", "consent": "# Согласие на обработку персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\nЯ, пользователь Telegram, открывший сервис «Мои ученики» (бот @musicplaner_bot и мини-приложение), свободно, своей волей и в своём интересе даю Герасимову Александру (далее — «Оператор») согласие на обработку моих персональных данных на следующих условиях.\n\n## Какие данные\nИдентификатор, имя, имя пользователя и язык в Telegram; данные, которые я ввожу в приложение и отправляю боту (имя, профессия, расписание, финансовые записи, заметки, планы, тексты, голосовые сообщения и фото); сведения о подписке; технические сведения о работе приложения.\n\n## Для чего\nПредоставление функций Сервиса, синхронизация и резервное копирование, распознавание сообщений, оформление подписки, поддержка, информационные сообщения о работе Сервиса.\n\n## Какие действия\nСбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача (предоставление доступа) лицам из списка ниже, блокирование, удаление, уничтожение. Обработка автоматизированная.\n\n## Кому передаются и где хранятся\nTelegram (Telegram FZ-LLC, ОАЭ) — хранилище и доставка сообщений; Google LLC (США) — сервер Сервиса (Google Apps Script, Google Drive), распознавание сообщений (Google Gemini), Google Календарь при его подключении. Я согласен на трансграничную передачу данных в эти страны.\n\n## Срок и отзыв\nСогласие действует до его отзыва или удаления данных. Отозвать его можно в приложении (⚙️ Настройки → Данные и копии → Документы и согласия) или сообщением в бот @musicplaner_bot. После отзыва данные удаляются, а пользоваться Сервисом нельзя.\n", "privacy": "# Политика обработки персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Кто обрабатывает данные\nОператор персональных данных — Герасимов Александр (далее — «Оператор»), создатель сервиса «Мои ученики»: Telegram-бот @musicplaner_bot и мини-приложение в Telegram (далее — «Сервис»). Связь с Оператором: сообщение в бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\nПолитика составлена по Федеральному закону от 27.07.2006 № 152-ФЗ «О персональных данных» и описывает, какие данные собирает Сервис, зачем, где они хранятся и как ими управлять.\n\n## 2. Какие данные мы обрабатываем\n- Данные Telegram: идентификатор, имя, имя пользователя (username), язык интерфейса — Telegram передаёт их при открытии приложения и при сообщениях боту.\n- Данные, которые ты вводишь сам: имя, профессия, предмет, расписание, занятия, услуги и цены, доходы и расходы, абонементы, заметки, задачи, цели, привычки, списки покупок, вишлист, дневник, настройки.\n- Данные твоих учеников и клиентов, которые ты вносишь: имена, телефоны, ссылки на Telegram, дни рождения, заметки, оплаты, посещения. Для этих данных оператором являешься ты, а Сервис обрабатывает их по твоему поручению (ч. 3 ст. 6 152-ФЗ) только для работы твоих функций.\n- Сообщения боту: тексты, голосовые сообщения и фото, которые ты отправляешь, чтобы бот внёс запись или ответил на вопрос.\n- Сведения о подписке: тариф, сроки, коды доступа, заявки на пробный период и ответы на вопросы в них.\n- Технические сведения: версия приложения, часовой пояс, дни и время входа, откуда ты узнал о Сервисе (например, по ссылке записи), количество записей (для защиты от пропажи данных).\n- Люди, которые сами пользуются Сервисом через тебя: кто записывается к тебе через страницу онлайн-записи (имя, телефон, Telegram, дата, комментарий — передаются тебе) и ученики, которые подключились к боту, чтобы получать домашние задания и напоминания (их Telegram-идентификатор связывается с карточкой у тебя). Они дают своё согласие сами в форме записи или в боте.\nСервис не получает данные банковских карт: оплата проходит у платёжного сервиса.\n\n## 3. Зачем\n- чтобы приложение и бот работали: расписание, напоминания, деньги, абонементы, отчёты;\n- синхронизация между устройствами и резервные копии, защита от потери данных;\n- распознавание сообщений и голосовых для бота (с помощью ИИ-сервиса);\n- оформление и проверка подписки, пробный период;\n- поддержка и ответы на обращения;\n- информационные сообщения о работе Сервиса (обновления, важные изменения);\n- новости и предложения — только если ты дал на это отдельное согласие.\n\n## 4. Основания\nТвоё согласие (п. 1 ч. 1 ст. 6 152-ФЗ), исполнение пользовательского соглашения (п. 5 ч. 1 ст. 6), для данных учеников и клиентов — твоё поручение как их оператора.\n\n## 5. Где хранятся данные и кому передаются\n- На твоём устройстве — в хранилище Telegram и браузера, включая резервные копии на телефоне.\n- В облачном хранилище Telegram (Telegram CloudStorage) и в чате с ботом (ежедневные резервные копии).\n- На сервере Сервиса: Google Apps Script и Google Drive (Google LLC).\n- Распознавание сообщений: Google Gemini (Google LLC) — получает только текст сообщения или запись, которую нужно разобрать.\n- Google Календарь — только если ты сам подключишь синхронизацию.\nСсылки, которыми ты делишься сам (вишлист, календарь занятий, страница записи), видит любой, у кого есть ссылка; ссылку календаря можно сменить в настройках.\nОператор видит в боте служебную карточку пользователя: имя, username, тариф и сроки подписки, дни использования, количество учеников и занятий — это нужно для поддержки и проверки подписок.\nСерверы Telegram и Google находятся за пределами Российской Федерации, поэтому происходит трансграничная передача данных. Данные не продаются и не передаются для рекламы.\n\n## 6. Cookie и трекеры\nСервис не использует файлы cookie, рекламные пиксели и системы аналитики. Локальное хранилище устройства используется только для работы приложения (данные, настройки, копии). Шрифты интерфейса загружаются с серверов Google Fonts, при этом сервер видит IP-адрес.\n\n## 7. Сколько хранятся\nПока ты пользуешься Сервисом. Кнопка «⚙️ Настройки → Данные и копии → Сбросить всё» или отзыв согласия удаляют данные на сервере сразу, на устройстве — при сбросе. Резервные копии в чате с ботом ты можешь удалить сам. Сведения о подписке и оплатах хранятся столько, сколько требует закон, и не дольше 3 лет после окончания подписки.\n\n## 8. Твои права\nТы можешь узнать, какие данные о тебе обрабатываются, потребовать исправить или удалить их, отозвать согласие, отказаться от новостей, обжаловать действия Оператора в Роскомнадзоре или в суде. Запрос — сообщением в бот @musicplaner_bot; ответ — в течение 10 рабочих дней. Отозвать согласие и удалить данные можно в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n\n## 9. Защита\nВход только через Telegram с проверкой подписи, передача по HTTPS, доступ к серверу и ключам — только у Оператора, у каждого пользователя свои данные.\n\n## 10. Возраст\nСервис предназначен для лиц от 18 лет. Если ты вносишь данные несовершеннолетних учеников, согласие на это даёт их законный представитель (родитель) — ты получаешь его сам.\n\n## 11. Изменения\nНовая редакция публикуется в приложении и по ссылке на политику; при существенных изменениях приложение попросит подтвердить согласие заново.\n", "students": "Здравствуйте! Я веду учёт занятий в приложении «Мои ученики» (Telegram). Чтобы планировать занятия, напоминать о них и учитывать оплаты, я записываю туда ваше имя, контакт (телефон или Telegram), расписание, оплаты и заметки о занятиях. Данные хранятся в Telegram и на сервере приложения (Google), никому не передаются для рекламы, и я удалю их по вашей просьбе.\nЕсли вы согласны — ответьте, пожалуйста, «Согласен(на)». Если занимается ребёнок — согласие даёт родитель.\n", "terms": "# Пользовательское соглашение\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Общее\nСоглашение заключается между Герасимовым Александром (далее — «Оператор») и пользователем (далее — «ты») сервиса «Мои ученики»: Telegram-бота @musicplaner_bot и мини-приложения в Telegram (далее — «Сервис»). Нажимая «Принять и продолжить», ты принимаешь Соглашение полностью (ст. 437, 438 ГК РФ). Если не согласен — не пользуйся Сервисом.\n\n## 2. Что даёт Сервис\nУчёт учеников и клиентов, расписание, оплаты и абонементы, напоминания, личный планер, ответы и записи через бота, резервные копии. Часть функций доступна по подписке (Pro, Max). Состав тарифов и цены — в боте по команде /тарифы.\n\n## 3. Подписка и оплата\n- Подписка даёт доступ к функциям тарифа на оплаченный срок. Срок, тариф и остаток дней видны в боте и в приложении.\n- Пробный период выдаёт Оператор по заявке; он бесплатный и заканчивается сам, без списаний.\n- Оплата — через платёжный сервис или код доступа. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.\n- Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»).\n\n## 4. Твои обязанности\n- Вносить данные учеников и клиентов законно: они должны знать, что ты ведёшь учёт, и согласиться на это (за несовершеннолетних — их родители). Готовый текст согласия есть в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n- Не использовать Сервис для рассылки спама, мошенничества и других незаконных действий.\n- Не передавать коды доступа другим людям и не пытаться обойти ограничения тарифов.\n\n## 5. Данные и копии\nТвои данные принадлежат тебе. Сервис делает резервные копии, но мы советуем время от времени сохранять копию у себя. Ответы бота и распознавание делает ИИ — проверяй, что он внёс, перед подтверждением.\n\n## 6. Ответственность\nСервис предоставляется «как есть». Оператор старается, чтобы он работал без перерывов, но не отвечает за сбои Telegram, Google, связи и устройства, а также за решения, принятые на основе данных из Сервиса. Ответственность Оператора ограничена суммой, которую ты заплатил за последний месяц подписки.\n\n## 7. Прекращение\nТы можешь в любой момент перестать пользоваться Сервисом и удалить данные (⚙️ Настройки → Данные и копии → Сбросить всё). Оператор может ограничить доступ при нарушении Соглашения, предупредив об этом в боте.\n\n## 8. Споры и изменения\nСпоры решаются переговорами: напиши в бот, ответ — в течение 10 рабочих дней. Если не договорились — по законодательству РФ. Новая редакция Соглашения публикуется в приложении; при существенных изменениях приложение попросит подтвердить её.\n\n## 9. Связь с Оператором\nTelegram-бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\n"}};
+/* ================= 8.2: documents and consent (152-ФЗ) =================
+   LEGAL_TXT (generated by assemble.py from build/legal/*.md) = { ru: {privacy, terms, consent, ads, students}, en: {…} }.
+   First start (and after a new edition LEGAL_V) → full-screen window #lgl: short summary, links to the documents,
+   two required checkboxes (agreement + policy; separate consent to personal data), one optional (news and offers).
+   The answer is kept in settings.legal = {v, ok, at, ads} and sent to the server with every sync (u.legal on the server). */
+const LEGAL_V = 1;
+const LGX = {
+  ru: { hi: 'Добро пожаловать!', upd: 'Мы обновили документы', sub: 'Перед началом — коротко о твоих данных',
+    p1: ['🔐', 'Твои данные — твои', 'Хранятся в Telegram, на твоём телефоне и на сервере приложения (Google). Мы их не продаём и не показываем рекламу.'],
+    p2: ['🍪', 'Без cookie и слежки', 'Никаких рекламных трекеров и аналитики — только то, что нужно для работы.'],
+    p3: ['🗑', 'Удалить — в любой момент', 'Одной кнопкой в настройках: данные удалятся с сервера сразу.'],
+    c1: ['Принимаю ', 'Пользовательское соглашение', ' и ', 'Политику обработки данных'],
+    c2: ['Даю ', 'согласие на обработку персональных данных', ', в том числе их передачу в Telegram и Google'],
+    c3: ['Хочу получать новости и предложения ', '(необязательно)'],
+    ok: 'Принять и продолжить', no: 'Не принимаю', need: 'Отметь две первые галочки, чтобы продолжить',
+    noT: 'Без согласия приложение не работает', noP: 'Приложение хранит твои данные на сервере и в Telegram — без твоего согласия мы не имеем права это делать. Можно вернуться и прочитать документы или закрыть приложение. Вопросы — в бот @musicplaner_bot.',
+    back: '← Назад', close: 'Закрыть приложение', ret: 'Вернуться',
+    docs: { privacy: 'Политика обработки данных', terms: 'Пользовательское соглашение', consent: 'Согласие на обработку данных', ads: 'Согласие на новости' },
+    title: 'Документы и согласия', st: (d, v) => `Приняты ${d} · редакция ${v}`, adsL: 'Новости и предложения в боте',
+    adsOn: 'Будем присылать новости 💌', adsOff: 'Больше не будем присылать новости',
+    stuT: '📋 Текст согласия для учеников', stuH: 'Отправь ученикам (за детей — родителям), прежде чем вносить их данные. Так требует закон о персональных данных.',
+    web: '🌐 Открыть документы на сайте', rev: 'Отозвать согласие и удалить данные',
+    revQ: 'Отозвать согласие? Без него приложением пользоваться нельзя, поэтому дальше откроется удаление всех данных (подписка сохранится).', revOk: 'Дальше',
+    bkC: ['Даю ', 'согласие на обработку моих данных', n => ` (имя, телефон, запись) и их передачу ${n ? n : 'преподавателю'} для записи на занятие`], bkNeed: 'Отметь согласие на обработку данных, чтобы записаться' },
+  en: { hi: 'Welcome!', upd: 'We updated our documents', sub: 'Before you start — a word about your data',
+    p1: ['🔐', 'Your data is yours', 'Stored in Telegram, on your phone and on the app server (Google). Never sold, no ads.'],
+    p2: ['🍪', 'No cookies, no tracking', 'No ad trackers or analytics — only what the app needs to work.'],
+    p3: ['🗑', 'Delete any time', 'One button in Settings removes your data from the server at once.'],
+    c1: ['I accept the ', 'Terms of Use', ' and the ', 'Privacy Policy'],
+    c2: ['I give ', 'consent to personal data processing', ', including transfer to Telegram and Google'],
+    c3: ['Send me news and offers ', '(optional)'],
+    ok: 'Accept and continue', no: 'I don’t accept', need: 'Tick the first two boxes to continue',
+    noT: 'The app can’t work without consent', noP: 'The app stores your data on its server and in Telegram — without your consent we are not allowed to. You can go back and read the documents or close the app. Questions — @musicplaner_bot.',
+    back: '← Back', close: 'Close the app', ret: 'Go back',
+    docs: { privacy: 'Privacy Policy', terms: 'Terms of Use', consent: 'Consent to data processing', ads: 'Consent to news' },
+    title: 'Documents and consents', st: (d, v) => `Accepted ${d} · version ${v}`, adsL: 'News and offers in the bot',
+    adsOn: 'We’ll send you news 💌', adsOff: 'No more news',
+    stuT: '📋 Consent text for students', stuH: 'Send it to your students (parents for children) before entering their data — the personal data law requires it.',
+    web: '🌐 Open the documents online', rev: 'Withdraw consent and delete data',
+    revQ: 'Withdraw consent? The app can’t be used without it, so data deletion opens next (your subscription stays).', revOk: 'Next',
+    bkC: ['I consent to ', 'the processing of my data', n => ` (name, phone, booking) and its transfer to ${n || 'the teacher'} for this booking`], bkNeed: 'Tick the consent box to book' }
+};
+const lgL = () => L === 'ru' ? 'ru' : 'en';
+const lgX = () => LGX[lgL()];
+const lgDocTxt = k => { const D = (typeof LEGAL_TXT !== 'undefined' && LEGAL_TXT) || {}; return (D[lgL()] || D.ru || {})[k] || ''; };
+/* tiny markdown: # title, ## heading, - list, other lines are paragraphs */
+function lgMd(md){
+  let h = '', ul = false;
+  String(md).split('\n').forEach(line => {
+    const t = line.trim(); if (!t) return;
+    if (/^- /.test(t)) { if (!ul) { h += '<ul>'; ul = true; } h += `<li>${esc(t.slice(2))}</li>`; return; }
+    if (ul) { h += '</ul>'; ul = false; }
+    if (/^## /.test(t)) h += `<h3>${esc(t.slice(3))}</h3>`;
+    else if (/^# /.test(t)) h += `<h2>${esc(t.slice(2))}</h2>`;
+    else h += `<p>${esc(t)}</p>`;
+  });
+  return h + (ul ? '</ul>' : '');
+}
+const legalNeed = () => { const g = state.settings.legal; return !(g && g.ok && +g.v >= LEGAL_V); };
+const lgUrl = () => { try { return new URL('privacy.html', location.href.split('#')[0]).href; } catch (e) { return 'privacy.html'; } };
+function legalGate(){
+  if ((window.__noTour || window.__mockCfg) && !window.__legal) return;   // automated tests
+  if (!legalNeed() || $('lgl')) return;
+  const X = lgX(), old = !!state.settings.legal || hasData(state);
+  const el = document.createElement('div'); el.id = 'lgl'; el.className = 'lgl'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+  const pt = p => `<div class="lgl-pt"><span class="lgl-pi">${p[0]}</span><div><b>${esc(p[1])}</b><span>${esc(p[2])}</span></div></div>`;
+  const a = (k, t) => `<a href="#" data-lg="${k}">${esc(t)}</a>`;
+  const main = () => `<div class="lgl-box">
+    <div class="lgl-logo">🎓</div>
+    <h2>${esc(old ? X.upd : X.hi)}</h2><div class="lgl-sub">${esc(X.sub)}</div>
+    <div class="lgl-pts">${pt(X.p1)}${pt(X.p2)}${pt(X.p3)}</div>
+    <label class="lgl-ck"><input type="checkbox" id="lg1"><span>${esc(X.c1[0])}${a('terms', X.c1[1])}${esc(X.c1[2])}${a('privacy', X.c1[3])}</span></label>
+    <label class="lgl-ck"><input type="checkbox" id="lg2"><span>${esc(X.c2[0])}${a('consent', X.c2[1])}${esc(X.c2[2])}</span></label>
+    <label class="lgl-ck"><input type="checkbox" id="lg3"><span>${esc(X.c3[0])}${a('ads', X.c3[1])}</span></label>
+    <button class="btn" id="lgOk" disabled>${esc(X.ok)}</button>
+    <div class="lgl-need" id="lgNeed">${esc(X.need)}</div>
+    <button class="btn ghost" id="lgNo">${esc(X.no)}</button></div>`;
+  const doc = k => `<div class="lgl-box lgl-docv"><button class="lgl-back" id="lgBack">${esc(X.back)}</button><div class="lgl-doc">${lgMd(lgDocTxt(k))}</div><button class="btn ghost" id="lgBack2">${esc(X.back)}</button></div>`;
+  const no = () => `<div class="lgl-box"><div class="lgl-logo">🤝</div><h2>${esc(X.noT)}</h2><div class="lgl-sub" style="text-align:left">${esc(X.noP)}</div>
+    <button class="btn" id="lgRet">${esc(X.ret)}</button><button class="btn ghost" id="lgClose">${esc(X.close)}</button></div>`;
+  let ck = [false, false, false];
+  const show = (html) => { el.innerHTML = html; el.scrollTop = 0; wire(); };
+  const sync = () => { const ok = ck[0] && ck[1]; const b = $('lgOk'); if (b) b.disabled = !ok; const n = $('lgNeed'); if (n) n.style.visibility = ok ? 'hidden' : 'visible'; };
+  function wire(){
+    el.querySelectorAll('[data-lg]').forEach(x => x.onclick = e => { e.preventDefault(); e.stopPropagation(); ck = [1, 2, 3].map(i => !!($('lg' + i) && $('lg' + i).checked)); show(doc(x.dataset.lg)); });
+    [1, 2, 3].forEach(i => { const c = $('lg' + i); if (c) { c.checked = ck[i - 1]; c.onchange = () => { ck[i - 1] = c.checked; haptic(); sync(); }; } });
+    const back = () => show(main());
+    if ($('lgBack')) $('lgBack').onclick = back; if ($('lgBack2')) $('lgBack2').onclick = back; if ($('lgRet')) $('lgRet').onclick = back;
+    if ($('lgNo')) $('lgNo').onclick = () => { ck = [1, 2, 3].map(i => !!($('lg' + i) && $('lg' + i).checked)); show(no()); };
+    if ($('lgClose')) $('lgClose').onclick = () => { try { tg.close(); } catch (e) {} };
+    if ($('lgOk')) $('lgOk').onclick = () => {
+      if (!(ck[0] && ck[1])) return;
+      state.settings.legal = { v: LEGAL_V, ok: 1, at: Date.now(), ads: ck[2] ? 1 : 0 };
+      save(); safe(scheduleBotSync); hapticOk();
+      el.classList.remove('on'); setTimeout(() => el.remove(), 260); document.body.classList.remove('lgl-lock');
+    };
+    sync();
+  }
+  document.body.appendChild(el); show(main()); document.body.classList.add('lgl-lock');
+  requestAnimationFrame(() => el.classList.add('on'));
+}
+/* Settings → Данные и копии → «Документы и согласия» */
+function legalSheet(){
+  return () => {
+    const X = lgX(), g = state.settings.legal || {};
+    const d = g.at ? new Date(g.at).toLocaleDateString(LOC) : '—';
+    return sheetHead(X.title) + `<div class="hintline" style="margin:0 8px 12px">${esc(X.st(d, g.v || LEGAL_V))}</div>
+      ${['privacy', 'terms', 'consent', 'ads'].map(k => `<button class="btn ghost" data-act="lgDoc" data-v="${k}" style="text-align:left">📄 ${esc(X.docs[k])}</button>`).join('')}
+      <div class="field toggle" style="margin-top:12px"><span>${esc(X.adsL)}</span><button type="button" class="sw${g.ads ? ' on' : ''}" data-act="lgAds" aria-label="${esc(X.adsL)}"><i></i></button></div>
+      <div class="sec" style="margin-top:18px"><span>${esc(X.stuT)}</span></div>
+      <div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(X.stuH)}</div>
+      <div class="note lgl-stu">${esc(lgDocTxt('students'))}</div>
+      <button class="btn ghost" data-act="lgStu">📋 ${esc(T.copy || 'Копировать')}</button>
+      <button class="btn ghost" data-act="openLink" data-v="${esc(lgUrl())}">${esc(X.web)}</button>
+      <button class="btn danger" data-act="lgRev" style="margin-top:18px">${esc(X.rev)}</button>`;
+  };
+}
+const LGA = {
+  legal: () => openSheet(legalSheet()),
+  lgDoc: el => openSheet(() => sheetHead(lgX().docs[el.dataset.v] || '') + `<div class="lgl-doc">${lgMd(lgDocTxt(el.dataset.v))}</div>`),
+  lgAds: () => { const g = state.settings.legal = Object.assign({ v: LEGAL_V, ok: 1, at: Date.now() }, state.settings.legal); g.ads = g.ads ? 0 : 1; g.adsAt = Date.now(); save(); safe(scheduleBotSync); haptic(); toast(g.ads ? lgX().adsOn : lgX().adsOff); refreshSheet(); },
+  lgStu: async () => { if (await copyText(lgDocTxt('students'))) toast(T.tCopiedText || '✅'); else showText(lgX().stuT, lgDocTxt('students')); },
+  lgRev: async () => { if (!(await ask(lgX().revQ, lgX().revOk, true))) return; safe(() => A.wipeAsk()); }
+};
 
 /* ================= Dialogs ================= */
 let toastT;
 function toast(msg, ms = 2200){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
+/* 8.2: pick one of up to 3 options (+ cancel) → resolves to the option id or '' */
+function choose(msg, opts){
+  return new Promise(resolve => {
+    if (inTG && ver('6.2')) {
+      try { tg.showPopup({ message: msg.slice(0, 256), buttons: opts.slice(0, 2).map(o => ({ id: o.id, type: o.danger ? 'destructive' : 'default', text: o.t.slice(0, 64) })).concat([{ id: '', type: 'cancel' }]) }, b => resolve(b || '')); return; } catch (e) {}
+    }
+    const m = $('modal');
+    m.innerHTML = `<div class="modal-box"><p>${esc(msg)}</p><div class="modal-btns col">${opts.map(o => `<button type="button" data-v="${esc(o.id)}" class="pri${o.danger ? ' danger' : ''}">${esc(o.t)}</button>`).join('')}<button type="button" data-v="">${esc(T.cancel)}</button></div></div>`;
+    m.classList.add('on');
+    m.onclick = e => { const b = e.target.closest('button'); if (!b && e.target !== m) return; m.classList.remove('on'); m.onclick = null; resolve(b ? b.dataset.v : ''); };
+  });
+}
 function ask(msg, okText, danger = false){
   okText = okText || T.yes;
   return new Promise(resolve => {
@@ -9601,10 +9794,11 @@ const A = {
       }
     } else {
       const dates = [f.date].concat(Array.from({ length: f.rep }, (_, k) => ymd(addDays(parseD(f.date), 7 * (k + 1)))));
+      const ser = dates.length > 1 ? uid() : '';
       dates.forEach((date, k) => {
         const grp = f.sids.length > 1 ? uid() : '';
         f.sids.forEach(sid => {
-          const l = Object.assign({ id: uid() }, base, { sid, date, grp });
+          const l = Object.assign({ id: uid() }, base, { sid, date, grp }, ser ? { ser } : {});
           if (k > 0) Object.assign(l, { st: 'plan', paid: false, note: '' });
           l.paidAt = paidAt(l);
           state.lessons.push(l); touched.add(sid);
@@ -9632,11 +9826,25 @@ const A = {
   },
   openLink: el => { const v = el.dataset.v; if (/^https?:\/\//i.test(v)) openUrl(v, /^https:\/\/t\.me\//i.test(v)); },
   deleteLesson: async el => {
-    if (!await ask(T.cDelLesson, T.del, true)) return;
-    const l = state.lessons.find(x => x.id === el.dataset.id);
-    state.lessons = state.lessons.filter(x => x.id !== el.dataset.id);
-    if (l) { applyPackages(l.sid); if (l.date >= today()) safe(() => markFreed(l.date, l.time)); }
-    save(); closeSheet(); render(); toast(T.tDeleted);
+    const l = state.lessons.find(x => x.id === el.dataset.id); if (!l) return;
+    const X = T.ud || {}, ser = l.ser ? state.lessons.filter(x => x.ser === l.ser && x.sid === l.sid && x.date > l.date && x !== l) : [];
+    const grp = l.grp ? state.lessons.filter(x => x.grp === l.grp && x.date === l.date && x !== l) : [];
+    let gone = [l];
+    if (ser.length || grp.length) {
+      const opts = [{ id: 'one', t: X.one || T.del, danger: true }];
+      if (ser.length) opts.push({ id: 'ser', t: X.ser ? X.ser(ser.length + 1) : '+' + ser.length, danger: true });
+      if (grp.length) opts.push({ id: 'grp', t: X.grp ? X.grp(grp.length + 1) : '+' + grp.length, danger: true });
+      const v = await choose(T.cDelLesson + (X.hint ? '\n' + X.hint : ''), opts); if (!v) return;
+      if (v === 'ser') gone = [l].concat(ser); else if (v === 'grp') gone = [l].concat(grp);
+    } else if (!await ask(T.cDelLesson + (X.hint ? '\n' + X.hint : ''), T.del, true)) return;
+    const sids = sidsOf(gone), before = {}; sids.forEach(sid => { const p = lastPkg(sid); if (p) before[sid] = pkgLeft(p); });
+    state.lessons = state.lessons.filter(x => !gone.includes(x));
+    sids.forEach(applyPackages);
+    gone.forEach(x => { if (x.date >= today()) safe(() => markFreed(x.date, x.time)); });
+    save(); closeSheet(); render();
+    /* tell what was recalculated: the package got its lesson back, the money follows */
+    const sum = sids.map(sid => { const p = lastPkg(sid); if (!p || before[sid] === undefined) return ''; const now = pkgLeft(p); return now !== before[sid] && X.pk ? X.pk(firstName((stu(sid) || {}).name || ''), now, +p.n || 0) : ''; }).filter(Boolean);
+    toast((gone.length > 1 && X.many ? X.many(gone.length) : T.tDeleted) + (sum.length ? '\n' + sum.join('\n') : '') + (X.money && gone.some(x => x.paid || counts(x)) ? '\n' + X.money : ''), sum.length ? 3800 : 2600);
   },
   mark: el => {
     const l = state.lessons.find(x => x.id === el.dataset.id); if (!l) return;
@@ -10018,7 +10226,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA);
 safe(subWrap);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
@@ -10065,6 +10273,7 @@ async function start(){
   if (pendingApi && API_RE.test(pendingApi) && pendingApi !== state.settings.api) { state.settings.api = pendingApi; dirty = true; }
   ready = true;
   safe(tourMaybe);
+  safe(legalGate);
   if (dirty) save();
   document.body.classList.remove('booting');
   render();
@@ -10078,7 +10287,7 @@ async function start(){
   checkWhatsNew();
 }
 /* test hooks (7.7) */
-try { Object.assign(window.__vs || (window.__vs = {}), { closeSheet: a => closeSheet(a), pkgUntil: p => pkgUntil(p), pkgLeft: p => pkgLeft(p), pkgBurnt: p => pkgBurnt(p), pkgTotal: p => pkgTotal(p), applyPackages: s => applyPackages(s), applyLook: f => applyLook(f), applyTheme: () => { lastTheme = ''; applyTheme(); }, ymd: d => ymd(d), addDays: (d, n) => addDays(d, n), parseD: s => parseD(s) }); } catch (e) {}
+try { Object.assign(window.__vs || (window.__vs = {}), { applyOps: o => applyOps(o), closeSheet: a => closeSheet(a), pkgUntil: p => pkgUntil(p), pkgLeft: p => pkgLeft(p), pkgBurnt: p => pkgBurnt(p), pkgTotal: p => pkgTotal(p), applyPackages: s => applyPackages(s), applyLook: f => applyLook(f), applyTheme: () => { lastTheme = ''; applyTheme(); }, ymd: d => ymd(d), addDays: (d, n) => addDays(d, n), parseD: s => parseD(s) }); } catch (e) {}
 start().catch(rescueScreen);
 })();
 </script>
