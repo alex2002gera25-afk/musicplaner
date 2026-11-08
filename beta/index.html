@@ -9111,7 +9111,7 @@ safe(() => { waitAlert = (o => () => subBanner() + (safe(o) || ''))(waitAlert); 
 const SB = {
   subOpen: () => openSheet(subSheet()),
   subPlans: () => openSheet(subSheet()),
-  subBuy: () => { const s = subS(); if (s && s.pay && s.bot) return openUrl('https://t.me/' + s.bot + '?start=buy', true); if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
+  subBuy: () => { const s = subS(); if (s && s.pay) return openSheet(payPick()); if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
   subTrial: async () => {
     const s = subS() || {};
     if (s.trq === undefined) return SB.subRedeem('TEST');   // old server: self-service trial
@@ -9161,6 +9161,62 @@ safe(() => { maybeSecret = (o => (...a) => famOn() ? o(...a) : undefined)(maybeS
 safe(() => { checkCapsules = (o => (...a) => famOn() ? o(...a) : undefined)(checkCapsules); });
 safe(() => { if (T !== profT(famT(L))) applyLang(L); });
 safe(() => { playVoice = (o => (...a) => famOn() ? o(...a) : undefined)(playVoice); });
+
+/* ================= 8.3: pay right in the app (ЮKassa) =================
+   Pick a plan → server creates the payment (the price comes from the server, not from the app) → ЮKassa page opens →
+   the subscription switches on by itself (server checks the payment); «Проверить оплату» asks right away. */
+const PAYX = {
+  ru: { title: 'Купить подписку', hint: 'Оплата картой или по СБП на защищённой странице ЮKassa. Подписка включится сама сразу после оплаты.', gift: '🎁 В подарок (пришлём код)',
+    wait: 'Открываю оплату…', err: 'Оплата сейчас не открылась. Попробуй через минуту или напиши в поддержку.', paidT: 'Ждём оплату',
+    paidX: 'Оплати на странице ЮKassa и возвращайся — подписка включится сама в течение пары минут. Бот тоже напишет.', chk: '✅ Проверить оплату', again: '💳 Открыть оплату ещё раз',
+    st: { paid: '🎉 Оплата прошла! Подписка включена', done: '🎉 Оплата прошла! Подписка включена', wait: '⏳ Оплата ещё не пришла — подожди минуту и проверь снова', canceled: '✖️ Платёж отменён, деньги не списаны', none: 'Платёж не найден — напиши в поддержку', bad: 'Платёж проверяется вручную — напиши в поддержку' },
+    terms: 'Оплачивая, ты принимаешь пользовательское соглашение', best: 'выгоднее всего' },
+  en: { title: 'Buy a subscription', hint: 'Pay by card or SBP on the secure YooKassa page. The subscription switches on by itself right after payment.', gift: '🎁 As a gift (we send a code)',
+    wait: 'Opening payment…', err: 'Payment didn’t open. Try again in a minute or contact support.', paidT: 'Waiting for payment',
+    paidX: 'Pay on the YooKassa page and come back — the subscription switches on by itself within a couple of minutes. The bot will message you too.', chk: '✅ Check payment', again: '💳 Open payment again',
+    st: { paid: '🎉 Paid! Subscription is on', done: '🎉 Paid! Subscription is on', wait: '⏳ Not paid yet — wait a minute and check again', canceled: '✖️ Payment cancelled, no money taken', none: 'Payment not found — contact support', bad: 'The payment is being checked manually — contact support' },
+    terms: 'By paying you accept the terms of use', best: 'best value' } };
+const payX = () => PAYX[L === 'ru' ? 'ru' : 'en'];
+const PAY = { gift: false, pid: '', url: '' };
+const TERM_N = { ru: { y: 'Учебный год (13 мес)', m6: 'Полугодие', m3: '3 месяца', m1: 'Месяц' }, en: { y: 'School year (13 mo)', m6: 'Half a year', m3: '3 months', m1: 'Month' } };
+function payPick(){
+  return () => {
+    const X = payX(), TN = TERM_N[L === 'ru' ? 'ru' : 'en'];
+    const row = (p, t) => `<button class="btn ${p === 'max' && t === 'y' ? '' : 'ghost'}" data-act="payGo" data-v="${p}:${t}" style="display:flex;justify-content:space-between;align-items:center;text-align:left">
+      <span>${p === 'max' ? '⭐ ' : '🔹 '}${esc(planName(p))} · ${esc(TN[t])}${t === 'y' ? ` <small style="opacity:.8">· ${esc(X.best)}</small>` : ''}</span><b>${fmtNum(SUB_PRICES[p][t])} ₽</b></button>`;
+    return sheetHead('💳 ' + X.title) + `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(X.hint)}</div>
+      ${['y', 'm6', 'm3', 'm1'].map(t => row('max', t)).join('')}<div style="height:8px"></div>${['y', 'm6', 'm3', 'm1'].map(t => row('pro', t)).join('')}
+      <div class="field toggle" style="margin-top:10px"><span>${esc(X.gift)}</span><button type="button" class="sw${PAY.gift ? ' on' : ''}" data-act="payGift" aria-label="${esc(X.gift)}"><i></i></button></div>
+      <div class="hintline center"><a href="#" data-act="openLink" data-v="${esc(safe(lgUrl, 'privacy.html'))}#terms-ru">${esc(X.terms)}</a></div>`;
+  };
+}
+function payWait(){
+  return () => { const X = payX();
+    return sheetHead('⏳ ' + X.paidT) + `<div class="sbnote">${esc(X.paidX)}</div>
+      <button class="btn" data-act="payChk">${esc(X.chk)}</button>${PAY.url ? `<button class="btn ghost" data-act="payOpen">${esc(X.again)}</button>` : ''}`; };
+}
+Object.assign(SB, {
+  payGift: () => { PAY.gift = !PAY.gift; haptic(); refreshSheet(); },
+  payGo: async el => {
+    const [p, t] = String(el.dataset.v).split(':'), X = payX();
+    toast(X.wait, 1500);
+    try {
+      const j = await botPost({ a: 'pay', p, t, g: PAY.gift ? 1 : 0 }, 30000);
+      if (!j || !j.ok || !j.url) throw 0;
+      PAY.pid = j.pid; PAY.url = j.url; openUrl(j.url); openSheet(payWait());
+    } catch (e) { toast(X.err, 3500); }
+  },
+  payOpen: () => { if (PAY.url) openUrl(PAY.url); },
+  payChk: async () => {
+    const X = payX(); if (!PAY.pid) return;
+    try {
+      const j = await botPost({ a: 'payChk', pid: PAY.pid }, 30000);
+      if (j && j.sub) subApply(j.sub);
+      toast((j && X.st[j.st]) || X.st.wait, 3500);
+      if (j && (j.st === 'paid' || j.st === 'done')) { hapticOk(); closeSheet(true); render(); }
+    } catch (e) { toast(X.st.wait, 3000); }
+  }
+});
 /* ================= 7.5: guided tour (spotlight + explanation), settings hints, downloadable guide ================= */
 /* steps from the most important to the least; target = selector (on the Home tab) or null for a centred card */
 const TOUR = [
