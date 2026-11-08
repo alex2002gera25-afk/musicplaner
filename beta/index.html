@@ -713,6 +713,18 @@ body.lgl-lock{overflow:hidden}
 .surp-pop{text-align:center;padding:26px 14px 10px}
 .surp-pop .sp-big{font-size:64px;margin-bottom:8px}
 .surp-pop p{font-size:18px;line-height:1.45;margin:0 0 20px}
+
+.surpfull{position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;padding:calc(var(--sat,0px) + 24px) 22px calc(var(--sab,0px) + 24px);
+  background:radial-gradient(120% 80% at 50% 0%,#ffe3ea 0%,#fff4e8 55%,#fdf9f4 100%);opacity:0;transition:opacity .35s}
+.surpfull.on{opacity:1}
+.sf-box{max-width:440px;width:100%;text-align:center;transform:translateY(14px) scale(.98);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.surpfull.on .sf-box{transform:none}
+.sf-ic{font-size:76px;line-height:1;margin-bottom:12px;animation:sfbeat 1.6s ease-in-out infinite}
+@keyframes sfbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.sf-lb{font-size:15px;letter-spacing:.06em;color:#b03a55;font-weight:700;margin-bottom:14px}
+.sf-tx{font-size:21px;line-height:1.5;color:#3a2a2e;font-family:Georgia,'Times New Roman',serif;margin-bottom:28px}
+.sf-ok{max-width:260px;margin:0 auto;background:#c0385a !important;color:#fff !important;font-size:22px}
+@media (prefers-reduced-motion:reduce){.sf-ic{animation:none}}
 </style>
 </head>
 <body>
@@ -3721,9 +3733,8 @@ const userName = () => String(state.settings.name || (tgUser && tgUser.first_nam
 const withName = s => String(s).replace(/\{n\}/g, userName());
 /* the line under the greeting: anyone can write their own (studio, company…); "-" hides it */
 const brandLine = () => { const b = String(state.settings.brand == null ? '' : state.settings.brand).trim(); return !b ? (typeof famOn === 'function' && !famOn() ? '' : I18N[L].brand) : b === '-' ? '' : b.slice(0, 60); };
-const quoteNow = () => { const s = typeof surpMotd === 'function' && !quoteSkip ? safe(surpMotd, '') : ''; return s || withName(quotePool.length ? quotePool[quoteIdx % quotePool.length] : ''); };
-let quoteSkip = false;
-const praise = () => (typeof surpPraise === 'function' && safe(surpPraise, '')) || withName(pick(T.praise));
+const quoteNow = () => withName(quotePool.length ? quotePool[quoteIdx % quotePool.length] : '');
+const praise = () => withName(pick(T.praise));
 const savedMsg = () => Math.random() < 0.3 ? T.tSavedSanya : T.tSaved;
 function seedDefaults(){
   if (state.settings.init) return false;
@@ -4840,9 +4851,7 @@ function render(){
   const se = $('search');
   if (se) se.oninput = e => { ui.q = e.target.value; $('slist').innerHTML = studentsList(); };
 }
-function nextQuote(manual){
-  if (!manual && !quoteSkip && safe(surpMotd, '')) return;   // a family hint stays until tapped
-  if (manual) quoteSkip = true;
+function nextQuote(){
   quoteIdx++;
   const el = $('quoteTxt'); if (!el) return;
   el.classList.add('fade');
@@ -6103,31 +6112,39 @@ function studentNotes(){
 
 /* ================= 8.3: family surprises (hints by schedule) =================
    The server sends only the items whose time has come (server clock), and only to family accounts —
-   nothing about them is in the app code. motd: shown instead of «motivation of the day» for 24 h;
-   praise: once, instead of the praise after marking a lesson; piece: collected into the 🧩 card on Home. */
+   nothing about them is in the app code. Each new item opens FULL SCREEN once (#surp), one after another;
+   collected pieces stay in the 🧩 card on Home. A gift (ops with msg) opens the same full-screen card. */
 let surp = [];
 try { surp = JSON.parse(lsGetK('vs_surp') || '[]'); } catch (e) {}
+const surpSeen = () => { try { return JSON.parse(lsGetK('vs_surpSeen') || '{}'); } catch (e) { return {}; } };
 function surpSet(list){
   const was = surp.map(x => x.id).join();
   surp = list.filter(x => x && x.id && x.x).slice(0, 30);
   lsSetK('vs_surp', JSON.stringify(surp));
   if (surp.map(x => x.id).join() !== was && ui.tab === 'home' && !stack.length) render();
-}
-const surpSeen = () => { try { return JSON.parse(lsGetK('vs_surpSeen') || '{}'); } catch (e) { return {}; } };
-function surpMotd(){ const now = Date.now(); const m = surp.filter(x => x.app === 'motd' && now - x.at < 864e5).sort((a, b) => b.at - a.at)[0]; return m ? m.x : ''; }
-function surpPraise(){
-  const seen = surpSeen(), p = surp.find(x => x.app === 'praise' && !seen['p_' + x.id] && Date.now() - x.at < 3 * 864e5); if (!p) return '';
-  seen['p_' + p.id] = 1; lsSetK('vs_surpSeen', JSON.stringify(seen)); return p.x;
+  surpNext();
 }
 const surpPieces = () => surp.filter(x => x.piece && Date.now() - x.at < 5 * 864e5).sort((a, b) => a.piece - b.piece);
 function surpCard(){
   const pc = surpPieces(); if (!pc.length) return '';
   return `<div class="card surp" data-act="surpOpen"><span class="sp-ic">🧩</span><span class="sp-tx"><b>${pc.length} из ${pc[0].of} ❤️</b><small>${esc(L === 'ru' ? 'Кто-то оставляет тебе кусочки… нажми' : 'Someone is leaving you pieces… tap')}</small></span></div>`;
 }
-function surpPop(msg){
-  openSheet(() => `<div class="surp-pop"><div class="sp-big">🎁</div><p>${esc(msg)}</p><button class="btn" data-act="closeSheet">❤️</button></div>`);
-  hapticOk();
+/* the next unseen piece, full screen (waits while the consent window is open) */
+function surpNext(){
+  if ($('surp') || !ready) return;
+  if ($('lgl')) return setTimeout(surpNext, 1500);
+  const seen = surpSeen(), x = surp.filter(i => !seen['f_' + i.id] && Date.now() - i.at < 3 * 864e5).sort((a, b) => a.at - b.at)[0];
+  if (!x) return;
+  seen['f_' + x.id] = 1; lsSetK('vs_surpSeen', JSON.stringify(seen));
+  surpFull(x.piece ? '🧩' : '💌', x.piece ? `${x.piece} из ${x.of} ❤️` : '', x.x.replace(/^🧩 \d+ из \d+ ❤️ /m, ''), surpNext);
 }
+function surpFull(icon, label, text, after){
+  const el = document.createElement('div'); el.id = 'surp'; el.className = 'surpfull';
+  el.innerHTML = `<div class="sf-box"><div class="sf-ic">${icon}</div>${label ? `<div class="sf-lb">${esc(label)}</div>` : ''}<div class="sf-tx">${esc(text).replace(/\n/g, '<br>')}</div><button class="btn sf-ok" type="button">❤️</button></div>`;
+  document.body.appendChild(el); requestAnimationFrame(() => el.classList.add('on')); hapticOk();
+  el.querySelector('.sf-ok').onclick = () => { el.classList.remove('on'); setTimeout(() => { el.remove(); if (after) after(); }, 300); };
+}
+function surpPop(msg){ surpFull('🎁', '', msg); }
 const SURPA = {
   surpOpen: () => openSheet(() => sheetHead('🧩 ' + surpPieces().length + ' из ' + (surpPieces()[0] || {}).of + ' ❤️') +
     surpPieces().map(x => `<div class="card sp-li"><p>${esc(x.x).replace(/\n/g, '<br>')}</p></div>`).join(''))
@@ -9902,7 +9919,7 @@ const A = {
   calMode: el => { ui.calMode = el.dataset.v; render(); haptic(); },
   goDay: el => { ui.selDay = el.dataset.v; ui.month = el.dataset.v.slice(0, 7); ui.calMode = 'day'; ui.tab = 'lessons'; render(); window.scrollTo(0, 0); haptic(); },
   mmonth: el => { ui.moneyMonth = shiftMonth(ui.moneyMonth, +el.dataset.v); render(); haptic(); },
-  nextQuote: () => { nextQuote(true); haptic(); },
+  nextQuote: () => { nextQuote(); haptic(); },
   sanya: () => {
     const now = Date.now();
     footTaps = footTaps.filter(t => now - t < 6000).concat(now);
@@ -10463,7 +10480,7 @@ async function start(){
   if ((state.settings.lang || 'ru') !== L || state.settings.prof) applyLang(state.settings.lang || L);
   safe(fsApply);
   safe(() => { if (state.settings.prof) { const before = JSON.stringify(state.services.map(v => v.name)); profSvcNames(); if (JSON.stringify(state.services.map(v => v.name)) !== before) save(); } });
-  setTimeout(() => safe(dropCheck), 5000);
+  setTimeout(() => safe(dropCheck), 5000); setTimeout(() => safe(surpNext), 2500);
   loadedCounts = { n: state.students.length, l: state.lessons.length };
   const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
   if (updating) { await snapshot('upd'); setTimeout(() => chatBackup(T.bk.beforeUpd), 6000); }
