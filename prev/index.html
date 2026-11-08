@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="format-detection" content="telephone=no">
-<title>Мои ученики</title>
+<title>Студиум</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=PT+Mono&family=Marck+Script&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
@@ -702,6 +702,33 @@ body.lgl-lock{overflow:hidden}
 #priceRow.dis input{opacity:.45;background:transparent}
 #priceRow.dis label{color:var(--hint)}
 .price.pkp{font-size:13px;font-weight:600;color:var(--hint);white-space:nowrap}
+/* 8.3: an action is running — the button dims and ignores taps */
+.busy{opacity:.55;pointer-events:none;transition:opacity .15s}
+/* 8.3: family surprise pieces */
+.card.surp{display:flex;gap:12px;align-items:center;padding:12px 16px;margin:10px 0;cursor:pointer;background:linear-gradient(135deg,rgba(255,182,193,.22),rgba(255,228,196,.25))}
+.surp .sp-ic{font-size:26px}
+.surp .sp-tx b{display:block;font-size:15px}
+.surp .sp-tx small{color:var(--hint);font-size:13px}
+.sp-li p{margin:12px 14px;line-height:1.5;font-size:15px}
+.surp-pop{text-align:center;padding:26px 14px 10px}
+.surp-pop .sp-big{font-size:64px;margin-bottom:8px}
+.surp-pop p{font-size:18px;line-height:1.45;margin:0 0 20px}
+
+.surpfull{position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;padding:calc(var(--sat,0px) + 24px) 22px calc(var(--sab,0px) + 24px);
+  background:radial-gradient(120% 80% at 50% 0%,#ffe3ea 0%,#fff4e8 55%,#fdf9f4 100%);opacity:0;transition:opacity .35s}
+.surpfull.on{opacity:1}
+.sf-box{max-width:440px;width:100%;text-align:center;transform:translateY(14px) scale(.98);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.surpfull.on .sf-box{transform:none}
+.sf-ic{font-size:76px;line-height:1;margin-bottom:12px;animation:sfbeat 1.6s ease-in-out infinite}
+@keyframes sfbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.sf-lb{font-size:15px;letter-spacing:.06em;color:#b03a55;font-weight:700;margin-bottom:14px}
+.sf-tx{font-size:21px;line-height:1.5;color:#3a2a2e;font-family:Georgia,'Times New Roman',serif;margin-bottom:28px}
+.sf-ok{max-width:260px;margin:0 auto;background:#c0385a !important;color:#fff !important;font-size:22px}
+@media (prefers-reduced-motion:reduce){.sf-ic{animation:none}}
+
+/* 8.4 pay way switch */
+.paySeg{margin:0 8px 10px;flex-wrap:nowrap}.paySeg button{flex:1;padding:10px 8px;font-size:14px}
+.madein{text-align:center;margin:6px 16px 18px;font-size:12.5px;line-height:1.4}.madein a{color:var(--hint);text-decoration:none}.madein.big{margin-top:22px;font-size:14px}.madein.big a{color:var(--ink,var(--accent));font-weight:600}
 </style>
 </head>
 <body>
@@ -874,7 +901,7 @@ const noteName = m => m === '' || m == null || isNaN(+m) ? '' : T.notes[(+m) % 1
 
 const I18N = {
 ru: {
-  appTitle: 'Мои ученики', name: 'Аня', brand: 'Аня Энни · вокал',
+  appTitle: 'Студиум', name: 'Аня', brand: 'Аня Энни · вокал',
   tabs: { home: 'Главная', lessons: 'Календарь', students: 'Ученики', money: 'Деньги' },
   loading: 'Загрузка… Саня настраивает микрофон 🎤',
   add: 'Добавить', settings: 'Настройки', prev: 'Предыдущий месяц', next: 'Следующий месяц',
@@ -959,7 +986,7 @@ ru: {
     'Вот это продуктивность! 👏', 'Ты зажигаешь новые голоса 💫', 'Красиво работаешь, {n}! 🌹', 'Ещё чуть-чуть — и ученики соберут стадион 🏟️']
 },
 en: {
-  appTitle: 'My students', name: 'Anya', brand: 'Anya Annie · vocals',
+  appTitle: 'Studium', name: 'Anya', brand: 'Anya Annie · vocals',
   tabs: { home: 'Home', lessons: 'Calendar', students: 'Students', money: 'Earnings' },
   loading: 'Loading… Sanya is tuning the mic 🎤',
   add: 'Add', settings: 'Settings', prev: 'Previous month', next: 'Next month',
@@ -1044,7 +1071,7 @@ en: {
     'Now that’s productivity! 👏', 'You light up new voices 💫', 'Beautiful work, {n}! 🌹', 'A little more and your students will fill a stadium 🏟️']
 },
 es: {
-  appTitle: 'Mis alumnos', name: 'Anya', brand: 'Anya Annie · canto',
+  appTitle: 'Studium', name: 'Anya', brand: 'Anya Annie · canto',
   tabs: { home: 'Inicio', lessons: 'Calendario', students: 'Alumnos', money: 'Ingresos' },
   loading: 'Cargando… Sanya está ajustando el micro 🎤',
   add: 'Añadir', settings: 'Ajustes', prev: 'Mes anterior', next: 'Mes siguiente',
@@ -1129,7 +1156,7 @@ es: {
     '¡Eso sí que es productividad! 👏', 'Enciendes voces nuevas 💫', '¡Qué bien trabajas, {n}! 🌹', 'Un poco más y tus alumnos llenarán un estadio 🏟️']
 },
 it: {
-  appTitle: 'I miei allievi', name: 'Anya', brand: 'Anya Annie · canto',
+  appTitle: 'Studium', name: 'Anya', brand: 'Anya Annie · canto',
   tabs: { home: 'Home', lessons: 'Calendario', students: 'Allievi', money: 'Guadagni' },
   loading: 'Caricamento… Sanya sta regolando il microfono 🎤',
   add: 'Aggiungi', settings: 'Impostazioni', prev: 'Mese precedente', next: 'Mese successivo',
@@ -1214,7 +1241,7 @@ it: {
     'Questa sì che è produttività! 👏', 'Accendi nuove voci 💫', 'Lavori benissimo, {n}! 🌹', 'Ancora un po’ e i tuoi allievi riempiranno uno stadio 🏟️']
 },
 fr: {
-  appTitle: 'Mes élèves', name: 'Anya', brand: 'Anya Annie · chant',
+  appTitle: 'Studium', name: 'Anya', brand: 'Anya Annie · chant',
   tabs: { home: 'Accueil', lessons: 'Calendrier', students: 'Élèves', money: 'Revenus' },
   loading: 'Chargement… Sanya règle le micro 🎤',
   add: 'Ajouter', settings: 'Réglages', prev: 'Mois précédent', next: 'Mois suivant',
@@ -2859,7 +2886,7 @@ const LFD = {
 const TRD = {
   ru: { btn: 'Обучение: как пользоваться', next: 'Далее', back: 'Назад', skip: 'Пропустить', done: 'Готово!', of: (a, b) => `${a} из ${b}`,
     steps: {
-      hi: ['Привет! 👋', 'Это «Мои ученики» — ученики, уроки, деньги и выступления в одном месте. Покажу самое важное — это займёт минуту.'],
+      hi: ['Привет! 👋', 'Это «Студиум» — ученики, уроки, деньги и выступления в одном месте. Покажу самое важное — это займёт минуту.'],
       fab: ['Правый «+» — работа и деньги', 'Урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания — всё, что связано с учениками и заработком. Нажми — откроется меню. Начни с первого ученика.'],
       fab2: ['Левый «+» — дела и личное', 'Дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Всё, что не про деньги с уроков.'],
       students: ['Ученики', 'Карточка каждого ученика: телефон, цена, абонементы, домашка, песни, история уроков. Отсюда можно написать ученику в Telegram или WhatsApp одним нажатием.'],
@@ -2894,10 +2921,10 @@ const TRD = {
       subj: { vocal: 'Вокал', piano: 'Фортепиано', guitar: 'Гитара', other: 'Другое' }, subjShort: { vocal: 'вокал', piano: 'фортепиано', guitar: 'гитара' } },
     svcBtn: 'аренда студии', pr: { all: 'Цена урока (для всех услуг)', rentAll: 'Аренда студии за урок (для всех)', hint: 'Это общие цены: они подставляются во все услуги. Ниже можно поставить свою цену и аренду каждой услуге отдельно. Любое поле может быть 0.',
       each: 'Каждая услуга отдельно', setAll: 'Поставить всем общие', setAllDone: 'Общие цена и аренда поставлены всем услугам — нажми «Сохранить»', price: 'цена', rent: 'аренда', more: 'абонементы, онлайн, пробные', moved: 'Новые цены применены к услугам' },
-    guide: 'Скачать полный гайд', openBot: 'Открыть бота', botCard: ['🤖 Бот вносит всё сам', 'Напиши или наговори боту — «урок с Машей в среду в 15:00», «Петя оплатил» — он покажет, что понял, ты жмёшь «✅ Внести», и всё появляется в приложении.'], guideSent: 'Гайд отправлен в чат с ботом 📄', guideTitle: 'Мои ученики — полный гайд' },
+    guide: 'Скачать полный гайд', openBot: 'Открыть бота', botCard: ['🤖 Бот вносит всё сам', 'Напиши или наговори боту — «урок с Машей в среду в 15:00», «Петя оплатил» — он покажет, что понял, ты жмёшь «✅ Внести», и всё появляется в приложении.'], guideSent: 'Гайд отправлен в чат с ботом 📄', guideTitle: 'Студиум — полный гайд' },
   en: { btn: 'Tutorial: how to use it', next: 'Next', back: 'Back', skip: 'Skip', done: 'Done!', of: (a, b) => `${a} of ${b}`,
     steps: {
-      hi: ['Hi there! 👋', 'This is “My Students” — students, lessons, money and gigs in one place. I’ll show you the most important things — it takes a minute.'],
+      hi: ['Hi there! 👋', 'This is “Studium” — students, lessons, money and gigs in one place. I’ll show you the most important things — it takes a minute.'],
       fab: ['Right “+” — work and money', 'Lesson, student, package, gig, expense, certificate, waiting list — everything about students and income. Tap it to open the menu. Start with your first student.'],
       fab2: ['Left “+” — tasks and personal', 'Task, note, rehearsal, post, birthday, habit, personal spending, shopping, wish, goal, diary. Everything that is not lesson income.'],
       students: ['Students', 'A card for every student: phone, price, packages, homework, songs, lesson history. Message a student on Telegram or WhatsApp with one tap.'],
@@ -2932,19 +2959,19 @@ const TRD = {
       subj: { vocal: 'Vocals', piano: 'Piano', guitar: 'Guitar', other: 'Other' }, subjShort: { vocal: 'vocals', piano: 'piano', guitar: 'guitar' } },
     svcBtn: 'studio rent', pr: { all: 'Lesson price (all services)', rentAll: 'Studio rent per lesson (all)', hint: 'These are the common prices: they go into every service. Below you can set each service its own price and rent. Any field can be 0.',
       each: 'Each service separately', setAll: 'Apply common to all', setAllDone: 'Common price and rent set for every service — tap “Save”', price: 'price', rent: 'rent', more: 'packages, online, trials', moved: 'New prices applied to services' },
-    guide: 'Download the full guide', openBot: 'Open the bot', botCard: ['🤖 The bot fills it in', 'Write or speak to the bot — “lesson with Masha on Wednesday at 3 pm”, “Peter paid” — it shows what it understood, you tap “✅ Add”, and it appears in the app.'], guideSent: 'The guide was sent to the bot chat 📄', guideTitle: 'My Students — full guide' }
+    guide: 'Download the full guide', openBot: 'Open the bot', botCard: ['🤖 The bot fills it in', 'Write or speak to the bot — “lesson with Masha on Wednesday at 3 pm”, “Peter paid” — it shows what it understood, you tap “✅ Add”, and it appears in the app.'], guideSent: 'The guide was sent to the bot chat 📄', guideTitle: 'Studium — full guide' }
 };
 /* neutral texts for everyone except Sasha's family (see famT in js_sub.js) */
 const NEU = {
-  ru: { name: '', brand: 'Например: Маша Иванова · вокал', fCallMePh: 'Например, Маша', loading: 'Загрузка… настраиваем микрофон 🎤', about: '«Мои ученики» — ученики, уроки, деньги и выступления в одном месте. Нашли баг или есть идея — напишите боту. А ещё здесь спрятаны пасхалки… 🤫',
-    tSavedSanya: 'Сохранено 👍', madeBy: 'Мои ученики · сделано с любовью к музыке ✨',
+  ru: { name: '', brand: 'Например: Маша Иванова · вокал', fCallMePh: 'Например, Маша', loading: 'Загрузка… настраиваем микрофон 🎤', about: '«Студиум» — ученики, уроки, деньги и выступления в одном месте. Нашли баг или есть идея — напишите боту. А ещё здесь спрятаны пасхалки… 🤫',
+    tSavedSanya: 'Сохранено 👍', madeBy: 'Студиум · сделано с любовью к музыке ✨',
     sanya: ['Привет! 👋', 'Ты отлично справляешься ❤️', 'Каждый урок — шаг вперёд 🎶', 'Ученикам повезло с тобой 💐', 'Сделай паузу и выпей воды 💧', 'Так держать! 💪', 'Ты на верном пути ✨', 'Музыка делает мир лучше 🎵'],
     prizeL: 'Заслуженная награда', prizeX: 'Ты молодец! Такое достижение стоит отметить — побалуй себя: купи что-нибудь приятное, сходи в любимое кафе или по магазинам 🛍', prizeShow: 'Побалуй себя — ты это заслужил(а)!',
     cheers: ['Аплодисменты стоя 👏', , 'Этим можно гордиться 📣', , , , 'Гордимся тобой до мурашек ❤️'],
     ntNoApi: 'Чтобы бот присылал напоминания, к приложению один раз подключается маленький сервер. После этого всё заработает само.',
     ntTestMsg: nm => `🔔 Проверка связи! ${nm}, уведомления работают 🎉`,
-    nb: { sign: '— Мои ученики ✨' },
-    egg: { label: 'Пасхалка', sanya: 'Мои ученики', searchT: 'Ищешь кого-то особенного? 😉', searchS: 'Особенные люди всегда рядом ❤️',
+    nb: { sign: '— Студиум ✨' },
+    egg: { label: 'Пасхалка', sanya: 'Студиум', searchT: 'Ищешь кого-то особенного? 😉', searchS: 'Особенные люди всегда рядом ❤️',
       night: 'Ночная смена? Пора бы и поспать 😴', monday: 'Понедельник — день тяжёлый, но не для тебя! 🌅', friday: 'Пятница! Объявляем вечер отдыха 🥂', coffee: 'Четыре урока за день! Самое время для кофе и вкусняшки ☕🍰',
       love: ['Ты делаешь мир музыкальнее ❤️', 'Твои ученики растут благодаря тебе ✅', 'Обнимашки от приложения 🤗', 'Напоминание: ты прекрасно справляешься 💐', 'Гордимся тобой каждый день ❤️', 'Это приложение работает на твоём вдохновении 🔋'],
       hello: ['Привет-привет! 👋', 'Это кнопка обнимашек 🤗', 'Тук-тук! Кто там? 😄'],
@@ -2958,15 +2985,15 @@ const NEU = {
     wrapLetter: '{n}, это был потрясающий год. Столько людей запели благодаря тебе! Дальше будет ещё интереснее ❤️',
     bx: { hintOff: 'Ввод через бота пока не настроен' },
     bk: { how: [, , , , , 'Если экран приложения не грузится вообще — нажми «Скопировать данные» на экране ошибки и сохрани текст: из него всё восстановится.'] } },
-  en: { name: '', brand: 'For example: Masha Ivanova · vocals', fCallMePh: 'For example, Masha', loading: 'Loading… tuning the microphone 🎤', about: '“My Students” — students, lessons, money and gigs in one place. Found a bug or have an idea — write to the bot. And there are hidden easter eggs… 🤫',
-    tSavedSanya: 'Saved 👍', madeBy: 'My Students · made with love for music ✨',
+  en: { name: '', brand: 'For example: Masha Ivanova · vocals', fCallMePh: 'For example, Masha', loading: 'Loading… tuning the microphone 🎤', about: '“Studium” — students, lessons, money and gigs in one place. Found a bug or have an idea — write to the bot. And there are hidden easter eggs… 🤫',
+    tSavedSanya: 'Saved 👍', madeBy: 'Studium · made with love for music ✨',
     sanya: ['Hi there! 👋', 'You’re doing great ❤️', 'Every lesson is a step forward 🎶', 'Your students are lucky to have you 💐', 'Take a break and drink some water 💧', 'Keep it up! 💪', 'You’re on the right track ✨', 'Music makes the world better 🎵'],
     prizeL: 'Well-deserved reward', prizeX: 'Well done! This is worth celebrating — treat yourself: buy something nice, go to your favourite café or go shopping 🛍', prizeShow: 'Treat yourself — you deserve it!',
     cheers: ['A standing ovation 👏', , 'Something to be proud of 📣', , , , 'So proud of you ❤️'],
     ntNoApi: 'For the bot to send reminders, a small server is connected to the app once. After that everything works by itself.',
     ntTestMsg: nm => `🔔 Test! ${nm}, notifications work 🎉`,
-    nb: { sign: '— My Students ✨' },
-    egg: { label: 'Easter egg', sanya: 'My Students', searchT: 'Looking for someone special? 😉', searchS: 'Special people are always close ❤️',
+    nb: { sign: '— Studium ✨' },
+    egg: { label: 'Easter egg', sanya: 'Studium', searchT: 'Looking for someone special? 😉', searchS: 'Special people are always close ❤️',
       night: 'Night shift? Time to get some sleep 😴', monday: 'Mondays are hard, but not for you! 🌅', friday: 'Friday! Time for an evening off 🥂', coffee: 'Four lessons in a day! Time for coffee and a treat ☕🍰',
       love: ['You make the world more musical ❤️', 'Your students grow thanks to you ✅', 'A hug from the app 🤗', 'Reminder: you’re doing great 💐', 'Proud of you every day ❤️', 'This app runs on your inspiration 🔋'],
       hello: ['Hi-hi! 👋', 'This is the hug button 🤗', 'Knock knock! Who’s there? 😄'],
@@ -2997,7 +3024,7 @@ const SBD = {
     active: (p, u) => `Тариф «${p}» · ${u}`, until: d => `до ${d}`, forever: 'навсегда', freeNow: n => 'Без подписки — только просмотр', trialOn: u => `Пробный период «Макс» · ${u}`, trialName: 'Пробный период', trialBtn: n => `Запросить пробный доступ на ${ruN(n, 'день', 'дня', 'дней')}`, trialSent: 'Заявка на пробный доступ отправлена — создатель приложения скоро напишет тебе в Telegram', trialAsked: 'Бот написал тебе в чат — ответь на два коротких вопроса, и заявка уйдёт', trialDone: n => `Пробный период включён: ${ruN(n, 'день', 'дня', 'дней')} всё открыто!`, trialLeft: n => `Пробный период: осталось ${n} ${n === 1 ? 'день' : n < 5 ? 'дня' : 'дней'} — нажми, чтобы выбрать подписку`, trialLastBanner: 'Последний день пробного периода — выбери подписку, чтобы ничего не потерять', trialLastT: 'Последний день пробного периода', trialLastX: 'Завтра приложение перейдёт в режим просмотра. Все данные сохранятся — выбери подписку, и всё продолжит работать без перерыва. Выгоднее всего «Учебный год»: месяц в подарок.',
     roNew: n => `Сейчас приложение в режиме просмотра. Чтобы добавлять учеников, уроки и всё остальное — введи код подписки или запроси пробный доступ на ${ruN(n, 'день', 'дня', 'дней')}: нажми кнопку ниже, бот задаст два вопроса, и создатель приложения откроет доступ.`, roBannerNew: 'Режим просмотра — нажми, чтобы запросить пробный доступ или ввести код', ended: d => `Подписка закончилась ${d}`, admin: 'Ты владелец — всё включено навсегда',
     done: p => `Готово! Тариф «${p}» включён`, howBuy: 'Нажми «Купить код» — откроется чат, где можно купить код. Ввести его можно здесь или просто отправить боту. Пробный доступ — по заявке: кнопка выше или /trial в боте.',
-    buyText: 'Привет! Хочу купить код на «Мои ученики»',
+    buyText: 'Привет! Хочу купить код на «Студиум»',
     errs: { trialReq: 'Пробный доступ — по заявке: бот написал тебе в чат', trialUsed: 'Пробный период уже был на этом аккаунте — нужен код подписки', hasSub: 'У тебя уже есть подписка 🙂', nocode: 'Такого кода нет — проверь буквы и цифры', used: 'Этот код уже использован', revoked: 'Этот код отменён', mine: 'Ты уже активировал этот код', life: 'У тебя уже вечная подписка этого уровня', fail: 'Не получилось — проверь интернет и попробуй ещё раз' },
     cmpT: 'Чем отличаются тарифы', cmp: [
       ['Ученики, уроки, абонементы, расписание', '✓', '✓'], ['Деньги с уроков, долги, отчёты', '✓', '✓'], ['Планер, выступления, коллективы, песни, райдер', '✓', '✓'],
@@ -3344,7 +3371,7 @@ function profT(T0){
       if (lang === 'ru') Object.assign(T1, PROF_RU_L[G.l]);
       else { const w = PROF_EN_L[G.l]; PROF_L_KEYS.forEach(k => { const v = T0[k]; if (typeof v === 'string') T1[k] = profEnWord(v, w); else if (typeof v === 'function') T1[k] = (...a) => profEnWord(v(...a), w); }); }
     }
-    if (!G.music && T0 !== I18N[L]) { T1.madeBy = lang === 'ru' ? 'Мои ученики · сделано с любовью к твоему делу ✨' : 'My students · made with love for what you do ✨'; T1.loading = lang === 'ru' ? 'Загрузка… ✨' : 'Loading… ✨'; }
+    if (!G.music && T0 !== I18N[L]) { T1.madeBy = lang === 'ru' ? 'Студиум · сделано с любовью к твоему делу ✨' : 'Studium · made with love for what you do ✨'; T1.loading = lang === 'ru' ? 'Загрузка… ✨' : 'Loading… ✨'; }
     if (T0.tr) T1.tr = Object.assign({}, T0.tr, { defSvc: W.svc[G.l].map((n, i) => Object.assign({ name: n, price: 0 }, i === 1 ? { trial: true } : i === 2 ? { online: true } : {})) });
   }
   if (lang && !G.music) Object.assign(T1, profNoMusic(T1, lang, G, p));
@@ -3356,7 +3383,7 @@ function profT(T0){
 }
 /* ================= 8.1: words everywhere =================
    Every text of the app (T, deep) goes through profWords(): «урок» → тренировка / занятие / сессия with the right case and
-   gender of the adjective before it, «ученик/ученица» → спортсмен(ка) / клиент(ка). «Мои ученики» (the app's name) stays. */
+   gender of the adjective before it, «ученик/ученица» → спортсмен(ка) / клиент(ка). «Студиум» (the app's name) stays. */
 const RU_L_FORMS = {
   t: { sg: ['тренировка', 'тренировки', 'тренировке', 'тренировку', 'тренировкой', 'тренировке'], pl: ['тренировки', 'тренировок', 'тренировкам', 'тренировки', 'тренировками', 'тренировках'], g: 'f' },
   z: { sg: ['занятие', 'занятия', 'занятию', 'занятие', 'занятием', 'занятии'], pl: ['занятия', 'занятий', 'занятиям', 'занятия', 'занятиями', 'занятиях'], g: 'n' },
@@ -3408,7 +3435,7 @@ function ruSwap(s, stem, _re, F, first){
 }
 function profWordsRu(x, G){
   if (typeof x !== 'string' || !/[Уу]ро|[Уу]чени|онцерт|ыступлени|вокал/.test(x)) return x;
-  let s = x.replace(/Мои ученики/g, '\u0001');
+  let s = x.replace(/Студиум/g, '\u0001');
   if (G.s !== 'u') {
     const S = RU_S_FORMS[G.s];
     s = s.replace(/([Уу])чени(к|ц)\(ца\)/g, (m, u) => (u === 'У' ? S.m[1] : S.m[0]) + '(' + (G.s === 'a' ? 'ка' : 'ка') + ')');
@@ -3429,18 +3456,18 @@ function profWordsRu(x, G){
     s = s.replace(/([Вв])ыступлени(е|я|ю|ем|и|й|ям|ями|ях)(?![А-Яа-яЁё])/g, (m, v, e) => (v === 'В' ? st.charAt(0).toUpperCase() + st.slice(1) : st) + e);
     s = s.replace(/ в вокале/g, '').replace(/\bвокал(а|у|ом|е)?\b/g, (m) => m);
   }
-  return s.replace(/\u0001/g, 'Мои ученики');
+  return s.replace(/\u0001/g, 'Студиум');
 }
 function profWordsEn(x, G){
   if (typeof x !== 'string') return x;
   if (!G.music && /[Cc]oncert/.test(x)) { const e = G.sport ? ['competition', 'competitions'] : ['event', 'events'], up = t => t.charAt(0).toUpperCase() + t.slice(1);
     x = x.replace(/CONCERTS/g, e[1].toUpperCase()).replace(/CONCERT/g, e[0].toUpperCase()).replace(/Concerts/g, up(e[1])).replace(/concerts/g, e[1]).replace(/Concert/g, up(e[0])).replace(/concert/g, e[0]); }
   if (!/[Ll]esson|[Ss]tudent/.test(x)) return x;
-  let s = x.replace(/My students/g, '\u0001');
+  let s = x.replace(/Studium/g, '\u0001');
   if (G.l !== 'u') s = profEnWord(s, PROF_EN_L[G.l]);
   if (G.s !== 'u') { const w = G.s === 'a' ? ['athlete', 'athletes'] : ['client', 'clients'], cap = t => t.charAt(0).toUpperCase() + t.slice(1);
     s = s.replace(/Students/g, cap(w[1])).replace(/students/g, w[1]).replace(/Student/g, cap(w[0])).replace(/student/g, w[0]); }
-  return s.replace(/\u0001/g, 'My students');
+  return s.replace(/\u0001/g, 'Studium');
 }
 /* deep copy of T with every text adapted; functions are wrapped */
 function profDeep(v, fn, depth){
@@ -4347,7 +4374,8 @@ async function botSync(force){
   if (!force && hash === lastPayload) return;
   const sentKeys = new Set(evQueue.map(e => e.k)), ack = opsAck.slice();
   try {
-    const j = await botPost(Object.assign({ a: 'sync', notes, pub, ctx, ack }, state.settings.legal ? { lg: state.settings.legal } : {}, extra));
+    const sp = safe(() => { const v = String((tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || ''); return /^(ref|src)_[A-Za-z0-9_]{1,40}$/.test(v) ? v : ''; }) || '';
+    const j = await botPost(Object.assign({ a: 'sync', notes, pub, ctx, ack }, state.settings.legal ? { lg: state.settings.legal } : {}, sp ? { sp } : {}, extra));
     opsAck = opsAck.filter(x => !ack.includes(x)); saveAck();
     handleServer(j);
     lastPayload = hash; botStatus = 'ok'; botLast = Date.now();
@@ -4573,7 +4601,7 @@ function renderHome(){
       <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
       <div class="topbtns"><button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
-  const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
+  const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>` + safe(surpCard, '');
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
   if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + safe(homeTilesRow, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
@@ -4815,11 +4843,12 @@ function renderNav(){
   document.querySelectorAll('#tabs button').forEach(b => { b.hidden = !tabOn(b.dataset.v); b.classList.toggle('on', b.dataset.v === ui.tab); b.querySelector('.tl').textContent = b.dataset.v === 'lessons' && !mod('students') ? T.md.cal : T.tabs[b.dataset.v]; });
   const on = document.querySelector('#tabs button.on'); if (on && $('tabs').scrollWidth > $('tabs').clientWidth) try { on.scrollIntoView({ inline: 'nearest', block: 'nearest' }); } catch (e) {}
 }
+function tabRenderer(t){ const m = { home: renderHome, lessons: renderCalendar, students: renderStudents, money: renderMoney, studio: renderStudio, habits: () => safe(renderHabitsTab, header(T.tabs.habits)), plan: () => safe(renderPlan, header(T.tabs.plan) + `<div class="empty">⚠️ ${esc(T.bk.oops)}</div>`) }; return m[t]; }
 function render(){
   if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
   applyTheme();
   if (!tabOn(ui.tab)) ui.tab = 'home';
-  const fn = { home: renderHome, lessons: renderCalendar, students: renderStudents, money: renderMoney, studio: renderStudio, habits: () => safe(renderHabitsTab, header(T.tabs.habits)), plan: () => safe(renderPlan, header(T.tabs.plan) + `<div class="empty">⚠️ ${esc(T.bk.oops)}</div>`) }[ui.tab] || renderHome;
+  const fn = tabRenderer(ui.tab) || renderHome;
   $('app').innerHTML = fn() + footer();
   renderNav();
   safe(fabSync);
@@ -5630,6 +5659,7 @@ function handleServer(j){
   if (Array.isArray(j.requests)) { const was = requests.length; requests = j.requests; lsSetK('vs_reqs', JSON.stringify(requests)); if (requests.length !== was && ui.tab === 'home' && !stack.length) render(); }
   if (Array.isArray(j.capsules)) { lsSetK('vs_caps', JSON.stringify(j.capsules)); checkCapsules(); }
   if (typeof j.ai === 'boolean') { botAi = j.ai; lsSetK('vs_ai', j.ai ? '1' : '0'); }
+  if (Array.isArray(j.surp)) safe(() => surpSet(j.surp));
   if (Array.isArray(j.ops)) applyOps(j.ops);
 }
 let voiceAt = 0;
@@ -5936,6 +5966,14 @@ function prizeBank(){
 }
 
 /* ---------- booking page for students (opened via t.me/<bot>?startapp=book) ---------- */
+/* «Сделано в» — the booking page is seen by students and parents; some of them teach too.
+   Link to the bot with a source tag (src_book) so /stats shows how many came from here. */
+const MADEIN_BOT = 'musicplaner_bot';
+function madeIn(big){
+  const ru = L === 'ru';
+  return `<div class="madein${big ? ' big' : ''}"><a href="#" id="b_mi">${esc(ru ? (big ? '✨ Тоже ведёшь учеников? Расписание, абонементы и оплаты — в Telegram. Попробовать «Студиум» →' : 'Запись работает на «Студиум» — планер для преподавателей в Telegram →') : (big ? '✨ Teach too? Schedule, packages and payments in Telegram. Try «Studium» →' : 'Booking by «Studium» — a planner for teachers in Telegram →'))}</a></div>`;
+}
+function madeInWire(){ const a = $('b_mi'); if (a) a.onclick = e => { e.preventDefault(); openUrl('https://t.me/' + MADEIN_BOT + '?start=src_book', true); }; }
 async function startBooking(){
   document.body.classList.add('booting');
   document.documentElement.dataset.theme = 'light';
@@ -5955,7 +5993,8 @@ async function startBooking(){
         <div class="field"><label for="b_phone">${esc(T.fPhone)}</label><input id="b_phone" type="tel"></div>
         <div class="field"><label for="b_note">${esc(T.fNote)}</label><textarea id="b_note" placeholder="${esc(T.bkNotePh)}"></textarea></div></div>
       <label class="lgl-ck bk-ck"><input type="checkbox" id="b_ok"${sel.ok ? ' checked' : ''}><span>${esc(safe(() => lgX().bkC[0], ''))}<a href="${esc(safe(lgUrl, 'privacy.html'))}" target="_blank" rel="noopener">${esc(safe(() => lgX().bkC[1], ''))}</a>${esc(safe(() => lgX().bkC[2](pub.name || ''), ''))}</span></label>
-      <button class="btn" id="b_go">${esc(T.bkSend)}</button><div class="madeby">${esc(T.madeBy)}</div>`;
+      <button class="btn" id="b_go">${esc(T.bkSend)}</button><div class="madeby">${esc(T.madeBy)}</div>${madeIn()}`;
+    madeInWire();
     box.querySelectorAll('[data-bk]').forEach(b => b.onclick = () => { [sel.ds, sel.time] = b.dataset.bk.split('|'); keep(); draw(); haptic(); });
     const keep = () => { const ok = $('b_ok'); if (ok) sel.ok = ok.checked; const n = $('b_name'), p = $('b_phone'), s = $('b_svc'), t = $('b_note'); sel.name = n && n.value; sel.phone = p && p.value; sel.svc = s ? s.value : sel.svc; sel.note = t && t.value; };
     ['b_name', 'b_phone', 'b_note'].forEach(i => { if (sel[i.slice(2)] != null) $(i).value = sel[i.slice(2)]; });
@@ -5967,8 +6006,8 @@ async function startBooking(){
       try { if (ver('6.9') && !(tgUser && tgUser.allows_write_to_pm)) await new Promise(r => tg.requestWriteAccess(() => r())); } catch (e) {}
       try { const j = await call({ a: 'book', b: { ds: sel.ds, time: sel.time, svc: sel.svc, name: sel.name.trim(), phone: sel.phone || '', note: sel.note || '' }, lg: { v: LEGAL_V, at: Date.now(), book: 1 } }); if (!j.ok) throw 0; }
       catch (e) { return toast(T.ntErr, 3000); }
-      box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🎉</div><b>${esc(T.bkDone)}</b>${esc(T.bkDoneX(dayLabel(sel.ds) + ', ' + sel.time))}</div>`;
-      confetti(); hapticOk();
+      box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🎉</div><b>${esc(T.bkDone)}</b>${esc(T.bkDoneX(dayLabel(sel.ds) + ', ' + sel.time))}</div>${madeIn(true)}`;
+      madeInWire(); confetti(); hapticOk();
     };
   };
   draw();
@@ -6084,6 +6123,46 @@ function studentNotes(){
   }
   return out;
 }
+
+/* ================= 8.3: family surprises (hints by schedule) =================
+   The server sends only the items whose time has come (server clock), and only to family accounts —
+   nothing about them is in the app code. Each new item opens FULL SCREEN once (#surp), one after another;
+   collected pieces stay in the 🧩 card on Home. A gift (ops with msg) opens the same full-screen card. */
+let surp = [];
+try { surp = JSON.parse(lsGetK('vs_surp') || '[]'); } catch (e) {}
+const surpSeen = () => { try { return JSON.parse(lsGetK('vs_surpSeen') || '{}'); } catch (e) { return {}; } };
+function surpSet(list){
+  const was = surp.map(x => x.id).join();
+  surp = list.filter(x => x && x.id && x.x).slice(0, 30);
+  lsSetK('vs_surp', JSON.stringify(surp));
+  if (surp.map(x => x.id).join() !== was && ui.tab === 'home' && !stack.length) render();
+  surpNext();
+}
+const surpPieces = () => surp.filter(x => x.piece && Date.now() - x.at < 5 * 864e5).sort((a, b) => a.piece - b.piece);
+function surpCard(){
+  const pc = surpPieces(); if (!pc.length) return '';
+  return `<div class="card surp" data-act="surpOpen"><span class="sp-ic">🧩</span><span class="sp-tx"><b>${pc.length} из ${pc[0].of} ❤️</b><small>${esc(L === 'ru' ? 'Кто-то оставляет тебе кусочки… нажми' : 'Someone is leaving you pieces… tap')}</small></span></div>`;
+}
+/* the next unseen piece, full screen (waits while the consent window is open) */
+function surpNext(){
+  if ($('surp') || !ready) return;
+  if ($('lgl')) return setTimeout(surpNext, 1500);
+  const seen = surpSeen(), x = surp.filter(i => !seen['f_' + i.id] && Date.now() - i.at < 3 * 864e5).sort((a, b) => a.at - b.at)[0];
+  if (!x) return;
+  seen['f_' + x.id] = 1; lsSetK('vs_surpSeen', JSON.stringify(seen));
+  surpFull(x.piece ? '🧩' : '💌', x.piece ? `${x.piece} из ${x.of} ❤️` : '', x.x.replace(/^🧩 \d+ из \d+ ❤️ /m, ''), surpNext);
+}
+function surpFull(icon, label, text, after){
+  const el = document.createElement('div'); el.id = 'surp'; el.className = 'surpfull';
+  el.innerHTML = `<div class="sf-box"><div class="sf-ic">${icon}</div>${label ? `<div class="sf-lb">${esc(label)}</div>` : ''}<div class="sf-tx">${esc(text).replace(/\n/g, '<br>')}</div><button class="btn sf-ok" type="button">❤️</button></div>`;
+  document.body.appendChild(el); requestAnimationFrame(() => el.classList.add('on')); hapticOk();
+  el.querySelector('.sf-ok').onclick = () => { el.classList.remove('on'); setTimeout(() => { el.remove(); if (after) after(); }, 300); };
+}
+function surpPop(msg){ surpFull('🎁', '', msg); }
+const SURPA = {
+  surpOpen: () => openSheet(() => sheetHead('🧩 ' + surpPieces().length + ' из ' + (surpPieces()[0] || {}).of + ' ❤️') +
+    surpPieces().map(x => `<div class="card sp-li"><p>${esc(x.x).replace(/\n/g, '<br>')}</p></div>`).join(''))
+};
 
 /* ================= Bot input: text & voice → data (actions queued on the server) ================= */
 let botAi = lsGetK('vs_ai') === '1', opsBusy = false, opsAck = [], opsWait = [], opsToastAt = 0;
@@ -6235,8 +6314,8 @@ function applyAct(a, out, touched){
       /* a named sum is what the student paid in total: keep it exact (price per lesson, no extra rent) */
       /* 7.7: no sum named → a ready-made package type with the same number of lessons (its price for the whole package and term) */
       const tp = !total && !per ? (state.settings.pkgT || []).find(x => +x.n === n && (!x.svc || x.svc === svc)) : null;
-      if (tp && +tp.tot > 0) state.packages.push({ id: uid(), sid: s.id, svc, n, price: Math.round(tp.tot / n), tot: +tp.tot, rent, date: bxDate(a.date) || t, note: '', name: tp.name || '', days: +tp.days || 0, frz: [] });
-      else state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, tot: total && !bxNum(a.per_lesson) ? total : 0, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: '', days: Math.max(0, Math.min(400, bxNum(a.days) || (tp ? +tp.days || 0 : 0))), frz: [] });
+      if (tp && +tp.tot > 0) state.packages.push({ id: uid(), sid: s.id, svc, n, price: Math.round(tp.tot / n), tot: +tp.tot, rent, date: bxDate(a.date) || t, note: String(a.note || '').slice(0, 200), name: tp.name || '', days: +tp.days || 0, frz: [] });
+      else state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, tot: total && !bxNum(a.per_lesson) ? total : 0, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: String(a.note || '').slice(0, 200), days: Math.max(0, Math.min(400, bxNum(a.days) || (tp ? +tp.days || 0 : 0))), frz: [] });
       touched.add(s.id); out.push('📦 ' + T2.pkg(s.name, n)); return;
     }
     case 'add_expense': {
@@ -6275,15 +6354,19 @@ function applyOps(ops){
   touched.forEach(sid => applyPackages(sid));
   save(); render(); if (stack.length) refreshSheet(); hapticOk();
   opsToastAt = Date.now();
+  /* a family surprise brings its own words instead of the bot report */
+  const msg = fresh.map(o => o.msg).filter(Boolean)[0];
+  if (msg) { safe(() => surpPop(msg)); setTimeout(pollOps, 1500); return; }
   toast('🤖 ' + T.bx.title + '\n' + out.slice(0, 8).join('\n') + (out.length > 8 ? '\n…' : ''), 3000 + 900 * Math.min(out.length, 6));
   setTimeout(pollOps, 1500);
 }
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 44;
+const APP_VER = 45;
 const CHANGES = [
-  {"v": 44, "name": "8.3", "date": "2026-11-08", "big": true, "quiet": true, "ru": {"add": ["💳 Подключили ЮKassa — оплата подписки прямо в приложении и в боте. ⚙️ Настройки → 💎 Подписка → «Купить подписку» (или /тарифы в боте): выбираешь тариф, платишь через ЮKassa любой картой или по СБП — и подписка включается сама за пару минут, без кодов и ожидания", "🎁 Подписка в подарок: оплачиваешь — бот присылает одноразовый код, его можно переслать кому угодно", "💼 Профессия меняет всё приложение: карточка ученика, дневник, навыки, анкета, шаблоны сообщений, напоминания, достижения, события и услуги говорят словами твоей профессии — тренировка, занятие или сессия; спортсмены или клиенты", "🎯 Свои навыки для каждой профессии (у хоккеиста — катание, бросок, тактика, у языка — грамматика, говорение…), «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие»", "📄 Документы и согласия: при первом входе — короткое понятное окно о том, как хранятся твои данные. Всё можно перечитать и изменить: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия»", "📋 Готовый текст согласия для учеников и родителей — копируешь и отправляешь в один тап"], "better": ["✌️ Занятие-конструктор: «Количество занятий» − / + рядом с длительностью — двойное, тройное и больше одной записью (120 минут подскажут 2, 180 — 3). С абонемента спишется столько же, и сразу видно «Спишется 2 занятия · останется 5 из 8»", "🎟 Списание с абонемента — переключатель прямо над стоимостью: включил — стоимость становится серой «оплачено абонементом», выключил — цена за все занятия считается сама. Задним числом тоже работает", "🗑 Удалить занятие — как будто его не было: деньги, долг и абонемент пересчитываются сразу, приложение пишет, что изменилось («в абонементе снова 5 из 8»)", "🔁 У повторяющихся занятий — «только это» или «это и следующие», у групповых — «для всей группы»", "❌ Отмена занятия учеником через бот сразу возвращает занятие в абонемент", "🎤 Песни, распевки и диапазон голоса — только у музыкантов; вернёшься в музыку — всё вернётся само", "🗓 В онлайн-записи клиент отмечает согласие на обработку данных", "🔒 Оплата через ЮKassa защищена: данные карты видит только ЮKassa, сумму задаёт только сервер, каждый платёж засчитывается один раз"]}, "en": {"add": ["💳 YooKassa is connected — pay for a subscription right in the app and the bot, by any card or SBP. ⚙️ Settings → 💎 Subscription → “Buy a subscription” (or /plans in the bot): pick a plan, pay on the secure YooKassa page — it switches on by itself in a couple of minutes, no codes, no waiting", "🎁 Subscription as a gift: pay — the bot sends a one-time code you can forward to anyone", "💼 Your profession adapts the whole app: student card, diary, skills, questionnaire, messages, reminders, achievements, events and services use your profession’s words", "🎯 Own skills for every profession, competitions or events instead of concerts, a “Wellbeing” diary", "📄 Documents and consents: a short clear window on first start about how your data is stored. Review or change any time: ⚙️ Settings → 🛟 Data & backups → “Documents and consents”", "📋 A ready consent text for students and parents — copy and send in one tap"], "better": ["✌️ Lesson builder: “Number of lessons” − / + next to the duration — double, triple and more in one entry (120 minutes suggests 2, 180 — 3). The package is charged the same, with “2 will be taken · 5 of 8 left”", "🎟 “Take from the package” sits right above the price: on — the price turns grey “paid by the package”, off — the price for all lessons is counted by itself", "🗑 Deleting a lesson works as if it never happened: money, debts and the package are recalculated at once and the app tells you what changed", "🔁 Repeating lessons: “only this” or “this and following”; group lessons: “whole group”", "❌ A student cancelling through the bot returns the lesson to the package at once", "🎤 Songs, warm-ups and vocal range only for musicians", "🗓 Online booking asks the client for consent to data processing", "🔒 Payments are protected: only the server sets the amount, each payment counts once"]}},
+  {"v": 45, "name": "8.3.1", "date": "2026-11-08", "quiet": true, "ru": {"add": ["⭐ Можно платить звёздами Telegram — прямо в приложении, без карты", "🤝 «Пригласи коллегу»: другу 7 дней «Макс» бесплатно, тебе — месяц, когда он оформит подписку (💎 Подписка)", "✨ Приложение теперь называется «Студиум»", "🗓 На странице записи учеников — строчка «Запись работает на «Студиум»»"], "better": ["📄 В документах — оплата звёздами и возврат; в боте /terms и /paysupport"]}, "en": {"add": ["⭐ Pay with Telegram Stars right in the app — no card needed", "🤝 «Invite a colleague»: they get 7 days of Max free, you get a month when they subscribe (💎 Subscription)", "✨ The app is now called «Studium»", "🗓 The booking page says «Booking by «Studium»»"], "better": ["📄 Documents cover Stars payments and refunds; /terms and /paysupport in the bot"]}},
+  {"v": 44, "name": "8.3", "date": "2026-11-08", "big": true, "quiet": true, "ru": {"add": ["💳 Подключили ЮKassa — оплата подписки прямо в приложении и в боте. ⚙️ Настройки → 💎 Подписка → «Купить подписку» (или /тарифы в боте): выбираешь тариф, платишь через ЮKassa любой картой или по СБП — и подписка включается сама за пару минут, без кодов и ожидания", "🎁 Подписка в подарок: оплачиваешь — бот присылает одноразовый код, его можно переслать кому угодно", "💼 Профессия меняет всё приложение: карточка ученика, дневник, навыки, анкета, шаблоны сообщений, напоминания, достижения, события и услуги говорят словами твоей профессии — тренировка, занятие или сессия; спортсмены или клиенты", "🎯 Свои навыки для каждой профессии (у хоккеиста — катание, бросок, тактика, у языка — грамматика, говорение…), «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие»", "📄 Документы и согласия: при первом входе — короткое понятное окно о том, как хранятся твои данные. Всё можно перечитать и изменить: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия»", "📋 Готовый текст согласия для учеников и родителей — копируешь и отправляешь в один тап"], "better": ["✌️ Занятие-конструктор: «Количество занятий» − / + рядом с длительностью — двойное, тройное и больше одной записью (120 минут подскажут 2, 180 — 3). С абонемента спишется столько же, и сразу видно «Спишется 2 занятия · останется 5 из 8»", "🎟 Списание с абонемента — переключатель прямо над стоимостью: включил — стоимость становится серой «оплачено абонементом», выключил — цена за все занятия считается сама. Задним числом тоже работает", "🗑 Удалить занятие — как будто его не было: деньги, долг и абонемент пересчитываются сразу, приложение пишет, что изменилось («в абонементе снова 5 из 8»)", "🔁 У повторяющихся занятий — «только это» или «это и следующие», у групповых — «для всей группы»", "❌ Отмена занятия учеником через бот сразу возвращает занятие в абонемент", "🎤 Песни, распевки и диапазон голоса — только у музыкантов; вернёшься в музыку — всё вернётся само", "🗓 В онлайн-записи клиент отмечает согласие на обработку данных", "🛡 Защита от двойных нажатий: сколько ни жми «Сохранить», «Продать абонемент» или «Оплатить» — запись или платёж будет один; пока идёт оплата, кнопка приглушена", "⚡ Быстрее отклик: приложение начинает считать нужные цифры уже в момент касания", "🔒 Оплата через ЮKassa защищена: данные карты видит только ЮKassa, сумму задаёт только сервер, каждый платёж засчитывается один раз"]}, "en": {"add": ["💳 YooKassa is connected — pay for a subscription right in the app and the bot, by any card or SBP. ⚙️ Settings → 💎 Subscription → “Buy a subscription” (or /plans in the bot): pick a plan, pay on the secure YooKassa page — it switches on by itself in a couple of minutes, no codes, no waiting", "🎁 Subscription as a gift: pay — the bot sends a one-time code you can forward to anyone", "💼 Your profession adapts the whole app: student card, diary, skills, questionnaire, messages, reminders, achievements, events and services use your profession’s words", "🎯 Own skills for every profession, competitions or events instead of concerts, a “Wellbeing” diary", "📄 Documents and consents: a short clear window on first start about how your data is stored. Review or change any time: ⚙️ Settings → 🛟 Data & backups → “Documents and consents”", "📋 A ready consent text for students and parents — copy and send in one tap"], "better": ["✌️ Lesson builder: “Number of lessons” − / + next to the duration — double, triple and more in one entry (120 minutes suggests 2, 180 — 3). The package is charged the same, with “2 will be taken · 5 of 8 left”", "🎟 “Take from the package” sits right above the price: on — the price turns grey “paid by the package”, off — the price for all lessons is counted by itself", "🗑 Deleting a lesson works as if it never happened: money, debts and the package are recalculated at once and the app tells you what changed", "🔁 Repeating lessons: “only this” or “this and following”; group lessons: “whole group”", "❌ A student cancelling through the bot returns the lesson to the package at once", "🎤 Songs, warm-ups and vocal range only for musicians", "🗓 Online booking asks the client for consent to data processing", "🛡 Double-tap protection: however many times you tap Save, Sell a package or Pay, you get one entry or one payment", "⚡ Faster response: the app starts computing the moment your finger touches the screen", "🔒 Payments are protected: only the server sets the amount, each payment counts once"]}},
   { v: 38, name: '8.0.1', date: '2026-11-04',
     ru: { add: ['🛟 Защита от пропажи данных: если вдруг стало заметно меньше учеников или уроков, приложение и бот сразу подскажут, как одним нажатием вернуть резервную копию, и дадут связь с создателем приложения'], better: [] },
     en: { add: ['🛟 Data-loss guard: if students or lessons suddenly drop, the app and the bot show how to bring back a backup in one tap and how to reach the app’s creator'], better: [] } },
@@ -8705,7 +8788,7 @@ function lifeWeek(from, to){
    to answer questions in Telegram. Write in plain words; one fact per line. */
 const HELP_DOC = [
   { id: 'start', ic: '🚀', t: 'С чего начать', p: [
-    'Приложение «Мои ученики» — это учёт учеников, уроков и денег педагога по вокалу, плюс личный планер певицы: выступления, репетиции, дела, заметки, контент-план, свои песни, райдер.',
+    'Приложение «Студиум» — это учёт учеников, уроков и денег педагога по вокалу, плюс личный планер певицы: выступления, репетиции, дела, заметки, контент-план, свои песни, райдер.',
     'Открывай приложение кнопкой «Ученики» внизу чата с ботом @musicplaner_bot. Так оно знает, чей это аккаунт, а бот видит твоих учеников и может вносить данные.',
     'Если открыть по ссылке в браузере, приложение откроется в демо-режиме: данные будут только в этом браузере.',
     'Работает на iPhone и Android (Samsung, Xiaomi, Huawei и др.), на планшетах и на компьютере (Telegram для Mac и Windows). На большом экране всё раскладывается шире: 4 карточки в ряд, меню и кнопки «+» по краям, окна по центру.',
@@ -8844,7 +8927,8 @@ const HELP_DOC = [
     'Полный гайд одним файлом: Справка → «📄 Скачать полный гайд» — бот пришлёт текстовый файл со всеми инструкциями в чат.',
     'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — покажет, что понял, ты жмёшь «✅ Внести».' ] },
   { id: 'sub', ic: '💎', t: 'Подписка и коды', p: [
-    'Как купить: ⚙️ Настройки → 💎 Подписка → «Купить подписку — карта или СБП», или в боте /тарифы. Выбери тариф → «Оплатить» → оплата на странице ЮKassa. Подписка включается сама за пару минут; если не включилась — нажми в боте «✅ Я оплатил — проверить». В подарок: /тарифы → «Купить в подарок» — после оплаты бот пришлёт код.',
+    'Пригласи коллегу — месяц бесплатно: ⚙️ Настройки → 💎 Подписка → «🤝 Пригласи коллегу» (или в боте /invite). Отправь свою ссылку коллеге: он сразу получит 7 дней «Макс» бесплатно, а ты — +1 месяц подписки, когда он оформит свою. Работает только для новых пользователей, количество не ограничено. Там же видно, сколько людей пришло по твоей ссылке.',
+    'Как купить: ⚙️ Настройки → 💎 Подписка → «Купить подписку — карта, СБП или ⭐», или в боте /тарифы. Сверху выбери способ: «💳 Карта / СБП» (страница ЮKassa) или «⭐ Звёзды Telegram» (оплата прямо в Telegram, без карты; звёзды покупаются в Telegram: Настройки → Мои звёзды). Цены звёздами: Про — 199 ⭐ в месяц, 499 ⭐ за 3 месяца, 849 ⭐ за полгода, 1290 ⭐ за учебный год; Макс — 299, 749, 1290 и 1990 ⭐. Выбери тариф → оплати. Подписка включается сама за пару минут; если не включилась — нажми в боте «✅ Я оплатил — проверить». В подарок: /тарифы → «Купить в подарок» — после оплаты бот пришлёт код.',
     'Тарифы: без подписки приложение работает в режиме просмотра. «Про» — вся работа педагога: ученики, уроки, абонементы, деньги, расписание, планер, выступления, коллективы, песни, райдер, Google Календарь, копии, ученики в боте, бот текстом; плюс личное: до 3 привычек, списки, цели, вишлист. «Макс» — всё из Про плюс до 15 привычек, мои финансы (бюджет, платежи, копилки), дневник голоса, ссылка на вишлист для близких, бот голосом и про личное («такси 450», «хочу синтезатор»), напетые мелодии.',
     'Сравнить тарифы: ⚙️ Настройки → 💎 Подписка — там таблица «Чем отличаются тарифы». В боте — команда /тарифы. Бот сам присылает сравнение, когда заканчивается пробный период или подписка.',
     'Сроки и цены. Макс: Учебный год (13 месяцев — месяц в подарок) 2 599 ₽, Полугодие (+2 недели) 1 690 ₽, Четверть 990 ₽, Попробовать (1 месяц) 390 ₽. Про: 1 590 / 1 090 / 649 / 249 ₽.',
@@ -9108,7 +9192,7 @@ function subTrialBtn(){
   /* new server: a request to the owner (anyone without a subscription may ask); old server: trialOk + self-trial */
   return s.trq !== undefined || s.trialOk ? `<button class="btn soft" data-act="subTrial">🙋 ${esc(T.sb.trialBtn(s.trialDays || 3))}</button>` : '';
 }
-function subBuyBtn(){ const s = subS(); if (s && s.pay && s.bot) return `<button class="btn" data-act="subBuy">💳 ${esc(L === 'ru' ? 'Купить подписку через ЮKassa' : 'Buy a subscription via YooKassa')}</button>`; return s && s.seller ? `<button class="btn ghost" data-act="subBuy">💬 ${esc(T.sb.buy)}</button>` : ''; }
+function subBuyBtn(){ const s = subS(); if (s && (s.pay || s.stars) && s.bot) return `<button class="btn" data-act="subBuy">💳 ${esc(L === 'ru' ? (s.pay && s.stars ? 'Купить подписку — карта, СБП или ⭐' : s.pay ? 'Купить подписку через ЮKassa' : 'Купить подписку за ⭐ Telegram') : (s.pay && s.stars ? 'Buy — card, SBP or ⭐ Stars' : s.pay ? 'Buy a subscription via YooKassa' : 'Buy with ⭐ Telegram Stars'))}</button>` + refBtn(); return s && s.seller ? `<button class="btn ghost" data-act="subBuy">💬 ${esc(T.sb.buy)}</button>` : ''; }
 function subCompare(){
   const X = T.sb;
   return `<div class="sec"><span>${esc(X.cmpT)}</span></div><div class="card sbcmp"><div class="sbcr sbch"><span></span><b>${esc(planName('pro'))}</b><b>⭐ ${esc(planName('max'))}</b></div>${X.cmp.map(([l, a, b]) => `<div class="sbcr"><span>${esc(l)}</span><i class="${a === '—' ? 'no' : ''}">${esc(a)}</i><i class="${b === '—' ? 'no' : 'yes'}">${esc(b)}</i></div>`).join('')}</div>`;
@@ -9184,7 +9268,7 @@ safe(() => { waitAlert = (o => () => subBanner() + (safe(o) || ''))(waitAlert); 
 const SB = {
   subOpen: () => openSheet(subSheet()),
   subPlans: () => openSheet(subSheet()),
-  subBuy: () => { const s = subS(); if (s && s.pay) return openSheet(payPick()); if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
+  subBuy: () => { const s = subS(); if (s && (s.pay || s.stars)) { PAY.stars = !s.pay; return openSheet(payPick()); } if (s && s.seller) openUrl('https://t.me/' + s.seller + '?text=' + encodeURIComponent(T.sb.buyText), true); },
   subTrial: async () => {
     const s = subS() || {};
     if (s.trq === undefined) return SB.subRedeem('TEST');   // old server: self-service trial
@@ -9243,21 +9327,26 @@ const PAYX = {
     wait: 'Открываю оплату…', err: 'Оплата сейчас не открылась. Попробуй через минуту или напиши в поддержку.', paidT: 'Ждём оплату',
     paidX: 'Оплати на странице ЮKassa и возвращайся — подписка включится сама в течение пары минут. Бот тоже напишет.', chk: '✅ Проверить оплату', again: '💳 Открыть оплату ещё раз',
     st: { paid: '🎉 Оплата прошла! Подписка включена', done: '🎉 Оплата прошла! Подписка включена', wait: '⏳ Оплата ещё не пришла — подожди минуту и проверь снова', canceled: '✖️ Платёж отменён, деньги не списаны', none: 'Платёж не найден — напиши в поддержку', bad: 'Платёж проверяется вручную — напиши в поддержку' },
-    terms: 'Оплачивая, ты принимаешь пользовательское соглашение', best: 'выгоднее всего' },
+    terms: 'Оплачивая, ты принимаешь пользовательское соглашение', best: 'выгоднее всего',
+    card: '💳 Карта / СБП', star: '⭐ Звёзды Telegram', starHint: 'Оплата звёздами Telegram прямо здесь — без карты. Звёзды можно купить в Telegram (Настройки → Мои звёзды). Подписка включится сразу.', starOk: '🎉 Оплата прошла! Включаю подписку…', starNo: 'Оплата не прошла — попробуй ещё раз', starWait: 'Telegram ещё обрабатывает оплату — подписка включится через минуту' },
   en: { title: 'Buy a subscription', hint: 'Pay by card or SBP on the secure YooKassa page. The subscription switches on by itself right after payment.', gift: '🎁 As a gift (we send a code)',
     wait: 'Opening payment…', err: 'Payment didn’t open. Try again in a minute or contact support.', paidT: 'Waiting for payment',
     paidX: 'Pay on the YooKassa page and come back — the subscription switches on by itself within a couple of minutes. The bot will message you too.', chk: '✅ Check payment', again: '💳 Open payment again',
     st: { paid: '🎉 Paid! Subscription is on', done: '🎉 Paid! Subscription is on', wait: '⏳ Not paid yet — wait a minute and check again', canceled: '✖️ Payment cancelled, no money taken', none: 'Payment not found — contact support', bad: 'The payment is being checked manually — contact support' },
-    terms: 'By paying you accept the terms of use', best: 'best value' } };
+    terms: 'By paying you accept the terms of use', best: 'best value',
+    card: '💳 Card / SBP', star: '⭐ Telegram Stars', starHint: 'Pay with Telegram Stars right here — no card needed. Stars can be bought in Telegram (Settings → My Stars). The subscription switches on at once.', starOk: '🎉 Paid! Switching the subscription on…', starNo: 'Payment failed — try again', starWait: 'Telegram is still processing — the subscription will switch on in a minute' } };
 const payX = () => PAYX[L === 'ru' ? 'ru' : 'en'];
-const PAY = { gift: false, pid: '', url: '' };
+const PAY = { gift: false, pid: '', url: '', stars: false };
 const TERM_N = { ru: { y: 'Учебный год (13 мес)', m6: 'Полугодие', m3: '3 месяца', m1: 'Месяц' }, en: { y: 'School year (13 mo)', m6: 'Half a year', m3: '3 months', m1: 'Month' } };
 function payPick(){
   return () => {
-    const X = payX(), TN = TERM_N[L === 'ru' ? 'ru' : 'en'];
-    const row = (p, t) => `<button class="btn ${p === 'max' && t === 'y' ? '' : 'ghost'}" data-act="payGo" data-v="${p}:${t}" style="display:flex;justify-content:space-between;align-items:center;text-align:left">
-      <span>${p === 'max' ? '⭐ ' : '🔹 '}${esc(planName(p))} · ${esc(TN[t])}${t === 'y' ? ` <small style="opacity:.8">· ${esc(X.best)}</small>` : ''}</span><b>${fmtNum(SUB_PRICES[p][t])} ₽</b></button>`;
-    return sheetHead('💳 ' + X.title) + `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(X.hint)}</div>
+    const X = payX(), TN = TERM_N[L === 'ru' ? 'ru' : 'en'], s = subS() || {}, sp = s.sp || {};
+    const both = !!(s.pay && s.stars), st = PAY.stars || !s.pay;
+    const cost = (p, t) => st ? (sp[p] && sp[p][t] ? fmtNum(sp[p][t]) + ' ⭐' : '') : fmtNum(SUB_PRICES[p][t]) + ' ₽';
+    const row = (p, t) => cost(p, t) ? `<button class="btn ${p === 'max' && t === 'y' ? '' : 'ghost'}" data-act="payGo" data-v="${p}:${t}" style="display:flex;justify-content:space-between;align-items:center;text-align:left">
+      <span>${p === 'max' ? '⭐ ' : '🔹 '}${esc(planName(p))} · ${esc(TN[t])}${t === 'y' ? ` <small style="opacity:.8">· ${esc(X.best)}</small>` : ''}</span><b style="white-space:nowrap;margin-left:8px">${cost(p, t)}</b></button>` : '';
+    const seg = both ? `<div class="chipsel paySeg">${[[0, X.card], [1, X.star]].map(([v, l]) => `<button type="button" class="${!!v === st ? 'on' : ''}" data-act="payWay" data-v="${v}">${esc(l)}</button>`).join('')}</div>` : '';
+    return sheetHead('💳 ' + X.title) + seg + `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(st ? X.starHint : X.hint)}</div>
       ${['y', 'm6', 'm3', 'm1'].map(t => row('max', t)).join('')}<div style="height:8px"></div>${['y', 'm6', 'm3', 'm1'].map(t => row('pro', t)).join('')}
       <div class="field toggle" style="margin-top:10px"><span>${esc(X.gift)}</span><button type="button" class="sw${PAY.gift ? ' on' : ''}" data-act="payGift" aria-label="${esc(X.gift)}"><i></i></button></div>
       <div class="hintline center"><a href="#" data-act="openLink" data-v="${esc(safe(lgUrl, 'privacy.html'))}#terms-ru">${esc(X.terms)}</a></div>`;
@@ -9270,8 +9359,11 @@ function payWait(){
 }
 Object.assign(SB, {
   payGift: () => { PAY.gift = !PAY.gift; haptic(); refreshSheet(); },
+  payWay: el => { PAY.stars = el.dataset.v === '1'; haptic(); refreshSheet(); },
   payGo: async el => {
     const [p, t] = String(el.dataset.v).split(':'), X = payX();
+    const s = subS() || {};
+    if (PAY.stars || !s.pay) return payStars(p, t);
     toast(X.wait, 1500);
     try {
       const j = await botPost({ a: 'pay', p, t, g: PAY.gift ? 1 : 0 }, 30000);
@@ -9289,6 +9381,48 @@ Object.assign(SB, {
       if (j && (j.st === 'paid' || j.st === 'done')) { hapticOk(); closeSheet(true); render(); }
     } catch (e) { toast(X.st.wait, 3000); }
   }
+});
+
+/* ⭐ Telegram Stars: server makes an invoice link (price from the server) → tg.openInvoice → Telegram tells the bot
+   (successful_payment) and the server switches the plan on; the app then re-syncs to get the new subscription. */
+async function payStars(p, t){
+  const X = payX();
+  toast(X.wait, 1500);
+  let j;
+  try { j = await botPost({ a: 'payStars', p, t, g: PAY.gift ? 1 : 0 }, 30000); } catch (e) {}
+  if (!j || !j.ok || !j.url) return toast(X.err, 3500);
+  const done = st => {
+    if (st === 'paid') { hapticOk(); toast(X.starOk, 3000); closeSheet(true);
+      const again = n => setTimeout(async () => { const was = plan(); await safe(() => botSync(true)); render(); if (plan() === was && n < 4 && !PAY.gift) again(n + 1); }, n ? 4000 : 1500);
+      again(0);
+    } else if (st === 'failed') toast(X.starNo, 3000);
+    else if (st === 'pending') toast(X.starWait, 3500);
+  };
+  try { if (tg && tg.openInvoice) return tg.openInvoice(j.url, done); } catch (e) {}
+  openUrl(j.url, true);
+}
+
+/* ================= 🤝 Пригласи коллегу (referral) ================= */
+const REFX = {
+  ru: { btn: '🤝 Пригласи коллегу — месяц бесплатно', title: 'Пригласи коллегу', x: 'Коллега получает 7 дней «Макс» бесплатно сразу, а ты — +1 месяц подписки, когда он оформит свою. Без ограничений по количеству.',
+    send: '📤 Отправить коллеге', copy: '📋 Скопировать ссылку', copied: 'Ссылка скопирована', n: (a, b) => `Приглашено: ${a}` + (b ? ` · оформили подписку: ${b}` : ''),
+    share: 'Веду учеников, расписание и абонементы в Telegram — бот понимает голосовые и сам всё записывает. По моей ссылке 7 дней «Макс» бесплатно:' },
+  en: { btn: '🤝 Invite a colleague — a free month', title: 'Invite a colleague', x: 'Your colleague gets 7 days of Max for free right away, and you get +1 month when they subscribe. No limit.',
+    send: '📤 Send to a colleague', copy: '📋 Copy link', copied: 'Link copied', n: (a, b) => `Invited: ${a}` + (b ? ` · subscribed: ${b}` : ''),
+    share: 'I keep my students, schedule and packages in Telegram — the bot understands voice messages and writes everything down. 7 days of Max free with my link:' } };
+const refX = () => REFX[L === 'ru' ? 'ru' : 'en'];
+function refBtn(){ const s = subS(); return s && s.ref && s.ref.link ? `<button class="btn ghost" data-act="refOpen">${esc(refX().btn)}</button>` : ''; }
+function refSheet(){
+  return () => { const X = refX(), r = (subS() || {}).ref || {};
+    return sheetHead('🤝 ' + X.title) + `<div class="sbnote">${esc(X.x)}</div>
+      <div class="card" style="padding:12px;word-break:break-all;font-size:14px">${esc(r.link || '')}</div>
+      <div class="hintline center">${esc(X.n(r.n || 0, r.paid || 0))}</div>
+      <button class="btn" data-act="refShare">${esc(X.send)}</button><button class="btn ghost" data-act="refCopy">${esc(X.copy)}</button>`; };
+}
+Object.assign(SB, {
+  refOpen: () => openSheet(refSheet()),
+  refShare: () => { const r = (subS() || {}).ref || {}; if (!r.link) return; openUrl('https://t.me/share/url?url=' + encodeURIComponent(r.link) + '&text=' + encodeURIComponent(refX().share), true); },
+  refCopy: async () => { const r = (subS() || {}).ref || {}; try { await navigator.clipboard.writeText(r.link); toast(refX().copied, 1500); } catch (e) { toast(r.link, 4000); } }
 });
 /* ================= 7.5: guided tour (spotlight + explanation), settings hints, downloadable guide ================= */
 /* steps from the most important to the least; target = selector (on the Home tab) or null for a centred card */
@@ -9638,7 +9772,7 @@ const RCN = {
     setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) { const h = homeTilesInner(); if (h) r.outerHTML = h; else r.remove(); } } }, 50);
   }
 };
-const LEGAL_TXT = {"en": {"ads": "# Consent to news and offers\nI agree to receive messages from the Operator in @musicplaner_bot about new features, promotions and subscription offers, and partner ads (always marked «Ad»; my data is never given to advertisers). This is optional — the Service works fully without it. You can opt out at any time in ⚙️ Settings → Data & backups → Documents and consents. Service messages (updates, important changes, answers) are not advertising and go to everyone.\n", "consent": "# Consent to personal data processing\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\nI, the Telegram user who opened «My students» (bot @musicplaner_bot and mini app), freely and in my own interest consent to Alexander Gerasimov («Operator») processing my personal data: Telegram ID, name, username and language; what I enter in the app and send to the bot (name, profession, schedule, financial records, notes, plans, texts, voice messages, photos); subscription details; technical details.\n\n## Purpose\nProviding the Service, sync and backups, message recognition, subscriptions, support, service messages.\n\n## Actions\nCollection, recording, organisation, storage, updating, retrieval, use, transfer to the parties below, blocking, deletion and destruction, by automated means.\n\n## Recipients and cross-border transfer\nTelegram (Telegram FZ-LLC, UAE); Google LLC (USA) — the Service server (Google Apps Script, Google Drive), message recognition (Google Gemini), Google Calendar if connected. I agree to the transfer of data to these countries.\n\n## Term and withdrawal\nValid until withdrawn or until the data is deleted. Withdraw in the app (⚙️ Settings → Data & backups → Documents and consents) or by writing to @musicplaner_bot; the data is then deleted and the Service can no longer be used.\n", "privacy": "# Privacy Policy\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Who we are\nThe operator of personal data is Alexander Gerasimov («Operator»), the creator of «My students»: the Telegram bot @musicplaner_bot and its Telegram mini app («Service»). Contact: a message to @musicplaner_bot or the «Write to the creator» button in the app.\n\n## 2. What we process\n- Telegram data: user ID, name, username, language.\n- What you enter: name, profession, schedule, lessons, services and prices, income and expenses, packages, notes, tasks, goals, habits, shopping lists, wishlist, diary, settings.\n- Data about your students and clients that you enter (names, phones, Telegram links, birthdays, notes, payments). You are their data controller; the Service processes it on your behalf.\n- Messages, voice messages and photos you send to the bot.\n- Subscription details and trial requests.\n- Technical details: app version, time zone, days and times of visits, how you found the Service, record counts (to protect against data loss).\n- People who use the Service through you: those who book with you via your booking page (name, phone, Telegram, date, comment — passed to you) and students who connect to the bot for homework and reminders (their Telegram ID is linked to their card). They give their own consent in the booking form or the bot.\nWe never receive card details: payment happens on the YooKassa page (NBCO YooMoney LLC); we only get the payment status and amount.\n\n## 3. Why\nTo run the app and the bot, sync and back up your data, recognise messages with an AI service, manage subscriptions, support you and tell you about changes to the Service. News and offers only with your separate consent.\n\n## 4. Where data is stored and who receives it\nOn your device; in Telegram CloudStorage and your chat with the bot (daily backups); on the Service server — Google Apps Script and Google Drive (Google LLC); message recognition — Google Gemini; Google Calendar only if you connect it. Links you share yourself (wishlist, lesson calendar, booking page) are visible to anyone who has them. The Operator sees a service card for each user in the bot: name, username, plan and dates, days of use, number of students and lessons — for support and subscription checks. Telegram and Google servers are outside Russia, so data is transferred across borders. Data is never sold or used for advertising.\n\n## 5. Cookies\nNo cookies, ad pixels or analytics. Local storage is used only to run the app. Fonts load from Google Fonts, which sees your IP address.\n\n## 6. How long\nWhile you use the Service. «Reset everything» or withdrawing consent deletes your data from the server at once. Subscription and payment records are kept as long as the law requires, no longer than 3 years after the subscription ends.\n\n## 7. Your rights\nAccess, correction, deletion, withdrawing consent, opting out of news, complaining to the regulator (Roskomnadzor) or a court. Write to @musicplaner_bot — we answer within 10 working days. In the app: ⚙️ Settings → Data & backups → Documents and consents.\n\n## 8. Age\nThe Service is for people aged 18+. If you enter data about minors, their parent must agree — you obtain this yourself.\n", "students": "Hello! I keep track of our lessons in the «My students» app (Telegram). To plan lessons, send reminders and track payments, I record your name, contact (phone or Telegram), schedule, payments and lesson notes there. The data is stored in Telegram and on the app's server (Google), is never shared for advertising, and I'll delete it if you ask.\nIf you agree, please reply «I agree». If the student is a child, a parent gives consent.\n", "terms": "# Terms of Use\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Agreement\nThese terms are between Alexander Gerasimov («Operator») and you, the user of «My students» (bot @musicplaner_bot and mini app). Tapping «Accept and continue» means you accept them in full. If you disagree, please don't use the Service.\n\n## 2. Subscription\nSome features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. You pay by card or SBP via YooKassa (bot /plans or the app) or with an access code; the subscription switches on automatically after payment. Subscriptions never renew without your separate consent. If the Service didn't work through the Operator's fault or you cancel, unused full days are refunded on request within 10 days.\n\n## 3. Your duties\nEnter data about your students and clients lawfully — they (or their parents) must agree; a ready consent text is in ⚙️ Settings → Data & backups → Documents and consents. No spam, fraud or other illegal use; don't share access codes.\n\n## 4. Data\nYour data is yours. We make backups, but keep your own copy from time to time. The bot uses AI — check what it adds before confirming.\n\n## 5. Liability\nThe Service is provided «as is». The Operator isn't liable for outages of Telegram, Google, networks or devices. Liability is limited to what you paid for the last month of subscription.\n\n## 6. Ending and disputes\nYou can stop at any time and delete your data (⚙️ Settings → Data & backups → Reset everything). Disputes are solved by talking first (write to the bot, answer within 10 working days), then under Russian law. Contact: @musicplaner_bot.\n"}, "ru": {"ads": "# Согласие на новости и предложения\nДаю согласие получать от Оператора в Telegram-боте @musicplaner_bot сообщения о новых функциях, акциях и предложениях подписки, а также рекламу партнёров (она всегда помечена словом «Реклама»; мои данные рекламодателям не передаются) (ч. 1 ст. 18 Федерального закона «О рекламе»). Согласие необязательное: без него Сервис работает полностью. Отказаться можно в любой момент в приложении (⚙️ Настройки → Данные и копии → Документы и согласия). Сообщения о работе Сервиса (обновления, важные изменения, ответы на вопросы) рекламой не являются и приходят всем.\n", "consent": "# Согласие на обработку персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\nЯ, пользователь Telegram, открывший сервис «Мои ученики» (бот @musicplaner_bot и мини-приложение), свободно, своей волей и в своём интересе даю Герасимову Александру (далее — «Оператор») согласие на обработку моих персональных данных на следующих условиях.\n\n## Какие данные\nИдентификатор, имя, имя пользователя и язык в Telegram; данные, которые я ввожу в приложение и отправляю боту (имя, профессия, расписание, финансовые записи, заметки, планы, тексты, голосовые сообщения и фото); сведения о подписке; технические сведения о работе приложения.\n\n## Для чего\nПредоставление функций Сервиса, синхронизация и резервное копирование, распознавание сообщений, оформление подписки, поддержка, информационные сообщения о работе Сервиса.\n\n## Какие действия\nСбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача (предоставление доступа) лицам из списка ниже, блокирование, удаление, уничтожение. Обработка автоматизированная.\n\n## Кому передаются и где хранятся\nTelegram (Telegram FZ-LLC, ОАЭ) — хранилище и доставка сообщений; Google LLC (США) — сервер Сервиса (Google Apps Script, Google Drive), распознавание сообщений (Google Gemini), Google Календарь при его подключении. Я согласен на трансграничную передачу данных в эти страны.\n\n## Срок и отзыв\nСогласие действует до его отзыва или удаления данных. Отозвать его можно в приложении (⚙️ Настройки → Данные и копии → Документы и согласия) или сообщением в бот @musicplaner_bot. После отзыва данные удаляются, а пользоваться Сервисом нельзя.\n", "privacy": "# Политика обработки персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Кто обрабатывает данные\nОператор персональных данных — Герасимов Александр (далее — «Оператор»), создатель сервиса «Мои ученики»: Telegram-бот @musicplaner_bot и мини-приложение в Telegram (далее — «Сервис»). Связь с Оператором: сообщение в бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\nПолитика составлена по Федеральному закону от 27.07.2006 № 152-ФЗ «О персональных данных» и описывает, какие данные собирает Сервис, зачем, где они хранятся и как ими управлять.\n\n## 2. Какие данные мы обрабатываем\n- Данные Telegram: идентификатор, имя, имя пользователя (username), язык интерфейса — Telegram передаёт их при открытии приложения и при сообщениях боту.\n- Данные, которые ты вводишь сам: имя, профессия, предмет, расписание, занятия, услуги и цены, доходы и расходы, абонементы, заметки, задачи, цели, привычки, списки покупок, вишлист, дневник, настройки.\n- Данные твоих учеников и клиентов, которые ты вносишь: имена, телефоны, ссылки на Telegram, дни рождения, заметки, оплаты, посещения. Для этих данных оператором являешься ты, а Сервис обрабатывает их по твоему поручению (ч. 3 ст. 6 152-ФЗ) только для работы твоих функций.\n- Сообщения боту: тексты, голосовые сообщения и фото, которые ты отправляешь, чтобы бот внёс запись или ответил на вопрос.\n- Сведения о подписке: тариф, сроки, коды доступа, заявки на пробный период и ответы на вопросы в них.\n- Технические сведения: версия приложения, часовой пояс, дни и время входа, откуда ты узнал о Сервисе (например, по ссылке записи), количество записей (для защиты от пропажи данных).\n- Люди, которые сами пользуются Сервисом через тебя: кто записывается к тебе через страницу онлайн-записи (имя, телефон, Telegram, дата, комментарий — передаются тебе) и ученики, которые подключились к боту, чтобы получать домашние задания и напоминания (их Telegram-идентификатор связывается с карточкой у тебя). Они дают своё согласие сами в форме записи или в боте.\nСервис не получает данные банковских карт: оплата проходит на странице платёжного сервиса ЮKassa (ООО НКО «ЮМани»), Сервис получает от него только статус и сумму платежа.\n\n## 3. Зачем\n- чтобы приложение и бот работали: расписание, напоминания, деньги, абонементы, отчёты;\n- синхронизация между устройствами и резервные копии, защита от потери данных;\n- распознавание сообщений и голосовых для бота (с помощью ИИ-сервиса);\n- оформление и проверка подписки, пробный период;\n- поддержка и ответы на обращения;\n- информационные сообщения о работе Сервиса (обновления, важные изменения);\n- новости и предложения — только если ты дал на это отдельное согласие.\n\n## 4. Основания\nТвоё согласие (п. 1 ч. 1 ст. 6 152-ФЗ), исполнение пользовательского соглашения (п. 5 ч. 1 ст. 6), для данных учеников и клиентов — твоё поручение как их оператора.\n\n## 5. Где хранятся данные и кому передаются\n- На твоём устройстве — в хранилище Telegram и браузера, включая резервные копии на телефоне.\n- В облачном хранилище Telegram (Telegram CloudStorage) и в чате с ботом (ежедневные резервные копии).\n- На сервере Сервиса: Google Apps Script и Google Drive (Google LLC).\n- Распознавание сообщений: Google Gemini (Google LLC) — получает только текст сообщения или запись, которую нужно разобрать.\n- Google Календарь — только если ты сам подключишь синхронизацию.\nСсылки, которыми ты делишься сам (вишлист, календарь занятий, страница записи), видит любой, у кого есть ссылка; ссылку календаря можно сменить в настройках.\nОператор видит в боте служебную карточку пользователя: имя, username, тариф и сроки подписки, дни использования, количество учеников и занятий — это нужно для поддержки и проверки подписок.\nСерверы Telegram и Google находятся за пределами Российской Федерации, поэтому происходит трансграничная передача данных. Данные не продаются и не передаются для рекламы.\n\n## 6. Cookie и трекеры\nСервис не использует файлы cookie, рекламные пиксели и системы аналитики. Локальное хранилище устройства используется только для работы приложения (данные, настройки, копии). Шрифты интерфейса загружаются с серверов Google Fonts, при этом сервер видит IP-адрес.\n\n## 7. Сколько хранятся\nПока ты пользуешься Сервисом. Кнопка «⚙️ Настройки → Данные и копии → Сбросить всё» или отзыв согласия удаляют данные на сервере сразу, на устройстве — при сбросе. Резервные копии в чате с ботом ты можешь удалить сам. Сведения о подписке и оплатах хранятся столько, сколько требует закон, и не дольше 3 лет после окончания подписки.\n\n## 8. Твои права\nТы можешь узнать, какие данные о тебе обрабатываются, потребовать исправить или удалить их, отозвать согласие, отказаться от новостей, обжаловать действия Оператора в Роскомнадзоре или в суде. Запрос — сообщением в бот @musicplaner_bot; ответ — в течение 10 рабочих дней. Отозвать согласие и удалить данные можно в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n\n## 9. Защита\nВход только через Telegram с проверкой подписи, передача по HTTPS, доступ к серверу и ключам — только у Оператора, у каждого пользователя свои данные.\n\n## 10. Возраст\nСервис предназначен для лиц от 18 лет. Если ты вносишь данные несовершеннолетних учеников, согласие на это даёт их законный представитель (родитель) — ты получаешь его сам.\n\n## 11. Изменения\nНовая редакция публикуется в приложении и по ссылке на политику; при существенных изменениях приложение попросит подтвердить согласие заново.\n", "students": "Здравствуйте! Я веду учёт занятий в приложении «Мои ученики» (Telegram). Чтобы планировать занятия, напоминать о них и учитывать оплаты, я записываю туда ваше имя, контакт (телефон или Telegram), расписание, оплаты и заметки о занятиях. Данные хранятся в Telegram и на сервере приложения (Google), никому не передаются для рекламы, и я удалю их по вашей просьбе.\nЕсли вы согласны — ответьте, пожалуйста, «Согласен(на)». Если занимается ребёнок — согласие даёт родитель.\n", "terms": "# Пользовательское соглашение\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Общее\nСоглашение заключается между Герасимовым Александром (далее — «Оператор») и пользователем (далее — «ты») сервиса «Мои ученики»: Telegram-бота @musicplaner_bot и мини-приложения в Telegram (далее — «Сервис»). Нажимая «Принять и продолжить», ты принимаешь Соглашение полностью (ст. 437, 438 ГК РФ). Если не согласен — не пользуйся Сервисом.\n\n## 2. Что даёт Сервис\nУчёт учеников и клиентов, расписание, оплаты и абонементы, напоминания, личный планер, ответы и записи через бота, резервные копии. Часть функций доступна по подписке (Pro, Max). Состав тарифов и цены — в боте по команде /тарифы.\n\n## 3. Подписка и оплата\n- Подписка даёт доступ к функциям тарифа на оплаченный срок. Срок, тариф и остаток дней видны в боте и в приложении.\n- Пробный период выдаёт Оператор по заявке; он бесплатный и заканчивается сам, без списаний.\n- Оплата — картой или по СБП через ЮKassa (кнопка в боте /тарифы или в приложении), либо кодом доступа. Подписка включается автоматически после оплаты; чек самозанятого Оператор отправляет после оплаты. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.\n- Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»).\n\n## 4. Твои обязанности\n- Вносить данные учеников и клиентов законно: они должны знать, что ты ведёшь учёт, и согласиться на это (за несовершеннолетних — их родители). Готовый текст согласия есть в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n- Не использовать Сервис для рассылки спама, мошенничества и других незаконных действий.\n- Не передавать коды доступа другим людям и не пытаться обойти ограничения тарифов.\n\n## 5. Данные и копии\nТвои данные принадлежат тебе. Сервис делает резервные копии, но мы советуем время от времени сохранять копию у себя. Ответы бота и распознавание делает ИИ — проверяй, что он внёс, перед подтверждением.\n\n## 6. Ответственность\nСервис предоставляется «как есть». Оператор старается, чтобы он работал без перерывов, но не отвечает за сбои Telegram, Google, связи и устройства, а также за решения, принятые на основе данных из Сервиса. Ответственность Оператора ограничена суммой, которую ты заплатил за последний месяц подписки.\n\n## 7. Прекращение\nТы можешь в любой момент перестать пользоваться Сервисом и удалить данные (⚙️ Настройки → Данные и копии → Сбросить всё). Оператор может ограничить доступ при нарушении Соглашения, предупредив об этом в боте.\n\n## 8. Споры и изменения\nСпоры решаются переговорами: напиши в бот, ответ — в течение 10 рабочих дней. Если не договорились — по законодательству РФ. Новая редакция Соглашения публикуется в приложении; при существенных изменениях приложение попросит подтвердить её.\n\n## 9. Связь с Оператором\nTelegram-бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\n"}};
+const LEGAL_TXT = {"en": {"ads": "# Consent to news and offers\nI agree to receive messages from the Operator in @musicplaner_bot about new features, promotions and subscription offers, and partner ads (always marked «Ad»; my data is never given to advertisers). This is optional — the Service works fully without it. You can opt out at any time in ⚙️ Settings → Data & backups → Documents and consents. Service messages (updates, important changes, answers) are not advertising and go to everyone.\n", "consent": "# Consent to personal data processing\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\nI, the Telegram user who opened «Studium» (bot @musicplaner_bot and mini app), freely and in my own interest consent to Alexander Gerasimov («Operator») processing my personal data: Telegram ID, name, username and language; what I enter in the app and send to the bot (name, profession, schedule, financial records, notes, plans, texts, voice messages, photos); subscription details; technical details.\n\n## Purpose\nProviding the Service, sync and backups, message recognition, subscriptions, support, service messages.\n\n## Actions\nCollection, recording, organisation, storage, updating, retrieval, use, transfer to the parties below, blocking, deletion and destruction, by automated means.\n\n## Recipients and cross-border transfer\nTelegram (Telegram FZ-LLC, UAE); Google LLC (USA) — the Service server (Google Apps Script, Google Drive), message recognition (Google Gemini), Google Calendar if connected. I agree to the transfer of data to these countries.\n\n## Term and withdrawal\nValid until withdrawn or until the data is deleted. Withdraw in the app (⚙️ Settings → Data & backups → Documents and consents) or by writing to @musicplaner_bot; the data is then deleted and the Service can no longer be used.\n", "privacy": "# Privacy Policy\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Who we are\nThe operator of personal data is Alexander Gerasimov («Operator»), the creator of «Studium»: the Telegram bot @musicplaner_bot and its Telegram mini app («Service»). Contact: a message to @musicplaner_bot or the «Write to the creator» button in the app.\n\n## 2. What we process\n- Telegram data: user ID, name, username, language.\n- What you enter: name, profession, schedule, lessons, services and prices, income and expenses, packages, notes, tasks, goals, habits, shopping lists, wishlist, diary, settings.\n- Data about your students and clients that you enter (names, phones, Telegram links, birthdays, notes, payments). You are their data controller; the Service processes it on your behalf.\n- Messages, voice messages and photos you send to the bot.\n- Subscription details and trial requests.\n- Technical details: app version, time zone, days and times of visits, how you found the Service, record counts (to protect against data loss).\n- People who use the Service through you: those who book with you via your booking page (name, phone, Telegram, date, comment — passed to you) and students who connect to the bot for homework and reminders (their Telegram ID is linked to their card). They give their own consent in the booking form or the bot.\nWe never receive card details: payment happens on the YooKassa page (NBCO YooMoney LLC); we only get the payment status and amount. With Telegram Stars the payment happens inside Telegram; we get the payment ID, the plan and the amount in Stars.\n\n## 3. Why\nTo run the app and the bot, sync and back up your data, recognise messages with an AI service, manage subscriptions, support you and tell you about changes to the Service. News and offers only with your separate consent.\n\n## 4. Where data is stored and who receives it\nOn your device; in Telegram CloudStorage and your chat with the bot (daily backups); on the Service server — Google Apps Script and Google Drive (Google LLC); message recognition — Google Gemini; Google Calendar only if you connect it. Links you share yourself (wishlist, lesson calendar, booking page) are visible to anyone who has them. The Operator sees a service card for each user in the bot: name, username, plan and dates, days of use, number of students and lessons — for support and subscription checks. Telegram and Google servers are outside Russia, so data is transferred across borders. Data is never sold or used for advertising.\n\n## 5. Cookies\nNo cookies, ad pixels or analytics. Local storage is used only to run the app. Fonts load from Google Fonts, which sees your IP address.\n\n## 6. How long\nWhile you use the Service. «Reset everything» or withdrawing consent deletes your data from the server at once. Subscription and payment records are kept as long as the law requires, no longer than 3 years after the subscription ends.\n\n## 7. Your rights\nAccess, correction, deletion, withdrawing consent, opting out of news, complaining to the regulator (Roskomnadzor) or a court. Write to @musicplaner_bot — we answer within 10 working days. In the app: ⚙️ Settings → Data & backups → Documents and consents.\n\n## 8. Age\nThe Service is for people aged 18+. If you enter data about minors, their parent must agree — you obtain this yourself.\n", "students": "Hello! I keep track of our lessons in the «Studium» app (Telegram). To plan lessons, send reminders and track payments, I record your name, contact (phone or Telegram), schedule, payments and lesson notes there. The data is stored in Telegram and on the app's server (Google), is never shared for advertising, and I'll delete it if you ask.\nIf you agree, please reply «I agree». If the student is a child, a parent gives consent.\n", "terms": "# Terms of Use\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Agreement\nThese terms are between Alexander Gerasimov («Operator») and you, the user of «Studium» (bot @musicplaner_bot and mini app). Tapping «Accept and continue» means you accept them in full. If you disagree, please don't use the Service.\n\n## 2. Subscription\nSome features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. You pay by card or SBP via YooKassa, with Telegram Stars (bot /plans or the app) or with an access code; the subscription switches on automatically after payment. Subscriptions never renew without your separate consent. If the Service didn't work through the Operator's fault or you cancel, unused full days are refunded on request within 10 days; Stars purchases are refunded in Stars. Payment questions: /paysupport in the bot. Telegram support cannot help with purchases made in this bot — the Operator handles them.\n\n## 3. Your duties\nEnter data about your students and clients lawfully — they (or their parents) must agree; a ready consent text is in ⚙️ Settings → Data & backups → Documents and consents. No spam, fraud or other illegal use; don't share access codes.\n\n## 4. Data\nYour data is yours. We make backups, but keep your own copy from time to time. The bot uses AI — check what it adds before confirming.\n\n## 5. Liability\nThe Service is provided «as is». The Operator isn't liable for outages of Telegram, Google, networks or devices. Liability is limited to what you paid for the last month of subscription.\n\n## 6. Ending and disputes\nYou can stop at any time and delete your data (⚙️ Settings → Data & backups → Reset everything). Disputes are solved by talking first (write to the bot, answer within 10 working days), then under Russian law. Contact: @musicplaner_bot.\n"}, "ru": {"ads": "# Согласие на новости и предложения\nДаю согласие получать от Оператора в Telegram-боте @musicplaner_bot сообщения о новых функциях, акциях и предложениях подписки, а также рекламу партнёров (она всегда помечена словом «Реклама»; мои данные рекламодателям не передаются) (ч. 1 ст. 18 Федерального закона «О рекламе»). Согласие необязательное: без него Сервис работает полностью. Отказаться можно в любой момент в приложении (⚙️ Настройки → Данные и копии → Документы и согласия). Сообщения о работе Сервиса (обновления, важные изменения, ответы на вопросы) рекламой не являются и приходят всем.\n", "consent": "# Согласие на обработку персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\nЯ, пользователь Telegram, открывший сервис «Студиум» (бот @musicplaner_bot и мини-приложение), свободно, своей волей и в своём интересе даю Герасимову Александру (далее — «Оператор») согласие на обработку моих персональных данных на следующих условиях.\n\n## Какие данные\nИдентификатор, имя, имя пользователя и язык в Telegram; данные, которые я ввожу в приложение и отправляю боту (имя, профессия, расписание, финансовые записи, заметки, планы, тексты, голосовые сообщения и фото); сведения о подписке; технические сведения о работе приложения.\n\n## Для чего\nПредоставление функций Сервиса, синхронизация и резервное копирование, распознавание сообщений, оформление подписки, поддержка, информационные сообщения о работе Сервиса.\n\n## Какие действия\nСбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача (предоставление доступа) лицам из списка ниже, блокирование, удаление, уничтожение. Обработка автоматизированная.\n\n## Кому передаются и где хранятся\nTelegram (Telegram FZ-LLC, ОАЭ) — хранилище и доставка сообщений; Google LLC (США) — сервер Сервиса (Google Apps Script, Google Drive), распознавание сообщений (Google Gemini), Google Календарь при его подключении. Я согласен на трансграничную передачу данных в эти страны.\n\n## Срок и отзыв\nСогласие действует до его отзыва или удаления данных. Отозвать его можно в приложении (⚙️ Настройки → Данные и копии → Документы и согласия) или сообщением в бот @musicplaner_bot. После отзыва данные удаляются, а пользоваться Сервисом нельзя.\n", "privacy": "# Политика обработки персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Кто обрабатывает данные\nОператор персональных данных — Герасимов Александр (далее — «Оператор»), создатель сервиса «Студиум»: Telegram-бот @musicplaner_bot и мини-приложение в Telegram (далее — «Сервис»). Связь с Оператором: сообщение в бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\nПолитика составлена по Федеральному закону от 27.07.2006 № 152-ФЗ «О персональных данных» и описывает, какие данные собирает Сервис, зачем, где они хранятся и как ими управлять.\n\n## 2. Какие данные мы обрабатываем\n- Данные Telegram: идентификатор, имя, имя пользователя (username), язык интерфейса — Telegram передаёт их при открытии приложения и при сообщениях боту.\n- Данные, которые ты вводишь сам: имя, профессия, предмет, расписание, занятия, услуги и цены, доходы и расходы, абонементы, заметки, задачи, цели, привычки, списки покупок, вишлист, дневник, настройки.\n- Данные твоих учеников и клиентов, которые ты вносишь: имена, телефоны, ссылки на Telegram, дни рождения, заметки, оплаты, посещения. Для этих данных оператором являешься ты, а Сервис обрабатывает их по твоему поручению (ч. 3 ст. 6 152-ФЗ) только для работы твоих функций.\n- Сообщения боту: тексты, голосовые сообщения и фото, которые ты отправляешь, чтобы бот внёс запись или ответил на вопрос.\n- Сведения о подписке: тариф, сроки, коды доступа, заявки на пробный период и ответы на вопросы в них.\n- Технические сведения: версия приложения, часовой пояс, дни и время входа, откуда ты узнал о Сервисе (например, по ссылке записи), количество записей (для защиты от пропажи данных).\n- Люди, которые сами пользуются Сервисом через тебя: кто записывается к тебе через страницу онлайн-записи (имя, телефон, Telegram, дата, комментарий — передаются тебе) и ученики, которые подключились к боту, чтобы получать домашние задания и напоминания (их Telegram-идентификатор связывается с карточкой у тебя). Они дают своё согласие сами в форме записи или в боте.\nСервис не получает данные банковских карт: оплата проходит на странице платёжного сервиса ЮKassa (ООО НКО «ЮМани»), Сервис получает от него только статус и сумму платежа. При оплате звёздами Telegram платёж проходит внутри Telegram; Сервис получает идентификатор платежа, тариф и сумму в звёздах.\n\n## 3. Зачем\n- чтобы приложение и бот работали: расписание, напоминания, деньги, абонементы, отчёты;\n- синхронизация между устройствами и резервные копии, защита от потери данных;\n- распознавание сообщений и голосовых для бота (с помощью ИИ-сервиса);\n- оформление и проверка подписки, пробный период;\n- поддержка и ответы на обращения;\n- информационные сообщения о работе Сервиса (обновления, важные изменения);\n- новости и предложения — только если ты дал на это отдельное согласие.\n\n## 4. Основания\nТвоё согласие (п. 1 ч. 1 ст. 6 152-ФЗ), исполнение пользовательского соглашения (п. 5 ч. 1 ст. 6), для данных учеников и клиентов — твоё поручение как их оператора.\n\n## 5. Где хранятся данные и кому передаются\n- На твоём устройстве — в хранилище Telegram и браузера, включая резервные копии на телефоне.\n- В облачном хранилище Telegram (Telegram CloudStorage) и в чате с ботом (ежедневные резервные копии).\n- На сервере Сервиса: Google Apps Script и Google Drive (Google LLC).\n- Распознавание сообщений: Google Gemini (Google LLC) — получает только текст сообщения или запись, которую нужно разобрать.\n- Google Календарь — только если ты сам подключишь синхронизацию.\nСсылки, которыми ты делишься сам (вишлист, календарь занятий, страница записи), видит любой, у кого есть ссылка; ссылку календаря можно сменить в настройках.\nОператор видит в боте служебную карточку пользователя: имя, username, тариф и сроки подписки, дни использования, количество учеников и занятий — это нужно для поддержки и проверки подписок.\nСерверы Telegram и Google находятся за пределами Российской Федерации, поэтому происходит трансграничная передача данных. Данные не продаются и не передаются для рекламы.\n\n## 6. Cookie и трекеры\nСервис не использует файлы cookie, рекламные пиксели и системы аналитики. Локальное хранилище устройства используется только для работы приложения (данные, настройки, копии). Шрифты интерфейса загружаются с серверов Google Fonts, при этом сервер видит IP-адрес.\n\n## 7. Сколько хранятся\nПока ты пользуешься Сервисом. Кнопка «⚙️ Настройки → Данные и копии → Сбросить всё» или отзыв согласия удаляют данные на сервере сразу, на устройстве — при сбросе. Резервные копии в чате с ботом ты можешь удалить сам. Сведения о подписке и оплатах хранятся столько, сколько требует закон, и не дольше 3 лет после окончания подписки.\n\n## 8. Твои права\nТы можешь узнать, какие данные о тебе обрабатываются, потребовать исправить или удалить их, отозвать согласие, отказаться от новостей, обжаловать действия Оператора в Роскомнадзоре или в суде. Запрос — сообщением в бот @musicplaner_bot; ответ — в течение 10 рабочих дней. Отозвать согласие и удалить данные можно в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n\n## 9. Защита\nВход только через Telegram с проверкой подписи, передача по HTTPS, доступ к серверу и ключам — только у Оператора, у каждого пользователя свои данные.\n\n## 10. Возраст\nСервис предназначен для лиц от 18 лет. Если ты вносишь данные несовершеннолетних учеников, согласие на это даёт их законный представитель (родитель) — ты получаешь его сам.\n\n## 11. Изменения\nНовая редакция публикуется в приложении и по ссылке на политику; при существенных изменениях приложение попросит подтвердить согласие заново.\n", "students": "Здравствуйте! Я веду учёт занятий в приложении «Студиум» (Telegram). Чтобы планировать занятия, напоминать о них и учитывать оплаты, я записываю туда ваше имя, контакт (телефон или Telegram), расписание, оплаты и заметки о занятиях. Данные хранятся в Telegram и на сервере приложения (Google), никому не передаются для рекламы, и я удалю их по вашей просьбе.\nЕсли вы согласны — ответьте, пожалуйста, «Согласен(на)». Если занимается ребёнок — согласие даёт родитель.\n", "terms": "# Пользовательское соглашение\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Общее\nСоглашение заключается между Герасимовым Александром (далее — «Оператор») и пользователем (далее — «ты») сервиса «Студиум»: Telegram-бота @musicplaner_bot и мини-приложения в Telegram (далее — «Сервис»). Нажимая «Принять и продолжить», ты принимаешь Соглашение полностью (ст. 437, 438 ГК РФ). Если не согласен — не пользуйся Сервисом.\n\n## 2. Что даёт Сервис\nУчёт учеников и клиентов, расписание, оплаты и абонементы, напоминания, личный планер, ответы и записи через бота, резервные копии. Часть функций доступна по подписке (Pro, Max). Состав тарифов и цены — в боте по команде /тарифы.\n\n## 3. Подписка и оплата\n- Подписка даёт доступ к функциям тарифа на оплаченный срок. Срок, тариф и остаток дней видны в боте и в приложении.\n- Пробный период выдаёт Оператор по заявке; он бесплатный и заканчивается сам, без списаний.\n- Оплата — картой или по СБП через ЮKassa, звёздами Telegram (Telegram Stars) — кнопкой в боте /тарифы или в приложении, — либо кодом доступа. Звёзды списываются внутри Telegram; цены в звёздах указаны при выборе тарифа. Подписка включается автоматически после оплаты; чек самозанятого Оператор отправляет после оплаты. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.\n- Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»). Покупки звёздами возвращаются звёздами на твой счёт в Telegram.\n- Вопросы по оплате — команда /paysupport в боте или «Поддержка» в /тарифы. Служба поддержки Telegram по покупкам в этом боте помочь не сможет — по ним отвечает Оператор.\n\n## 4. Твои обязанности\n- Вносить данные учеников и клиентов законно: они должны знать, что ты ведёшь учёт, и согласиться на это (за несовершеннолетних — их родители). Готовый текст согласия есть в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n- Не использовать Сервис для рассылки спама, мошенничества и других незаконных действий.\n- Не передавать коды доступа другим людям и не пытаться обойти ограничения тарифов.\n\n## 5. Данные и копии\nТвои данные принадлежат тебе. Сервис делает резервные копии, но мы советуем время от времени сохранять копию у себя. Ответы бота и распознавание делает ИИ — проверяй, что он внёс, перед подтверждением.\n\n## 6. Ответственность\nСервис предоставляется «как есть». Оператор старается, чтобы он работал без перерывов, но не отвечает за сбои Telegram, Google, связи и устройства, а также за решения, принятые на основе данных из Сервиса. Ответственность Оператора ограничена суммой, которую ты заплатил за последний месяц подписки.\n\n## 7. Прекращение\nТы можешь в любой момент перестать пользоваться Сервисом и удалить данные (⚙️ Настройки → Данные и копии → Сбросить всё). Оператор может ограничить доступ при нарушении Соглашения, предупредив об этом в боте.\n\n## 8. Споры и изменения\nСпоры решаются переговорами: напиши в бот, ответ — в течение 10 рабочих дней. Если не договорились — по законодательству РФ. Новая редакция Соглашения публикуется в приложении; при существенных изменениях приложение попросит подтвердить её.\n\n## 9. Связь с Оператором\nTelegram-бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\n"}};
 /* ================= 8.2: documents and consent (152-ФЗ) =================
    LEGAL_TXT (generated by assemble.py from build/legal/*.md) = { ru: {privacy, terms, consent, ads, students}, en: {…} }.
    First start (and after a new edition LEGAL_V) → full-screen window #lgl: short summary, links to the documents,
@@ -10348,16 +10482,44 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA, SURPA);
 safe(subWrap);
+/* ===== 8.3: protection from double taps =====
+   Actions that create, change or delete something (save/add/sell/pay/delete…) run once per tap:
+   the same button (same action + id + value) is ignored for 700 ms, and while an async action
+   (payment, server call) is still running it is ignored completely — the button dims (.busy).
+   Switches (.sw), steppers and navigation are not limited, so fast tapping there still works. */
+const TAP_ONCE = /(save|sell|add|pay|buy|del|wipe|send|create|restore|import|confirm|accept|gen[A-Z]|mark|done|book[A-Z]|rel[A-Z]|submit|copy|share)/i;
+const TAP_FREE = /^(closeSheet|stepN|pickN|pickSt|payGift|tab|setPart|back)$/;
+const tapBusy = new Map();
+function tapKey(el){ return el.dataset.act + '|' + (el.dataset.id || '') + '|' + (el.dataset.v || '') + '|' + (el.dataset.sid || ''); }
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
-  const fn = A[el.dataset.act];
+  const act = el.dataset.act, fn = A[act];
   if (!fn) return;
   e.preventDefault(); e.stopPropagation();
-  try { const r = fn(el); if (r && r.catch) r.catch(showOops); } catch (err) { showOops(err); }
+  const guard = TAP_ONCE.test(act) && !TAP_FREE.test(act) && !el.classList.contains('sw');
+  const key = guard ? tapKey(el) : '', now = Date.now();
+  if (guard) { const b = tapBusy.get(key); if (b && (b === 'run' || now - b < 700)) return; tapBusy.set(key, now); }
+  /* async action finished (e.g. a question was answered «Отмена») → the button works again at once */
+  const done = () => { if (guard) { tapBusy.delete(key); el.classList.remove('busy'); } };
+  try {
+    const r = fn(el);
+    if (r && r.then) { if (guard) { tapBusy.set(key, 'run'); el.classList.add('busy'); } r.then(done, err => { done(); showOops(err); }); }
+  } catch (err) { if (guard) tapBusy.set(key, Date.now()); el.classList.remove('busy'); showOops(err); }
+  if (tapBusy.size > 200) tapBusy.clear();
 });
+/* ===== 8.3: start working while the finger is still on the screen =====
+   Phones don't tell a web app that a finger is approaching, but they do report the touch itself
+   (pointerdown) ~80–150 ms before the tap counts. On that moment we pre-compute the numbers the next
+   screen needs (month totals, a student's stats) — they are cached, so the tap itself only draws. */
+document.addEventListener('pointerdown', e => {
+  const el = e.target.closest && e.target.closest('[data-act]'); if (!el) return;
+  const act = el.dataset.act;
+  if (act === 'tab' && el.dataset.v !== ui.tab) setTimeout(() => safe(() => monthStats(today().slice(0, 7))), 0);
+  else if (act === 'openStudent' && el.dataset.id) setTimeout(() => safe(() => studentStats(el.dataset.id)), 0);
+}, { passive: true });
 
 /* ================= Start ================= */
 async function start(){
@@ -10384,7 +10546,7 @@ async function start(){
   if ((state.settings.lang || 'ru') !== L || state.settings.prof) applyLang(state.settings.lang || L);
   safe(fsApply);
   safe(() => { if (state.settings.prof) { const before = JSON.stringify(state.services.map(v => v.name)); profSvcNames(); if (JSON.stringify(state.services.map(v => v.name)) !== before) save(); } });
-  setTimeout(() => safe(dropCheck), 5000);
+  setTimeout(() => safe(dropCheck), 5000); setTimeout(() => safe(surpNext), 2500);
   loadedCounts = { n: state.students.length, l: state.lessons.length };
   const updating = (+state.settings.seenVer || +lsGetK('vs_seenVer') || 0) < APP_VER && hasData(state);
   if (updating) { await snapshot('upd'); setTimeout(() => chatBackup(T.bk.beforeUpd), 6000); }
@@ -10409,7 +10571,7 @@ async function start(){
   checkWhatsNew();
 }
 /* test hooks (7.7) */
-try { Object.assign(window.__vs || (window.__vs = {}), { applyOps: o => applyOps(o), closeSheet: a => closeSheet(a), pkgUntil: p => pkgUntil(p), pkgLeft: p => pkgLeft(p), pkgBurnt: p => pkgBurnt(p), pkgTotal: p => pkgTotal(p), applyPackages: s => applyPackages(s), applyLook: f => applyLook(f), applyTheme: () => { lastTheme = ''; applyTheme(); }, ymd: d => ymd(d), addDays: (d, n) => addDays(d, n), parseD: s => parseD(s) }); } catch (e) {}
+try { Object.assign(window.__vs || (window.__vs = {}), { applyOps: o => applyOps(o), botSync: f => botSync(f), closeSheet: a => closeSheet(a), pkgUntil: p => pkgUntil(p), pkgLeft: p => pkgLeft(p), pkgBurnt: p => pkgBurnt(p), pkgTotal: p => pkgTotal(p), applyPackages: s => applyPackages(s), applyLook: f => applyLook(f), applyTheme: () => { lastTheme = ''; applyTheme(); }, ymd: d => ymd(d), addDays: (d, n) => addDays(d, n), parseD: s => parseD(s) }); } catch (e) {}
 start().catch(rescueScreen);
 })();
 </script>
