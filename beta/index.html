@@ -729,6 +729,7 @@ body.lgl-lock{overflow:hidden}
 /* 8.4 pay way switch */
 .paySeg{margin:0 8px 10px;flex-wrap:nowrap}.paySeg button{flex:1;padding:10px 8px;font-size:14px}
 .madein{text-align:center;margin:6px 16px 18px;font-size:12.5px;line-height:1.4}.madein a{color:var(--hint);text-decoration:none}.madein.big{margin-top:22px;font-size:14px}.madein.big a{color:var(--ink,var(--accent));font-weight:600}
+.card.alm{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#B3261E,#7D1A2C);color:#fff;border:0;cursor:pointer}.card.alm .al-ic{font-size:26px}.card.alm .al-tx{flex:1;display:flex;flex-direction:column;gap:2px}.card.alm small{opacity:.9;color:#fff}.card.alm .chev{font-size:22px;opacity:.8}
 </style>
 </head>
 <body>
@@ -4604,7 +4605,7 @@ function renderHome(){
       <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
       <div class="topbtns"><button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
-  const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>` + safe(surpCard, '');
+  const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>` + safe(almCard, '') + safe(surpCard, '');
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
   if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + safe(homeTilesRow, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
@@ -6167,6 +6168,22 @@ const SURPA = {
     surpPieces().map(x => `<div class="card sp-li"><p>${esc(x.x).replace(/\n/g, '<br>')}</p></div>`).join(''))
 };
 
+/* 🚨 Owner alarms in the app: the server sends sub.alm (only to owners) → a red card on Home; tap → details. */
+function almList(){ const s = state.settings.sub || {}; return s.admin && Array.isArray(s.alm) ? s.alm : []; }
+function almCard(){
+  const a = almList(); if (!a.length) return '';
+  return `<div class="card alm" data-act="almOpen"><span class="al-ic">🚨</span><span class="al-tx"><b>${esc(L === 'ru' ? 'Есть проблема — нужно чинить' : 'Something needs fixing')}${a.length > 1 ? ' · ' + a.length : ''}</b><small>${esc(String(a[0].t).split('\n')[0].slice(0, 110))}</small></span><span class="chev">›</span></div>`;
+}
+function almSheet(){
+  return () => { const a = almList(), ru = L === 'ru';
+    return sheetHead('🚨 ' + (ru ? 'Тревоги' : 'Alarms')) + (a.length ? a.map(x => `<div class="card" style="padding:12px;margin-bottom:8px"><div style="white-space:pre-wrap;font-size:14px">${esc(x.t)}</div><small style="color:var(--hint)">${esc(x.c)} · ${esc(new Date(x.at || Date.now()).toLocaleString())}</small></div>`).join('') : `<div class="sbnote">${esc(ru ? 'Тревог нет ✅' : 'No alarms ✅')}</div>`) +
+      `<div class="sbnote">${esc(ru ? 'Перешли текст тревоги Claude — разберём и починим. Подробная сводка в боте: /health' : 'Send the alarm text to Claude to fix it. Details in the bot: /health')}</div><button class="btn" data-act="almBot">${esc(ru ? 'Открыть сводку в боте' : 'Open the summary in the bot')}</button>`; };
+}
+Object.assign(SURPA, {
+  almOpen: () => openSheet(almSheet()),
+  almBot: () => { const b = (state.settings.sub || {}).bot || 'musicplaner_bot'; openUrl('https://t.me/' + b + '?start=health', true); }
+});
+
 /* ================= Bot input: text & voice → data (actions queued on the server) ================= */
 let botAi = lsGetK('vs_ai') === '1', opsBusy = false, opsAck = [], opsWait = [], opsToastAt = 0;
 try { opsAck = JSON.parse(lsGetK('vs_ack') || '[]').filter(x => typeof x === 'string').slice(-100); } catch (e) {}
@@ -6368,7 +6385,7 @@ function applyOps(ops){
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
 const APP_VER = 47;
 const CHANGES = [
-  {"v": 47, "name": "8.3.3", "date": "2026-11-08", "quiet": true, "ru": {"better": ["🔐 Усилена защита: инструменты разработчика — только для владельца, защита от спама и подбора кодов"]}, "en": {"better": ["🔐 Stronger protection: developer tools for the owner only, anti-spam and code brute-force protection"]}},
+  {"v": 47, "name": "8.3.3", "date": "2026-11-08", "quiet": true, "ru": {"better": ["🔐 Усилена защита: инструменты разработчика — только для владельца, защита от спама и подбора кодов","🚨 Владелец сразу видит тревогу, если что-то сломалось"]}, "en": {"better": ["🔐 Stronger protection: developer tools for the owner only, anti-spam and code brute-force protection","🚨 The owner sees an alarm right away if something breaks"]}},
   {"v": 46, "name": "8.3.2", "date": "2026-11-08", "quiet": true, "ru": {"better": ["🔗 Приложение подключается к боту, даже если его открыли из профиля бота или по ссылке-приглашению"]}, "en": {"better": ["🔗 The app connects to the bot even when opened from the bot profile or an invite link"]}},
   {"v": 45, "name": "8.3.1", "date": "2026-11-08", "quiet": true, "ru": {"add": ["⭐ Можно платить звёздами Telegram — прямо в приложении, без карты", "🤝 «Пригласи коллегу»: другу 7 дней «Макс» бесплатно, тебе — месяц, когда он оформит подписку (💎 Подписка)", "✨ Приложение теперь называется «Студиум»", "🗓 На странице записи учеников — строчка «Запись работает на «Студиум»»"], "better": ["📄 В документах — оплата звёздами и возврат; в боте /terms и /paysupport"]}, "en": {"add": ["⭐ Pay with Telegram Stars right in the app — no card needed", "🤝 «Invite a colleague»: they get 7 days of Max free, you get a month when they subscribe (💎 Subscription)", "✨ The app is now called «Studium»", "🗓 The booking page says «Booking by «Studium»»"], "better": ["📄 Documents cover Stars payments and refunds; /terms and /paysupport in the bot"]}},
   {"v": 44, "name": "8.3", "date": "2026-11-08", "big": true, "quiet": true, "ru": {"add": ["💳 Подключили ЮKassa — оплата подписки прямо в приложении и в боте. ⚙️ Настройки → 💎 Подписка → «Купить подписку» (или /тарифы в боте): выбираешь тариф, платишь через ЮKassa любой картой или по СБП — и подписка включается сама за пару минут, без кодов и ожидания", "🎁 Подписка в подарок: оплачиваешь — бот присылает одноразовый код, его можно переслать кому угодно", "💼 Профессия меняет всё приложение: карточка ученика, дневник, навыки, анкета, шаблоны сообщений, напоминания, достижения, события и услуги говорят словами твоей профессии — тренировка, занятие или сессия; спортсмены или клиенты", "🎯 Свои навыки для каждой профессии (у хоккеиста — катание, бросок, тактика, у языка — грамматика, говорение…), «Соревнования» или «Мероприятия» вместо концертов, дневник «Самочувствие»", "📄 Документы и согласия: при первом входе — короткое понятное окно о том, как хранятся твои данные. Всё можно перечитать и изменить: ⚙️ Настройки → 🛟 Данные и копии → «Документы и согласия»", "📋 Готовый текст согласия для учеников и родителей — копируешь и отправляешь в один тап"], "better": ["✌️ Занятие-конструктор: «Количество занятий» − / + рядом с длительностью — двойное, тройное и больше одной записью (120 минут подскажут 2, 180 — 3). С абонемента спишется столько же, и сразу видно «Спишется 2 занятия · останется 5 из 8»", "🎟 Списание с абонемента — переключатель прямо над стоимостью: включил — стоимость становится серой «оплачено абонементом», выключил — цена за все занятия считается сама. Задним числом тоже работает", "🗑 Удалить занятие — как будто его не было: деньги, долг и абонемент пересчитываются сразу, приложение пишет, что изменилось («в абонементе снова 5 из 8»)", "🔁 У повторяющихся занятий — «только это» или «это и следующие», у групповых — «для всей группы»", "❌ Отмена занятия учеником через бот сразу возвращает занятие в абонемент", "🎤 Песни, распевки и диапазон голоса — только у музыкантов; вернёшься в музыку — всё вернётся само", "🗓 В онлайн-записи клиент отмечает согласие на обработку данных", "🛡 Защита от двойных нажатий: сколько ни жми «Сохранить», «Продать абонемент» или «Оплатить» — запись или платёж будет один; пока идёт оплата, кнопка приглушена", "⚡ Быстрее отклик: приложение начинает считать нужные цифры уже в момент касания", "🔒 Оплата через ЮKassa защищена: данные карты видит только ЮKassa, сумму задаёт только сервер, каждый платёж засчитывается один раз"]}, "en": {"add": ["💳 YooKassa is connected — pay for a subscription right in the app and the bot, by any card or SBP. ⚙️ Settings → 💎 Subscription → “Buy a subscription” (or /plans in the bot): pick a plan, pay on the secure YooKassa page — it switches on by itself in a couple of minutes, no codes, no waiting", "🎁 Subscription as a gift: pay — the bot sends a one-time code you can forward to anyone", "💼 Your profession adapts the whole app: student card, diary, skills, questionnaire, messages, reminders, achievements, events and services use your profession’s words", "🎯 Own skills for every profession, competitions or events instead of concerts, a “Wellbeing” diary", "📄 Documents and consents: a short clear window on first start about how your data is stored. Review or change any time: ⚙️ Settings → 🛟 Data & backups → “Documents and consents”", "📋 A ready consent text for students and parents — copy and send in one tap"], "better": ["✌️ Lesson builder: “Number of lessons” − / + next to the duration — double, triple and more in one entry (120 minutes suggests 2, 180 — 3). The package is charged the same, with “2 will be taken · 5 of 8 left”", "🎟 “Take from the package” sits right above the price: on — the price turns grey “paid by the package”, off — the price for all lessons is counted by itself", "🗑 Deleting a lesson works as if it never happened: money, debts and the package are recalculated at once and the app tells you what changed", "🔁 Repeating lessons: “only this” or “this and following”; group lessons: “whole group”", "❌ A student cancelling through the bot returns the lesson to the package at once", "🎤 Songs, warm-ups and vocal range only for musicians", "🗓 Online booking asks the client for consent to data processing", "🛡 Double-tap protection: however many times you tap Save, Sell a package or Pay, you get one entry or one payment", "⚡ Faster response: the app starts computing the moment your finger touches the screen", "🔒 Payments are protected: only the server sets the amount, each payment counts once"]}},
@@ -9063,7 +9080,21 @@ const MODS = [
   ['ach', '🏆']
 ];
 const errLog = [];
-const logErr = (e, where) => { try { errLog.push({ at: Date.now(), w: String(where || ''), x: String((e && (e.stack || e.message)) || e).slice(0, 400) }); if (errLog.length > 30) errLog.shift(); } catch (x) {} };
+const logErr = (e, where) => { try { const it = { at: Date.now(), w: String(where || ''), x: String((e && (e.stack || e.message)) || e).slice(0, 400) }; errLog.push(it); if (errLog.length > 30) errLog.shift(); errQueue(it); } catch (x) {} };
+/* 🚨 8.3.3: errors also go to the server (max 8 per session, batched, never through botPost to avoid loops) → owner gets an ALARM
+   when the same error hits 2+ people. Network noise is filtered on the server. Off in tests unless window.__errRep. */
+let errQ = [], errSent = 0, errT = 0;
+function errQueue(it){
+  if (errSent >= 8 || (window.__mockCfg && !window.__errRep)) return;
+  errQ.push({ w: it.w, x: it.x }); clearTimeout(errT); errT = setTimeout(errFlush, 4000);
+}
+function errFlush(){
+  try {
+    if (!errQ.length || typeof inTG === 'undefined' || !inTG || !state.settings.api) return;
+    const q = errQ.splice(0, 5); errSent += q.length;
+    fetch(state.settings.api, { method: 'POST', body: JSON.stringify({ a: 'err', init: tg.initData, v: typeof APP_VER === 'number' ? APP_VER : 0, e: q }) }).catch(() => {});
+  } catch (e) {}
+}
 window.addEventListener('error', e => logErr(e.error || e.message, 'window'));
 window.addEventListener('unhandledrejection', e => logErr(e.reason, 'promise'));
 function modsSheet(){
