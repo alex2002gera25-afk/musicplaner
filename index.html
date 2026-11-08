@@ -416,6 +416,38 @@ nav.tabs button:active{transform:scale(.9)}
 .lkfonts{flex-wrap:wrap}
 .lkfonts button{white-space:nowrap}
 .lkprev .hero small{opacity:.8;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.lkprev{position:sticky;top:-1px;z-index:3;background:var(--bg);padding:4px 0 8px;margin:0 -2px}
+.lkprev .hero{padding:12px 16px}
+.lkmini{margin-top:8px;border-radius:16px;padding:10px;border:1px solid var(--line);display:grid;gap:6px}
+.lkmini .lkc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;font-size:13px}
+.lkmini .lkc b{color:var(--title);font-size:14px}
+.lkmini .lkc2{flex-direction:row;align-items:center;gap:10px}
+.lktabs{position:sticky;top:0;z-index:2;margin:0 0 12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.lktabs::-webkit-scrollbar{display:none}
+.lktabs button{flex:none}
+.lkthemes,.lkbgs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lkth,.lkbg{display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:5px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);font:inherit;font-size:12.5px;text-align:center}
+.lkth i,.lkbg i{display:grid;place-items:center;height:64px;border-radius:10px;font-style:normal;font-size:22px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);overflow:hidden}
+.lkth em{display:flex;align-items:center;gap:6px;padding:6px 9px;font-style:normal;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.lkth u{width:14px;height:14px;border-radius:50%}
+.lkth s{text-decoration:none;font-size:17px;line-height:1}
+.lkth.on,.lkbg.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.lkrange{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:10px 0}
+.lkrange>div{display:flex;justify-content:space-between;font-size:14px}
+.lkrange b{color:var(--title)}
+.lkrange input{width:100%;margin:8px 0 2px;accent-color:var(--accent)}
+.lkrange small{display:block;color:var(--hint);font-size:12px}
+#wp{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+#wp[hidden]{display:none}
+#wp i,#wp b{position:absolute;inset:-40px}
+#wp b{inset:0}
+#wp u{position:absolute;left:0;right:0;top:calc(-1 * var(--fall,800px));height:calc(100% + var(--fall,800px));will-change:transform;animation:wpfall 48s linear infinite}
+#wp u[hidden]{display:none}
+@keyframes wpfall{from{transform:translateY(0)}to{transform:translateY(var(--fall,800px))}}
+@media (prefers-reduced-motion:reduce){#wp u{animation:none}}
+.ava.ph{background-size:cover;background-position:center;color:transparent}
+.ava[data-act=stuPhoto]{position:relative;cursor:pointer}
+.avacam{position:absolute;right:-2px;bottom:-2px;width:26px;height:26px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:13px;font-style:normal;box-shadow:0 2px 6px rgba(0,0,0,.15)}
 /* --- full-screen update window --- */
 .wnbig{position:fixed;inset:0;z-index:96;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;transform:scale(1.03);transition:opacity .3s,transform .3s}
 .wnbig.on{opacity:1;transform:none}
@@ -4161,7 +4193,9 @@ function dayLabel(s){
 const AVA = ['#7D1A2C','#9A2E40','#5E1221','#9C8F6E','#6B5B4E','#A0485A','#3A3434','#8A6F5C'];
 function avaColor(str){ let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) % 9973; return AVA[h % AVA.length]; }
 const initials = n => String(n || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '?';
-const ava = s => `<div class="ava" style="background:${avaColor(s.id + s.name)}">${esc(initials(s.name))}</div>`;
+/* 8.4: a student photo (s.pf) replaces the initials once this device has it cached; otherwise it is fetched and patched in */
+const ava = (s, tap) => { const u = s.pf && typeof avaPhoto === 'function' ? avaPhoto(s) : '';
+  return `<div class="ava${u ? ' ph' : ''}"${s.pf ? ` data-ph="${esc(s.id)}"` : ''}${tap ? ` data-act="stuPhoto" data-id="${esc(s.id)}" role="button"` : ''} style="background-color:${avaColor(s.id + s.name)}${u ? `;background-image:url('${u}')` : ''}">${u ? '' : esc(initials(s.name))}${tap ? '<i class="avacam">📷</i>' : ''}</div>`; };
 function intlPhone(p){
   let d = String(p || '').replace(/[^\d+]/g, '');
   if (/^8\d{10}$/.test(d)) d = '+7' + d.slice(1);
@@ -5075,7 +5109,7 @@ function studentCard(id){
       s.songs.length ? `🎵 ${s.songs.filter(x => x.done).length}/${s.songs.length}` : '', s.hw.length ? `📝 ${s.hw.filter(x => x.done).length}/${s.hw.length}` : '']
       .filter(Boolean).map(x => `<span class="chip">${esc(x)}</span>`).join('');
     return sheetHead('', `<button class="r" data-act="editStudent" data-id="${id}">${esc(T.edit)}</button>`) + `
-      <div class="profile">${ava(s)}<h2>${esc(s.name)}${bd === 0 ? ' 🎂' : ''}</h2><p>${contacts || esc(T.noContacts)}${s.archived ? esc(T.inArchive) : ''}</p></div>
+      <div class="profile">${ava(s, true)}<h2>${esc(s.name)}${bd === 0 ? ' 🎂' : ''}</h2><p>${contacts || esc(T.noContacts)}${s.archived ? esc(T.inArchive) : ''}</p></div>
       <div class="info">${info.map(x => `<span>${esc(x)}</span>`).join('')}</div>
       <div class="acts">
         <a href="tel:${esc(ph)}" class="${ph ? '' : 'dis'}">${ic(I.phone)}${esc(T.call)}</a>
@@ -6383,8 +6417,11 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 47;
+const APP_VER = 48;
 const CHANGES = [
+  {"v": 48, "name": "8.4", "date": "2026-11-10", "big": true, "ru": {"add": ["🎨 Оформление как конструктор: ⚙️ Настройки → 🎨 Оформление. Пять вкладок — Темы, Цвета, Фон, Шрифты, Карточки", "🌗 Живое небо: фон меняется сам — рассвет, утро, полдень, день, закат, сумерки, вечер и ночь, как за окном. И времена года: зимой идёт снег, весной летят лепестки, летом солнце и светлячки, осенью падают листья. Можно оставить «как сейчас» или выбрать своё время года и суток",
+  "✨ 17 готовых тем в одно касание: Живое небо, Закат, Океан, Ночь, Неон, Пастель, Винтаж, Детская, Музыка и другие", "🖼 Свой фон: фото из галереи как обои — с размытием и затемнением. Или 20 узоров и градиентов: гладкий, сетка, ноты, звёзды, сердечки, конфетти, бумага, рассвет, северное сияние, ночное небо…", "🔤 Больше 80 шрифтов с русскими буквами: для заголовков, текста и подписи — и размер текста от 80 до 140%", "🃏 Карточки на свой вкус: обычные, с тенью, контур или «стекло», скругление углов, прозрачность и свой цвет карточек", "📸 Фото ученика: открой карточку ученика и нажми на кружок с буквами — фото появится в списках и в календаре", "🎨 18 цветовых палитр и свои цвета: акцент, фон и карточки", "📤 Поделись оформлением: код копируется в один тап — коллега вставит его и получит такой же вид"], "better": ["👀 Текст всегда читается: на любом фоне и цвете приложение само подбирает светлый или тёмный текст", "⚡ Всё летает: фото хранятся на телефоне и не тормозят приложение"]}, "en": {"add": ["🎨 Look builder: ⚙️ Settings → 🎨 Look. Five tabs — Themes, Colours, Background, Fonts, Cards", "🌗 Live sky: the background follows the real time of day — dawn, morning, noon, day, sunset, dusk, evening, night — and the season: snow, petals, sun and fireflies, falling leaves. Keep it «like now» or pick your own",
+  "✨ 17 one-tap themes: Live sky, Sunset, Ocean, Night, Neon, Pastel, Vintage, Kids, Music and more", "🖼 Your own background: a photo from the gallery with blur and dimming, or 20 patterns and gradients", "🔤 80+ fonts for headings, text and signature — and text size from 80 to 140%", "🃏 Cards your way: solid, shadow, outline or glass, corner rounding, transparency and your own card colour", "📸 Student photos: open a student and tap the initials circle", "🎨 18 palettes and your own colours", "📤 Share your look: copy a code, a colleague pastes it and gets the same look"], "better": ["👀 Text always reads: the app picks light or dark text for any background", "⚡ Fast: photos live on the phone and do not slow the app down"]}},
   {"v": 47, "name": "8.3.3", "date": "2026-11-08", "quiet": true, "ru": {"better": ["🔐 Усилена защита: инструменты разработчика — только для владельца, защита от спама и подбора кодов","🚨 Владелец сразу видит тревогу, если что-то сломалось"]}, "en": {"better": ["🔐 Stronger protection: developer tools for the owner only, anti-spam and code brute-force protection","🚨 The owner sees an alarm right away if something breaks"]}},
   {"v": 46, "name": "8.3.2", "date": "2026-11-08", "quiet": true, "ru": {"better": ["🔗 Приложение подключается к боту, даже если его открыли из профиля бота или по ссылке-приглашению"]}, "en": {"better": ["🔗 The app connects to the bot even when opened from the bot profile or an invite link"]}},
   {"v": 45, "name": "8.3.1", "date": "2026-11-08", "quiet": true, "ru": {"add": ["⭐ Можно платить звёздами Telegram — прямо в приложении, без карты", "🤝 «Пригласи коллегу»: другу 7 дней «Макс» бесплатно, тебе — месяц, когда он оформит подписку (💎 Подписка)", "✨ Приложение теперь называется «Студиум»", "🗓 На странице записи учеников — строчка «Запись работает на «Студиум»»"], "better": ["📄 В документах — оплата звёздами и возврат; в боте /terms и /paysupport"]}, "en": {"add": ["⭐ Pay with Telegram Stars right in the app — no card needed", "🤝 «Invite a colleague»: they get 7 days of Max free, you get a month when they subscribe (💎 Subscription)", "✨ The app is now called «Studium»", "🗓 The booking page says «Booking by «Studium»»"], "better": ["📄 Documents cover Stars payments and refunds; /terms and /paysupport in the bot"]}},
@@ -7024,48 +7061,140 @@ const BK2 = {
   bkTextCopy: async () => { if (await copyText(backupText())) toast('✅ ' + T.b2.copied, 3500); else showText(T.b2.asText, backupText()); }
 };
 
-/* ================= Look: palettes, own colours, fonts, size (per account, synced) ================= */
-const LOOK_DEF = { pal: 'bordo', accent: '', bg: '', head: 'ruslan', body: 'system', sign: 'marck', size: 100 };
+/* ================= Look 2.0 (8.4): themes, palettes, own colours, backgrounds & wallpapers, fonts, cards =================
+   Everything lives in state.settings.look (small, synced with the rest of the settings). Photos (wallpaper, student
+   photos) are NOT in the synced data: the phone keeps them in IndexedDB «vs_img»; a copy goes to the bot chat
+   (server action «img», the message is deleted right away) and only its Telegram file id ('tg:…') is synced,
+   so another device can download it once and cache it. */
+const LOOK_DEF = { pal: 'bordo', accent: '', bg: '', card: '', head: 'ruslan', body: 'system', sign: 'marck', size: 100,
+  bgt: 'dots', bgi: 50, lvS: 'auto', lvT: 'auto', wp: '', wpBlur: 0, wpDim: 25, rad: 'normal', cs: 'solid', ca: 100, hcase: 'upper', pre: '' };
 /* palette: l = light [bg, card, accent, accent-2], d = dark [accent, accent-2, light accent for titles] */
 const PALETTES = {
   bordo: { l: ['#EFEAE4', '#FAF6EF', '#7D1A2C', '#5E1221'], d: ['#A4243A', '#6E1424', '#EBA7B3'] },
+  cherry: { l: ['#F4E9E9', '#FFF8F8', '#A3122A', '#780A1C'], d: ['#C8243F', '#8A1328', '#F5A3B1'] },
   rose: { l: ['#F6E9EE', '#FFF8FA', '#B0336A', '#81204B'], d: ['#C94683', '#8E2A5A', '#F2A6C8'] },
+  coral: { l: ['#F8ECE8', '#FFF9F7', '#D0533F', '#A03A2A'], d: ['#E06A55', '#A3443A', '#F7B7AA'] },
   peach: { l: ['#F5ECE6', '#FFF9F5', '#C2563A', '#94391F'], d: ['#D46A4D', '#99412A', '#F2B19E'] },
   gold: { l: ['#F3EEE3', '#FFFBF2', '#8A6A1F', '#604911'], d: ['#B08A2E', '#7A5F1C', '#E8CF8A'] },
+  sand: { l: ['#F2EDE4', '#FCF9F3', '#8C6B4A', '#654C33'], d: ['#A88560', '#77583C', '#E3CBB0'] },
+  choco: { l: ['#EFE8E3', '#FBF7F4', '#5C3A2E', '#40271E'], d: ['#8A5A47', '#5E3B2E', '#DDB8A6'] },
+  olive: { l: ['#EEEFE4', '#FAFBF3', '#5E6B2A', '#434D1B'], d: ['#7E8F3A', '#566328', '#CCD99A'] },
   mint: { l: ['#E8F0EA', '#F8FCF8', '#2F6B4F', '#1F4D37'], d: ['#3F8F69', '#275C43', '#9AD9B8'] },
+  teal: { l: ['#E5F0EF', '#F7FCFB', '#1D6E6A', '#124F4C'], d: ['#2A9590', '#1B625F', '#8FDAD5'] },
+  sky: { l: ['#E8F1F8', '#F8FBFE', '#2A6FB0', '#1C4F80'], d: ['#4A8FD0', '#2E6499', '#A9CDF2'] },
   ocean: { l: ['#E7EEF2', '#F8FBFC', '#1F5F7A', '#134257'], d: ['#2E86A8', '#1B5A74', '#8FCDE6'] },
   navy: { l: ['#E9ECF5', '#F9FAFE', '#283C8A', '#1A2863'], d: ['#3D57C2', '#283C8A', '#A9B8F2'] },
   lavender: { l: ['#EEEAF3', '#FBF9FE', '#5B3E96', '#3E2870'], d: ['#7E5CC4', '#4A3285', '#C3B0F0'] },
-  graphite: { l: ['#ECECEC', '#FAFAFA', '#2B2B2B', '#111111'], d: ['#5A5A5A', '#333333', '#DDDDDD'] }
+  plum: { l: ['#F1E8F0', '#FDF8FC', '#7A2D6E', '#57204F'], d: ['#A2449A', '#6F2D69', '#E6A7DE'] },
+  graphite: { l: ['#ECECEC', '#FAFAFA', '#2B2B2B', '#111111'], d: ['#5A5A5A', '#333333', '#DDDDDD'] },
+  noir: { l: ['#E9E7E4', '#F7F5F2', '#1A1A1A', '#000000'], d: ['#B89B5E', '#7E6A3E', '#E8D6A8'] }
 };
 const SYS_FONT = '-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+/* [family, Google Fonts spec]; every font here was checked to have Cyrillic */
 const FONTS = {
   head: { ruslan: ['Ruslan Display', 'Ruslan+Display'], playfair: ['Playfair Display', 'Playfair+Display:wght@600;700'], cormorant: ['Cormorant Garamond', 'Cormorant+Garamond:wght@600;700'],
     lobster: ['Lobster', 'Lobster'], montserrat: ['Montserrat', 'Montserrat:wght@700;800'], unbounded: ['Unbounded', 'Unbounded:wght@600'], comfortaa: ['Comfortaa', 'Comfortaa:wght@700'],
-    slab: ['Roboto Slab', 'Roboto+Slab:wght@700'], system: ['', ''] },
+    slab: ['Roboto Slab', 'Roboto+Slab:wght@700'], russo: ['Russo One', 'Russo+One'], oswald: ['Oswald', 'Oswald:wght@500;600'], prata: ['Prata', 'Prata'], yeseva: ['Yeseva One', 'Yeseva+One'],
+    alice: ['Alice', 'Alice'], amatic: ['Amatic SC', 'Amatic+SC:wght@700'], philosopher: ['Philosopher', 'Philosopher:wght@700'], kelly: ['Kelly Slab', 'Kelly+Slab'], neucha: ['Neucha', 'Neucha'],
+    pixel: ['Press Start 2P', 'Press+Start+2P'], tenor: ['Tenor Sans', 'Tenor+Sans'], forum: ['Forum', 'Forum'], underdog: ['Underdog', 'Underdog'], poiret: ['Poiret One', 'Poiret+One'],
+    seymour: ['Seymour One', 'Seymour+One'], rubik: ['Rubik', 'Rubik:wght@600;700'], jura: ['Jura', 'Jura:wght@600'], oldstd: ['Old Standard TT', 'Old+Standard+TT:wght@700'],
+    ledger: ['Ledger', 'Ledger'], kurale: ['Kurale', 'Kurale'], podkova: ['Podkova', 'Podkova:wght@700'], spectral: ['Spectral', 'Spectral:wght@600'], literata: ['Literata', 'Literata:wght@600'],
+    rubikmono: ['Rubik Mono One', 'Rubik+Mono+One'], stalinist: ['Stalinist One', 'Stalinist+One'], dela: ['Dela Gothic One', 'Dela+Gothic+One'], bona: ['Bona Nova', 'Bona+Nova:wght@700'],
+    vollkorn: ['Vollkorn', 'Vollkorn:wght@600'], garamond: ['EB Garamond', 'EB+Garamond:wght@600'], monalt: ['Montserrat Alternates', 'Montserrat+Alternates:wght@700'], tektur: ['Tektur', 'Tektur:wght@600'],
+    days: ['Days One', 'Days+One'], geologica: ['Geologica', 'Geologica:wght@700'], doodle: ['Rubik Doodle Shadow', 'Rubik+Doodle+Shadow'], wetpaint: ['Rubik Wet Paint', 'Rubik+Wet+Paint'],
+    monomakh: ['Monomakh', 'Monomakh'], alumni: ['Alumni Sans', 'Alumni+Sans:wght@700'], yanone: ['Yanone Kaffeesatz', 'Yanone+Kaffeesatz:wght@600'], cuprum: ['Cuprum', 'Cuprum:wght@700'],
+    play: ['Play', 'Play:wght@700'], system: ['', ''] },
   body: { system: ['', ''], inter: ['Inter', 'Inter:wght@400;600;700'], nunito: ['Nunito', 'Nunito:wght@400;600;700'], manrope: ['Manrope', 'Manrope:wght@400;600;700'],
-    ptsans: ['PT Sans', 'PT+Sans:wght@400;700'], roboto: ['Roboto', 'Roboto:wght@400;500;700'], lora: ['Lora', 'Lora:wght@400;600'] },
+    ptsans: ['PT Sans', 'PT+Sans:wght@400;700'], roboto: ['Roboto', 'Roboto:wght@400;500;700'], lora: ['Lora', 'Lora:wght@400;600'], opensans: ['Open Sans', 'Open+Sans:wght@400;600;700'],
+    noto: ['Noto Sans', 'Noto+Sans:wght@400;600;700'], plex: ['IBM Plex Sans', 'IBM+Plex+Sans:wght@400;600;700'], source: ['Source Sans 3', 'Source+Sans+3:wght@400;600;700'],
+    fira: ['Fira Sans', 'Fira+Sans:wght@400;600;700'], golos: ['Golos Text', 'Golos+Text:wght@400;600;700'], onest: ['Onest', 'Onest:wght@400;600;700'], raleway: ['Raleway', 'Raleway:wght@400;600;700'],
+    exo: ['Exo 2', 'Exo+2:wght@400;600;700'], ubuntu: ['Ubuntu', 'Ubuntu:wght@400;500;700'], ptserif: ['PT Serif', 'PT+Serif:wght@400;700'], merri: ['Merriweather', 'Merriweather:wght@400;700'],
+    commissioner: ['Commissioner', 'Commissioner:wght@400;600;700'], rubik: ['Rubik', 'Rubik:wght@400;500;700'], mulish: ['Mulish', 'Mulish:wght@400;600;700'], nunitosans: ['Nunito Sans', 'Nunito+Sans:wght@400;600;700'],
+    sofia: ['Sofia Sans', 'Sofia+Sans:wght@400;600;700'], geologica: ['Geologica', 'Geologica:wght@400;600'], montserrat: ['Montserrat', 'Montserrat:wght@400;600;700'], scada: ['Scada', 'Scada:wght@400;700'],
+    arsenal: ['Arsenal', 'Arsenal:wght@400;700'], didact: ['Didact Gothic', 'Didact+Gothic'], comfortaa: ['Comfortaa', 'Comfortaa:wght@400;700'], mono: ['JetBrains Mono', 'JetBrains+Mono:wght@400;700'] },
   sign: { marck: ['Marck Script', 'Marck+Script'], caveat: ['Caveat', 'Caveat:wght@500;700'], badscript: ['Bad Script', 'Bad+Script'], pacifico: ['Pacifico', 'Pacifico'],
-    vibes: ['Great Vibes', 'Great+Vibes'], plain: ['', ''] }
+    vibes: ['Great Vibes', 'Great+Vibes'], lobster: ['Lobster', 'Lobster'], amatic: ['Amatic SC', 'Amatic+SC:wght@700'], neucha: ['Neucha', 'Neucha'], pangolin: ['Pangolin', 'Pangolin'],
+    comforter: ['Comforter', 'Comforter'], shantell: ['Shantell Sans', 'Shantell+Sans'], plain: ['', ''] }
 };
-const SIZES = [90, 100, 110, 120];
+const SIZES = [80, 85, 90, 95, 100, 105, 110, 115, 120, 130, 140];
+const RADII = { sharp: 6, soft: 12, normal: 16, round: 22, pill: 28 };
+/* backgrounds: k = pattern/gradient/photo; drawn on a fixed layer #wp behind the app */
+const BGS = ['live', 'dots', 'plain', 'grid', 'lines', 'checks', 'waves', 'notes', 'stars', 'hearts', 'confetti', 'paper', 'linen',
+  'soft', 'sunrise', 'sunset', 'ocean', 'meadow', 'aurora', 'mesh', 'night', 'photo'];
+const BG_GRAD = /^(soft|sunrise|sunset|ocean|meadow|aurora|mesh|night)$/;
+/* ready-made themes — one tap sets colours, background, fonts and cards together */
+const LOOK_PRESETS = [
+  ['classic', { pal: 'bordo' }],
+  ['sky', { pal: 'sky', bgt: 'live', bgi: 60, head: 'prata', body: 'golos', sign: 'caveat', cs: 'glass', ca: 82, rad: 'round', hcase: 'normal' }],
+  ['minimal', { pal: 'graphite', bgt: 'plain', head: 'montserrat', body: 'inter', sign: 'plain', cs: 'outline', rad: 'soft', hcase: 'normal' }],
+  ['pastel', { pal: 'lavender', bgt: 'soft', bgi: 70, head: 'comfortaa', body: 'nunito', sign: 'caveat', cs: 'shadow', rad: 'round', hcase: 'normal' }],
+  ['sunset', { pal: 'coral', bgt: 'sunset', bgi: 70, head: 'playfair', body: 'manrope', sign: 'vibes', cs: 'glass', ca: 78, rad: 'round', hcase: 'normal' }],
+  ['ocean', { pal: 'ocean', bgt: 'ocean', bgi: 70, head: 'prata', body: 'golos', sign: 'badscript', cs: 'glass', ca: 80, rad: 'round' }],
+  ['meadow', { pal: 'mint', bgt: 'meadow', bgi: 60, head: 'kurale', body: 'ptsans', sign: 'caveat', cs: 'shadow', rad: 'round', hcase: 'normal' }],
+  ['music', { pal: 'bordo', bgt: 'notes', bgi: 55, head: 'yeseva', body: 'lora', sign: 'marck' }],
+  ['vintage', { pal: 'sand', bgt: 'paper', bgi: 70, head: 'oldstd', body: 'ptserif', sign: 'badscript', cs: 'outline', rad: 'soft' }],
+  ['night', { pal: 'navy', bgt: 'night', bgi: 70, head: 'unbounded', body: 'onest', sign: 'caveat', cs: 'glass', ca: 80, rad: 'round', theme: 'dark' }],
+  ['neon', { pal: 'plum', accent: '#FF2E88', bgt: 'aurora', bgi: 80, head: 'russo', body: 'exo', sign: 'pacifico', cs: 'glass', ca: 75, rad: 'round', theme: 'dark' }],
+  ['sport', { pal: 'navy', bgt: 'lines', bgi: 45, head: 'oswald', body: 'roboto', sign: 'plain', cs: 'shadow', rad: 'sharp' }],
+  ['kids', { pal: 'peach', bgt: 'confetti', bgi: 60, head: 'comfortaa', body: 'nunito', sign: 'caveat', cs: 'shadow', rad: 'pill', hcase: 'normal' }],
+  ['glam', { pal: 'rose', bgt: 'hearts', bgi: 45, head: 'cormorant', body: 'raleway', sign: 'vibes', cs: 'shadow', rad: 'round', hcase: 'normal' }],
+  ['tech', { pal: 'teal', bgt: 'grid', bgi: 55, head: 'tektur', body: 'plex', sign: 'plain', cs: 'outline', rad: 'sharp', hcase: 'upper', theme: 'dark' }],
+  ['noir', { pal: 'noir', bgt: 'linen', bgi: 50, head: 'bona', body: 'source', sign: 'vibes', cs: 'outline', rad: 'soft', hcase: 'normal' }],
+  ['forest', { pal: 'olive', bgt: 'waves', bgi: 45, head: 'philosopher', body: 'fira', sign: 'neucha', cs: 'shadow', rad: 'round', hcase: 'normal' }]
+];
+const LK2X = {
+  ru: { tabs: { themes: 'Темы', colors: 'Цвета', bg: 'Фон', fonts: 'Шрифты', cards: 'Карточки' },
+    themes: { sky: 'Живое небо', classic: 'Классика', minimal: 'Минимал', pastel: 'Пастель', sunset: 'Закат', ocean: 'Океан', meadow: 'Луг', music: 'Музыка', vintage: 'Винтаж', night: 'Ночь', neon: 'Неон', sport: 'Спорт', kids: 'Детская', glam: 'Гламур', tech: 'Техно', noir: 'Нуар', forest: 'Лес' },
+    pals: { cherry: 'Вишня', coral: 'Коралл', sand: 'Песок', choco: 'Шоколад', olive: 'Олива', teal: 'Бирюза', sky: 'Небо', plum: 'Слива', noir: 'Нуар' },
+    bgs: { live: 'Живое небо', dots: 'Точки', plain: 'Гладкий', grid: 'Сетка', lines: 'Полоски', checks: 'Клетка', waves: 'Волны', notes: 'Ноты', stars: 'Звёзды', hearts: 'Сердечки', confetti: 'Конфетти', paper: 'Бумага', linen: 'Лён',
+      soft: 'Мягкий градиент', sunrise: 'Рассвет', sunset: 'Закат', ocean: 'Океан', meadow: 'Луг', aurora: 'Сияние', mesh: 'Акварель', night: 'Ночное небо', photo: 'Своё фото' },
+    themesHint: 'Нажми на тему — поменяются цвета, фон, шрифты и карточки. Потом всё можно подкрутить на других вкладках.',
+    card: 'Цвет карточек', cardHint: 'Если карточки тёмные, текст станет светлым сам.', bgType: 'Узор или картинка', intensity: 'Яркость узора', photoPick: '🖼 Выбрать фото для фона', photoChange: '🖼 Другое фото',
+    photoDel: 'Убрать фото', blur: 'Размытие фото', dim: 'Затемнение / осветление', photoHint: 'Фото хранится на этом телефоне и в чате с ботом — на другом устройстве подтянется само.',
+    lvSeason: 'Время года', lvTime: 'Время суток', lvAuto: 'Как сейчас', lvNow: (se, ph) => `Сейчас: ${se} · ${ph}`, lvHint: 'Небо меняется само: рассвет, утро, полдень, день, закат, сумерки, вечер и ночь — как за окном. Зимой идёт снег, весной летят лепестки, летом светит солнце и ночью светлячки, осенью падают листья.',
+    seasons: { winter: '❄️ Зима', spring: '🌸 Весна', summer: '☀️ Лето', autumn: '🍂 Осень' },
+    phases: { dawn: '🌄 Рассвет', morning: '🌤 Утро', noon: '☀️ Полдень', day: '🏙 День', sunset: '🌇 Закат', dusk: '🌆 Сумерки', evening: '🌃 Вечер', night: '🌙 Ночь' },
+    photoSaving: 'Готовлю фото…', photoDone: 'Фон поставлен', photoFail: 'Не получилось открыть фото', radius: 'Скругление углов', rads: { sharp: 'Острые', soft: 'Слегка', normal: 'Обычные', round: 'Круглые', pill: 'Очень круглые' },
+    style: 'Стиль карточек', styles: { solid: 'Обычные', shadow: 'С тенью', outline: 'Контур', glass: 'Стекло' }, opacity: 'Прозрачность карточек', opacityHint: 'Сквозь карточки виден фон — красиво с фото и градиентами.',
+    hcase: 'Заголовки', hcases: { upper: 'ЗАГЛАВНЫЕ', normal: 'Как обычно' }, size: 'Размер текста', sizeHint: 'Меняется всё приложение: текст, кнопки, отступы.',
+    share: 'Поделиться оформлением', shareHint: 'Скопирую код — коллега вставит его у себя в «Оформление» и получит такой же вид (фото не копируется).', copied: 'Код оформления скопирован',
+    paste: 'Вставить код оформления', pasteAsk: 'Вставь код оформления', pasteOk: 'Оформление применено', pasteBad: 'Это не код оформления', custom: 'Своя', applyBtn: 'Применить' },
+  en: { tabs: { themes: 'Themes', colors: 'Colours', bg: 'Background', fonts: 'Fonts', cards: 'Cards' },
+    themes: { sky: 'Live sky', classic: 'Classic', minimal: 'Minimal', pastel: 'Pastel', sunset: 'Sunset', ocean: 'Ocean', meadow: 'Meadow', music: 'Music', vintage: 'Vintage', night: 'Night', neon: 'Neon', sport: 'Sport', kids: 'Kids', glam: 'Glam', tech: 'Tech', noir: 'Noir', forest: 'Forest' },
+    pals: { cherry: 'Cherry', coral: 'Coral', sand: 'Sand', choco: 'Chocolate', olive: 'Olive', teal: 'Teal', sky: 'Sky', plum: 'Plum', noir: 'Noir' },
+    bgs: { live: 'Live sky', dots: 'Dots', plain: 'Plain', grid: 'Grid', lines: 'Stripes', checks: 'Checks', waves: 'Waves', notes: 'Notes', stars: 'Stars', hearts: 'Hearts', confetti: 'Confetti', paper: 'Paper', linen: 'Linen',
+      soft: 'Soft gradient', sunrise: 'Sunrise', sunset: 'Sunset', ocean: 'Ocean', meadow: 'Meadow', aurora: 'Aurora', mesh: 'Watercolour', night: 'Night sky', photo: 'My photo' },
+    themesHint: 'Tap a theme to change colours, background, fonts and cards at once. Fine-tune on the other tabs.',
+    card: 'Card colour', cardHint: 'If cards are dark, text turns light by itself.', bgType: 'Pattern or picture', intensity: 'Pattern strength', photoPick: '🖼 Choose a background photo', photoChange: '🖼 Another photo',
+    photoDel: 'Remove photo', blur: 'Photo blur', dim: 'Darken / lighten', photoHint: 'The photo is kept on this phone and in the bot chat — other devices get it by themselves.',
+    lvSeason: 'Season', lvTime: 'Time of day', lvAuto: 'Like now', lvNow: (se, ph) => `Now: ${se} · ${ph}`, lvHint: 'The sky changes by itself: dawn, morning, noon, day, sunset, dusk, evening and night — like outside. Snow in winter, petals in spring, sun and fireflies in summer, falling leaves in autumn.',
+    seasons: { winter: '❄️ Winter', spring: '🌸 Spring', summer: '☀️ Summer', autumn: '🍂 Autumn' },
+    phases: { dawn: '🌄 Dawn', morning: '🌤 Morning', noon: '☀️ Noon', day: '🏙 Day', sunset: '🌇 Sunset', dusk: '🌆 Dusk', evening: '🌃 Evening', night: '🌙 Night' },
+    photoSaving: 'Preparing the photo…', photoDone: 'Background set', photoFail: 'Could not open the photo', radius: 'Corner rounding', rads: { sharp: 'Sharp', soft: 'Slight', normal: 'Normal', round: 'Round', pill: 'Very round' },
+    style: 'Card style', styles: { solid: 'Solid', shadow: 'Shadow', outline: 'Outline', glass: 'Glass' }, opacity: 'Card transparency', opacityHint: 'The background shows through — great with photos and gradients.',
+    hcase: 'Headings', hcases: { upper: 'CAPITALS', normal: 'Normal' }, size: 'Text size', sizeHint: 'Scales the whole app: text, buttons, spacing.',
+    share: 'Share this look', shareHint: 'I will copy a code — a colleague pastes it in «Look» and gets the same look (the photo is not copied).', copied: 'Look code copied',
+    paste: 'Paste a look code', pasteAsk: 'Paste the look code', pasteOk: 'Look applied', pasteBad: 'This is not a look code', custom: 'Custom', applyBtn: 'Apply' }
+};
+const lkx = () => LK2X[L === 'ru' ? 'ru' : 'en'];
+const palName = id => (T.lk.pals && T.lk.pals[id]) || lkx().pals[id] || id;
 const getLook = () => Object.assign({}, LOOK_DEF, state.settings.look && typeof state.settings.look === 'object' ? state.settings.look : {});
 const hexOk = v => /^#[0-9a-f]{6}$/i.test(String(v || ''));
 const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
 const toHex = a => '#' + a.map(x => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0')).join('');
 const mix = (a, b, k) => { const x = rgb(a), y = rgb(b); return toHex(x.map((v, i) => v + (y[i] - v) * k)); };
-const rgba = (h, a) => { const [r, g, b] = rgb(h); return `rgba(${r},${g},${b},${a})`; };
+const rgba = (h, a) => { const [r, g, b] = rgb(h); return `rgba(${r},${g},${b},${Math.round(a * 1000) / 1000})`; };
 const fontStack = (kind, id) => {
   const f = (FONTS[kind][id] || FONTS[kind][LOOK_DEF[kind]])[0];
   if (kind === 'head') return f ? `"${f}",Georgia,serif` : SYS_FONT;
   if (kind === 'sign') return f ? `"${f}","Segoe Script",cursive` : SYS_FONT;
   return f ? `"${f}",${SYS_FONT}` : SYS_FONT;
 };
-function loadFonts(list, id){
+function loadFonts(list, id, text){
   const fam = list.filter(Boolean);
   let el = document.getElementById(id);
   if (!fam.length) { if (el) el.remove(); return; }
-  const href = 'https://fonts.googleapis.com/css2?' + fam.map(f => 'family=' + f).join('&') + '&display=swap';
+  const href = 'https://fonts.googleapis.com/css2?' + fam.map(f => 'family=' + f).join('&') + (text ? '&text=' + encodeURIComponent(text) : '') + '&display=swap';
   if (el && el.getAttribute('href') === href) return;
   if (!el) { el = document.createElement('link'); el.rel = 'stylesheet'; el.id = id; document.head.appendChild(el); }
   el.setAttribute('href', href);
@@ -7074,33 +7203,190 @@ function loadFonts(list, id){
 const lumH = h => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }; const [r, g, b] = rgb(h); return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
 const crH = (a, b) => { const x = lumH(a), y = lumH(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
 /* text on an accent fill: white unless the accent is light — then near-black */
-const onAccent = (a, a2) => Math.min(crH('#FFFFFF', a), crH('#FFFFFF', a2 || a)) >= 2.6 ? '#FFFFFF' : '#1A1416';
+const onAccent = (a, a2) => { const w = Math.min(crH('#FFFFFF', a), crH('#FFFFFF', a2 || a)), k = Math.min(crH('#1A1416', a), crH('#1A1416', a2 || a)); return w >= 3.2 || w >= k ? '#FFFFFF' : '#1A1416'; };
 /* an accent used as text: move it toward `to` until it reads on `bg` */
 function fitInk(c, bg, to){ let x = c; for (let i = 0; i < 12 && crH(x, bg) < 4.5; i++) x = mix(x, to, .18); return x; }
+
+/* ---------- backgrounds ---------- */
+const svgUrl = s => `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
+/* returns CSS `background` for the #wp layer; c = { ink (pattern colour), acc, bg, dark, k (0..1 strength) } */
+function bgCss(t, c){
+  const a = x => rgba(c.ink, Math.min(1, x * (0.25 + c.k * 1.5))), A = x => rgba(c.acc, Math.min(1, x * (0.3 + c.k * 1.4)));
+  const S = (w, h, body) => svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`);
+  const fill = col => `fill="${col}"`;
+  switch (t) {
+    case 'plain': return c.bg;
+    case 'dots': return `radial-gradient(${a(.07)} 1px,transparent 1px) 0 0/4px 4px,${c.bg}`;
+    case 'grid': return `linear-gradient(${a(.07)} 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,${a(.07)} 1px,transparent 1px) 0 0/22px 22px,${c.bg}`;
+    case 'lines': return `repeating-linear-gradient(135deg,${a(.05)} 0 2px,transparent 2px 14px),${c.bg}`;
+    case 'checks': return `linear-gradient(45deg,${a(.04)} 25%,transparent 25%,transparent 75%,${a(.04)} 75%) 0 0/28px 28px,linear-gradient(45deg,${a(.04)} 25%,transparent 25%,transparent 75%,${a(.04)} 75%) 14px 14px/28px 28px,${c.bg}`;
+    case 'waves': return `${S(120, 40, `<path d="M0 20 Q15 8 30 20 T60 20 T90 20 T120 20" fill="none" stroke="${a(.12)}" stroke-width="1.6"/>`)} 0 0/120px 40px,${c.bg}`;
+    case 'notes': return `${S(140, 140, `<g ${fill(A(.12))}><ellipse cx="22" cy="42" rx="7" ry="5" transform="rotate(-20 22 42)"/><rect x="27" y="14" width="2" height="28"/><path d="M29 14 q10 4 8 14 q-2-8-8-8z"/>
+      <ellipse cx="92" cy="104" rx="7" ry="5" transform="rotate(-20 92 104)"/><ellipse cx="114" cy="98" rx="7" ry="5" transform="rotate(-20 114 98)"/><rect x="97" y="74" width="2" height="30"/><rect x="119" y="68" width="2" height="30"/><path d="M97 74 L121 68 L121 73 L97 79z"/></g>
+      <path d="M70 30 l2 5 5 0-4 3 2 5-5-3-5 3 2-5-4-3 5 0z" ${fill(A(.08))}/>`)} 0 0/140px 140px,${c.bg}`;
+    case 'stars': return `${S(110, 110, `<g ${fill(A(.16))}><path d="M20 12 l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/><path d="M78 40 l1.5 4.5 4.5 1.5-4.5 1.5-1.5 4.5-1.5-4.5-4.5-1.5 4.5-1.5z"/><path d="M45 85 l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5z"/><circle cx="95" cy="92" r="1.6"/><circle cx="60" cy="18" r="1.3"/><circle cx="12" cy="62" r="1.2"/></g>`)} 0 0/110px 110px,${c.bg}`;
+    case 'hearts': return `${S(90, 90, `<g ${fill(A(.13))}><path d="M22 30 c-6-8-18-2-12 8 l12 11 12-11 c6-10-6-16-12-8z"/><path d="M66 70 c-4-5-12-1-8 5 l8 7 8-7 c4-6-4-10-8-5z"/></g>`)} 0 0/90px 90px,${c.bg}`;
+    case 'confetti': return `${S(120, 120, ['#E85D75', '#F2B33D', '#4FB286', '#4C8DE0', '#9B6BD6'].map((col, i) => `<rect x="${[12, 70, 30, 95, 55][i]}" y="${[18, 30, 72, 88, 104][i]}" width="9" height="4" rx="1.5" fill="${col}" opacity="${(0.18 + c.k * 0.5).toFixed(2)}" transform="rotate(${[25, -35, 60, -15, 40][i]} ${[16, 74, 34, 99, 59][i]} ${[20, 32, 74, 90, 106][i]})"/>`).join('') + `<circle cx="50" cy="40" r="2.5" fill="#F2B33D" opacity="${(0.2 + c.k * 0.5).toFixed(2)}"/><circle cx="104" cy="60" r="2" fill="#E85D75" opacity="${(0.2 + c.k * 0.5).toFixed(2)}"/>`)} 0 0/120px 120px,${c.bg}`;
+    case 'paper': return `${S(160, 160, `<filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 ${c.dark ? 1 : 0} 0 0 0 0 ${c.dark ? 1 : 0} 0 0 0 0 ${c.dark ? 1 : 0} 0 0 0 ${(0.05 + c.k * 0.12).toFixed(3)} 0"/></filter><rect width="160" height="160" filter="url(#n)"/>`)} 0 0/160px 160px,${c.bg}`;
+    case 'linen': return `repeating-linear-gradient(0deg,${a(.035)} 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,${a(.035)} 0 1px,transparent 1px 3px),${c.bg}`;
+    case 'soft': return `linear-gradient(165deg,${c.bg} 0%,${mix(c.bg, c.acc, c.dark ? .12 + c.k * .15 : .06 + c.k * .16)} 100%) fixed`;
+    case 'sunrise': return c.dark ? `linear-gradient(170deg,#1b1530,#3a2340 55%,#5a3326)` : `linear-gradient(170deg,${mix('#FFF4E0', c.bg, .4)},${mix('#FFD9C7', c.bg, .5 - c.k * .3)} 55%,${mix('#F7C6D9', c.bg, .55 - c.k * .3)})`;
+    case 'sunset': return c.dark ? `linear-gradient(170deg,#24142e,#4a1d3a 50%,#6b2c2a)` : `linear-gradient(170deg,${mix('#FFD9C2', c.bg, .45 - c.k * .3)},${mix('#F6B2C3', c.bg, .45 - c.k * .3)} 55%,${mix('#C9B6F2', c.bg, .45 - c.k * .3)})`;
+    case 'ocean': return c.dark ? `linear-gradient(170deg,#0b1c2c,#0f2f3f 55%,#123b3a)` : `linear-gradient(170deg,${mix('#D4EEF7', c.bg, .4 - c.k * .25)},${mix('#B9D3F2', c.bg, .45 - c.k * .3)} 55%,${mix('#CFF0E6', c.bg, .4 - c.k * .25)})`;
+    case 'meadow': return c.dark ? `linear-gradient(170deg,#0f1f17,#1a3324 60%,#2a3a1c)` : `linear-gradient(170deg,${mix('#F3F9E8', c.bg, .4)},${mix('#D7EEC9', c.bg, .45 - c.k * .3)} 60%,${mix('#F4EBC5', c.bg, .45 - c.k * .3)})`;
+    case 'aurora': return `radial-gradient(60% 45% at 15% 10%,${rgba(c.acc, .18 + c.k * .3)},transparent 70%),radial-gradient(55% 45% at 90% 35%,${rgba(mix(c.acc, '#3EC6FF', .6), .14 + c.k * .28)},transparent 70%),radial-gradient(70% 50% at 50% 100%,${rgba(mix(c.acc, '#7CFFB2', .55), .12 + c.k * .25)},transparent 70%),${c.bg}`;
+    case 'mesh': return `radial-gradient(45% 35% at 20% 20%,${rgba(c.acc, .12 + c.k * .22)},transparent 70%),radial-gradient(40% 35% at 80% 15%,${rgba(mix(c.acc, '#F2B33D', .6), .12 + c.k * .2)},transparent 70%),radial-gradient(50% 40% at 70% 75%,${rgba(mix(c.acc, '#4C8DE0', .6), .1 + c.k * .2)},transparent 70%),radial-gradient(45% 35% at 15% 85%,${rgba(mix(c.acc, '#4FB286', .6), .1 + c.k * .18)},transparent 70%),${c.bg}`;
+    case 'night': return `${S(200, 200, `<g fill="#FFFFFF">${[[18, 22, 1.2], [70, 48, .8], [130, 18, 1.4], [176, 70, .9], [40, 110, 1], [110, 96, 1.6], [160, 150, 1.1], [20, 178, .8], [88, 160, 1.2], [140, 190, .7]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" opacity="${(0.25 + c.k * .6).toFixed(2)}"/>`).join('')}</g>`)} 0 0/200px 200px,linear-gradient(180deg,#0b1026,#1b1f4a 60%,#3a2350)`;
+    default: return c.bg;
+  }
+}
+const BG_DARKSURF = /^(night)$/;   // these backgrounds are dark even in the light theme
+
+/* ---------- 🌗 Live sky: time of day + season ----------
+   Sunrise/sunset by month (mid-latitudes, ~Moscow), local time in hours. Phases follow the real sun;
+   the season adds snow / petals / sun / leaves. Both can be fixed by hand (lvS, lvT). */
+const SUN_RS = [[8.9, 16.3], [8.0, 17.4], [6.9, 18.4], [5.6, 19.6], [4.4, 20.6], [3.8, 21.3], [4.1, 21.1], [5.2, 20.0], [6.4, 18.6], [7.5, 17.3], [7.8, 16.2], [8.8, 16.0]];
+const LV_PH = ['dawn', 'morning', 'noon', 'day', 'sunset', 'dusk', 'evening', 'night'];
+const LV_SE = ['winter', 'spring', 'summer', 'autumn'];
+const LV_DARK = { dawn: 1, sunset: 1, dusk: 1, evening: 1, night: 1 };
+function liveNow(L0, d){
+  d = d || new Date();
+  const m = d.getMonth(), h = d.getHours() + d.getMinutes() / 60, [r, st] = SUN_RS[m];
+  const se = LV_SE.includes(L0.lvS) ? L0.lvS : ['winter', 'winter', 'spring', 'spring', 'spring', 'summer', 'summer', 'summer', 'autumn', 'autumn', 'autumn', 'winter'][m];
+  let ph = L0.lvT;
+  if (!LV_PH.includes(ph)) {
+    ph = h < r - 1.2 ? 'night' : h < r + .7 ? 'dawn' : h < Math.min(11, st - 2) ? 'morning' : h < Math.min(14, st - 1.4) ? 'noon' : h < st - 1.2 ? 'day'
+      : h < st + .4 ? 'sunset' : h < st + 1.3 ? 'dusk' : h < st + 2.5 ? 'evening' : 'night';
+  }
+  return { ph, se, dark: !!LV_DARK[ph] };
+}
+/* sky colours (top, middle, bottom) per phase, nudged by the season */
+const LV_SKY = { dawn: ['#2b2d5c', '#9a5a86', '#f4ad86'], morning: ['#9ccdf2', '#d6ecfd', '#fff0d8'], noon: ['#5fadef', '#acd8fb', '#eaf6ff'], day: ['#7dbbec', '#c6e4fa', '#f6efdf'],
+  sunset: ['#33366f', '#b5577a', '#f59a55'], dusk: ['#1b2050', '#45386c', '#83567a'], evening: ['#121839', '#262859', '#3e3460'], night: ['#070b1f', '#121a42', '#22204a'] };
+const LV_TINT = { winter: ['#dfe9f5', .28], spring: ['#ffd9ea', .14], summer: ['#fff2b0', .08], autumn: ['#f2b26a', .18] };
+function liveSky(lv, k){
+  const sky = LV_SKY[lv.ph].map((c, i) => { const [t, a] = LV_TINT[lv.se]; return mix(c, t, lv.dark ? a * .35 : a * (i === 2 ? 1.2 : .7)); });
+  const SUNP = { dawn: [18, 88, '#ffcf8a', .75], morning: [24, 26, '#fff4c8', .8], noon: [62, 7, '#ffffff', .85], day: [78, 16, '#fff6d6', .75], sunset: [82, 84, '#ffb36b', .8] };
+  const MOON = { dusk: [78, 14, .35], evening: [22, 14, .55], night: [80, 11, .7] };
+  const L = [];
+  const sp = SUNP[lv.ph];
+  if (sp) L.push(`radial-gradient(circle at ${sp[0]}% ${sp[1]}%,${rgba(sp[2], sp[3])} 0,${rgba(sp[2], sp[3] * .55)} 38px,${rgba(sp[2], sp[3] * .12)} 120px,transparent 260px)`);
+  const mn = MOON[lv.ph];
+  if (mn) L.push(`radial-gradient(circle at ${mn[0]}% ${mn[1]}%,rgba(255,250,232,${mn[2]}) 0,rgba(255,250,232,${mn[2]}) 17px,rgba(255,250,232,${mn[2] * .18}) 19px,transparent 110px)`);
+  if (lv.dark && lv.ph !== 'sunset' && lv.ph !== 'dawn') {
+    const a = (lv.ph === 'night' ? .85 : lv.ph === 'evening' ? .6 : .3) * (.5 + k * .5);
+    L.push(svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220"><g fill="#FFFFFF">${[[18, 22, 1.2], [70, 48, .8], [130, 18, 1.4], [176, 70, .9], [40, 110, 1], [110, 96, 1.6], [160, 150, 1.1], [20, 178, .8], [88, 160, 1.2], [140, 200, .7], [200, 120, .9], [60, 80, .6]].map(([x, y, r], i) => `<circle cx="${x}" cy="${y}" r="${r}" opacity="${(a * (.5 + (i % 3) * .25)).toFixed(2)}"/>`).join('')}</g></svg>`) + ' 0 0/220px 220px');
+  }
+  if (lv.se === 'winter' && !lv.dark) L.push(`linear-gradient(180deg,transparent 82%,${rgba('#FFFFFF', .55)} 100%)`);
+  L.push(`linear-gradient(180deg,${sky[0]} 0%,${sky[1]} 55%,${sky[2]} 100%)`);
+  return { css: L.join(','), top: sky[0] };
+}
+/* falling particles for the season (a GPU-moved layer, stops with «Звуки и вибрация» off or reduced motion) */
+function liveFx(lv, k){
+  const o = (.35 + k * .55).toFixed(2), T = (w, h, b) => svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">${b}</svg>`) + ` 0 0/${w}px ${h}px`;
+  if (lv.se === 'winter') return T(160, 160, [[12, 20, 2.2], [70, 8, 1.4], [120, 40, 2.6], [40, 70, 1.6], [96, 92, 2], [150, 110, 1.3], [20, 130, 2.4], [80, 145, 1.5]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#FFFFFF" opacity="${o}"/>`).join(''));
+  if (lv.se === 'spring') return T(180, 180, [[20, 30, 20], [110, 15, -30], [60, 95, 50], [150, 120, 10], [30, 150, -40]].map(([x, y, a]) => `<ellipse cx="${x}" cy="${y}" rx="5" ry="3" fill="#F7A8C8" opacity="${o}" transform="rotate(${a} ${x} ${y})"/>`).join(''));
+  if (lv.se === 'autumn') return T(200, 200, [[25, 30, 20, '#E07A2E'], [120, 20, -35, '#C9452B'], [70, 110, 60, '#E8A33A'], [165, 135, 10, '#B85C2A'], [30, 175, -50, '#D9662B']].map(([x, y, a, c]) => `<path d="M${x} ${y - 6} q6 4 0 12 q-6 -8 0 -12z" fill="${c}" opacity="${o}" transform="rotate(${a} ${x} ${y})"/>`).join(''));
+  if (lv.dark) return T(200, 200, [[30, 40], [140, 30], [90, 120], [170, 160], [40, 170]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="#FFE98A" opacity="${o}"/><circle cx="${x}" cy="${y}" r="5" fill="#FFE98A" opacity="${(o * .18).toFixed(2)}"/>`).join(''));   // summer fireflies
+  return '';
+}
+
+/* ---------- photo store (wallpaper & student photos) ---------- */
+const imgDb = (() => {
+  let dbp = null;
+  const open = () => dbp || (dbp = new Promise((res, rej) => { try { const r = indexedDB.open('vs_img', 1); r.onupgradeneeded = () => r.result.createObjectStore('i', { keyPath: 'id' }); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); } catch (e) { rej(e); } }));
+  const tx = (mode, fn) => open().then(db => new Promise((res, rej) => { const t = db.transaction('i', mode), r = fn(t.objectStore('i')); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }));
+  return { get: id => tx('readonly', st => st.get(id)), put: o => tx('readwrite', st => st.put(o)), del: id => tx('readwrite', st => st.delete(id)) };
+})();
+const IMGURL = {}, IMGBUSY = {};
+const b64Blob = b64 => { const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new Blob([u8], { type: 'image/jpeg' }); };
+/* object URL for a stored picture `id` whose current reference is `ref` ('tg:<file id>' | 'loc:<n>'); downloads once from the bot if this device has no copy */
+async function imgUrl(id, ref){
+  if (!ref) return '';
+  const k = id + '|' + ref;
+  if (IMGURL[k]) return IMGURL[k];
+  if (IMGBUSY[k]) return IMGBUSY[k];
+  return (IMGBUSY[k] = (async () => {
+    let r = null; try { r = await imgDb.get(id); } catch (e) {}
+    if (!(r && r.ref === ref && r.blob) && /^tg:/.test(ref) && inTG && state.settings.api) {
+      try { const j = await botPost({ a: 'rcptGet', f: ref.slice(3) }, 30000); if (j && j.b64) { r = { id, ref, blob: b64Blob(j.b64), at: Date.now() }; imgDb.put(r).catch(() => {}); } } catch (e) {}
+    }
+    if (!(r && r.blob)) { delete IMGBUSY[k]; return ''; }
+    return (IMGURL[k] = URL.createObjectURL(r.blob));
+  })());
+}
+const imgUrlNow = (id, ref) => IMGURL[id + '|' + ref] || '';
+/* shrink a picked file: square crop for avatars, long side `max` for wallpapers */
+async function imgShrink(file, max, square){
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const W = img.naturalWidth || 1, H = img.naturalHeight || 1;
+    let sx = 0, sy = 0, sw = W, sh = H;
+    if (square) { const m = Math.min(W, H); sx = (W - m) / 2; sy = (H - m) / 2; sw = sh = m; }
+    const k = Math.min(1, max / Math.max(sw, sh)), c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(sw * k)); c.height = Math.max(1, Math.round(sh * k));
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    return await new Promise(r => c.toBlob(r, 'image/jpeg', 0.84));
+  } catch (e) { return null; } finally { URL.revokeObjectURL(url); }
+}
+/* keep locally (instantly) and upload a copy to the bot chat → 'tg:<file id>' (async, best effort) */
+async function imgStore(id, blob, done){
+  const loc = 'loc:' + Date.now().toString(36);
+  try { await imgDb.put({ id, ref: loc, blob, at: Date.now() }); } catch (e) {}
+  IMGURL[id + '|' + loc] = URL.createObjectURL(blob);
+  done(loc);
+  if (!inTG || !state.settings.api) return;
+  try {
+    const b64 = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = rej; r.readAsDataURL(blob); });
+    const j = await botPost({ a: 'img', b64 }, 40000);
+    if (j && j.f) { const ref = 'tg:' + j.f; try { await imgDb.put({ id, ref, blob, at: Date.now() }); } catch (e) {} IMGURL[id + '|' + ref] = IMGURL[id + '|' + loc]; done(ref, true); }
+  } catch (e) {}
+}
+const pickFile = cb => {
+  let el = $('lkFile');
+  if (!el) {
+    el = document.createElement('input'); el.type = 'file'; el.accept = 'image/*'; el.id = 'lkFile';
+    el.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0';
+    el.addEventListener('change', () => { const f = el.files && el.files[0]; el.value = ''; const fn = el._cb; el._cb = null; if (f && fn) fn(f); });
+    document.body.appendChild(el);
+  }
+  el._cb = cb; el.click();
+};
+
+/* ---------- apply ---------- */
 let lookKey = '';
+function wpLayer(){
+  let el = document.getElementById('wp');
+  if (!el) { el = document.createElement('div'); el.id = 'wp'; el.innerHTML = '<i></i><u hidden></u><b></b>'; document.body.insertBefore(el, document.body.firstChild); }
+  return el;
+}
 function applyLook(force){
-  const L0 = getLook(), dark = document.documentElement.dataset.theme === 'dark', key = JSON.stringify([L0, dark]);
+  const L0 = getLook(), dark = document.documentElement.dataset.theme === 'dark', lv = L0.bgt === 'live' ? liveNow(L0) : null, key = JSON.stringify([L0, dark, imgUrlNow('wp', L0.wp), lv]);
   if (!force && key === lookKey) return;
   lookKey = key;
   const p = PALETTES[L0.pal] || PALETTES.bordo, own = hexOk(L0.accent) ? L0.accent : '';
   const la = own || p.l[2], la2 = own ? mix(own, '#000000', .28) : p.l[3];
-  const lbg = hexOk(L0.bg) ? L0.bg : p.l[0], lcard = hexOk(L0.bg) ? mix(L0.bg, '#FFFFFF', .62) : p.l[1];
+  const lbg = hexOk(L0.bg) ? L0.bg : p.l[0];
+  const ownCard = hexOk(L0.card) ? L0.card : '';
+  const lcard = ownCard || (hexOk(L0.bg) ? mix(L0.bg, '#FFFFFF', .62) : p.l[1]);
   const da = own ? mix(own, '#FFFFFF', .12) : p.d[0], da2 = own ? mix(own, '#000000', .3) : p.d[1], dt = own ? mix(own, '#FFFFFF', .55) : p.d[2];
-  const isDef = L0.pal === 'bordo' && !own && !hexOk(L0.bg);
-  let css = '';
+  const isDef = L0.pal === 'bordo' && !own && !hexOk(L0.bg) && !ownCard;
+  const DBG = '#141012', DCARD = '#1E191B';
+  let css = '', lcardF = lcard;
   if (!isDef) {
-    /* 7.12: readable everywhere — text on accent is white or dark depending on the accent; accent used as text is
-       darkened (light theme) until it reads on the background; a dark own background switches the light theme to light text */
-    const DBG = '#141012', DCARD = '#1E191B';
+    /* readable everywhere — text on accent is white or dark depending on the accent; accent used as text is darkened (light theme)
+       until it reads on the card; dark own cards/background switch the light theme to light text */
     const darkBg = hexOk(L0.bg) && lumH(lbg) < .18;
-    const lcard2 = darkBg ? mix(lbg, '#FFFFFF', .08) : lcard;
+    lcardF = ownCard || (darkBg ? mix(lbg, '#FFFFFF', .08) : lcard);
+    const darkSurf = lumH(lcardF) < .2;
     let la1 = la; if (crH(la1, lbg) < 1.5) la1 = mix(la1, darkBg ? '#FFFFFF' : '#000000', .35);
     let da1 = da; if (crH(da1, DBG) < 1.6) da1 = mix(own || da, '#FFFFFF', .35);
-    const lInk = darkBg ? fitInk(mix(la1, '#FFFFFF', .55), lcard2, '#FFFFFF') : fitInk(la1, lcard2, '#000000');
+    const lInk = darkSurf ? fitInk(mix(la1, '#FFFFFF', .55), lcardF, '#FFFFFF') : fitInk(la1, lcardF, '#000000');
     const dInk = fitInk(dt, DCARD, '#FFFFFF');
     const la21 = own ? mix(la1, '#000000', .28) : la2, da21 = own ? mix(da1, '#000000', .3) : da2;
-    css += `:root[data-theme=light]{--bg:${lbg};--card:${lcard2};--accent:${la1};--accent-2:${la21};--accent-text:${onAccent(la1, la21)};--head:${lInk};--title:${lInk};--link:${lInk};--ink:${lInk};--soft:${rgba(lInk, darkBg ? .14 : .08)};--beige:${mix(lbg, darkBg ? '#FFFFFF' : la1, darkBg ? .12 : .1)}`
-      + (darkBg ? `;color-scheme:dark;--text:#F2EAE4;--hint:#A9A09B;--line:rgba(255,255,255,.12);--danger:#FF7A7A;--ok:#7BC291;--warn:#E8AE5C` : '') + `}`;
+    css += `:root[data-theme=light]{--bg:${lbg};--card:${lcardF};--accent:${la1};--accent-2:${la21};--accent-text:${onAccent(la1, la21)};--head:${lInk};--title:${lInk};--link:${lInk};--ink:${lInk};--soft:${rgba(lInk, darkSurf ? .14 : .08)};--beige:${mix(lbg, darkSurf ? '#FFFFFF' : la1, darkSurf ? .12 : .1)}`
+      + (darkSurf ? `;color-scheme:dark;--text:#F2EAE4;--hint:#A9A09B;--line:rgba(255,255,255,.12);--danger:#FF7A7A;--ok:#7BC291;--warn:#E8AE5C` : '') + `}`;
     css += `:root[data-theme=dark]{--accent:${da1};--accent-2:${da21};--accent-text:${onAccent(da1, da21)};--head:${dInk};--title:${dInk};--link:${dInk};--ink:${dInk};--soft:${rgba(dInk, .12)}}`;
   }
   if (L0.head !== LOOK_DEF.head) css += `:root{--serif:${fontStack('head', L0.head)}}` + (L0.head === 'system' ? '.top h1,.hello h1{font-weight:700}' : '');
@@ -7108,72 +7394,216 @@ function applyLook(force){
   if (L0.sign !== LOOK_DEF.sign) css += `:root{--script:${fontStack('sign', L0.sign)}}` + (L0.sign === 'plain' ? '.sign{font-size:17px;font-style:italic}' : '');
   const z = SIZES.includes(+L0.size) ? +L0.size / 100 : 1;
   if (z !== 1) css += `body{zoom:${z}}.sheet{max-height:calc(var(--tg-viewport-height,100vh) * .93 / ${z})}`;
+  if (L0.hcase === 'normal') css += `.top h1,.hero h1,.hello h1,.lkprev h1{text-transform:none!important;letter-spacing:0}`;
+  /* corners */
+  const R = RADII[L0.rad] || 16;
+  if (R !== 16) css += `.card,.kpi,.quote,.month,.lkmini{border-radius:${R}px}.group{border-radius:${Math.max(4, R - 2)}px}.hero{border-radius:${R + 2}px}.sheet{border-radius:${R + 2}px ${R + 2}px 0 0}.btn{border-radius:${Math.max(6, R - 2)}px}.icon-btn{border-radius:${Math.max(6, R - 4)}px}`;
+  /* background layer */
+  const cardHex = dark ? DCARD : lcardF, bgHex = dark ? DBG : lbg;
+  const wpUrl = L0.bgt === 'photo' ? imgUrlNow('wp', L0.wp) : '';
+  const custBg = L0.bgt !== 'dots' && !(L0.bgt === 'photo' && !wpUrl);
+  const surfDark = dark || lumH(lcardF) < .2;
+  const ink = surfDark ? '#FFFFFF' : (lumH(lbg) < .18 ? '#FFFFFF' : mix(la, '#000000', .45));
+  const k = Math.max(0, Math.min(100, +L0.bgi || 0)) / 100;
+  const wp = wpLayer();
+  if (custBg) {
+    const sky = lv ? liveSky(lv, k) : null;
+    const bgc = wpUrl ? `url("${wpUrl}") center/cover no-repeat,${bgHex}` : sky ? sky.css : bgCss(L0.bgt, { ink, acc: dark ? da : la, bg: bgHex, dark: surfDark, k });
+    const fx = lv && state.settings.fx !== 0 ? liveFx(lv, k) : '', u = wp.querySelector('u');
+    if (u) { const t = fx ? +fx.match(/\/(\d+)px/)[1] * 4 : 0; u.style.cssText = fx ? `background:${fx};--fall:${t}px;animation-duration:${lv.se === 'winter' ? 36 : 48}s` : ''; u.hidden = !fx; }
+    wp.firstChild.style.cssText = `background:${bgc};filter:${wpUrl && +L0.wpBlur ? `blur(${Math.min(30, +L0.wpBlur)}px)` : 'none'}`;
+    const dim = wpUrl ? Math.max(-80, Math.min(80, +L0.wpDim || 0)) / 100 : 0;
+    wp.lastChild.style.cssText = dim ? `background:${dim > 0 ? `rgba(0,0,0,${dim})` : `rgba(255,255,255,${-dim})`}` : '';
+    wp.hidden = false;
+    css += `html,body{background:transparent!important}html{background-color:${bgHex}!important}`;
+    if ((BG_DARKSURF.test(L0.bgt) || (lv && lv.dark)) && !dark) css += `#app .top h1,#app .sync,#app .top .hint,#app>.sec,#app .sec:not(.card .sec),#app .sec .link{color:#F2EAE4!important}`;
+  } else { wp.hidden = true; wp.firstChild.style.cssText = ''; wp.lastChild.style.cssText = ''; const u = wp.querySelector('u'); if (u) u.hidden = true; }
+  /* card style & transparency */
+  const SURF = '.card,.kpi,.quote,.group,.month,.icon-btn,nav.tabs,.lkmini .lkc';
+  const ca = Math.max(35, Math.min(100, +L0.ca || 100)) / 100;
+  const cardBg = ca < 1 ? rgba(cardHex, ca) : '';
+  if (cardBg) css += `${SURF}{background:${cardBg}!important}`;
+  if (L0.cs === 'shadow') css += `${SURF}{border-color:transparent!important;box-shadow:0 6px 22px rgba(0,0,0,${surfDark ? .35 : .08}),0 1px 3px rgba(0,0,0,${surfDark ? .3 : .05})}`;
+  else if (L0.cs === 'outline') css += `${SURF}{border:1.5px solid ${rgba(surfDark ? '#FFFFFF' : la, surfDark ? .22 : .32)}!important;box-shadow:none}`;
+  else if (L0.cs === 'glass') css += `${SURF}{background:${rgba(cardHex, Math.min(ca, .72))}!important;-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border-color:${surfDark ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.6)'}!important}`;
   let st = document.getElementById('lookCss');
   if (!st) { st = document.createElement('style'); st.id = 'lookCss'; document.head.appendChild(st); }
   st.textContent = css;
   loadFonts([FONTS.head[L0.head] && FONTS.head[L0.head][1], FONTS.body[L0.body] && FONTS.body[L0.body][1], FONTS.sign[L0.sign] && FONTS.sign[L0.sign][1]]
     .filter(f => f && !/^(Ruslan\+Display|Marck\+Script)$/.test(f)), 'lookFonts');
-  const bg = dark ? '#141012' : lbg, card = dark ? '#1E191B' : lcard;
-  try { if (ver('6.9')) { tg.setHeaderColor(bg); tg.setBackgroundColor(bg); } } catch (e) {}
-  try { if (ver('7.10')) tg.setBottomBarColor(card); } catch (e) {}
+  const hdr = lv && custBg ? liveSky(lv, k).top : BG_DARKSURF.test(L0.bgt) && custBg ? '#0b1026' : bgHex;
+  try { if (ver('6.9')) { tg.setHeaderColor(hdr); tg.setBackgroundColor(bgHex); } } catch (e) {}
+  try { if (ver('7.10')) tg.setBottomBarColor(cardHex); } catch (e) {}
+  /* the wallpaper photo is cached after start: re-apply when it arrives */
+  if (L0.bgt === 'photo' && L0.wp && !wpUrl) imgUrl('wp', L0.wp).then(u => { if (u) applyLook(true); });
 }
+setInterval(() => { try { if (getLook().bgt === 'live' && !document.hidden) applyLook(); } catch (e) {} }, 60000);
+document.addEventListener('visibilitychange', () => { try { if (!document.hidden && getLook().bgt === 'live') applyLook(); } catch (e) {} });
 {
   const baseTheme = applyTheme;
   applyTheme = function(){ baseTheme.apply(this, arguments); applyLook(); };
 }
+
+/* ---------- the «Оформление» sheet ---------- */
+let LKTAB = 'themes';
 function lookSheet(){
   const fn = () => {
-    const L0 = getLook(), X = T.lk;
+    const L0 = getLook(), X = T.lk, Y = lkx(), dark = document.documentElement.dataset.theme === 'dark';
     const chip = (k, v, label, style) => `<button type="button" data-act="lkSet" data-k="${k}" data-v="${v}" class="${String(L0[k]) === String(v) ? 'on' : ''}"${style ? ` style="${style}"` : ''}>${esc(label)}</button>`;
-    const fontChips = kind => Object.keys(FONTS[kind]).map(id => chip(kind, id, FONTS[kind][id][0] || (kind === 'body' || kind === 'head' ? X.system : X.plain), `font-family:${fontStack(kind, id).replace(/"/g, '&quot;')};font-size:${kind === 'sign' ? 19 : 15}px`)).join('');
-    const sw = Object.keys(PALETTES).map(id => `<button type="button" class="lkpal${L0.pal === id && !hexOk(L0.accent) ? ' on' : ''}" data-act="lkSet" data-k="pal" data-v="${id}"><i style="background:linear-gradient(135deg,${PALETTES[id].l[2]} 50%,${PALETTES[id].l[0]} 50%)"></i><span>${esc(X.pals[id])}</span></button>`).join('');
-    return sheetHead('🎨 ' + X.title)
-      + `<div class="lkprev"><div class="hero" style="margin:0"><small>${esc(X.preview)}</small><h1 style="font-family:var(--serif);font-size:24px;font-weight:400;margin:4px 0 2px;text-transform:uppercase">${esc(T.greet ? T.greet[1] || T.greet[0] : '')}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
-        <div class="card" style="margin-top:8px;padding:12px 14px"><b>${esc(X.sample)}</b><div class="hintline" style="margin:4px 0 8px;text-align:left">${esc(X.sampleText)}</div><button type="button" class="btn" style="margin:0">${esc(T.save)}</button></div></div>`
-      + `<div class="sec"><span>${esc(X.palette)}</span></div><div class="lkpals">${sw}</div>`
-      + `<div class="sec"><span>${esc(X.own)}</span></div><div class="group">
-          <div class="field toggle"><span>${esc(X.accent)}</span><span class="lkcol"><input type="color" id="lk_accent" value="${hexOk(L0.accent) ? L0.accent : (PALETTES[L0.pal] || PALETTES.bordo).l[2]}">${hexOk(L0.accent) ? `<button type="button" class="mini" data-act="lkSet" data-k="accent" data-v="">×</button>` : ''}</span></div>
-          <div class="field toggle"><span>${esc(X.bg)}</span><span class="lkcol"><input type="color" id="lk_bg" value="${hexOk(L0.bg) ? L0.bg : (PALETTES[L0.pal] || PALETTES.bordo).l[0]}">${hexOk(L0.bg) ? `<button type="button" class="mini" data-act="lkSet" data-k="bg" data-v="">×</button>` : ''}</span></div></div>
-        <div class="hintline" style="margin:-4px 8px 4px">${esc(X.bgHint)}</div>`
-      + `<div class="sec"><span>${esc(X.head)}</span></div><div class="chipsel lkfonts">${fontChips('head')}</div>`
-      + `<div class="sec"><span>${esc(X.body)}</span></div><div class="chipsel lkfonts">${fontChips('body')}</div>`
-      + `<div class="sec"><span>${esc(X.sign)}</span></div><div class="chipsel lkfonts">${fontChips('sign')}</div>`
-      + `<div class="sec"><span>${esc(X.size)}</span></div><div class="chipsel">${SIZES.map(v => chip('size', v, v + ' %')).join('')}</div>`
-      + `<div class="sec"><span>${esc(T.theme)}</span></div><div class="chipsel" style="margin:0 0 14px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${state.settings.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>`
-      + `<button class="btn ghost" data-act="lkReset">↺ ${esc(X.reset)}</button>`;
+    const range = (id, min, max, step, val, label, hint) => `<div class="lkrange"><div><span>${esc(label)}</span><b id="${id}_v">${esc(String(val))}${id === 'lk_size' ? ' %' : ''}</b></div><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}">${hint ? `<small>${esc(hint)}</small>` : ''}</div>`;
+    const tabs = `<div class="chipsel lktabs">${Object.keys(Y.tabs).map(t => `<button type="button" data-act="lkTab" data-v="${t}" class="${LKTAB === t ? 'on' : ''}">${esc(Y.tabs[t])}</button>`).join('')}</div>`;
+    const p = PALETTES[L0.pal] || PALETTES.bordo;
+    const mini = (bgt, extra) => { const c = { ink: dark ? '#FFFFFF' : mix(hexOk(L0.accent) ? L0.accent : p.l[2], '#000000', .45), acc: hexOk(L0.accent) ? L0.accent : (dark ? p.d[0] : p.l[2]), bg: dark ? '#141012' : (hexOk(L0.bg) ? L0.bg : p.l[0]), dark, k: (+L0.bgi || 0) / 100 };
+      return bgt === 'live' ? `background:${liveSky(liveNow(L0), c.k).css}` : bgt === 'photo' ? (imgUrlNow('wp', L0.wp) ? `background:url('${imgUrlNow('wp', L0.wp)}') center/cover` : `background:${c.bg}`) : `background:${bgCss(bgt, c)}${extra || ''}`; };
+    const prev = `<div class="lkprev"><div class="hero" style="margin:0"><small>${esc(X.preview)}</small><h1 style="font-family:var(--serif);font-size:24px;font-weight:400;margin:4px 0 2px;text-transform:uppercase">${esc(T.greet ? T.greet[1] || T.greet[0] : '')}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
+      <div class="lkmini" style="${mini(L0.bgt)}"><div class="lkc"><b>${esc(X.sample)}</b><span>${esc(X.sampleText)}</span></div><div class="lkc lkc2"><span class="ava" style="width:30px;height:30px;font-size:13px;background:var(--accent)">МС</span><span>Маша Соколова · 15:00</span></div></div></div>`;
+    let body = '';
+    if (LKTAB === 'themes') {
+      body = `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(Y.themesHint)}</div><div class="lkthemes">${LOOK_PRESETS.map(([id, o]) => {
+        const pp = PALETTES[o.pal] || p, acc = o.accent || (o.theme === 'dark' ? pp.d[0] : pp.l[2]), bg = o.theme === 'dark' ? '#141012' : pp.l[0];
+        const c = { ink: o.theme === 'dark' ? '#FFFFFF' : mix(acc, '#000000', .45), acc, bg, dark: o.theme === 'dark', k: (o.bgi || 50) / 100 };
+        const card = o.theme === 'dark' ? '#1E191B' : pp.l[1];
+        return `<button type="button" class="lkth${L0.pre === id ? ' on' : ''}" data-act="lkPreset" data-v="${id}"><i style="background:${bgCss(o.bgt || 'dots', c).replace(/"/g, "'")}"><em style="background:${card};border-radius:${(RADII[o.rad] || 16) / 2}px"><u style="background:${acc}"></u><s style="font-family:${fontStack('head', o.head || 'ruslan').replace(/"/g, "'")};color:${o.theme === 'dark' ? '#F2EAE4' : acc}">Аа</s></em></i><span>${esc(Y.themes[id])}</span></button>`; }).join('')}</div>
+        <div class="group" style="margin-top:12px"><button type="button" class="field" data-act="lkShare" style="width:100%;text-align:left">📤 ${esc(Y.share)}</button><button type="button" class="field" data-act="lkPaste" style="width:100%;text-align:left">📥 ${esc(Y.paste)}</button></div><div class="hintline" style="margin:-4px 8px 8px">${esc(Y.shareHint)}</div>`;
+    } else if (LKTAB === 'colors') {
+      const sw = Object.keys(PALETTES).map(id => `<button type="button" class="lkpal${L0.pal === id && !hexOk(L0.accent) ? ' on' : ''}" data-act="lkSet" data-k="pal" data-v="${id}"><i style="background:linear-gradient(135deg,${PALETTES[id].l[2]} 50%,${PALETTES[id].l[0]} 50%)"></i><span>${esc(palName(id))}</span></button>`).join('');
+      const col = (k, id, label, def) => `<div class="field toggle"><span>${esc(label)}</span><span class="lkcol"><input type="color" id="${id}" value="${hexOk(L0[k]) ? L0[k] : def}">${hexOk(L0[k]) ? `<button type="button" class="mini" data-act="lkSet" data-k="${k}" data-v="">×</button>` : ''}</span></div>`;
+      body = `<div class="sec"><span>${esc(X.palette)}</span></div><div class="lkpals">${sw}</div>
+        <div class="sec"><span>${esc(X.own)}</span></div><div class="group">${col('accent', 'lk_accent', X.accent, p.l[2])}${col('bg', 'lk_bg', X.bg, p.l[0])}${col('card', 'lk_card', Y.card, p.l[1])}</div>
+        <div class="hintline" style="margin:-4px 8px 4px">${esc(X.bgHint)} ${esc(Y.cardHint)}</div>
+        <div class="sec"><span>${esc(T.theme)}</span></div><div class="chipsel" style="margin:0 0 14px">${['light', 'dark', 'auto'].map(k => `<button type="button" data-act="setTheme" data-v="${k}" class="${state.settings.theme === k ? 'on' : ''}">${esc(T.themes[k])}</button>`).join('')}</div>`;
+    } else if (LKTAB === 'bg') {
+      const tiles = BGS.map(id => `<button type="button" class="lkbg${L0.bgt === id ? ' on' : ''}" data-act="lkBg" data-v="${id}"><i style="${mini(id).replace(/"/g, "'")}">${id === 'photo' && !imgUrlNow('wp', L0.wp) ? '📷' : ''}</i><span>${esc(Y.bgs[id])}</span></button>`).join('');
+      body = `<div class="sec"><span>${esc(Y.bgType)}</span></div><div class="lkbgs">${tiles}</div>`
+        + (L0.bgt === 'live' ? (() => { const lv = liveNow(L0), sel = (k, v, t) => chip(k, v, t); return `<div class="hintline" style="margin:10px 8px 6px;text-align:left"><b>${esc(Y.lvNow(Y.seasons[lv.se], Y.phases[lv.ph]))}</b></div>
+            <div class="sec"><span>${esc(Y.lvSeason)}</span></div><div class="chipsel">${sel('lvS', 'auto', Y.lvAuto)}${LV_SE.map(v => sel('lvS', v, Y.seasons[v])).join('')}</div>
+            <div class="sec"><span>${esc(Y.lvTime)}</span></div><div class="chipsel">${sel('lvT', 'auto', Y.lvAuto)}${LV_PH.map(v => sel('lvT', v, Y.phases[v])).join('')}</div>
+            ${range('lk_bgi', 0, 100, 5, +L0.bgi, Y.intensity)}<div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(Y.lvHint)}</div>`; })() : '')
+        + (L0.bgt === 'photo' ? `<button type="button" class="btn" data-act="lkPhoto" style="margin:10px 0 6px">${esc(L0.wp ? Y.photoChange : Y.photoPick)}</button>${L0.wp ? `<button type="button" class="btn ghost" data-act="lkPhotoDel" style="margin:0 0 6px">${esc(Y.photoDel)}</button>` : ''}
+            ${range('lk_blur', 0, 20, 1, +L0.wpBlur || 0, Y.blur)}${range('lk_dim', -60, 70, 5, +L0.wpDim || 0, Y.dim)}<div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(Y.photoHint)}</div>`
+          : /^(plain|photo|live)$/.test(L0.bgt) ? '' : range('lk_bgi', 0, 100, 5, +L0.bgi, Y.intensity));
+    } else if (LKTAB === 'fonts') {
+      const fontChips = kind => Object.keys(FONTS[kind]).map(id => chip(kind, id, FONTS[kind][id][0] || (kind === 'body' || kind === 'head' ? X.system : X.plain), `font-family:${fontStack(kind, id).replace(/"/g, '&quot;')};font-size:${kind === 'sign' ? 19 : 15}px`)).join('');
+      body = range('lk_size', 80, 140, 5, SIZES.includes(+L0.size) ? +L0.size : 100, Y.size, Y.sizeHint)
+        + `<div class="sec"><span>${esc(Y.hcase)}</span></div><div class="chipsel">${chip('hcase', 'upper', Y.hcases.upper)}${chip('hcase', 'normal', Y.hcases.normal)}</div>`
+        + `<div class="sec"><span>${esc(X.head)}</span></div><div class="chipsel lkfonts">${fontChips('head')}</div>`
+        + `<div class="sec"><span>${esc(X.body)}</span></div><div class="chipsel lkfonts">${fontChips('body')}</div>`
+        + `<div class="sec"><span>${esc(X.sign)}</span></div><div class="chipsel lkfonts">${fontChips('sign')}</div>`;
+    } else {
+      body = `<div class="sec"><span>${esc(Y.style)}</span></div><div class="chipsel">${Object.keys(Y.styles).map(v => chip('cs', v, Y.styles[v])).join('')}</div>
+        <div class="sec"><span>${esc(Y.radius)}</span></div><div class="chipsel">${Object.keys(RADII).map(v => chip('rad', v, Y.rads[v])).join('')}</div>`
+        + range('lk_ca', 35, 100, 5, +L0.ca || 100, Y.opacity, Y.opacityHint);
+    }
+    return sheetHead('🎨 ' + X.title) + prev + tabs + body + `<button class="btn ghost" data-act="lkReset" style="margin-top:14px">↺ ${esc(X.reset)}</button>`;
   };
   fn.mount = () => {
-    /* load every font once so the buttons show how each one looks */
-    const all = k => Object.values(FONTS[k]).map(f => f[1]).filter(f => f && !/^(Ruslan\+Display|Marck\+Script)$/.test(f));
-    loadFonts(all('head').concat(all('body'), all('sign')), 'lookFontsAll');
+    if (LKTAB === 'fonts') {
+      /* only the glyphs of the labels — tiny downloads even for ~90 fonts */
+      const all = k => Object.values(FONTS[k]).map(f => f[1]).filter(f => f && !/^(Ruslan\+Display|Marck\+Script)$/.test(f)).map(f => f.split(':')[0]);
+      const labels = [].concat(...['head', 'body', 'sign'].map(k => Object.values(FONTS[k]).map(f => f[0]))).join('') + T.lk.system + T.lk.plain;
+      loadFonts(all('head').concat(all('body'), all('sign')), 'lookFontsAll', Array.from(new Set(labels)).join(''));
+    }
+    if (LKTAB === 'themes') {
+      const fams = Array.from(new Set(LOOK_PRESETS.map(([, o]) => o.head).filter(Boolean).map(h => FONTS.head[h] && FONTS.head[h][1]).filter(Boolean).map(f => f.split(':')[0])));
+      loadFonts(fams, 'lookFontsThemes', 'Аа');
+    }
+    const L0 = getLook(); if (L0.bgt === 'photo' && L0.wp && !imgUrlNow('wp', L0.wp)) imgUrl('wp', L0.wp).then(u => { if (u && stack.length) refreshSheet(); });
   };
   fn.isLook = true;
   return fn;
 }
-function lookSet(k, v){
+function lookSet(k, v, quiet){
   const L0 = getLook();
-  if (k === 'size') v = +v;
-  if (k === 'pal') { L0.accent = ''; L0.bg = ''; }
-  L0[k] = v;
+  if (/^(size|bgi|wpBlur|wpDim|ca)$/.test(k)) v = +v;
+  if (k === 'pal') { L0.accent = ''; L0.bg = ''; L0.card = ''; }
+  L0[k] = v; if (k !== 'pre') L0.pre = '';
   state.settings.look = L0;
-  applyLook(true); save(); haptic();
-  if (stack.length) refreshSheet();
+  applyLook(true); save();
+  if (!quiet) { haptic(); if (stack.length) refreshSheet(); }
 }
+function lookCode(){ const L0 = getLook(), o = {}; Object.keys(LOOK_DEF).forEach(k => { if (k !== 'wp' && String(L0[k]) !== String(LOOK_DEF[k])) o[k] = L0[k]; }); return 'STUDIUM-LOOK:' + btoa(unescape(encodeURIComponent(JSON.stringify(o)))); }
+function lookFromCode(s){
+  const m = String(s || '').match(/STUDIUM-LOOK:([A-Za-z0-9+/=]+)/); if (!m) return null;
+  try { const o = JSON.parse(decodeURIComponent(escape(atob(m[1])))); if (!o || typeof o !== 'object') return null;
+    const out = Object.assign({}, LOOK_DEF);
+    Object.keys(LOOK_DEF).forEach(k => { if (!(k in o) || k === 'wp') return; const v = o[k];
+      if (/^(accent|bg|card)$/.test(k)) { if (hexOk(v) || v === '') out[k] = v; }
+      else if (/^(size|bgi|wpBlur|wpDim|ca)$/.test(k)) { if (isFinite(+v)) out[k] = +v; }
+      else if (k === 'pal' ? PALETTES[v] : k === 'head' || k === 'body' || k === 'sign' ? FONTS[k][v] : k === 'bgt' ? BGS.includes(v) && v !== 'photo' : k === 'lvS' ? v === 'auto' || LV_SE.includes(v) : k === 'lvT' ? v === 'auto' || LV_PH.includes(v) : k === 'rad' ? RADII[v] : k === 'cs' ? /^(solid|shadow|outline|glass)$/.test(v) : k === 'hcase' ? /^(upper|normal)$/.test(v) : k === 'pre' ? LOOK_PRESETS.some(p => p[0] === v) : false) out[k] = v; });
+    return out; } catch (e) { return null; }
+}
+function lookApplyCode(s){ const o = lookFromCode(s); if (!o) return toast(lkx().pasteBad, 2200); o.wp = getLook().wp; state.settings.look = o; applyLook(true); save(); hapticOk(); toast('✅ ' + lkx().pasteOk, 1800); refreshSheet(); }
 const LK = {
   look: () => openSheet(lookSheet()),
   lkSet: el => lookSet(el.dataset.k, el.dataset.v),
-  fxSw: el => { state.settings.fx = state.settings.fx === 0 ? 1 : 0; el.classList.toggle('on', state.settings.fx !== 0); save(); haptic(); },
+  lkTab: el => { LKTAB = el.dataset.v; haptic(); refreshSheet(); const s = $('sheet'); if (s) s.scrollTop = 0; },
+  lkBg: el => { const v = el.dataset.v; if (v === 'photo' && !getLook().wp) { lookSet('bgt', 'photo', true); refreshSheet(); return LK.lkPhoto(); } lookSet('bgt', v); },
+  lkPreset: el => {
+    const pr = LOOK_PRESETS.find(p => p[0] === el.dataset.v); if (!pr) return;
+    const o = pr[1], L0 = Object.assign({}, LOOK_DEF, { size: getLook().size, wp: getLook().wp }, o, { pre: pr[0] }); delete L0.theme;
+    state.settings.look = L0;
+    /* a dark theme preset switches to dark; picking a light one afterwards brings back the user's own choice */
+    const S = state.settings;
+    if (o.theme) { if (S.theme !== o.theme) { if (S.thBefore == null) S.thBefore = S.theme || 'auto'; S.theme = o.theme; lastTheme = ''; applyTheme(); } }
+    else if (S.thBefore != null) { S.theme = S.thBefore; delete S.thBefore; lastTheme = ''; applyTheme(); }
+    applyLook(true); save(); hapticOk(); refreshSheet();
+  },
+  lkPhoto: () => pickFile(async f => {
+    toast(lkx().photoSaving, 1500);
+    const blob = await imgShrink(f, 1600, false);
+    if (!blob) return toast(lkx().photoFail, 2500);
+    await imgStore('wp', blob, (ref, late) => { const L0 = getLook(); if (late && L0.wp && !/^loc:/.test(L0.wp)) return; L0.wp = ref; L0.bgt = 'photo'; L0.pre = ''; state.settings.look = L0; applyLook(true); save(); if (!late) { hapticOk(); toast('🖼 ' + lkx().photoDone, 1800); } if (stack.length && topFn().isLook) refreshSheet(); });
+  }),
+  lkPhotoDel: () => { const L0 = getLook(); L0.wp = ''; L0.bgt = 'dots'; state.settings.look = L0; imgDb.del('wp').catch(() => {}); applyLook(true); save(); haptic(); refreshSheet(); },
+  lkShare: async () => { const c = lookCode(); if (await copyText(c)) toast('📤 ' + lkx().copied, 2000); else showText('Look', c); },
+  lkPaste: async () => {
+    let s = ''; try { s = await navigator.clipboard.readText(); } catch (e) {}
+    if (lookFromCode(s)) return lookApplyCode(s);
+    openSheet(() => sheetHead(lkx().paste) + `<div class="hintline" style="margin:0 6px 8px;text-align:left">${esc(lkx().pasteAsk)}</div><textarea class="backup" id="lk_code" style="height:120px" placeholder="STUDIUM-LOOK:…"></textarea><button class="btn" data-act="lkPasteGo" style="margin-top:10px">${esc(lkx().applyBtn)}</button>`);
+  },
+  lkPasteGo: () => { const el = $('lk_code'); const s = el ? el.value : ''; if (!lookFromCode(s)) return toast(lkx().pasteBad, 2200); closeSheet(); lookApplyCode(s); },
+  fxSw: el => { state.settings.fx = state.settings.fx === 0 ? 1 : 0; el.classList.toggle('on', state.settings.fx !== 0); save(); applyLook(true); haptic(); },
   lkReset: () => { state.settings.look = Object.assign({}, LOOK_DEF); applyLook(true); save(); hapticOk(); refreshSheet(); toast(T.lk.resetDone); }
 };
-/* colour pickers: live preview while dragging, saved when released */
+/* colour pickers & sliders: live preview while dragging, saved when released */
+const LK_INPUT = { lk_accent: 'accent', lk_bg: 'bg', lk_card: 'card', lk_bgi: 'bgi', lk_blur: 'wpBlur', lk_dim: 'wpDim', lk_ca: 'ca', lk_size: 'size' };
+let lkRaf = 0;
 document.addEventListener('input', e => {
-  const id = e.target && e.target.id; if (id !== 'lk_accent' && id !== 'lk_bg') return;
-  const L0 = getLook(); L0[id === 'lk_accent' ? 'accent' : 'bg'] = e.target.value; state.settings.look = L0; applyLook(true);
+  const id = e.target && e.target.id, k = LK_INPUT[id]; if (!k) return;
+  const v = e.target.type === 'range' ? +e.target.value : e.target.value;
+  const out = $(id + '_v'); if (out) out.textContent = v + (id === 'lk_size' ? ' %' : '');
+  if (id === 'lk_size') return;   // zoom while dragging would move the slider under the finger
+  const L0 = getLook(); L0[k] = v; L0.pre = ''; state.settings.look = L0;
+  cancelAnimationFrame(lkRaf); lkRaf = requestAnimationFrame(() => applyLook(true));
 });
 document.addEventListener('change', e => {
-  const id = e.target && e.target.id; if (id !== 'lk_accent' && id !== 'lk_bg') return;
-  lookSet(id === 'lk_accent' ? 'accent' : 'bg', e.target.value);
+  const id = e.target && e.target.id, k = LK_INPUT[id]; if (!k) return;
+  lookSet(k, e.target.type === 'range' ? +e.target.value : e.target.value, e.target.type === 'range');
+  if (e.target.type === 'range') { haptic(); if (id === 'lk_size' || id === 'lk_bgi' || id === 'lk_ca') refreshSheet(); }
 });
+
+/* ---------- student photos ---------- */
+/* s.pf = 'tg:<file id>' | 'loc:<n>' — the avatar shows the photo once it is cached on this device */
+function avaPhoto(s){
+  if (!s || !s.pf) return '';
+  const u = imgUrlNow('st_' + s.id, s.pf);
+  if (u) return u;
+  imgUrl('st_' + s.id, s.pf).then(url => { if (!url) return; document.querySelectorAll(`.ava[data-ph="${CSS.escape(s.id)}"]`).forEach(el => { el.classList.add('ph'); el.style.backgroundImage = `url("${url}")`; el.textContent = ''; }); });
+  return '';
+}
+Object.assign(LK, {
+  stuPhoto: async el => {
+    const s = stu(el.dataset.id); if (!s) return;
+    const Y = L === 'ru' ? { pick: 'Выбрать фото', del: 'Убрать фото', title: 'Фото ученика' } : { pick: 'Choose a photo', del: 'Remove photo', title: 'Student photo' };
+    if (s.pf) { const c = await choose(Y.title, [{ id: 'pick', t: Y.pick }, { id: 'del', t: Y.del, danger: true }]); if (c === 'del') { s.pf = ''; imgDb.del('st_' + s.id).catch(() => {}); save(); render(); refreshSheet(); return; } if (c !== 'pick') return; }
+    pickFile(async f => {
+      const blob = await imgShrink(f, 360, true);
+      if (!blob) return toast(lkx().photoFail, 2500);
+      await imgStore('st_' + s.id, blob, (ref, late) => { const x = stu(s.id); if (!x) return; if (late && x.pf && !/^loc:/.test(x.pf)) return; x.pf = ref; save(); if (!late) { hapticOk(); render(); if (stack.length) refreshSheet(); } });
+    });
+  }
+});
+setTimeout(() => { try { Object.assign(window.__vs || (window.__vs = {}), { crH, liveNow, LOOK_PRESETS, LOOK_DEF, BGS, lookCode, lookFromCode, LK, stu: id => stu(id), A2: () => A, imgDb }); } catch (e) {} }, 0);
 
 /* ================= Planner 7.0: the singer's own life =================
    items  — gig (выступление), reh (репетиция), task (дело), note (заметка), event (событие)
@@ -9007,6 +9437,9 @@ const HELP_DOC = [
     '🔔 Уведомления: что присылает бот — утренний план (время), напоминание перед уроком, вечернее «отметь уроки», долги, итоги месяца, обзор недели. Кнопки «Проверить» и «Синхронизировать».',
     '🧩 Под себя: как тебя называть, подпись на главной (любой текст, «-» — без подписи), день рождения и «Разделы приложения» — выключи то, чем не пользуешься (ученики, деньги, студия, планер, привычки, личные финансы, вишлист, дневник…). Данные не удаляются.',
     '🎨 Оформление: язык, тема (светлая, тёмная, как в телефоне), цвета, шрифты, размер и 🔊 звуки с вибрацией. На телефоне (Telegram 8.0+) там же «📱 Полный экран» — приложение на весь экран без шапки Telegram.',
+    '🎨 Кнопка «Оформление» открывает конструктор из пяти вкладок. Темы — 16 готовых стилей в одно касание (Закат, Океан, Ночь, Неон…). Цвета — 18 палитр, свой цвет акцента, фона и карточек. Фон — 🌗 «Живое небо» (меняется само по времени суток и году: рассвет, день, закат, ночь; снег зимой, лепестки весной, светлячки летом, листья осенью — или выбери своё время года и суток), гладкий, узоры (сетка, ноты, звёзды, сердечки, конфетти, бумага…), градиенты или своё фото из галереи с размытием и затемнением. Шрифты — больше 80 шрифтов для заголовков, текста и подписи, размер текста 80–140%, заголовки заглавными или как обычно. Карточки — обычные, с тенью, контур или «стекло», скругление углов и прозрачность. «Вернуть всё как было» — исходный вид.',
+    '📤 Поделиться оформлением: вкладка «Темы» → «Поделиться оформлением» копирует код; коллега нажимает «Вставить код оформления» и получает такой же вид (фото-обои не передаются).',
+    '📸 Фото ученика: открой карточку ученика и нажми на кружок с буквами → выбери фото. Фото видно в списках, календаре и на главной. Нажми ещё раз — заменить или убрать. Фото и обои хранятся на телефоне, а копия — в чате с ботом (сообщение сразу удаляется), поэтому на другом устройстве они появятся сами.',
     '🛟 Данные и копии: где хранятся данные, резервные копии, сохранить копию файлом и восстановить. Внизу — «🗑 Сбросить всё и начать заново»: приложение дважды спросит, точно ли, покажет, что удалится (все данные, копии на телефоне и в Google Диске, напоминания), и только потом всё сотрёт. Подписка останется.',
     'Ниже групп: 🧭 Обучение (тур с подсветкой), 📖 Справка с поиском и вопросами боту, 🆕 «Что нового» — история обновлений.' ] },
   { id: 'backup', ic: '🛟', t: 'Резервные копии и восстановление', p: [
@@ -9806,7 +10239,7 @@ const RCN = {
     setTimeout(() => { if (ui.tab === 'home' && stack.length) { const r = document.querySelector('#app .hctiles'); if (r) { const h = homeTilesInner(); if (h) r.outerHTML = h; else r.remove(); } } }, 50);
   }
 };
-const LEGAL_TXT = {"en": {"ads": "# Consent to news and offers\nI agree to receive messages from the Operator in @musicplaner_bot about new features, promotions and subscription offers, and partner ads (always marked «Ad»; my data is never given to advertisers). This is optional — the Service works fully without it. You can opt out at any time in ⚙️ Settings → Data & backups → Documents and consents. Service messages (updates, important changes, answers) are not advertising and go to everyone.\n", "consent": "# Consent to personal data processing\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\nI, the Telegram user who opened «Studium» (bot @musicplaner_bot and mini app), freely and in my own interest consent to Alexander Gerasimov («Operator») processing my personal data: Telegram ID, name, username and language; what I enter in the app and send to the bot (name, profession, schedule, financial records, notes, plans, texts, voice messages, photos); subscription details; technical details.\n\n## Purpose\nProviding the Service, sync and backups, message recognition, subscriptions, support, service messages.\n\n## Actions\nCollection, recording, organisation, storage, updating, retrieval, use, transfer to the parties below, blocking, deletion and destruction, by automated means.\n\n## Recipients and cross-border transfer\nTelegram (Telegram FZ-LLC, UAE); Google LLC (USA) — the Service server (Google Apps Script, Google Drive), message recognition (Google Gemini), Google Calendar if connected. I agree to the transfer of data to these countries.\n\n## Term and withdrawal\nValid until withdrawn or until the data is deleted. Withdraw in the app (⚙️ Settings → Data & backups → Documents and consents) or by writing to @musicplaner_bot; the data is then deleted and the Service can no longer be used.\n", "privacy": "# Privacy Policy\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Who we are\nThe operator of personal data is Alexander Gerasimov («Operator»), the creator of «Studium»: the Telegram bot @musicplaner_bot and its Telegram mini app («Service»). Contact: a message to @musicplaner_bot or the «Write to the creator» button in the app.\n\n## 2. What we process\n- Telegram data: user ID, name, username, language.\n- What you enter: name, profession, schedule, lessons, services and prices, income and expenses, packages, notes, tasks, goals, habits, shopping lists, wishlist, diary, settings.\n- Data about your students and clients that you enter (names, phones, Telegram links, birthdays, notes, payments). You are their data controller; the Service processes it on your behalf.\n- Messages, voice messages and photos you send to the bot.\n- Subscription details and trial requests.\n- Technical details: app version, time zone, days and times of visits, how you found the Service, record counts (to protect against data loss).\n- People who use the Service through you: those who book with you via your booking page (name, phone, Telegram, date, comment — passed to you) and students who connect to the bot for homework and reminders (their Telegram ID is linked to their card). They give their own consent in the booking form or the bot.\nWe never receive card details: payment happens on the YooKassa page (NBCO YooMoney LLC); we only get the payment status and amount. With Telegram Stars the payment happens inside Telegram; we get the payment ID, the plan and the amount in Stars.\n\n## 3. Why\nTo run the app and the bot, sync and back up your data, recognise messages with an AI service, manage subscriptions, support you and tell you about changes to the Service. News and offers only with your separate consent.\n\n## 4. Where data is stored and who receives it\nOn your device; in Telegram CloudStorage and your chat with the bot (daily backups); on the Service server — Google Apps Script and Google Drive (Google LLC); message recognition — Google Gemini; Google Calendar only if you connect it. Links you share yourself (wishlist, lesson calendar, booking page) are visible to anyone who has them. The Operator sees a service card for each user in the bot: name, username, plan and dates, days of use, number of students and lessons — for support and subscription checks. Telegram and Google servers are outside Russia, so data is transferred across borders. Data is never sold or used for advertising.\n\n## 5. Cookies\nNo cookies, ad pixels or analytics. Local storage is used only to run the app. Fonts load from Google Fonts, which sees your IP address.\n\n## 6. How long\nWhile you use the Service. «Reset everything» or withdrawing consent deletes your data from the server at once. Subscription and payment records are kept as long as the law requires, no longer than 3 years after the subscription ends.\n\n## 7. Your rights\nAccess, correction, deletion, withdrawing consent, opting out of news, complaining to the regulator (Roskomnadzor) or a court. Write to @musicplaner_bot — we answer within 10 working days. In the app: ⚙️ Settings → Data & backups → Documents and consents.\n\n## 8. Age\nThe Service is for people aged 18+. If you enter data about minors, their parent must agree — you obtain this yourself.\n", "students": "Hello! I keep track of our lessons in the «Studium» app (Telegram). To plan lessons, send reminders and track payments, I record your name, contact (phone or Telegram), schedule, payments and lesson notes there. The data is stored in Telegram and on the app's server (Google), is never shared for advertising, and I'll delete it if you ask.\nIf you agree, please reply «I agree». If the student is a child, a parent gives consent.\n", "terms": "# Terms of Use\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Agreement\nThese terms are between Alexander Gerasimov («Operator») and you, the user of «Studium» (bot @musicplaner_bot and mini app). Tapping «Accept and continue» means you accept them in full. If you disagree, please don't use the Service.\n\n## 2. Subscription\nSome features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. You pay by card or SBP via YooKassa, with Telegram Stars (bot /plans or the app) or with an access code; the subscription switches on automatically after payment. Subscriptions never renew without your separate consent. If the Service didn't work through the Operator's fault or you cancel, unused full days are refunded on request within 10 days; Stars purchases are refunded in Stars. Payment questions: /paysupport in the bot. Telegram support cannot help with purchases made in this bot — the Operator handles them.\n\n## 3. Your duties\nEnter data about your students and clients lawfully — they (or their parents) must agree; a ready consent text is in ⚙️ Settings → Data & backups → Documents and consents. No spam, fraud or other illegal use; don't share access codes.\n\n## 4. Data\nYour data is yours. We make backups, but keep your own copy from time to time. The bot uses AI — check what it adds before confirming.\n\n## 5. Liability\nThe Service is provided «as is». The Operator isn't liable for outages of Telegram, Google, networks or devices. Liability is limited to what you paid for the last month of subscription.\n\n## 6. Ending and disputes\nYou can stop at any time and delete your data (⚙️ Settings → Data & backups → Reset everything). Disputes are solved by talking first (write to the bot, answer within 10 working days), then under Russian law. Contact: @musicplaner_bot.\n"}, "ru": {"ads": "# Согласие на новости и предложения\nДаю согласие получать от Оператора в Telegram-боте @musicplaner_bot сообщения о новых функциях, акциях и предложениях подписки, а также рекламу партнёров (она всегда помечена словом «Реклама»; мои данные рекламодателям не передаются) (ч. 1 ст. 18 Федерального закона «О рекламе»). Согласие необязательное: без него Сервис работает полностью. Отказаться можно в любой момент в приложении (⚙️ Настройки → Данные и копии → Документы и согласия). Сообщения о работе Сервиса (обновления, важные изменения, ответы на вопросы) рекламой не являются и приходят всем.\n", "consent": "# Согласие на обработку персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\nЯ, пользователь Telegram, открывший сервис «Студиум» (бот @musicplaner_bot и мини-приложение), свободно, своей волей и в своём интересе даю Герасимову Александру (далее — «Оператор») согласие на обработку моих персональных данных на следующих условиях.\n\n## Какие данные\nИдентификатор, имя, имя пользователя и язык в Telegram; данные, которые я ввожу в приложение и отправляю боту (имя, профессия, расписание, финансовые записи, заметки, планы, тексты, голосовые сообщения и фото); сведения о подписке; технические сведения о работе приложения.\n\n## Для чего\nПредоставление функций Сервиса, синхронизация и резервное копирование, распознавание сообщений, оформление подписки, поддержка, информационные сообщения о работе Сервиса.\n\n## Какие действия\nСбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача (предоставление доступа) лицам из списка ниже, блокирование, удаление, уничтожение. Обработка автоматизированная.\n\n## Кому передаются и где хранятся\nTelegram (Telegram FZ-LLC, ОАЭ) — хранилище и доставка сообщений; Google LLC (США) — сервер Сервиса (Google Apps Script, Google Drive), распознавание сообщений (Google Gemini), Google Календарь при его подключении. Я согласен на трансграничную передачу данных в эти страны.\n\n## Срок и отзыв\nСогласие действует до его отзыва или удаления данных. Отозвать его можно в приложении (⚙️ Настройки → Данные и копии → Документы и согласия) или сообщением в бот @musicplaner_bot. После отзыва данные удаляются, а пользоваться Сервисом нельзя.\n", "privacy": "# Политика обработки персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Кто обрабатывает данные\nОператор персональных данных — Герасимов Александр (далее — «Оператор»), создатель сервиса «Студиум»: Telegram-бот @musicplaner_bot и мини-приложение в Telegram (далее — «Сервис»). Связь с Оператором: сообщение в бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\nПолитика составлена по Федеральному закону от 27.07.2006 № 152-ФЗ «О персональных данных» и описывает, какие данные собирает Сервис, зачем, где они хранятся и как ими управлять.\n\n## 2. Какие данные мы обрабатываем\n- Данные Telegram: идентификатор, имя, имя пользователя (username), язык интерфейса — Telegram передаёт их при открытии приложения и при сообщениях боту.\n- Данные, которые ты вводишь сам: имя, профессия, предмет, расписание, занятия, услуги и цены, доходы и расходы, абонементы, заметки, задачи, цели, привычки, списки покупок, вишлист, дневник, настройки.\n- Данные твоих учеников и клиентов, которые ты вносишь: имена, телефоны, ссылки на Telegram, дни рождения, заметки, оплаты, посещения. Для этих данных оператором являешься ты, а Сервис обрабатывает их по твоему поручению (ч. 3 ст. 6 152-ФЗ) только для работы твоих функций.\n- Сообщения боту: тексты, голосовые сообщения и фото, которые ты отправляешь, чтобы бот внёс запись или ответил на вопрос.\n- Сведения о подписке: тариф, сроки, коды доступа, заявки на пробный период и ответы на вопросы в них.\n- Технические сведения: версия приложения, часовой пояс, дни и время входа, откуда ты узнал о Сервисе (например, по ссылке записи), количество записей (для защиты от пропажи данных).\n- Люди, которые сами пользуются Сервисом через тебя: кто записывается к тебе через страницу онлайн-записи (имя, телефон, Telegram, дата, комментарий — передаются тебе) и ученики, которые подключились к боту, чтобы получать домашние задания и напоминания (их Telegram-идентификатор связывается с карточкой у тебя). Они дают своё согласие сами в форме записи или в боте.\nСервис не получает данные банковских карт: оплата проходит на странице платёжного сервиса ЮKassa (ООО НКО «ЮМани»), Сервис получает от него только статус и сумму платежа. При оплате звёздами Telegram платёж проходит внутри Telegram; Сервис получает идентификатор платежа, тариф и сумму в звёздах.\n\n## 3. Зачем\n- чтобы приложение и бот работали: расписание, напоминания, деньги, абонементы, отчёты;\n- синхронизация между устройствами и резервные копии, защита от потери данных;\n- распознавание сообщений и голосовых для бота (с помощью ИИ-сервиса);\n- оформление и проверка подписки, пробный период;\n- поддержка и ответы на обращения;\n- информационные сообщения о работе Сервиса (обновления, важные изменения);\n- новости и предложения — только если ты дал на это отдельное согласие.\n\n## 4. Основания\nТвоё согласие (п. 1 ч. 1 ст. 6 152-ФЗ), исполнение пользовательского соглашения (п. 5 ч. 1 ст. 6), для данных учеников и клиентов — твоё поручение как их оператора.\n\n## 5. Где хранятся данные и кому передаются\n- На твоём устройстве — в хранилище Telegram и браузера, включая резервные копии на телефоне.\n- В облачном хранилище Telegram (Telegram CloudStorage) и в чате с ботом (ежедневные резервные копии).\n- На сервере Сервиса: Google Apps Script и Google Drive (Google LLC).\n- Распознавание сообщений: Google Gemini (Google LLC) — получает только текст сообщения или запись, которую нужно разобрать.\n- Google Календарь — только если ты сам подключишь синхронизацию.\nСсылки, которыми ты делишься сам (вишлист, календарь занятий, страница записи), видит любой, у кого есть ссылка; ссылку календаря можно сменить в настройках.\nОператор видит в боте служебную карточку пользователя: имя, username, тариф и сроки подписки, дни использования, количество учеников и занятий — это нужно для поддержки и проверки подписок.\nСерверы Telegram и Google находятся за пределами Российской Федерации, поэтому происходит трансграничная передача данных. Данные не продаются и не передаются для рекламы.\n\n## 6. Cookie и трекеры\nСервис не использует файлы cookie, рекламные пиксели и системы аналитики. Локальное хранилище устройства используется только для работы приложения (данные, настройки, копии). Шрифты интерфейса загружаются с серверов Google Fonts, при этом сервер видит IP-адрес.\n\n## 7. Сколько хранятся\nПока ты пользуешься Сервисом. Кнопка «⚙️ Настройки → Данные и копии → Сбросить всё» или отзыв согласия удаляют данные на сервере сразу, на устройстве — при сбросе. Резервные копии в чате с ботом ты можешь удалить сам. Сведения о подписке и оплатах хранятся столько, сколько требует закон, и не дольше 3 лет после окончания подписки.\n\n## 8. Твои права\nТы можешь узнать, какие данные о тебе обрабатываются, потребовать исправить или удалить их, отозвать согласие, отказаться от новостей, обжаловать действия Оператора в Роскомнадзоре или в суде. Запрос — сообщением в бот @musicplaner_bot; ответ — в течение 10 рабочих дней. Отозвать согласие и удалить данные можно в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n\n## 9. Защита\nВход только через Telegram с проверкой подписи, передача по HTTPS, доступ к серверу и ключам — только у Оператора, у каждого пользователя свои данные.\n\n## 10. Возраст\nСервис предназначен для лиц от 18 лет. Если ты вносишь данные несовершеннолетних учеников, согласие на это даёт их законный представитель (родитель) — ты получаешь его сам.\n\n## 11. Изменения\nНовая редакция публикуется в приложении и по ссылке на политику; при существенных изменениях приложение попросит подтвердить согласие заново.\n", "students": "Здравствуйте! Я веду учёт занятий в приложении «Студиум» (Telegram). Чтобы планировать занятия, напоминать о них и учитывать оплаты, я записываю туда ваше имя, контакт (телефон или Telegram), расписание, оплаты и заметки о занятиях. Данные хранятся в Telegram и на сервере приложения (Google), никому не передаются для рекламы, и я удалю их по вашей просьбе.\nЕсли вы согласны — ответьте, пожалуйста, «Согласен(на)». Если занимается ребёнок — согласие даёт родитель.\n", "terms": "# Пользовательское соглашение\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Общее\nСоглашение заключается между Герасимовым Александром (далее — «Оператор») и пользователем (далее — «ты») сервиса «Студиум»: Telegram-бота @musicplaner_bot и мини-приложения в Telegram (далее — «Сервис»). Нажимая «Принять и продолжить», ты принимаешь Соглашение полностью (ст. 437, 438 ГК РФ). Если не согласен — не пользуйся Сервисом.\n\n## 2. Что даёт Сервис\nУчёт учеников и клиентов, расписание, оплаты и абонементы, напоминания, личный планер, ответы и записи через бота, резервные копии. Часть функций доступна по подписке (Pro, Max). Состав тарифов и цены — в боте по команде /тарифы.\n\n## 3. Подписка и оплата\n- Подписка даёт доступ к функциям тарифа на оплаченный срок. Срок, тариф и остаток дней видны в боте и в приложении.\n- Пробный период выдаёт Оператор по заявке; он бесплатный и заканчивается сам, без списаний.\n- Оплата — картой или по СБП через ЮKassa, звёздами Telegram (Telegram Stars) — кнопкой в боте /тарифы или в приложении, — либо кодом доступа. Звёзды списываются внутри Telegram; цены в звёздах указаны при выборе тарифа. Подписка включается автоматически после оплаты; чек самозанятого Оператор отправляет после оплаты. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.\n- Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»). Покупки звёздами возвращаются звёздами на твой счёт в Telegram.\n- Вопросы по оплате — команда /paysupport в боте или «Поддержка» в /тарифы. Служба поддержки Telegram по покупкам в этом боте помочь не сможет — по ним отвечает Оператор.\n\n## 4. Твои обязанности\n- Вносить данные учеников и клиентов законно: они должны знать, что ты ведёшь учёт, и согласиться на это (за несовершеннолетних — их родители). Готовый текст согласия есть в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n- Не использовать Сервис для рассылки спама, мошенничества и других незаконных действий.\n- Не передавать коды доступа другим людям и не пытаться обойти ограничения тарифов.\n\n## 5. Данные и копии\nТвои данные принадлежат тебе. Сервис делает резервные копии, но мы советуем время от времени сохранять копию у себя. Ответы бота и распознавание делает ИИ — проверяй, что он внёс, перед подтверждением.\n\n## 6. Ответственность\nСервис предоставляется «как есть». Оператор старается, чтобы он работал без перерывов, но не отвечает за сбои Telegram, Google, связи и устройства, а также за решения, принятые на основе данных из Сервиса. Ответственность Оператора ограничена суммой, которую ты заплатил за последний месяц подписки.\n\n## 7. Прекращение\nТы можешь в любой момент перестать пользоваться Сервисом и удалить данные (⚙️ Настройки → Данные и копии → Сбросить всё). Оператор может ограничить доступ при нарушении Соглашения, предупредив об этом в боте.\n\n## 8. Споры и изменения\nСпоры решаются переговорами: напиши в бот, ответ — в течение 10 рабочих дней. Если не договорились — по законодательству РФ. Новая редакция Соглашения публикуется в приложении; при существенных изменениях приложение попросит подтвердить её.\n\n## 9. Связь с Оператором\nTelegram-бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\n"}};
+const LEGAL_TXT = {"en": {"ads": "# Consent to news and offers\nI agree to receive messages from the Operator in @musicplaner_bot about new features, promotions and subscription offers, and partner ads (always marked «Ad»; my data is never given to advertisers). This is optional — the Service works fully without it. You can opt out at any time in ⚙️ Settings → Data & backups → Documents and consents. Service messages (updates, important changes, answers) are not advertising and go to everyone.\n", "consent": "# Consent to personal data processing\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\nI, the Telegram user who opened «Studium» (bot @musicplaner_bot and mini app), freely and in my own interest consent to Alexander Gerasimov («Operator») processing my personal data: Telegram ID, name, username and language; what I enter in the app and send to the bot (name, profession, schedule, financial records, notes, plans, texts, voice messages, photos); subscription details; technical details.\n\n## Purpose\nProviding the Service, sync and backups, message recognition, subscriptions, support, service messages.\n\n## Actions\nCollection, recording, organisation, storage, updating, retrieval, use, transfer to the parties below, blocking, deletion and destruction, by automated means.\n\n## Recipients and cross-border transfer\nTelegram (Telegram FZ-LLC, UAE); Google LLC (USA) — the Service server (Google Apps Script, Google Drive), message recognition (Google Gemini), Google Calendar if connected. I agree to the transfer of data to these countries.\n\n## Term and withdrawal\nValid until withdrawn or until the data is deleted. Withdraw in the app (⚙️ Settings → Data & backups → Documents and consents) or by writing to @musicplaner_bot; the data is then deleted and the Service can no longer be used.\n", "privacy": "# Privacy Policy\nVersion 1, 8 November 2026, updated 10 November 2026 (student photos). This is a translation; the Russian version prevails.\n\n## 1. Who we are\nThe operator of personal data is Alexander Gerasimov («Operator»), the creator of «Studium»: the Telegram bot @musicplaner_bot and its Telegram mini app («Service»). Contact: a message to @musicplaner_bot or the «Write to the creator» button in the app.\n\n## 2. What we process\n- Telegram data: user ID, name, username, language.\n- What you enter: name, profession, schedule, lessons, services and prices, income and expenses, packages, notes, tasks, goals, habits, shopping lists, wishlist, diary, settings.\n- Data about your students and clients that you enter (names, phones, Telegram links, birthdays, notes, payments, photos if you add them). Student photos and wallpaper photos are kept on your device; a copy is sent to your bot chat and deleted from it right away — the Service keeps only Telegram’s file reference so the photo appears on your other devices. Add student photos only with their consent (a parent’s for children). You are their data controller; the Service processes it on your behalf.\n- Messages, voice messages and photos you send to the bot.\n- Subscription details and trial requests.\n- Technical details: app version, time zone, days and times of visits, how you found the Service, record counts (to protect against data loss).\n- People who use the Service through you: those who book with you via your booking page (name, phone, Telegram, date, comment — passed to you) and students who connect to the bot for homework and reminders (their Telegram ID is linked to their card). They give their own consent in the booking form or the bot.\nWe never receive card details: payment happens on the YooKassa page (NBCO YooMoney LLC); we only get the payment status and amount. With Telegram Stars the payment happens inside Telegram; we get the payment ID, the plan and the amount in Stars.\n\n## 3. Why\nTo run the app and the bot, sync and back up your data, recognise messages with an AI service, manage subscriptions, support you and tell you about changes to the Service. News and offers only with your separate consent.\n\n## 4. Where data is stored and who receives it\nOn your device; in Telegram CloudStorage and your chat with the bot (daily backups); on the Service server — Google Apps Script and Google Drive (Google LLC); message recognition — Google Gemini; Google Calendar only if you connect it. Links you share yourself (wishlist, lesson calendar, booking page) are visible to anyone who has them. The Operator sees a service card for each user in the bot: name, username, plan and dates, days of use, number of students and lessons — for support and subscription checks. Telegram and Google servers are outside Russia, so data is transferred across borders. Data is never sold or used for advertising.\n\n## 5. Cookies\nNo cookies, ad pixels or analytics. Local storage is used only to run the app. Fonts load from Google Fonts, which sees your IP address.\n\n## 6. How long\nWhile you use the Service. «Reset everything» or withdrawing consent deletes your data from the server at once. Subscription and payment records are kept as long as the law requires, no longer than 3 years after the subscription ends.\n\n## 7. Your rights\nAccess, correction, deletion, withdrawing consent, opting out of news, complaining to the regulator (Roskomnadzor) or a court. Write to @musicplaner_bot — we answer within 10 working days. In the app: ⚙️ Settings → Data & backups → Documents and consents.\n\n## 8. Age\nThe Service is for people aged 18+. If you enter data about minors, their parent must agree — you obtain this yourself.\n", "students": "Hello! I keep track of our lessons in the «Studium» app (Telegram). To plan lessons, send reminders and track payments, I record your name, contact (phone or Telegram), schedule, payments and lesson notes there. The data is stored in Telegram and on the app's server (Google), is never shared for advertising, and I'll delete it if you ask.\nIf you agree, please reply «I agree». If the student is a child, a parent gives consent.\n", "terms": "# Terms of Use\nVersion 1, 8 November 2026. This is a translation; the Russian version prevails.\n\n## 1. Agreement\nThese terms are between Alexander Gerasimov («Operator») and you, the user of «Studium» (bot @musicplaner_bot and mini app). Tapping «Accept and continue» means you accept them in full. If you disagree, please don't use the Service.\n\n## 2. Subscription\nSome features need a subscription (Pro, Max); plans and prices are in the bot (/plans). Trials are granted by the Operator on request, are free and end by themselves. You pay by card or SBP via YooKassa, with Telegram Stars (bot /plans or the app) or with an access code; the subscription switches on automatically after payment. Subscriptions never renew without your separate consent. If the Service didn't work through the Operator's fault or you cancel, unused full days are refunded on request within 10 days; Stars purchases are refunded in Stars. Payment questions: /paysupport in the bot. Telegram support cannot help with purchases made in this bot — the Operator handles them.\n\n## 3. Your duties\nEnter data about your students and clients lawfully — they (or their parents) must agree; a ready consent text is in ⚙️ Settings → Data & backups → Documents and consents. No spam, fraud or other illegal use; don't share access codes.\n\n## 4. Data\nYour data is yours. We make backups, but keep your own copy from time to time. The bot uses AI — check what it adds before confirming.\n\n## 5. Liability\nThe Service is provided «as is». The Operator isn't liable for outages of Telegram, Google, networks or devices. Liability is limited to what you paid for the last month of subscription.\n\n## 6. Ending and disputes\nYou can stop at any time and delete your data (⚙️ Settings → Data & backups → Reset everything). Disputes are solved by talking first (write to the bot, answer within 10 working days), then under Russian law. Contact: @musicplaner_bot.\n"}, "ru": {"ads": "# Согласие на новости и предложения\nДаю согласие получать от Оператора в Telegram-боте @musicplaner_bot сообщения о новых функциях, акциях и предложениях подписки, а также рекламу партнёров (она всегда помечена словом «Реклама»; мои данные рекламодателям не передаются) (ч. 1 ст. 18 Федерального закона «О рекламе»). Согласие необязательное: без него Сервис работает полностью. Отказаться можно в любой момент в приложении (⚙️ Настройки → Данные и копии → Документы и согласия). Сообщения о работе Сервиса (обновления, важные изменения, ответы на вопросы) рекламой не являются и приходят всем.\n", "consent": "# Согласие на обработку персональных данных\nРедакция 1 от 8 ноября 2026 г.\n\nЯ, пользователь Telegram, открывший сервис «Студиум» (бот @musicplaner_bot и мини-приложение), свободно, своей волей и в своём интересе даю Герасимову Александру (далее — «Оператор») согласие на обработку моих персональных данных на следующих условиях.\n\n## Какие данные\nИдентификатор, имя, имя пользователя и язык в Telegram; данные, которые я ввожу в приложение и отправляю боту (имя, профессия, расписание, финансовые записи, заметки, планы, тексты, голосовые сообщения и фото); сведения о подписке; технические сведения о работе приложения.\n\n## Для чего\nПредоставление функций Сервиса, синхронизация и резервное копирование, распознавание сообщений, оформление подписки, поддержка, информационные сообщения о работе Сервиса.\n\n## Какие действия\nСбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача (предоставление доступа) лицам из списка ниже, блокирование, удаление, уничтожение. Обработка автоматизированная.\n\n## Кому передаются и где хранятся\nTelegram (Telegram FZ-LLC, ОАЭ) — хранилище и доставка сообщений; Google LLC (США) — сервер Сервиса (Google Apps Script, Google Drive), распознавание сообщений (Google Gemini), Google Календарь при его подключении. Я согласен на трансграничную передачу данных в эти страны.\n\n## Срок и отзыв\nСогласие действует до его отзыва или удаления данных. Отозвать его можно в приложении (⚙️ Настройки → Данные и копии → Документы и согласия) или сообщением в бот @musicplaner_bot. После отзыва данные удаляются, а пользоваться Сервисом нельзя.\n", "privacy": "# Политика обработки персональных данных\nРедакция 1 от 8 ноября 2026 г., дополнена 10 ноября 2026 г. (фото учеников).\n\n## 1. Кто обрабатывает данные\nОператор персональных данных — Герасимов Александр (далее — «Оператор»), создатель сервиса «Студиум»: Telegram-бот @musicplaner_bot и мини-приложение в Telegram (далее — «Сервис»). Связь с Оператором: сообщение в бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\nПолитика составлена по Федеральному закону от 27.07.2006 № 152-ФЗ «О персональных данных» и описывает, какие данные собирает Сервис, зачем, где они хранятся и как ими управлять.\n\n## 2. Какие данные мы обрабатываем\n- Данные Telegram: идентификатор, имя, имя пользователя (username), язык интерфейса — Telegram передаёт их при открытии приложения и при сообщениях боту.\n- Данные, которые ты вводишь сам: имя, профессия, предмет, расписание, занятия, услуги и цены, доходы и расходы, абонементы, заметки, задачи, цели, привычки, списки покупок, вишлист, дневник, настройки.\n- Данные твоих учеников и клиентов, которые ты вносишь: имена, телефоны, ссылки на Telegram, дни рождения, заметки, оплаты, посещения, фото (если ты их добавишь). Фото учеников и фото-обои хранятся на твоём устройстве; их копия отправляется в твой чат с ботом и сразу удаляется из переписки — у Сервиса остаётся только служебная ссылка Telegram на файл, чтобы фото появилось на другом твоём устройстве. Добавляй фото учеников только с их согласия (за детей — с согласия родителя). Для этих данных оператором являешься ты, а Сервис обрабатывает их по твоему поручению (ч. 3 ст. 6 152-ФЗ) только для работы твоих функций.\n- Сообщения боту: тексты, голосовые сообщения и фото, которые ты отправляешь, чтобы бот внёс запись или ответил на вопрос.\n- Сведения о подписке: тариф, сроки, коды доступа, заявки на пробный период и ответы на вопросы в них.\n- Технические сведения: версия приложения, часовой пояс, дни и время входа, откуда ты узнал о Сервисе (например, по ссылке записи), количество записей (для защиты от пропажи данных).\n- Люди, которые сами пользуются Сервисом через тебя: кто записывается к тебе через страницу онлайн-записи (имя, телефон, Telegram, дата, комментарий — передаются тебе) и ученики, которые подключились к боту, чтобы получать домашние задания и напоминания (их Telegram-идентификатор связывается с карточкой у тебя). Они дают своё согласие сами в форме записи или в боте.\nСервис не получает данные банковских карт: оплата проходит на странице платёжного сервиса ЮKassa (ООО НКО «ЮМани»), Сервис получает от него только статус и сумму платежа. При оплате звёздами Telegram платёж проходит внутри Telegram; Сервис получает идентификатор платежа, тариф и сумму в звёздах.\n\n## 3. Зачем\n- чтобы приложение и бот работали: расписание, напоминания, деньги, абонементы, отчёты;\n- синхронизация между устройствами и резервные копии, защита от потери данных;\n- распознавание сообщений и голосовых для бота (с помощью ИИ-сервиса);\n- оформление и проверка подписки, пробный период;\n- поддержка и ответы на обращения;\n- информационные сообщения о работе Сервиса (обновления, важные изменения);\n- новости и предложения — только если ты дал на это отдельное согласие.\n\n## 4. Основания\nТвоё согласие (п. 1 ч. 1 ст. 6 152-ФЗ), исполнение пользовательского соглашения (п. 5 ч. 1 ст. 6), для данных учеников и клиентов — твоё поручение как их оператора.\n\n## 5. Где хранятся данные и кому передаются\n- На твоём устройстве — в хранилище Telegram и браузера, включая резервные копии на телефоне.\n- В облачном хранилище Telegram (Telegram CloudStorage) и в чате с ботом (ежедневные резервные копии).\n- На сервере Сервиса: Google Apps Script и Google Drive (Google LLC).\n- Распознавание сообщений: Google Gemini (Google LLC) — получает только текст сообщения или запись, которую нужно разобрать.\n- Google Календарь — только если ты сам подключишь синхронизацию.\nСсылки, которыми ты делишься сам (вишлист, календарь занятий, страница записи), видит любой, у кого есть ссылка; ссылку календаря можно сменить в настройках.\nОператор видит в боте служебную карточку пользователя: имя, username, тариф и сроки подписки, дни использования, количество учеников и занятий — это нужно для поддержки и проверки подписок.\nСерверы Telegram и Google находятся за пределами Российской Федерации, поэтому происходит трансграничная передача данных. Данные не продаются и не передаются для рекламы.\n\n## 6. Cookie и трекеры\nСервис не использует файлы cookie, рекламные пиксели и системы аналитики. Локальное хранилище устройства используется только для работы приложения (данные, настройки, копии). Шрифты интерфейса загружаются с серверов Google Fonts, при этом сервер видит IP-адрес.\n\n## 7. Сколько хранятся\nПока ты пользуешься Сервисом. Кнопка «⚙️ Настройки → Данные и копии → Сбросить всё» или отзыв согласия удаляют данные на сервере сразу, на устройстве — при сбросе. Резервные копии в чате с ботом ты можешь удалить сам. Сведения о подписке и оплатах хранятся столько, сколько требует закон, и не дольше 3 лет после окончания подписки.\n\n## 8. Твои права\nТы можешь узнать, какие данные о тебе обрабатываются, потребовать исправить или удалить их, отозвать согласие, отказаться от новостей, обжаловать действия Оператора в Роскомнадзоре или в суде. Запрос — сообщением в бот @musicplaner_bot; ответ — в течение 10 рабочих дней. Отозвать согласие и удалить данные можно в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n\n## 9. Защита\nВход только через Telegram с проверкой подписи, передача по HTTPS, доступ к серверу и ключам — только у Оператора, у каждого пользователя свои данные.\n\n## 10. Возраст\nСервис предназначен для лиц от 18 лет. Если ты вносишь данные несовершеннолетних учеников, согласие на это даёт их законный представитель (родитель) — ты получаешь его сам.\n\n## 11. Изменения\nНовая редакция публикуется в приложении и по ссылке на политику; при существенных изменениях приложение попросит подтвердить согласие заново.\n", "students": "Здравствуйте! Я веду учёт занятий в приложении «Студиум» (Telegram). Чтобы планировать занятия, напоминать о них и учитывать оплаты, я записываю туда ваше имя, контакт (телефон или Telegram), расписание, оплаты и заметки о занятиях. Данные хранятся в Telegram и на сервере приложения (Google), никому не передаются для рекламы, и я удалю их по вашей просьбе.\nЕсли вы согласны — ответьте, пожалуйста, «Согласен(на)». Если занимается ребёнок — согласие даёт родитель.\n", "terms": "# Пользовательское соглашение\nРедакция 1 от 8 ноября 2026 г.\n\n## 1. Общее\nСоглашение заключается между Герасимовым Александром (далее — «Оператор») и пользователем (далее — «ты») сервиса «Студиум»: Telegram-бота @musicplaner_bot и мини-приложения в Telegram (далее — «Сервис»). Нажимая «Принять и продолжить», ты принимаешь Соглашение полностью (ст. 437, 438 ГК РФ). Если не согласен — не пользуйся Сервисом.\n\n## 2. Что даёт Сервис\nУчёт учеников и клиентов, расписание, оплаты и абонементы, напоминания, личный планер, ответы и записи через бота, резервные копии. Часть функций доступна по подписке (Pro, Max). Состав тарифов и цены — в боте по команде /тарифы.\n\n## 3. Подписка и оплата\n- Подписка даёт доступ к функциям тарифа на оплаченный срок. Срок, тариф и остаток дней видны в боте и в приложении.\n- Пробный период выдаёт Оператор по заявке; он бесплатный и заканчивается сам, без списаний.\n- Оплата — картой или по СБП через ЮKassa, звёздами Telegram (Telegram Stars) — кнопкой в боте /тарифы или в приложении, — либо кодом доступа. Звёзды списываются внутри Telegram; цены в звёздах указаны при выборе тарифа. Подписка включается автоматически после оплаты; чек самозанятого Оператор отправляет после оплаты. Подписка не продлевается сама без твоего отдельного согласия на автоплатёж.\n- Возврат: если Сервис не работал по вине Оператора или ты отказался от подписки, деньги за неиспользованные полные дни возвращаются по запросу в бот в течение 10 дней (Закон РФ «О защите прав потребителей»). Покупки звёздами возвращаются звёздами на твой счёт в Telegram.\n- Вопросы по оплате — команда /paysupport в боте или «Поддержка» в /тарифы. Служба поддержки Telegram по покупкам в этом боте помочь не сможет — по ним отвечает Оператор.\n\n## 4. Твои обязанности\n- Вносить данные учеников и клиентов законно: они должны знать, что ты ведёшь учёт, и согласиться на это (за несовершеннолетних — их родители). Готовый текст согласия есть в приложении: ⚙️ Настройки → Данные и копии → Документы и согласия.\n- Не использовать Сервис для рассылки спама, мошенничества и других незаконных действий.\n- Не передавать коды доступа другим людям и не пытаться обойти ограничения тарифов.\n\n## 5. Данные и копии\nТвои данные принадлежат тебе. Сервис делает резервные копии, но мы советуем время от времени сохранять копию у себя. Ответы бота и распознавание делает ИИ — проверяй, что он внёс, перед подтверждением.\n\n## 6. Ответственность\nСервис предоставляется «как есть». Оператор старается, чтобы он работал без перерывов, но не отвечает за сбои Telegram, Google, связи и устройства, а также за решения, принятые на основе данных из Сервиса. Ответственность Оператора ограничена суммой, которую ты заплатил за последний месяц подписки.\n\n## 7. Прекращение\nТы можешь в любой момент перестать пользоваться Сервисом и удалить данные (⚙️ Настройки → Данные и копии → Сбросить всё). Оператор может ограничить доступ при нарушении Соглашения, предупредив об этом в боте.\n\n## 8. Споры и изменения\nСпоры решаются переговорами: напиши в бот, ответ — в течение 10 рабочих дней. Если не договорились — по законодательству РФ. Новая редакция Соглашения публикуется в приложении; при существенных изменениях приложение попросит подтвердить её.\n\n## 9. Связь с Оператором\nTelegram-бот @musicplaner_bot или кнопка «Написать создателю» в приложении.\n"}};
 /* ================= 8.2: documents and consent (152-ФЗ) =================
    LEGAL_TXT (generated by assemble.py from build/legal/*.md) = { ru: {privacy, terms, consent, ads, students}, en: {…} }.
    First start (and after a new edition LEGAL_V) → full-screen window #lgl: short summary, links to the documents,
@@ -10420,7 +10853,7 @@ const A = {
     if (used.length >= Object.keys(LANGS).length && eggFound('poly')) setTimeout(() => toast(T.egg.poly, 4000), 2300);
   },
   setTheme: el => {
-    state.settings.theme = el.dataset.v;
+    state.settings.theme = el.dataset.v; delete state.settings.thBefore;
     el.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el));
     lastTheme = ''; applyTheme(); save(); haptic();
     if (el.dataset.v === 'dark' && eggFound('dark')) toast(T.egg.dark, 3500);
