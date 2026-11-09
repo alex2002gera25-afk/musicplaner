@@ -3549,7 +3549,7 @@ svg{display:block}
 .month b{font-size:16px;font-weight:600}
 .month button{width:42px;height:34px;border-radius:10px;font-size:24px;line-height:1;color:var(--link);text-align:center}
 .month button:active{background:var(--soft)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-width:0}
 .stat small{display:block;color:var(--hint);font-size:12px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stat b{display:block;font-size:min(17px,4.3vw);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -3644,7 +3644,7 @@ nav.tabs button.on{color:var(--link);font-weight:600}
 .profile h2{margin:0;font-family:var(--serif);font-size:26px;font-weight:400;letter-spacing:.5px;text-transform:uppercase;color:var(--ink,var(--accent))}
 .profile p{margin:5px 0 0;color:var(--hint);font-size:14px}
 .profile .plain{color:var(--link)}
-.acts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
 .acts a,.acts button{background:var(--card);border-radius:13px;padding:10px 4px 9px;text-align:center;color:var(--link);font-size:12px;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:4px}
 .acts .dis{opacity:.35;pointer-events:none}
 .note{background:var(--card);border-radius:14px;padding:12px 14px;margin:8px 0 4px;white-space:pre-wrap;font-size:14px;line-height:1.45}
@@ -3692,7 +3692,7 @@ nav.tabs{background:var(--card)}
 .kpi span{display:block;font-size:12px;color:var(--hint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .kpi.debt b{color:var(--danger)}
 .kpi:active,.wd:active,.cd:active{opacity:.75}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:7px}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:7px}
 .wd{display:flex;flex-direction:column;align-items:center;padding:6px 0 5px;border-radius:12px;text-align:center}
 .wd small{font-size:11px;color:var(--hint)}
 .wd b{font-size:17px;font-weight:600;margin:1px 0}
@@ -3700,8 +3700,8 @@ nav.tabs{background:var(--card)}
 .wd.today{background:var(--accent);color:var(--accent-text)}
 .wd.today small,.wd.today i{color:var(--accent-text)}
 .cal{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px 6px 6px;margin-bottom:10px}
-.cal-h{display:grid;grid-template-columns:repeat(7,1fr);font-size:11.5px;color:var(--hint);text-align:center;margin-bottom:4px}
-.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-h{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));font-size:11.5px;color:var(--hint);text-align:center;margin-bottom:4px}
+.cal-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
 .cd{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;font-size:15px;gap:4px;text-align:center}
 .cd em{display:flex;gap:2px;height:5px}
 .cd em i{width:5px;height:5px;border-radius:50%;background:var(--accent)}
@@ -3728,7 +3728,7 @@ nav.tabs{background:var(--card)}
 .about{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;text-align:center;cursor:pointer}
 .about .sig{font-family:var(--script);font-size:26px;color:var(--ink,var(--accent));line-height:1.15}
 .about p{margin:6px 0 0;font-size:13.5px;color:var(--hint);line-height:1.45}
-.langs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.langs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:14px}
 .langs button{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12.5px;text-align:center}
 .langs .fl{font-size:22px;line-height:1.15}
 .langs button.on{background:var(--accent);color:var(--accent-text);border-color:var(--accent);font-weight:600}
@@ -3899,7 +3899,7 @@ nav.tabs button:active{transform:scale(.9)}
 .snack button{border:0;border-radius:10px;padding:9px 14px;background:var(--card);color:var(--title);font-weight:600;font-size:14px;font-family:inherit}
 .rcrow .btn{margin-top:8px}
 /* --- appearance sheet --- */
-.lkpals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+.lkpals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:6px}
 .lkpal{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);font:inherit;font-size:13px}
 .lkpal i{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
 .lkpal.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
@@ -3917,7 +3917,7 @@ nav.tabs button:active{transform:scale(.9)}
 .lktabs{position:sticky;top:0;z-index:2;margin:0 0 12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .lktabs::-webkit-scrollbar{display:none}
 .lktabs button{flex:none}
-.lkthemes,.lkbgs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lkthemes,.lkbgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .lkth,.lkbg{display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:5px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);font:inherit;font-size:12.5px;text-align:center}
 .lkth i,.lkbg i{display:grid;place-items:center;height:64px;border-radius:10px;font-style:normal;font-size:22px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);overflow:hidden}
 .lkth em{display:flex;align-items:center;gap:6px;padding:6px 9px;font-style:normal;box-shadow:0 2px 6px rgba(0,0,0,.12)}
@@ -4059,7 +4059,7 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .hbtop{display:flex;align-items:center;gap:10px;cursor:pointer}.hbe{font-size:30px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--hcb)}
 .hbn{flex:1;min-width:0}.hbn b{display:block;font-size:16px}.hbn small{opacity:.7;font-size:12px}.hbpct{font-weight:700;color:var(--hc);font-size:14px;white-space:nowrap}
 .hbbar{height:6px;border-radius:4px;background:var(--line);overflow:hidden;margin:8px 0}.hbbar i{display:block;height:100%;background:var(--hc,var(--accent));border-radius:4px;transition:width .3s}
-.hbgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.hbgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
 .hbc{position:relative;aspect-ratio:1;border:0;border-radius:12px;background:transparent;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .hbc span{font-size:22px;filter:grayscale(1);opacity:.28;transition:all .2s;line-height:1}
 .hbc i{position:absolute;bottom:1px;right:4px;font-size:9px;font-style:normal;opacity:.45}
@@ -4069,7 +4069,7 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .hbx{aspect-ratio:1}
 .hbwd{font-size:10px;text-align:center;opacity:.45;font-weight:600;text-transform:lowercase}
 .hbprev{display:flex;justify-content:center;margin:0 0 12px}.hbprev span{font-size:44px;width:76px;height:76px;border-radius:22px;background:var(--hcb);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px var(--hc)}
-.lfemo{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:0 0 6px}.lfemo button{font-size:22px;aspect-ratio:1;border:0;border-radius:12px;background:var(--card);cursor:pointer}.lfemo button.on{box-shadow:inset 0 0 0 2px var(--accent);background:var(--soft)}
+.lfemo{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin:0 0 6px}.lfemo button{font-size:22px;aspect-ratio:1;border:0;border-radius:12px;background:var(--card);cursor:pointer}.lfemo button.on{box-shadow:inset 0 0 0 2px var(--accent);background:var(--soft)}
 .lfcol{display:flex;gap:10px;flex-wrap:wrap}.lfcol button{width:34px;height:34px;border-radius:50%;border:3px solid transparent;cursor:pointer}.lfcol button.on{border-color:var(--text)}
 .lfpre{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}.lfpre button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px;font-size:14px;text-align:left;color:var(--text);cursor:pointer}.lfpre span{font-size:22px}
 .fnsum{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}.fnsum div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}.fnsum small{display:block;font-size:12px;opacity:.7}.fnsum b{font-size:17px}.fnsum .big{grid-column:1/-1}.fnsum .big b{font-size:24px}
@@ -4081,7 +4081,7 @@ nav.tabs button{flex:1 0 auto;min-width:58px;scroll-snap-align:center}
 .tag.ok{font-size:12px;color:var(--ok);white-space:nowrap}
 .lsi .lsb{font-size:20px;margin-right:10px}.lsi.done .name{text-decoration:line-through;opacity:.5}
 .dymood{display:flex;gap:8px;justify-content:space-between;margin:6px 0 4px}.dymood button{flex:1;font-size:28px;border:0;border-radius:14px;padding:8px 0;background:var(--card);filter:grayscale(.8);opacity:.6;cursor:pointer}.dymood button.on{filter:none;opacity:1;box-shadow:inset 0 0 0 2px var(--accent)}
-.dyrow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.dym{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:var(--card);cursor:pointer}.dym span{font-size:18px}.dym i{position:absolute;bottom:1px;right:3px;font-size:9px;font-style:normal;opacity:.45}.dym.sel{box-shadow:inset 0 0 0 2px var(--accent)}.dym.fut{opacity:.3}
+.dyrow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.dym{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:var(--card);cursor:pointer}.dym span{font-size:18px}.dym i{position:absolute;bottom:1px;right:3px;font-size:9px;font-style:normal;opacity:.45}.dym.sel{box-shadow:inset 0 0 0 2px var(--accent)}.dym.fut{opacity:.3}
 .tdcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin:10px 0}.tdhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}.tdhead small{opacity:.7;font-size:12px}
 .tdh{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}.tdc{width:44px;height:44px;aspect-ratio:auto}.tdc span{font-size:24px}
 .tdl{font-size:14px;padding:6px 0;border-top:1px solid var(--line);cursor:pointer}
@@ -4150,8 +4150,8 @@ nav.tabs{padding-bottom:calc(6px + var(--sab))}
 @media (min-width:700px){
   :root{--col:720px}
   .wrap{max-width:var(--col);padding-left:16px;padding-right:16px}
-  .kpis{grid-template-columns:repeat(4,1fr)}
-  .tools{grid-template-columns:repeat(3,1fr)}
+  .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .tools{grid-template-columns:repeat(3,minmax(0,1fr))}
   .sheet{width:100%;max-width:640px;margin:0 auto;border-radius:22px 22px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
   nav.tabs{left:0;right:0;margin:0 auto;width:min(var(--col),calc(100% - 24px));bottom:calc(10px + var(--sab));padding:6px;border:1px solid var(--line);border-radius:22px;box-shadow:0 8px 28px rgba(0,0,0,.10)}
   nav.tabs button{flex:1 1 0}
@@ -4164,8 +4164,8 @@ nav.tabs{padding-bottom:calc(6px + var(--sab))}
 }
 @media (min-width:1100px){
   :root{--col:860px}
-  .tools{grid-template-columns:repeat(4,1fr)}
-  .setgrid,.fabgrid{grid-template-columns:repeat(3,1fr)}
+  .tools{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .setgrid,.fabgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 /* plenty of room: the two «+» move outside the column, next to the content */
 @media (min-width:1220px){
@@ -4285,6 +4285,12 @@ body.simple .kpi{padding-bottom:12px}
 body.simple .sec{margin-top:20px}
 #wp.still u{animation-play-state:paused}
 #pvbar{position:fixed;left:12px;right:12px;top:calc(8px + var(--sat,0px));z-index:60;padding:9px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line);box-shadow:0 6px 20px rgba(0,0,0,.15);font-size:13px;color:var(--text);text-align:center}
+
+/* 8.5.3: big text sizes (120–140 %) and long one-word names must not push the layout off-screen */
+.cal-g .cd.empty{padding:0;margin:0;background:none;border-radius:0}
+.cal-g>*,.kpis>*,.tools>*,.setgrid>*,.fabgrid>*{min-width:0}
+h1,h2,h3,.card b,.row b,.hello,.stu-name,.top b{overflow-wrap:anywhere}
+.legend{flex-wrap:wrap;row-gap:4px}
 </style>
 </head>
 <body>
@@ -7344,6 +7350,22 @@ const cs = {
   del: async keys => { for (let i = 0; i < keys.length; i += 50) await csCall('removeItems', keys.slice(i, i + 50)); }
 };
 const toAscii = s => s.replace(/[\u007f-￿]/g, c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0'));
+/* 8.5.3: packed parts. Telegram keeps max 1024 keys × 4 KB per account; Cyrillic stored as \uXXXX takes ~6× room,
+   so a teacher with ~7000+ lessons ran out of keys. A part can now be stored deflate-compressed (pointer «g:n:z»).
+   This version READS packed parts; writing them is switched on in a later release (so a rollback to 8.5.3 still reads everything). */
+const ZW_ON = () => !!window.__zWrite || (window.__csKeys || 0) > 850 || (typeof fullTold !== 'undefined' && fullTold);   // packing only when the cloud is (nearly) full — otherwise nothing changes
+const zOk = () => typeof CompressionStream === 'function' && typeof DecompressionStream === 'function';
+async function zPack(str){
+  const buf = await new Response(new Blob([str]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer();
+  const u = new Uint8Array(buf); let bin = ''; for (let i = 0; i < u.length; i += 8192) bin += String.fromCharCode.apply(null, u.subarray(i, i + 8192));
+  return btoa(bin);
+}
+async function zUnpack(b64){
+  const bin = atob(b64), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+  return await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+}
+const ptrParse = v => { const [g, n, z] = String(v || '').split(':'); return g && /^\d+$/.test(n || '') ? { g, n: +n, z: z === 'z' } : null; };
+async function rawOf(b, p, cv){ const r = chunkKeys(b, p).map(k => cv[k] || '').join(''); if (!p.z) return r; try { return await zUnpack(r); } catch (e) { return ''; } }
 const monthOf = l => 'M' + String(l.date).slice(0, 7).replace(/[^0-9-]/g, '');
 const chunkKeys = (b, p) => Array.from({ length: p.n }, (_, i) => `${b}_${p.g}_${i}`);
 const BKEYS = { S: ['settings', 'services', 'exercises', 'ach'], P: ['students'], K: ['packages', 'events', 'expenses', 'certs'], Q: ['items', 'people', 'groups', 'rep'], W: ['comps', 'artist', 'wait'], H: ['habits', 'diary'], F: ['fin', 'bills', 'budget', 'saves'], L: ['wish', 'lists', 'goals'] };
@@ -7376,10 +7398,11 @@ async function cloudLoad(){
   const pk = keys.filter(k => k.startsWith('p_'));
   const pv = pk.length ? await cs.get(pk) : {};
   const P = {};
-  pk.forEach(k => { const [g, n] = String(pv[k] || '').split(':'); if (g && /^\d+$/.test(n || '')) P[k.slice(2)] = { g, n: +n }; });
+  pk.forEach(k => { const q = ptrParse(pv[k]); if (q) P[k.slice(2)] = q; });
   const ck = []; for (const b in P) ck.push(...chunkKeys(b, P[b]));
   const cv = ck.length ? await cs.get(ck) : {};
-  const raw = {}; for (const b in P) raw[b] = chunkKeys(b, P[b]).map(k => cv[k] || '').join('');
+  const raw = {}; for (const b in P) raw[b] = await rawOf(b, P[b], cv);
+  window.__csKeys = keys.length;
   const mirror = readMirror();
   const d = { settings: null, students: [], lessons: [] };
   let bad = 0;
@@ -7415,18 +7438,74 @@ async function gc(keys, P){
   } catch (e) {}
 }
 
+/* 8.5.3 two devices open at once (phone + computer): before writing a part, check whether another device wrote it
+   since we read it. If so, merge three ways (what we read = base, ours, theirs) by id: new records from both stay,
+   a record changed on one side takes that change, a deletion on one side is kept; a record changed on both — ours wins. */
+const jeq_ = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const idList_ = a => Array.isArray(a) && a.every(x => x && typeof x === 'object' && x.id != null);
+function mergeVal(base, ours, theirs, d){
+  if (theirs === undefined || jeq_(theirs, base)) return ours;
+  if (jeq_(ours, base)) return theirs;
+  if (idList_(ours) && idList_(theirs)) {
+    const bm = new Map((idList_(base) ? base : []).map(x => [String(x.id), x])), tm = new Map(theirs.map(x => [String(x.id), x])), om = new Set(ours.map(x => String(x.id))), out = [];
+    for (const o of ours) { const k = String(o.id), b = bm.get(k), t = tm.get(k);
+      if (!t) { if (b && jeq_(o, b)) continue; out.push(o); continue; }   // removed there, untouched here → removed
+      out.push(b && jeq_(o, b) ? t : o); }
+    for (const t of theirs) { const k = String(t.id); if (!om.has(k) && !bm.has(k)) out.push(t); }   // new there (not deleted here)
+    return out;
+  }
+  const obj = v => v && typeof v === 'object' && !Array.isArray(v);
+  if (d < 2 && obj(ours) && obj(theirs)) {
+    const b = obj(base) ? base : {}, r = {};
+    for (const k of new Set([...Object.keys(ours), ...Object.keys(theirs)])) {
+      if (!(k in ours)) { if (!(k in b)) r[k] = theirs[k]; continue; }
+      if (!(k in theirs) && (k in b) && jeq_(ours[k], b[k])) continue;
+      r[k] = k in theirs ? mergeVal(b[k], ours[k], theirs[k], d + 1) : ours[k];
+    }
+    return r;
+  }
+  return ours;
+}
+async function mergeOthers(names){
+  const cur = await cs.get(names.map(b => 'p_' + b)), P2 = {};
+  names.forEach(b => { const q = ptrParse(cur['p_' + b]); if (q && (!ptrs[b] || ptrs[b].g !== q.g)) P2[b] = q; });
+  const list = Object.keys(P2); if (!list.length) return 0;
+  const ck = []; list.forEach(b => ck.push(...chunkKeys(b, P2[b])));
+  const cv = await cs.get(ck);
+  let n = 0;
+  for (const b of list) {
+    const raw = await rawOf(b, P2[b], cv);
+    let v; try { v = JSON.parse(raw); } catch (e) { continue; }   // half-written by the other device → ours stays
+    const isM = b.charAt(0) === 'M';
+    if (isM ? !Array.isArray(v) : !(v && typeof v === 'object')) continue;
+    const d = { settings: null, students: [], lessons: [] };
+    if (isM) d.lessons = v; else for (const k in v) if (k !== 'v') d[k] = v[k];
+    const th = normalize(d);
+    let base = null; try { base = saved[b] ? JSON.parse(saved[b]) : null; } catch (e) {}
+    const ours = JSON.parse(buildBuckets(state)[b] || (isM ? '[]' : '{}'));
+    if (isM) { const m = mergeVal(base || [], ours, th.lessons, 0); state.lessons = state.lessons.filter(l => monthOf(l) !== b).concat(m); }
+    else (BKEYS[b] || []).forEach(k => { state[k] = mergeVal(base ? base[k] : undefined, ours[k], th[k], 0); });
+    ptrs[b] = P2[b]; saved[b] = raw; n++;
+  }
+  return n;
+}
+let mergedN = 0;
 async function flushCloud(){
-  const B = buildBuckets(state);
+  let B = buildBuckets(state);
+  const ch = Object.keys(B).filter(b => B[b] !== saved[b]);
+  if (ch.length) { let m = 0; try { m = await mergeOthers(ch); } catch (e) { throw e; } if (m) { mergedN += m; B = buildBuckets(state); } }
   const names = Object.keys(B).sort(bucketOrder).reverse();
   for (const b of names) {
-    if (B[b] === saved[b]) continue;
+    if (B[b] === saved[b] && !(ZW_ON() && zOk() && ptrs[b] && !ptrs[b].z && ptrs[b].n > 2)) continue;   // cloud full → big unpacked parts get packed too
     const prev = ptrs[b];
     let t = Date.now(); if (prev) t = Math.max(t, (parseInt(prev.g, 36) || 0) + 1);
     const g = t.toString(36), chunks = [];
-    for (let i = 0; i < B[b].length; i += CHUNK) chunks.push(B[b].slice(i, i + CHUNK));
+    let data = B[b], z = false;
+    if (ZW_ON() && zOk() && data.length > CHUNK) try { data = await zPack(data); z = true; } catch (e) { data = B[b]; }
+    for (let i = 0; i < data.length; i += CHUNK) chunks.push(data.slice(i, i + CHUNK));
     for (let i = 0; i < chunks.length; i++) await cs.set(`${b}_${g}_${i}`, chunks[i]);
-    await cs.set('p_' + b, `${g}:${chunks.length}`);
-    ptrs[b] = { g, n: chunks.length }; saved[b] = B[b];
+    await cs.set('p_' + b, `${g}:${chunks.length}${z ? ':z' : ''}`);
+    ptrs[b] = { g, n: chunks.length, z }; saved[b] = B[b];
     if (prev) cs.del(chunkKeys(b, prev)).catch(() => {});
   }
   for (const b of Object.keys(saved)) {
@@ -7463,6 +7542,20 @@ function save(){
   setSync('busy'); closingGuard(true);
   clearTimeout(saveTimer); saveTimer = setTimeout(flush, 500);
 }
+/* the Telegram cloud of this account is full (1024 keys): tell the user once per session, report to the owner, tidy up */
+let fullTold = false, fullGc = 0;
+function cloudFull(){
+  if (Date.now() - fullGc < 20000) return; fullGc = Date.now();
+  if (!fullTold) { fullTold = true;
+  safe(() => toast(L === 'ru' ? '🗜 Облако Telegram заполнилось — сжимаю данные, чтобы всё влезло. Это до минуты, ничего не закрывай.' : '🗜 Telegram cloud is full — compressing your data so it fits. Up to a minute, keep the app open.', 6000));
+  safe(() => logErr(new Error('cloud full ' + (window.__csKeys || '?')), 'cloud')); }
+  safe(() => cs.keys().then(async k => {
+    /* make room: every chunk that is not part of the current data (left over from writes that failed) goes now */
+    const del = k.filter(x => { if (x.startsWith('p_')) return false; const [b, g, i] = x.split('_'); const q = ptrs[b]; return !(q && q.g === g && +i < q.n); });
+    if (del.length) await cs.del(del);
+    window.__csKeys = k.length - del.length; setTimeout(flush, 1500);
+  }).catch(() => {}));
+}
 async function flush(){
   clearTimeout(saveTimer); saveTimer = null;
   if (!useCloud || !cloudReady) return;
@@ -7470,8 +7563,10 @@ async function flush(){
   if (!emptyGuard()) return;
   saving = true;
   let ok = true; const rev0 = rev;
-  try { await flushCloud(); } catch (e) { ok = false; }
+  mergedN = 0;
+  try { await flushCloud(); } catch (e) { ok = false; if (/KEYS_TOO_MANY/.test(String(e && e.message || e)) || (window.__csKeys || 0) >= 1000) cloudFull(); }
   if (ok && rev === rev0) { if (mirrorTimer) writeMirror(); try { localStorage.removeItem(DIRTY_KEY); } catch (e) {} }
+  if (mergedN) { mergedN = 0; rev++; lsSet(JSON.stringify(state)); if (!stack.length) safe(render); }   // changes from the other device are now on screen too
   saving = false;
   if (again) { again = false; return flush(); }
   if (ok) { setSync('ok'); closingGuard(false); scheduleBotSync(); if (typeof opsFlushed === 'function') opsFlushed(); }
@@ -9525,14 +9620,20 @@ function seasonFx(){
   if (!kind || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || $('season')) return;
   const cv = document.createElement('canvas'); cv.id = 'season'; cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:4;opacity:.75';
   document.body.appendChild(cv);
-  const x = cv.getContext('2d'), P = Array.from({ length: 28 }, () => ({ x: Math.random(), y: Math.random(), s: 10 + Math.random() * 12, v: .0006 + Math.random() * .0012, w: Math.random() * 6 }));
+  /* 8.5.3 (agent 9: snow kept the phone busy at 60 fps): sprites drawn once, canvas resized only on resize,
+     ~24 fps, paused under open windows / while Telegram is in the background, and it ends after 30 s */
+  const x = cv.getContext('2d'), dpr = Math.min(2, window.devicePixelRatio || 1), P = Array.from({ length: 22 }, () => ({ x: Math.random(), y: Math.random(), s: 10 + Math.random() * 12, v: .0009 + Math.random() * .0018, w: Math.random() * 6 }));
+  const spr = document.createElement('canvas'); spr.width = spr.height = 48; { const c = spr.getContext('2d'); c.font = '40px serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#C9A227'; c.fillText(kind, 24, 26); }
+  let W = 0, H = 0; const fit = () => { W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  fit(); addEventListener('resize', fit);
+  const t0 = performance.now(); let last = 0;
   (function f(t){
-    const W = cv.width = innerWidth, H = cv.height = innerHeight; x.clearRect(0, 0, W, H);
-    x.font = '14px serif';
-    P.forEach(p => { p.y += p.v; if (p.y > 1.05) { p.y = -0.05; p.x = Math.random(); }
-      x.globalAlpha = .55; x.font = `${p.s}px serif`; x.fillStyle = '#C9A227'; x.fillText(kind, p.x * W + Math.sin(t / 900 + p.w) * 14, p.y * H); });
-    if (!document.hidden) requestAnimationFrame(f); else setTimeout(() => requestAnimationFrame(f), 1000);
-  })(0);
+    if (t - t0 > 30000) { cv.remove(); removeEventListener('resize', fit); return; }
+    if (document.hidden || window.__tgAway || (typeof stack !== 'undefined' && stack.length)) { x.clearRect(0, 0, W, H); last = t; return setTimeout(() => requestAnimationFrame(f), 800); }
+    if (t - last >= 40) { last = t; x.clearRect(0, 0, W, H); x.globalAlpha = .55;
+      P.forEach(p => { p.y += p.v; if (p.y > 1.05) { p.y = -0.05; p.x = Math.random(); } x.drawImage(spr, p.x * W + Math.sin(t / 900 + p.w) * 14, p.y * H, p.s, p.s); }); }
+    requestAnimationFrame(f);
+  })(t0);
 }
 
 /* ---------- prize bank (for Sanya, behind a PIN) ---------- */
@@ -9685,7 +9786,8 @@ const AX = {
   stuRemSw: el => { state.settings.stuRem = state.settings.stuRem ? 0 : 1; el.classList.toggle('on', !!state.settings.stuRem); save(); scheduleBotSync(); haptic(); }
 };
 let qrP = null;
-const loadQr = () => qrP || (qrP = new Promise((res, rej) => { if (window.qrcode) return res(); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); }));
+/* 8.5.3: the QR library may hang (CDN slow/blocked) — give up after 4 s, open the window without the picture, retry next time */
+const loadQr = () => qrP || (qrP = new Promise((res, rej) => { if (window.qrcode) return res(); const s = document.createElement('script'); const t = setTimeout(() => { qrP = null; rej(new Error('qr timeout')); }, 4000); s.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js'; s.onload = () => { clearTimeout(t); res(); }; s.onerror = () => { clearTimeout(t); qrP = null; s.remove(); rej(new Error('qr load')); }; document.head.appendChild(s); }));
 
 /* ---------- settings block & student reminders ---------- */
 function bookSettings(){
@@ -9796,9 +9898,11 @@ async function pollOps(){
 /* Checking the bot: at once on opening, then every 4 s while you are active, slowing to 15 s and 45 s
    when nobody touches the app (saves battery and traffic on a Mac left open). Any tap speeds it up again. */
 let opsActive = Date.now(), opsNext = 0;
-const opsGap = () => { const idle = Date.now() - opsActive; return idle < 180000 ? 4000 : idle < 900000 ? 15000 : 45000; };
+/* 8.5.3 (agent 9): after 30 min without a touch, or while Telegram is minimised, the checks stop; a tap / return resumes them */
+const opsGap = () => { if (window.__tgAway) return 864e5; const idle = Date.now() - opsActive; return idle < 120000 ? 4000 : idle < 600000 ? 15000 : idle < 1800000 ? 60000 : 864e5; };
+safe(() => { if (tg && tg.onEvent) { tg.onEvent('deactivated', () => { window.__tgAway = true; }); tg.onEvent('activated', () => { window.__tgAway = false; opsActive = Date.now(); opsNext = Date.now() + 4000; setTimeout(pollOps, 300); }); } });
 setInterval(() => { if (Date.now() >= opsNext) { opsNext = Date.now() + opsGap() - 900; pollOps(); } }, 1000);
-const opsWake = () => { const was = Date.now() - opsActive; opsActive = Date.now(); if (was > 15000) { opsNext = 0; } };
+const opsWake = () => { const was = Date.now() - opsActive; opsActive = Date.now(); window.__tgAway = false; if (was > 15000) { opsNext = 0; } };
 ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, opsWake, { passive: true }));
 document.addEventListener('visibilitychange', () => { if (!document.hidden) { opsActive = Date.now(); opsNext = Date.now() + 4000; setTimeout(pollOps, 300); } });
 
@@ -9966,8 +10070,9 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 52;
+const APP_VER = 53;
 const CHANGES = [
+  {"v": 53, "name": "8.5.3", "date": "2026-11-09", "ru": {"better": ["📱💻 Можно работать с телефона и компьютера одновременно: изменения с обоих устройств объединяются, ничего не теряется", "🔋 Приложение меньше тратит батарею и интернет, когда открыто и им никто не пользуется", "🔠 Крупный шрифт (до 140%) и длинные имена больше не вылезают за край экрана", "📲 QR-код для оплаты открывается, даже если интернет медленный"]}, "en": {"better": ["📱💻 Work from your phone and computer at the same time: changes from both are merged, nothing is lost", "🔋 Uses less battery and data while open and idle", "🔠 Large text (up to 140%) and long names no longer go off the screen", "📲 The payment QR opens even on a slow connection"]}},
   {"v": 52, "name": "8.5.2", "date": "2026-11-09", "ru": {"better": ["🛡 Изменения не теряются, даже если закрыть приложение сразу после них — при следующем открытии они дошлются сами", "🚀 Открывается быстрее и не зависает, если медленно отвечает Telegram или его облако: сразу показываю копию с телефона", "↩️ «Вернуть» больше не может стереть то, что ты сделал после удаления", "🎟 Выключение абонемента в уроке сохраняет цену и оплату; налог в «Деньгах» совпадает с «Налогом и чеками»", "📸 Фото ученика: больше не путается при медленной связи и догружается само, если не отправилось сразу", "🐞 Мелкие исправления: двойные нажатия, «удалить всю группу», быстрее «Отчёт», запись клиентов при медленном сервере"]}, "en": {"better": ["🛡 Changes are kept even if you close the app right after them", "🚀 Opens faster when Telegram or its cloud is slow", "↩️ Undo can no longer erase work done after the deletion", "🐞 Fixes: package switch keeps price, tax figures match, double taps, photos, group delete, faster report"]}},
   {"v": 51, "name": "8.5.1", "date": "2026-11-09", "ru": {"better": ["🚀 Приложение открывается быстрее и больше не зависает на загрузке, если сервис шрифтов отвечает медленно"]}, "en": {"better": ["🚀 The app opens faster and no longer hangs on loading when the font service is slow"]}},
   {"v": 50, "name": "8.5", "date": "2026-11-10", "big": true, "ru": {"add": ["✨ Простой режим: ⚙️ Настройки → «Простой режим». Все функции на месте, но меньше текста: внизу 4 вкладки и «Ещё», на главной — только важное (остальное в «Ещё на главной»), одна кнопка «＋ Добавить», без подсказок и всплывашек. Выключил — всё как было", "🧾 Налог и чеки для самозанятых: вкладка «Деньги» → «Налог и чеки». Все оплаты месяца списком — отмечай пробитые чеки, текст для чека копируется в один тап, кнопка «Мой налог». Налог 4 % / 6 % (и 3 % / 4 % с вычетом), срок уплаты и годовой лимит 2,4 млн. В начале месяца главная напомнит о непробитых чеках", "🏢 У ученика можно отметить «платит организация или ИП» — налог посчитается по 6 %", "📄 Отчёт для ученика или родителя: в карточке ученика — занятия, пропуски, оплаты, долг, абонемент и домашка за месяц или 3 месяца. Можно поправить и отправить в Telegram", "↩️ Удалил по ошибке — нажми «Вернуть»: работает для уроков, учеников, абонементов и расходов", "✅ «Все прошли»: все прошедшие неотмеченные уроки отмечаются одним нажатием (и тоже можно вернуть)", "📸 Фото ученика можно выбрать сразу при добавлении или в «Изменить»"], "better": ["🧭 Удобнее: все вкладки внизу помещаются на экран, кнопка «?» (справка) в шапке, «＋ Новый ученик» на вкладке «Ученики», «Ждут оплаты» сразу показывает список долгов, крупнее кнопки оплаты и отметки урока"]}, "en": {"add": ["✨ Simple mode: ⚙️ Settings → «Simple mode». Every feature stays, less text: 4 tabs + «More», only the essentials on Home, one «＋ Add» button, no hints or pop-ups", "🧾 Tax & receipts for the self-employed: Money → «Tax & receipts» — every payment with a receipt tick, receipt text in one tap, tax, due date and yearly limit", "📄 Report for a student or parent: lessons, misses, payments, debt, package, homework", "↩️ Undo after deleting a lesson, student, package or expense", "✅ «All took place»: mark every past lesson at once", "📸 Student photo right in the add/edit form"], "better": ["🧭 Easier: all bottom tabs fit the screen, «?» help button, «＋ New student» on the Students tab, «Awaiting payment» jumps to the debts list, bigger pay and mark buttons"]}},
@@ -11067,7 +11172,7 @@ function lookSheet(){
     const mini = (bgt, extra) => { const c = { ink: dark ? '#FFFFFF' : mix(hexOk(L0.accent) ? L0.accent : p.l[2], '#000000', .45), acc: hexOk(L0.accent) ? L0.accent : (dark ? p.d[0] : p.l[2]), bg: dark ? '#141012' : (hexOk(L0.bg) ? L0.bg : p.l[0]), dark, k: (+L0.bgi || 0) / 100 };
       return bgt === 'live' ? `background:${liveSky(liveNow(L0), c.k).css}` : bgt === 'photo' ? (imgUrlNow('wp', L0.wp) ? `background:url('${imgUrlNow('wp', L0.wp)}') center/cover` : `background:${c.bg}`) : `background:${bgCss(bgt, c)}${extra || ''}`; };
     const prev = `<div class="lkprev"><div class="hero" style="margin:0"><small>${esc(X.preview)}</small><h1 style="font-family:var(--serif);font-size:24px;font-weight:400;margin:4px 0 2px;text-transform:uppercase">${esc(T.greet ? T.greet[1] || T.greet[0] : '')}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
-      <div class="lkmini" style="${mini(L0.bgt)}"><div class="lkc"><b>${esc(X.sample)}</b><span>${esc(X.sampleText)}</span></div><div class="lkc lkc2"><span class="ava" style="width:30px;height:30px;font-size:13px;background:var(--accent);color:var(--accent-text)">МС</span><span>Маша Соколова · 15:00</span></div></div></div>`;
+      <div class="lkmini" style="${mini(L0.bgt)}"><div class="lkc"><b>${esc(X.sample)}</b><span>${esc(X.sampleText)}</span></div><div class="lkc lkc2"><span class="ava" style="width:30px;height:30px;font-size:13px;background:var(--accent);color:var(--accent-text)">${L === 'ru' ? 'МС' : 'MS'}</span><span>${L === 'ru' ? 'Маша Соколова' : 'Mary Smith'} · 15:00</span></div></div></div>`;
     let body = '';
     if (LKTAB === 'themes') {
       body = `<div class="hintline" style="margin:0 8px 10px;text-align:left">${esc(Y.themesHint)}</div><div class="lkthemes">${LOOK_PRESETS.map(([id, o]) => {
@@ -12863,6 +12968,7 @@ const HELP_DOC = [
     'Самое главное: всё, что ты напишешь боту или скажешь голосовым, он сам внесёт в приложение — и уроки, и деньги, и личное (расходы, покупки, привычки, вишлист).',
     'Шестерёнка ⚙️ справа вверху — Настройки, разделены на 6 групп: цены и абонементы, работа и запись, уведомления, под себя, оформление, данные. Там же эта справка.',
     'Внизу две кнопки «+». Справа «＋ Работа» — всё про учеников и заработок: урок, ученик, абонемент, выступление, расход, сертификат, лист ожидания, концерт учеников. Слева «＋ Дела» — дела и личное: дело, заметка, репетиция, пост, день рождения, привычка, личная трата, покупки, желание, цель, дневник. Нажми — откроется меню, выбери, что добавить.',
+    'Можно пользоваться с нескольких устройств сразу (телефон и компьютер): изменения с обоих объединяются при сохранении. Если одну и ту же запись поменять на двух устройствах одновременно, останется правка того, кто сохранил последним.',
     'Всё сохраняется само: под заголовком есть строка «сохранено в Telegram». Если она красная — нет связи, данные сохранятся, когда интернет появится.' ] },
   { id: 'legal', ic: '📄', t: 'Документы, согласия и твои данные', p: [
     'При первом входе приложение показывает короткое окно: как хранятся данные, ссылки на Политику обработки данных, Пользовательское соглашение и Согласие на обработку данных. Продолжить можно, отметив две обязательные галочки; новости и предложения — по желанию.',
@@ -14135,6 +14241,7 @@ function stuRepSheet(id){
 /* ---------- undo for deletions ---------- */
 let UNDO = null;
 const UNDO_KEYS = ['students', 'lessons', 'packages', 'events', 'expenses', 'certs'];
+const undoNow = () => { try { return JSON.stringify(UNDO_KEYS.reduce((o, x) => (o[x] = state[x], o), {})); } catch (e) { return ''; } };
 function undoWrap(A){
   const DEL = { deleteLesson: 'delL', deleteStudent: 'delS', deletePackage: 'delP', deleteExpense: 'delE' };
   Object.keys(DEL).forEach(k => { const orig = A[k]; if (typeof orig !== 'function') return;
@@ -14144,7 +14251,7 @@ function undoWrap(A){
       const r = await orig.apply(this, arguments);
       const n1 = UNDO_KEYS.reduce((a, x) => a + ((state[x] || []).length || 0), 0);
       if (k === 'deleteStudent') { const ids = new Set(state.students.map(s => s.id)); setTimeout(() => { try { JSON.parse(snap).students.forEach(s => { if (!ids.has(s.id) && !stu(s.id)) imgDb.del('st_' + s.id).catch(() => {}); }); } catch (e) {} }, 30000); }   // the photo of a deleted student leaves the phone too (after the undo window)
-      if (snap && n1 < n0) { UNDO = { snap, at: Date.now(), rev }; setTimeout(() => snack(mx()[DEL[k]], mx().undo, 'undoDel', {}), k === 'deleteLesson' ? 400 : 50); }
+      if (snap && n1 < n0) { UNDO = { snap, at: Date.now(), rev, after: undoNow() }; setTimeout(() => snack(mx()[DEL[k]], mx().undo, 'undoDel', {}), k === 'deleteLesson' ? 400 : 50); }
       return r;
     }; });
   /* «Mark all» on Home + photo / company flag in the student form */
@@ -14174,7 +14281,7 @@ const MXA = {
   undoDel: () => {
     if (!UNDO || Date.now() - UNDO.at > 20000) return hideSnack();
     /* only the very last change can be taken back: if anything was saved after it, restoring the snapshot would wipe that work */
-    if (rev !== UNDO.rev) { UNDO = null; hideSnack(); return toast(mx().undoLate, 3000); }
+    if (rev !== UNDO.rev && undoNow() !== UNDO.after) { UNDO = null; hideSnack(); return toast(mx().undoLate, 3000); }   // only a real later change of these records blocks undo (an achievement or setting save doesn't)
     try { const o = JSON.parse(UNDO.snap); UNDO_KEYS.forEach(k => { if (o[k]) state[k] = o[k]; }); } catch (e) { return; }
     UNDO = null; hideSnack();
     state.students.forEach(s => safe(() => applyPackages(s.id)));
@@ -14187,7 +14294,7 @@ const MXA = {
     const sids = new Set(); list.forEach(l => { l.st = 'done'; sids.add(l.sid); });
     sids.forEach(sid => safe(() => applyPackages(sid)));
     save(); hapticOk(); render();
-    if (snap) { UNDO = { snap, at: Date.now(), rev }; snack(mx().allDoneOk(list.length), mx().undo, 'undoDel', {}); }
+    if (snap) { UNDO = { snap, at: Date.now(), rev, after: undoNow() }; snack(mx().allDoneOk(list.length), mx().undo, 'undoDel', {}); }
   },
   stuFormPhoto: () => pickFile(async f => {
     const form = $('s_name'); if (!form) return;   // the form was closed meanwhile
@@ -14926,6 +15033,7 @@ async function start(){
     }
     cloudReady = true; lastRefresh = Date.now();
     applyLoaded(r);
+    safe(() => { const k = window.__csKeys || 0, day = new Date().toISOString().slice(0, 10); if (k > 800 && lsGetK('vs_ckw') !== day) { lsSetK('vs_ckw', day); logErr(new Error('cloud keys ' + k + '/1024'), 'cloud'); } });
   } else {
     const m = readMirror();
     /* opened from Telegram but its bridge did not start → never show the demo instead of the user's data */
