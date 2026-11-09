@@ -776,6 +776,21 @@ nav.tabs button{flex:1 1 0;min-width:50px}
 .row .mini[data-act=mark]{min-height:36px;padding-left:12px;padding-right:12px}
 .topbtns{display:flex;gap:8px;align-items:center}
 .qbtn{font-weight:700;font-size:18px;color:var(--hint)}
+/* --- 8.5: «Простой режим» (body.simple) — same features, less text --- */
+.simrow .field>span{display:flex;flex-direction:column;gap:2px}
+.simrow small{color:var(--hint);font-size:12.5px}
+.simmore{margin-top:18px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.simhead{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border:0;background:transparent;color:var(--text);font:inherit;text-align:left;min-height:52px}
+.simhead span:first-child{display:flex;flex-direction:column;gap:2px}
+.simhead small{color:var(--hint);font-size:12.5px}
+.simhead .chev{color:var(--hint);font-size:14px}
+.simbody{padding:0 12px 12px}
+.simtools .tool{min-height:84px}
+body.simple .hintline:not(.keep),body.simple .kpi span,body.simple .hello small,body.simple .hello .sign,body.simple .madeby,
+body.simple .tool small,body.simple .tourcard small,body.simple .about p,body.simple .setgrid small,body.simple .fabgrid small{display:none!important}
+body.simple .simmore .tool small{display:none!important}
+body.simple .kpi{padding-bottom:12px}
+body.simple .sec{margin-top:20px}
 </style>
 </head>
 <body>
@@ -790,6 +805,7 @@ nav.tabs button{flex:1 1 0;min-width:50px}
   <button data-act="tab" data-v="students"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="tl"></span></button>
   <button data-act="tab" data-v="money"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg><span class="tl"></span></button>
   <button data-act="tab" data-v="studio"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span class="tl"></span></button>
+  <button data-act="tabMore" data-v="more" hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><span class="tl"></span></button>
 </nav>
 <div class="overlay" id="overlay" data-act="closeSheet"></div>
 <div class="sheet" id="sheet"><div class="grab"></div><div class="sheet-in" id="sheetIn"></div></div>
@@ -4473,7 +4489,7 @@ function startEggs(){
     eggFound('bday');
     return later(() => celebrate({ icon: '🎂', label: T.egg.bdayLabel, title: withName(T.egg.bdayTitle), text: T.egg.bdayText, sub: '— ' + T.egg.sanya, hearts: true }), 700);
   }
-  const say = (id, msg) => { eggFound(id); later(() => toast(msg(), 4200)); };
+  const say = (id, msg) => { eggFound(id); later(() => { if (!state.settings.simple) toast(msg(), 4200); }); };   // «Простой режим»: no joke toasts
   if (h < 5 && once('night')) return say('night', () => T.egg.night);
   if (wd === 1 && h >= 5 && h < 12 && once('monday')) return say('monday', () => T.egg.monday);
   if (wd === 5 && h >= 17 && once('friday')) return say('friday', () => T.egg.friday);
@@ -4654,7 +4670,9 @@ function renderHome(){
       <h1 data-act="hello">${esc(T.greet[gi])}${nm ? ', ' + esc(nm) : ''}</h1>${brandLine() ? `<div class="sign">${esc(brandLine())}</div>` : ''}</div>
       <div class="topbtns"><button class="icon-btn light" data-act="settings" aria-label="${esc(T.settings)}">${ic(I.gear, 20)}</button></div></div>
     <p>${esc(line)}</p>${syncLine()}</div>${demoBanner()}`;
-  const quote = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>` + safe(almCard, '') + safe(surpCard, '');
+  const SIMPLE = !!state.settings.simple;   // «Простой режим»: same features, secondary blocks folded into «Ещё на главной»
+  const quoteOnly = `<div class="quote" data-act="nextQuote"><small>${esc(T.quoteLabel)}<span>↻</span></small><p id="quoteTxt">${esc(quoteNow())}</p><span class="qm">”</span></div>`;
+  const quote = (SIMPLE ? '' : quoteOnly) + safe(almCard, '') + safe(surpCard, '');
   if (!mod('students')) return hello + quote + (mod('plan') ? safe(planHomeLite) : `<div class="empty">${esc(T.md.allOff)}<button class="btn soft" data-act="settings">${esc(T.settings)}</button></div>`);
   if (!state.students.length) return hello + quote + reqBlock() + safe(todayCard, '') + safe(homeTilesRow, '') + welcome() + achRow();
   const m = t.slice(0, 7), st = monthStats(m), mi = now.getMonth();
@@ -4675,14 +4693,16 @@ function renderHome(){
   const upcoming = state.lessons.filter(l => l.st === 'plan' && l.date > t).sort(byDateAsc).slice(0, 5);
   const wa = safe(waitAlert);
   const al = reqBlock() + safe(taxAlert, '') + (wa ? `<div class="alerts" style="margin-bottom:8px">${wa}</div>` : '') + (wrapSeason() ? `<div class="alerts" style="margin-bottom:8px"><div class="alert" data-act="wrap"><span class="ai">🎉</span><span class="at">${esc(T.wrapAlert)}</span><span class="chev">›</span></div></div>` : '') + alertsBlock();
-  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + safe(todayCard, '') + safe(homeTilesRow, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
-    + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week;
-  if (mod('plan')) out += safe(planHomeBlock);
+  const extra = safe(todayCard, '') + safe(homeTilesRow, '') + (mod('money') ? goalBlock(st.earned) : '') + (mod('ach') ? achRow() : '')
+    + `<div class="sec"><span>${esc(T.week)}</span><button class="link" data-act="tab" data-v="lessons">${esc(T.calLink)}</button></div>` + week
+    + (mod('plan') ? safe(planHomeBlock, '') : '');
+  let out = hello + quote + al + (al ? '<div style="height:8px"></div>' : '') + kpis + (SIMPLE ? '' : extra);
   out += `<div class="sec"><span>${esc(T.todaySec)}</span>${todays.filter(counts).length ? `<span>${esc(daySum(todays.filter(counts)))}</span>` : ''}</div>`
     + (todays.length ? `<div class="card">${todays.map(l => lessonRow(l)).join('')}</div>`
       : `<div class="empty" style="margin-top:0;padding:20px">${esc(T.freeDay)}<button class="btn soft" data-act="addLessonDay" data-v="${t}">${esc(T.addToday)}</button></div>`);
   if (unmarked.length) out += `<div class="sec"><span>${esc(T.toMarkSec(unmarked.length))}</span>${unmarked.length > 1 ? `<button class="link" data-act="markAllPast">${esc(mx().allDone(unmarked.length))}</button>` : ''}</div><div class="card">${unmarked.slice(0, 5).map(l => lessonRow(l, { withDate: true })).join('')}</div>`;
   if (upcoming.length) out += `<div class="sec"><span>${esc(T.upcoming)}</span></div><div class="card">${upcoming.map(l => lessonRow(l, { withDate: true })).join('')}</div>`;
+  if (SIMPLE) out += safe(() => simpleMore(quoteOnly + extra), '');
   return out;
 }
 
@@ -4893,7 +4913,8 @@ function renderStudio(){
 /* ---------- Shell ---------- */
 const tabOn = v => v === 'habits' ? lfOn('habits') : v === 'home' || (v === 'lessons' ? mod('students') || mod('plan') : v === 'students' ? mod('students') : mod(v));
 function renderNav(){
-  document.querySelectorAll('#tabs button').forEach(b => { b.hidden = !tabOn(b.dataset.v); b.classList.toggle('on', b.dataset.v === ui.tab); b.querySelector('.tl').textContent = b.dataset.v === 'lessons' && !mod('students') ? T.md.cal : T.tabs[b.dataset.v]; });
+  document.querySelectorAll('#tabs button').forEach(b => { if (b.dataset.v === 'more') return; b.hidden = !tabOn(b.dataset.v); b.classList.toggle('on', b.dataset.v === ui.tab); b.querySelector('.tl').textContent = b.dataset.v === 'lessons' && !mod('students') ? T.md.cal : T.tabs[b.dataset.v]; });
+  safe(simpleNav);
   const on = document.querySelector('#tabs button.on'); if (on && $('tabs').scrollWidth > $('tabs').clientWidth) try { on.scrollIntoView({ inline: 'nearest', block: 'nearest' }); } catch (e) {}
 }
 function tabRenderer(t){ const m = { home: renderHome, lessons: renderCalendar, students: renderStudents, money: renderMoney, studio: renderStudio, habits: () => safe(renderHabitsTab, header(T.tabs.habits)), plan: () => safe(renderPlan, header(T.tabs.plan) + `<div class="empty">⚠️ ${esc(T.bk.oops)}</div>`) }; return m[t]; }
@@ -5316,6 +5337,7 @@ function settingsSheet(){
     return sheetHead(T.settings) + `
       <div class="tourcard"><b>${esc(T.tr.botCard[0])}</b><small>${esc(T.tr.botCard[1])}</small>${inTG && botUser ? `<button class="btn soft sm" data-act="openTg" data-v="https://t.me/${esc(botUser)}">💬 ${esc(T.tr.openBot)}</button>` : ''}</div>
       ${safe(subSettingsBtn, '')}
+      ${safe(simpleRow, '')}
       <div class="tools setgrid">${SET_GROUPS.map(([k, ic]) => `<button class="tool" data-act="setPart" data-v="${k}"><span class="ti">${ic}</span><b>${esc(X.g[k])}</b><small>${esc(setTileSub(k))}</small></button>`).join('')}</div>
       <div class="hintline" style="margin:8px 8px 12px;text-align:left">${esc(X.hubHint)}</div>
       <div class="pair2" style="margin:0 0 10px"><button class="btn soft sm" data-act="trStart">🧭 ${esc(T.tr.btn)}</button><button class="btn soft sm" data-act="help">📖 ${esc(T.hp.btn)}</button></div>
@@ -6436,7 +6458,7 @@ function applyOps(ops){
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
 const APP_VER = 49;
 const CHANGES = [
-  {"v": 49, "name": "8.5", "date": "2026-11-10", "big": true, "ru": {"add": ["🧾 Налог и чеки для самозанятых: вкладка «Деньги» → «Налог и чеки». Все оплаты месяца списком — отмечай пробитые чеки, текст для чека копируется в один тап, кнопка «Мой налог». Налог 4 % / 6 % (и 3 % / 4 % с вычетом), срок уплаты и годовой лимит 2,4 млн. В начале месяца главная напомнит о непробитых чеках", "🏢 У ученика можно отметить «платит организация или ИП» — налог посчитается по 6 %", "📄 Отчёт для ученика или родителя: в карточке ученика — занятия, пропуски, оплаты, долг, абонемент и домашка за месяц или 3 месяца. Можно поправить и отправить в Telegram", "↩️ Удалил по ошибке — нажми «Вернуть»: работает для уроков, учеников, абонементов и расходов", "✅ «Все прошли»: все прошедшие неотмеченные уроки отмечаются одним нажатием (и тоже можно вернуть)", "📸 Фото ученика можно выбрать сразу при добавлении или в «Изменить»"], "better": ["🧭 Удобнее: все вкладки внизу помещаются на экран, кнопка «?» (справка) в шапке, «＋ Новый ученик» на вкладке «Ученики», «Ждут оплаты» сразу показывает список долгов, крупнее кнопки оплаты и отметки урока"]}, "en": {"add": ["🧾 Tax & receipts for the self-employed: Money → «Tax & receipts» — every payment with a receipt tick, receipt text in one tap, tax, due date and yearly limit", "📄 Report for a student or parent: lessons, misses, payments, debt, package, homework", "↩️ Undo after deleting a lesson, student, package or expense", "✅ «All took place»: mark every past lesson at once", "📸 Student photo right in the add/edit form"], "better": ["🧭 Easier: all bottom tabs fit the screen, «?» help button, «＋ New student» on the Students tab, «Awaiting payment» jumps to the debts list, bigger pay and mark buttons"]}},
+  {"v": 49, "name": "8.5", "date": "2026-11-10", "big": true, "ru": {"add": ["✨ Простой режим: ⚙️ Настройки → «Простой режим». Все функции на месте, но меньше текста: внизу 4 вкладки и «Ещё», на главной — только важное (остальное в «Ещё на главной»), одна кнопка «＋ Добавить», без подсказок и всплывашек. Выключил — всё как было", "🧾 Налог и чеки для самозанятых: вкладка «Деньги» → «Налог и чеки». Все оплаты месяца списком — отмечай пробитые чеки, текст для чека копируется в один тап, кнопка «Мой налог». Налог 4 % / 6 % (и 3 % / 4 % с вычетом), срок уплаты и годовой лимит 2,4 млн. В начале месяца главная напомнит о непробитых чеках", "🏢 У ученика можно отметить «платит организация или ИП» — налог посчитается по 6 %", "📄 Отчёт для ученика или родителя: в карточке ученика — занятия, пропуски, оплаты, долг, абонемент и домашка за месяц или 3 месяца. Можно поправить и отправить в Telegram", "↩️ Удалил по ошибке — нажми «Вернуть»: работает для уроков, учеников, абонементов и расходов", "✅ «Все прошли»: все прошедшие неотмеченные уроки отмечаются одним нажатием (и тоже можно вернуть)", "📸 Фото ученика можно выбрать сразу при добавлении или в «Изменить»"], "better": ["🧭 Удобнее: все вкладки внизу помещаются на экран, кнопка «?» (справка) в шапке, «＋ Новый ученик» на вкладке «Ученики», «Ждут оплаты» сразу показывает список долгов, крупнее кнопки оплаты и отметки урока"]}, "en": {"add": ["✨ Simple mode: ⚙️ Settings → «Simple mode». Every feature stays, less text: 4 tabs + «More», only the essentials on Home, one «＋ Add» button, no hints or pop-ups", "🧾 Tax & receipts for the self-employed: Money → «Tax & receipts» — every payment with a receipt tick, receipt text in one tap, tax, due date and yearly limit", "📄 Report for a student or parent: lessons, misses, payments, debt, package, homework", "↩️ Undo after deleting a lesson, student, package or expense", "✅ «All took place»: mark every past lesson at once", "📸 Student photo right in the add/edit form"], "better": ["🧭 Easier: all bottom tabs fit the screen, «?» help button, «＋ New student» on the Students tab, «Awaiting payment» jumps to the debts list, bigger pay and mark buttons"]}},
   {"v": 48, "name": "8.4", "date": "2026-11-10", "big": true, "ru": {"add": ["🎨 Оформление как конструктор: ⚙️ Настройки → 🎨 Оформление. Пять вкладок — Темы, Цвета, Фон, Шрифты, Карточки", "🌗 Живое небо: фон меняется сам — рассвет, утро, полдень, день, закат, сумерки, вечер и ночь, как за окном. И времена года: зимой идёт снег, весной летят лепестки, летом солнце и светлячки, осенью падают листья. Можно оставить «как сейчас» или выбрать своё время года и суток",
   "✨ 17 готовых тем в одно касание: Живое небо, Закат, Океан, Ночь, Неон, Пастель, Винтаж, Детская, Музыка и другие", "🖼 Свой фон: фото из галереи как обои — с размытием и затемнением. Или 20 узоров и градиентов: гладкий, сетка, ноты, звёзды, сердечки, конфетти, бумага, рассвет, северное сияние, ночное небо…", "🔤 Больше 80 шрифтов с русскими буквами: для заголовков, текста и подписи — и размер текста от 80 до 140%", "🃏 Карточки на свой вкус: обычные, с тенью, контур или «стекло», скругление углов, прозрачность и свой цвет карточек", "📸 Фото ученика: открой карточку ученика и нажми на кружок с буквами — фото появится в списках и в календаре", "🎨 18 цветовых палитр и свои цвета: акцент, фон и карточки", "📤 Поделись оформлением: код копируется в один тап — коллега вставит его и получит такой же вид"], "better": ["👀 Текст всегда читается: на любом фоне и цвете приложение само подбирает светлый или тёмный текст", "⚡ Всё летает: фото хранятся на телефоне и не тормозят приложение"]}, "en": {"add": ["🎨 Look builder: ⚙️ Settings → 🎨 Look. Five tabs — Themes, Colours, Background, Fonts, Cards", "🌗 Live sky: the background follows the real time of day — dawn, morning, noon, day, sunset, dusk, evening, night — and the season: snow, petals, sun and fireflies, falling leaves. Keep it «like now» or pick your own",
   "✨ 17 one-tap themes: Live sky, Sunset, Ocean, Night, Neon, Pastel, Vintage, Kids, Music and more", "🖼 Your own background: a photo from the gallery with blur and dimming, or 20 patterns and gradients", "🔤 80+ fonts for headings, text and signature — and text size from 80 to 140%", "🃏 Cards your way: solid, shadow, outline or glass, corner rounding, transparency and your own card colour", "📸 Student photos: open a student and tap the initials circle", "🎨 18 palettes and your own colours", "📤 Share your look: copy a code, a colleague pastes it and gets the same look"], "better": ["👀 Text always reads: the app picks light or dark text for any background", "⚡ Fast: photos live on the phone and do not slow the app down"]}},
@@ -9465,6 +9487,7 @@ const HELP_DOC = [
     '🔔 Уведомления: что присылает бот — утренний план (время), напоминание перед уроком, вечернее «отметь уроки», долги, итоги месяца, обзор недели. Кнопки «Проверить» и «Синхронизировать».',
     '🧩 Под себя: как тебя называть, подпись на главной (любой текст, «-» — без подписи), день рождения и «Разделы приложения» — выключи то, чем не пользуешься (ученики, деньги, студия, планер, привычки, личные финансы, вишлист, дневник…). Данные не удаляются.',
     '🎨 Оформление: язык, тема (светлая, тёмная, как в телефоне), цвета, шрифты, размер и 🔊 звуки с вибрацией. На телефоне (Telegram 8.0+) там же «📱 Полный экран» — приложение на весь экран без шапки Telegram.',
+    '✨ Простой режим (⚙️ Настройки → переключатель «Простой режим» сверху): функции те же, но приложение спокойнее. Внизу 4 вкладки — Главная, Календарь, Ученики, Деньги — и «Ещё» (там Планер, Привычки, Студия). На главной — приветствие, напоминания, цифры и уроки на сегодня; цитата, плитки, цель, неделя и планер свёрнуты в «Ещё на главной». Вместо двух кнопок «＋ Работа» и «＋ Дела» — одна «＋ Добавить». Подсказки, подписи и всплывающие достижения скрыты (достижения всё равно копятся). Выключи переключатель — вернётся полный вид.',
     '🎨 Кнопка «Оформление» открывает конструктор из пяти вкладок. Темы — 16 готовых стилей в одно касание (Закат, Океан, Ночь, Неон…). Цвета — 18 палитр, свой цвет акцента, фона и карточек. Фон — 🌗 «Живое небо» (меняется само по времени суток и году: рассвет, день, закат, ночь; снег зимой, лепестки весной, светлячки летом, листья осенью — или выбери своё время года и суток), гладкий, узоры (сетка, ноты, звёзды, сердечки, конфетти, бумага…), градиенты или своё фото из галереи с размытием и затемнением. Шрифты — больше 80 шрифтов для заголовков, текста и подписи, размер текста 80–140%, заголовки заглавными или как обычно. Карточки — обычные, с тенью, контур или «стекло», скругление углов и прозрачность. «Вернуть всё как было» — исходный вид.',
     '📤 Поделиться оформлением: вкладка «Темы» → «Поделиться оформлением» копирует код; коллега нажимает «Вставить код оформления» и получает такой же вид (фото-обои не передаются).',
     '📸 Фото ученика: открой карточку ученика и нажми на кружок с буквами → выбери фото. Фото видно в списках, календаре и на главной. Нажми ещё раз — заменить или убрать. Фото и обои хранятся на телефоне, а копия — в чате с ботом (сообщение сразу удаляется), поэтому на другом устройстве они появятся сами.',
@@ -10605,6 +10628,63 @@ function studentFormExtra(ex){
 MXA.goDebts = () => { A.tab({ dataset: { v: 'money' } }); setTimeout(() => { const el = $('debtsSec'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 120); };
 MXA.swOnly = el => { el.classList.toggle('on'); haptic(); };
 setTimeout(() => { try { Object.assign(window.__vs || (window.__vs = {}), { taxCalc, taxItems, stuRepText, yearIncome, MXA, applyPackages: s => applyPackages(s), setRepP: v => { REPP = v; } }); } catch (e) {} }, 0);
+/* ================= 8.5: «Простой режим» (settings.simple) =================
+   Feedback: «слишком много текста и всего». The switch keeps EVERY feature, only the look gets calmer:
+   • bottom bar: Главная · Календарь · Ученики · Деньги + «Ещё» (Привычки, Планер, Студия open from there);
+   • Home: alerts, numbers and today's lessons on top; quote, tiles, goal, achievements, week and planner
+     folded into one «Ещё на главной» (opens with a tap, remembered);
+   • hints, subtitles, signatures, captions under tiles and achievement pop-ups are hidden (body.simple CSS).
+   Nothing is deleted and every action still works — turning the switch off brings the full view back. */
+const SIMX = {
+  ru: { add: 'Добавить', life: 'Личное', title: 'Простой режим', sub: 'Меньше текста и кнопок — все функции на месте', more: 'Ещё', moreTitle: 'Ещё разделы', homeMore: 'Ещё на главной', homeMoreSub: 'цитата, плитки, цель, неделя, планер', on: 'Простой режим включён — всё работает как раньше, просто спокойнее', off: 'Полный вид вернулся' },
+  en: { add: 'Add', life: 'Personal', title: 'Simple mode', sub: 'Less text and buttons — every feature stays', more: 'More', moreTitle: 'More sections', homeMore: 'More on Home', homeMoreSub: 'quote, tiles, goal, week, planner', on: 'Simple mode on — everything still works, just calmer', off: 'Full view is back' }
+};
+const smx = () => SIMX[L === 'ru' ? 'ru' : 'en'];
+const SIMPLE_CORE = ['home', 'lessons', 'students', 'money'];
+const simpleOn = () => !!(state.settings && state.settings.simple);
+function simpleNav(){
+  const S = simpleOn();
+  document.body.classList.toggle('simple', S);
+  const btns = [...document.querySelectorAll('#tabs button')], more = btns.find(b => b.dataset.v === 'more');
+  if (!more) return;
+  const extra = btns.filter(b => b.dataset.v !== 'more' && !SIMPLE_CORE.includes(b.dataset.v) && tabOn(b.dataset.v));
+  if (S) extra.forEach(b => { b.hidden = true; });
+  more.hidden = !S || !extra.length;
+  const tl = more.querySelector('.tl'); if (tl) tl.textContent = smx().more;
+  more.classList.toggle('on', S && !SIMPLE_CORE.includes(ui.tab));
+}
+/* the folded part of Home */
+function simpleMore(html){
+  if (!html) return '';
+  const X = smx(), open = !!ui.homeMore;
+  return `<div class="simmore${open ? ' open' : ''}"><button type="button" class="simhead" data-act="simHome"><span><b>${esc(X.homeMore)}</b><small>${esc(X.homeMoreSub)}</small></span><span class="chev">${open ? '▴' : '▾'}</span></button>${open ? `<div class="simbody">${html}</div>` : ''}</div>`;
+}
+/* switch row for the settings hub */
+const simpleRow = () => { const X = smx(); return `<div class="group simrow"><div class="field toggle"><span><b>✨ ${esc(X.title)}</b><small>${esc(X.sub)}</small></span><button type="button" class="sw${simpleOn() ? ' on' : ''}" data-act="simSw" aria-label="${esc(X.title)}"></button></div></div>`; };
+/* one «＋» instead of two: work and personal items in one menu */
+function simpleFab(){
+  return () => { const X = smx(), row = items => `<div class="tools fabgrid">${items.map(([a, v, ic, t]) => `<button class="tool" data-act="fabGo" data-v="${a}" data-x="${v}"><span class="ti">${ic}</span><b>${esc(t)}</b></button>`).join('')}</div>`;
+    const w = fabWorkOn() ? fabWorkItems() : [], l = fabLifeOn() ? fabLifeItems() : [];
+    return sheetHead(X.add) + (w.length ? row(w) : '') + (l.length ? `<div class="sec"><span>${esc(X.life)}</span></div>` + row(l) : ''); };
+}
+safe(() => { const o = fabSync; fabSync = function(){ o.apply(this, arguments); if (!simpleOn()) return;
+  const f1 = $('fab'), f2 = $('fab2'), l1 = $('fabL'); if (!f1 || !f2) return;
+  const any = !(state.settings && state.settings.__noFab) && (fabWorkOn() || fabLifeOn());
+  f1.hidden = !any; f2.hidden = true; if (l1) l1.textContent = smx().add; }; });
+const SIMA = {
+  fab: () => openSheet(simpleOn() ? simpleFab() : fabSheet('work')),
+  simSw: el => { state.settings.simple = simpleOn() ? 0 : 1; if (el) el.classList.toggle('on', !!state.settings.simple); save(); hapticOk(); render(); if (stack.length) refreshSheet(); toast(state.settings.simple ? smx().on : smx().off, 2200); },
+  simHome: () => { ui.homeMore = !ui.homeMore; haptic(); render(); },
+  tabMore: () => {
+    const X = smx(), list = [...document.querySelectorAll('#tabs button')].filter(b => b.dataset.v !== 'more' && !SIMPLE_CORE.includes(b.dataset.v) && tabOn(b.dataset.v));
+    openSheet(() => sheetHead(X.moreTitle) + `<div class="tools simtools">${list.map(b => `<button class="tool" data-act="tab" data-v="${b.dataset.v}"><span class="ti">${b.querySelector('svg') ? b.querySelector('svg').outerHTML : ''}</span><b>${esc(T.tabs[b.dataset.v] || b.dataset.v)}</b></button>`).join('')}</div>`);
+    haptic();
+  }
+};
+/* achievements are still earned and kept — only the pop-up is skipped in simple mode */
+safe(() => { const o = achPop; achPop = function(){ if (simpleOn()) return; return o.apply(this, arguments); }; });
+safe(() => { const o = nextPop; nextPop = function(){ if (simpleOn()) { popQ.length = 0; return; } return o.apply(this, arguments); }; });
+setTimeout(() => { try { Object.assign(window.__vs || (window.__vs = {}), { simpleOn, SIMA, uiTab: () => ui.tab }); } catch (e) {} }, 0);
 
 /* ================= Dialogs ================= */
 let toastT;
@@ -11190,7 +11270,7 @@ const A = {
   closeSheet: () => closeSheet()
 };
 
-Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA, SURPA, MXA);
+Object.assign(A, AX, RC, SAFE, LK, WNX, PL, MD, BK2, MU, HP, X2, GC, SB, TR, LF, FB, RCN, PF, LGA, SURPA, MXA, SIMA);
 safe(subWrap);
 safe(() => undoWrap(A));
 /* ===== 8.3: protection from double taps =====
