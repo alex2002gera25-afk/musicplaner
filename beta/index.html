@@ -7246,6 +7246,7 @@ function applyLang(code){
 applyLang(lsGetK('vs_lang') || 'ru');
 
 /* ================= State ================= */
+const API_RE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
 const DEF = { pkgT: [], price: 0, rent: 0, dur: 60, cur: '₽', name: '', lang: 'ru', theme: 'light', goal: 0, tax: 0, bday: '', api: '', init: 0,
   work: { days: [1, 2, 3, 4, 5, 6], from: '10:00', to: '21:00' },
   nt: { on: 1, morning: 9, before: 60, evening: 21, debts: 1, monthly: 1, ach: 1, week: 1 } };
@@ -7254,6 +7255,7 @@ function normalize(d){
   d = d && typeof d === 'object' ? d : {};
   const s0 = d.settings && typeof d.settings === 'object' ? d.settings : {};
   const settings = Object.assign({}, DEF, s0);
+  settings.api = API_RE.test(String(s0.api || '')) ? String(s0.api) : '';
   settings.work = Object.assign({}, DEF.work, s0.work && typeof s0.work === 'object' ? s0.work : {});
   if (!Array.isArray(settings.work.days)) settings.work.days = DEF.work.days.slice();
   settings.nt = Object.assign({}, DEF.nt, s0.nt && typeof s0.nt === 'object' ? s0.nt : {});
@@ -7421,14 +7423,14 @@ async function cloudLoad(){
   window.__csKeys = keys.length;
   const mirror = readMirror();
   const d = { settings: null, students: [], lessons: [] };
-  let bad = 0;
+  let bad = 0; const badBuckets = [];
   for (const b of Object.keys(raw).sort(bucketOrder)) {
     try {
       const v = JSON.parse(raw[b]);
       if (b.charAt(0) === 'M') { if (!Array.isArray(v)) throw new Error('bad'); d.lessons.push(...v); }
       else { if (!v || typeof v !== 'object' || Array.isArray(v)) throw new Error('bad'); for (const k in v) if (k !== 'v') d[k] = v[k]; }
     } catch (e) {
-      bad++;
+      bad++; badBuckets.push(b);
       if (mirror) {
         if (b.charAt(0) === 'M') d.lessons.push(...mirror.lessons.filter(l => monthOf(l) === b));
         else { (BKEYS[b] || []).forEach(k => { d[k] = mirror[k]; }); if (b === 'S' && !('P' in raw)) d.students = mirror.students; }
@@ -7436,7 +7438,13 @@ async function cloudLoad(){
     }
   }
   gc(keys, P);
-  return { state: normalize(d), raw, P, empty: !pk.length, bad, mirror };
+  let mirrorDoc = null; try { mirrorDoc = JSON.parse(lsGet() || 'null'); } catch (e) {}
+  const unrecovered = badBuckets.some(b => {
+    if (!mirror || !mirrorDoc || typeof mirrorDoc !== 'object') return true;
+    if (b.charAt(0) === 'M') return !Array.isArray(mirrorDoc.lessons) || !mirror.lessons.some(l => monthOf(l) === b);
+    return !(BKEYS[b] || []).every(k => Object.prototype.hasOwnProperty.call(mirrorDoc, k));
+  });
+  return { state: normalize(d), raw, P, empty: !pk.length, bad, mirror, unrecovered };
 }
 
 async function gc(keys, P){
@@ -7782,8 +7790,8 @@ function applyPackages(sid){
   ls.forEach(l => {
     if (l.pkg) { const p = byId[l.pkg]; l.paid = true; l.paidAt = p.date; l.price = (+p.price || 0) * units(l); l.rent = l.online ? 0 : (+p.rent || 0); return; }
     if (!elig(l) || l.paid) return;
-    const p = pk.find(x => !outside(x, l) && used[x.id] + units(l) <= x.n);
-    if (!p) return;
+    const p = pk.find(x => !outside(x, l) && used[x.id] < x.n);
+    if (!p || used[p.id] + units(l) > p.n) return; // do not skip an older package with a remaining balance
     l.pkg = p.id; l.paid = true; l.paidAt = p.date; l.price = (+p.price || 0) * units(l); l.rent = l.online ? 0 : (+p.rent || 0); used[p.id] += units(l);
   });
   pk.forEach(p => {
@@ -7962,7 +7970,6 @@ function celebrate(o){
 
 /* ================= Bot notifications (Google Apps Script backend) ================= */
 let botStatus = '', botLast = 0, syncTimer = null, lastPayload = '', botBlocked = false;
-const API_RE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
 /* 8.3.1: the app may be opened without ?api= (bot profile «Открыть приложение», t.me/<bot>?startapp=…, catalogs) — then it uses the bot's own server. Not a secret: every request is checked by Telegram initData on the server. */
 const API_DEFAULT = 'https://script.google.com/macros/s/AKfycbwXVhcKmZF3jB0HRQxSdAfK9uSSMDAy3mQPUsRWQ8RqxSwDYjSxQdRdzYotQQ93aKiYDw/exec';
 const evQueue = (() => { try { const q = JSON.parse(lsGetK('vs_evq') || '[]'); return Array.isArray(q) ? q.filter(e => e && !/^(ach_|achm_|pz_)/.test(e.k)) : []; } catch (e) { return []; } })();
@@ -8051,6 +8058,7 @@ function buildNotes(){
 }
 function scheduleBotSync(){ if (!inTG || !state.settings.api || !ready) return; clearTimeout(syncTimer); syncTimer = setTimeout(() => botSync(false), 2500); }
 async function botPost(body, ms){
+  if (!API_RE.test(String(state.settings.api || ''))) throw new Error('bad api');
   const ctl = window.AbortController ? new AbortController() : null;
   const tm = setTimeout(() => { try { ctl && ctl.abort(); } catch (e) {} }, ms || 30000);
   try {
@@ -9705,7 +9713,7 @@ async function startBooking(){
     return fetch(api, { method: 'POST', body: JSON.stringify(Object.assign({ init: tg ? tg.initData : '', lang: L }, bookTid ? { t: bookTid } : {}, body)), signal: ac ? ac.signal : undefined }).then(r => r.json()).finally(() => t && clearTimeout(t)); };
   box.innerHTML = `<div class="boot">${esc(T.loading)}</div>`;
   let pub = null;
-  try { if (!api) throw 0; const j = await call({ a: 'slots' }); pub = j.pub; } catch (e) {}
+  try { if (!API_RE.test(api)) throw 0; const j = await call({ a: 'slots' }); pub = j.pub; } catch (e) {}
   if (!pub) { box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🎤</div><b>${esc(T.bkNone)}</b><p style="margin-top:14px"><button class="btn soft" onclick="location.reload()">↻ ${esc(L === 'ru' ? 'Попробовать ещё раз' : 'Try again')}</button></p></div>`; return; }
   const sel = { ds: '', time: '', svc: pub.svcs && pub.svcs[0] ? pub.svcs[0].name : '' };
   const draw = () => {
@@ -14597,7 +14605,7 @@ const A = {
       ui.month = f.date.slice(0, 7); ui.selDay = f.date;
     }
     touched.forEach(sid => applyPackages(sid));
-    save(); hapticOk(); closeSheet(); render();
+    save(); hapticOk(); closeSheet(); render(); if (stack.length) refreshSheet();
     if (f.rep && !id) toast(T.tSavedRep(f.rep));
     else if (newlyDone) { toast(praise(), 2600); dayWin(); }
     else toast(savedMsg());
@@ -15087,6 +15095,14 @@ async function start(){
     if (PREVIEW) { PREVIEW = false; pvBar(''); document.body.classList.add('booting'); }
     if (!r) {
       $('app').innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">☁️</div><b>${esc(T.loadErr)}</b>${esc(T.loadErrText)}<button class="btn" data-act="retryLoad">${esc(T.retry)}</button></div>` + footer();
+      return;
+    }
+    if (r.unrecovered) {
+      const msg = L === 'ru'
+        ? 'Облачная копия читается не полностью, а полной копии на этом устройстве нет. Я не сохраняю неполные данные поверх облака. Исходные части в Telegram CloudStorage оставлены нетронутыми. Проверь связь и попробуй ещё раз; если сообщение повторится, восстанови резервную копию.'
+        : 'The Telegram cloud copy could not be fully read, and this device has no complete local copy. I will not overwrite the cloud with partial data. The original Telegram CloudStorage parts remain untouched. Check your connection and retry; if this repeats, restore a backup.';
+      $('app').innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🛟</div><b>${esc(T.loadErr)}</b><p>${esc(msg)}</p><button class="btn" data-act="retryLoad">${esc(T.retry)}</button></div>` + footer();
+      document.body.classList.remove('booting');
       return;
     }
     cloudReady = true; lastRefresh = Date.now();
