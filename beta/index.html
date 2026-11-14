@@ -9708,6 +9708,24 @@ async function startBooking(){
   document.documentElement.dataset.theme = 'light';
   const api = pendingApi;
   const box = $('app');
+  const localApi = state.settings.api || safe(() => (readMirror() || {}).settings.api, '') || '';
+  const trustKey = 'vs_trusted_book_api_' + (tgUser ? tgUser.id : 'local');
+  const trustedApi = api === API_DEFAULT || api === localApi || lsGetK(trustKey) === api;
+  if (!API_RE.test(api)) {
+    box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🔒</div><b>${esc(T.bkNone)}</b><p>${esc(L === 'ru' ? 'В ссылке указан некорректный сервер записи.' : 'The booking link contains an invalid server address.')}</p></div>`;
+    document.body.classList.remove('booting'); return;
+  }
+  if (!trustedApi) {
+    const sid = (api.match(/\/s\/([\w-]+)\/exec$/) || [])[1] || '';
+    const ok = await ask(L === 'ru'
+      ? 'Эта ссылка отправит Telegram ID, имя, телефон и комментарий на неизвестный сервер Google Apps Script' + (sid ? ' (' + sid.slice(0, 12) + '…)' : '') + '. Продолжить?'
+      : 'This link will send your Telegram ID, name, phone and note to an unverified Google Apps Script server' + (sid ? ' (' + sid.slice(0, 12) + '…)' : '') + '. Continue?', L === 'ru' ? 'Продолжить' : 'Continue');
+    if (!ok) {
+      box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🔒</div><b>${esc(L === 'ru' ? 'Запись отменена' : 'Booking cancelled')}</b></div>`;
+      document.body.classList.remove('booting'); return;
+    }
+    lsSetK(trustKey, api);
+  }
   /* every request has a 20 s limit — a hung server shows «try again» instead of an endless «Загрузка…» */
   const call = body => { const ac = typeof AbortController === 'function' ? new AbortController() : null, t = ac && setTimeout(() => ac.abort(), 20000);
     return fetch(api, { method: 'POST', body: JSON.stringify(Object.assign({ init: tg ? tg.initData : '', lang: L }, bookTid ? { t: bookTid } : {}, body)), signal: ac ? ac.signal : undefined }).then(r => r.json()).finally(() => t && clearTimeout(t)); };
@@ -10558,9 +10576,19 @@ function parseBackup(txt){
 }
 async function restoreFrom(d){
   if (!await ask(T.cRestore(d.students.length, d.lessons.length), T.replace, true)) return false;
+  const currentApi = state.settings.api || '';
+  const importedApi = normalize(d).settings.api || '';
+  let acceptedApi = currentApi;
+  if (!currentApi && importedApi && importedApi !== API_DEFAULT) {
+    const id = (importedApi.match(/\/s\/([\w-]+)\/exec$/) || [])[1] || '';
+    if (await ask(L === 'ru'
+      ? 'В резервной копии указан отдельный сервер Google Apps Script' + (id ? ' (' + id.slice(0, 12) + '…)' : '') + '. После восстановления Telegram ID и данные приложения будут отправляться туда. Доверять этому серверу?'
+      : 'This backup includes a separate Google Apps Script server' + (id ? ' (' + id.slice(0, 12) + '…)' : '') + '. After restoring, your Telegram ID and app data will be sent there. Trust this server?', L === 'ru' ? 'Доверять' : 'Trust')) acceptedApi = importedApi;
+  }
   await snapshot('pre');
-  const keep = { seenVer: state.settings.seenVer, opsDone: state.settings.opsDone, api: state.settings.api, pkgV: state.settings.pkgV, bkAt: state.settings.bkAt };
+  const keep = { seenVer: state.settings.seenVer, opsDone: state.settings.opsDone, pkgV: state.settings.pkgV, bkAt: state.settings.bkAt };
   state = normalize(d); Object.keys(keep).forEach(k => { if (keep[k] && !state.settings[k]) state.settings[k] = keep[k]; });
+  state.settings.api = API_RE.test(acceptedApi) ? acceptedApi : (inTG && !window.__mockCfg && API_RE.test(API_DEFAULT) ? API_DEFAULT : '');
   if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
   allowEmpty = true; seedDefaults(); save(); closeSheet(true); render(); toast(T.tRestored);
   return true;
@@ -15128,8 +15156,7 @@ async function start(){
   snapshot('day');
   let dirty = seedDefaults();
   if ((+state.settings.pkgV || 0) < 2) { sidsOf(state.packages).forEach(applyPackages); state.settings.pkgV = 2; dirty = true; }
-  if (pendingApi && API_RE.test(pendingApi) && pendingApi !== state.settings.api) { state.settings.api = pendingApi; dirty = true; }
-  else if (!pendingApi && !state.settings.api && inTG && !window.__mockCfg && API_RE.test(API_DEFAULT)) { state.settings.api = API_DEFAULT; dirty = true; }
+  if (!state.settings.api && inTG && !window.__mockCfg && API_RE.test(API_DEFAULT)) { state.settings.api = API_DEFAULT; dirty = true; }
   ready = true;
   safe(tourMaybe);
   safe(legalGate);
