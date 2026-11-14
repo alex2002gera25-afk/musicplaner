@@ -3813,6 +3813,11 @@ nav.tabs button{font-size:10.5px}
 .pkgbox b{display:block;font-size:15px}
 .pkgbox small{color:var(--hint);font-size:12.5px}
 .pkgbox .barbg{margin:8px 0 2px}
+.pkgqueue{display:grid;gap:8px;margin-top:8px}
+.pkgqueueitem{border-top:1px solid var(--line);padding-top:8px;cursor:pointer}
+.pkgqueueitem b{font-size:13px}
+.pkgqueueitem small{display:block}
+.pkgqueueitem .barbg{margin:6px 0 2px}
 .info{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center;color:var(--hint);font-size:13px;margin:-6px 0 12px}
 .slotday{padding:10px 14px;position:relative}
 .slotday+.slotday::before{content:"";position:absolute;top:0;left:14px;right:0;height:1px;background:var(--line)}
@@ -6634,7 +6639,10 @@ const PKD = {
     expired: d => `Срок вышел ${d}`, burnt: n => `сгорело ${n}`, expSoon: (nm, l, d) => `${nm}: абонемент действует до ${d}, осталось ${l} — успейте`,
     tplT: 'Виды абонементов', tplAdd: '+ Вид абонемента', tplNew: 'Новый вид абонемента', tplEdit: 'Вид абонемента', tplNone: 'Пока нет своих видов. Добавь, например: «8 занятий — 18 000, 45 дней».', tplN: 'Сколько занятий', tplTot: c => `Цена за весь абонемент, ${c}`, tplSvc: 'Услуга (необязательно)', tplAny: 'Любая', tplDel: 'Удалить вид', tplLine: (n, s, d) => `${n} зан. · ${s}${d ? ' · ' + d + ' дн.' : ''}`, tplSaved: 'Вид абонемента сохранён', tplNeedN: 'Укажи количество занятий',
     hubT: 'Абонементы', hubSub: 'кто сколько, сроки, виды', hubBtn: 'Все абонементы учеников', hubAct: 'Действуют', hubLeft: 'занятий осталось', hubSoon: 'кончаются за 7 дней', hubDone: 'Закончились', hubNone: 'Пока нет действующих абонементов. Нажми «Продать абонемент».', hubHint: 'Нажми на абонемент, чтобы изменить его, продлить срок или заморозить. Продать можно и из карточки ученика, и через бота: «Маша купила абонемент на 8».',
-    sell: 'Продать абонемент', pick: 'Кому абонемент?', noStu: 'Сначала добавь ученика', leftOf: (l, n) => n ? `осталось ${l} из ${n}` : `осталось ${l}` },
+    sell: 'Продать абонемент', pick: 'Кому абонемент?', noStu: 'Сначала добавь ученика', leftOf: (l, n) => n ? `осталось ${l} из ${n}` : `осталось ${l}`,
+    renew: 'Продлить абонемент', queueTotal: (n, l) => `${ruN(n, 'абонемент', 'абонемента', 'абонементов')} · осталось ${ruN(l, 'занятие', 'занятия', 'занятий')}`, queueNow: 'Сейчас', queueNext: 'Затем',
+    queueHint: 'Сначала спишутся занятия из текущего абонемента, затем из следующего.',
+    queueBuyHint: 'Новый абонемент добавится в очередь после уже купленных: сначала спишется текущий остаток, затем начнётся новый. Каждая покупка отдельно попадёт в финансы.' },
   en: { name: 'Name (optional)', namePh: 'e.g. A month of vocals', tpl: 'Package types', tplHint: 'Ready-made packages: tap one and the lessons, price and term fill in. Your own types — Studio → Services & prices → Package types.',
     mode: 'Price', modeTot: 'For the whole package', modePer: 'Per lesson', priceTot: c => `Package price, ${c}`, pricePer: c => `Price per lesson, ${c}`, perLesson: s => `≈ ${s} per lesson`,
     days: 'Valid for', noLimit: 'No limit', dN: n => `${n} days`, daysPh: 'days', until: d => `Valid until ${d}`, untilFrz: (d, n) => `Valid until ${d} (incl. freeze +${n} days)`, forever: 'No limit — until the lessons run out',
@@ -6642,7 +6650,10 @@ const PKD = {
     expired: d => `Expired ${d}`, burnt: n => `${n} expired`, expSoon: (nm, l, d) => `${nm}: the package is valid until ${d}, ${l} left`,
     tplT: 'Package types', tplAdd: '+ Package type', tplNew: 'New package type', tplEdit: 'Package type', tplNone: 'No package types yet. Add one, e.g. “8 lessons — 18,000, 45 days”.', tplN: 'Number of lessons', tplTot: c => `Price for the whole package, ${c}`, tplSvc: 'Service (optional)', tplAny: 'Any', tplDel: 'Delete type', tplLine: (n, s, d) => `${n} lessons · ${s}${d ? ' · ' + d + ' days' : ''}`, tplSaved: 'Package type saved', tplNeedN: 'Enter the number of lessons',
     hubT: 'Packages', hubSub: 'who has what, terms, types', hubBtn: 'All students’ packages', hubAct: 'Active', hubLeft: 'lessons left', hubSoon: 'end within 7 days', hubDone: 'Finished', hubNone: 'No active packages yet. Tap “Sell a package”.', hubHint: 'Tap a package to edit it, extend the term or freeze it. You can also sell from a student card or via the bot: “Masha bought an 8-lesson package”.',
-    sell: 'Sell a package', pick: 'Who is it for?', noStu: 'Add a student first', leftOf: (l, n) => n ? `${l} of ${n} left` : `${l} left` }
+    sell: 'Sell a package', pick: 'Who is it for?', noStu: 'Add a student first', leftOf: (l, n) => n ? `${l} of ${n} left` : `${l} left`,
+    renew: 'Renew package', queueTotal: (n, l) => `${n} packages · ${enN(l, 'lesson', 'lessons')} left`, queueNow: 'Current', queueNext: 'Next',
+    queueHint: 'Lessons are taken from the current package first, then from the next one.',
+    queueBuyHint: 'The new package joins the queue after the packages already bought: the current balance is used first, then the new one starts. Each purchase is recorded separately in finances.' }
 };
 const ST8D = {
   ru: { g: { prices: 'Цены и абонементы', work: 'Работа и запись', nt: 'Уведомления', me: 'Под себя', look: 'Оформление', data: 'Данные и копии' },
@@ -7690,6 +7701,12 @@ const pkgFrozenOn = (p, d) => (p.frz || []).some(f => d >= f.from && d < ymd(add
 const pkgLeft = p => pkgExpired(p) ? 0 : Math.max(0, (+p.n || 0) - pkgUsed(p));
 const pkgBurnt = p => pkgExpired(p) ? Math.max(0, (+p.n || 0) - pkgUsed(p)) : 0;
 const lastPkg = sid => state.packages.filter(p => p.sid === sid).sort((a, b) => (b.date + b.id).localeCompare(a.date + a.id))[0];
+/* Keep package purchase order for same-day renewals; the oldest active package is always consumed first. */
+function packageQueue(sid){
+  const order = new Map(state.packages.map((p, i) => [p.id, i]));
+  return state.packages.filter(p => p.sid === sid).slice().sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')) || (+a.createdAt || 0) - (+b.createdAt || 0) || order.get(a.id) - order.get(b.id));
+}
+const activePackageQueue = sid => packageQueue(sid).filter(p => pkgLeft(p) > 0);
 function monthIndex(){
   const mm = memoFresh();
   if (!mm.byM) {
@@ -7742,12 +7759,13 @@ function studentStats(id){
     if (l.st !== 'plan') { if (!last || k > lk) { last = l; lk = k; } }
     else if (l.date >= t && (!next || k < nk)) { next = l; nk = k; }
   });
-  const p = lastPkg(id);
+  const activePkgs = activePackageQueue(id), p = activePkgs[0] || lastPkg(id);
   return (m.ss[id] = { ls, n: usum(c), earned: vsum(c), debt: vsum(c.filter(l => !l.paid)), pkg: p, left: p ? pkgLeft(p) : 0,
+    activePkgs, totalLeft: activePkgs.reduce((a, x) => a + pkgLeft(x), 0),
     last: last || undefined, lastHeld: lastHeld || undefined, next: next || undefined });
 }
 function applyPackages(sid){
-  const pk = state.packages.filter(p => p.sid === sid).sort((a, b) => (a.date + a.id).localeCompare(b.date + b.id));
+  const pk = packageQueue(sid);
   const byId = {}; pk.forEach(p => { byId[p.id] = p; });
   const ls = state.lessons.filter(l => l.sid === sid).sort(byDateAsc);
   const release = l => { l.pkg = ''; l.paid = false; l.paidAt = ''; l.price = priceFor(l.sid, l.svc) * units(l); l.rent = rentFor(l.svc, l.online); };
@@ -7967,7 +7985,7 @@ function weekDigest(d0){
   const bds = state.students.filter(s => !s.archived && s.bday && days.some(ds => ds.slice(5) === s.bday.slice(5))).map(s => `🎂 ${s.name} — ${dayMonth(days.find(ds => ds.slice(5) === s.bday.slice(5)))}`);
   const evs = state.events.filter(e => days.includes(e.date)).map(e => `🎭 ${e.title} — ${dayMonth(e.date)}`);
   const m = ymd(d0).slice(0, 7), st = monthStats(m), g = +state.settings.goal || 0;
-  const pk = state.students.map(s => ({ s, ss: studentStats(s.id) })).filter(x => x.ss.pkg && x.ss.left <= 1 && !x.s.archived).map(x => `🎟 ${x.s.name}: ${x.ss.left}`);
+  const pk = state.students.map(s => ({ s, ss: studentStats(s.id) })).filter(x => x.ss.pkg && x.ss.totalLeft <= 1 && !x.s.archived).map(x => `🎟 ${x.s.name}: ${x.ss.totalLeft}`);
   return [T.nb.weekHead, T.nb.weekLessons(ls.length, money(vsum(ls))), per.length ? per.join(' · ') : '', ...bds, ...evs, ...pk,
     T.nb.monthSoFar(money(st.earned), g ? Math.min(100, Math.round(st.earned * 100 / g)) : 0)].filter(Boolean).join('\n');
 }
@@ -8256,7 +8274,7 @@ function alertsBlock(){
     const d = bdayIn(s.bday);
     if (d !== null && d <= 7) add(d, '🎂', 'openStudent', s.id, T.alBday(s.name, d), T.alBdayHint);
     const ss = studentStats(s.id), p = ss.pkg;
-    if (p && pkgUsed(p) > 0 && ss.left <= 1 && (ss.next || (ss.lastHeld && daysBetween(ss.lastHeld.date, t) <= 30))) add(20, '🎟', 'openStudent', s.id, T.alPkg(s.name, ss.left), T.alPkgHint);
+    if (p && ss.activePkgs.some(q => pkgUsed(q) > 0) && ss.totalLeft <= 1 && (ss.next || (ss.lastHeld && daysBetween(ss.lastHeld.date, t) <= 30))) add(20, '🎟', 'openStudent', s.id, T.alPkg(s.name, ss.totalLeft), T.alPkgHint);
   });
   state.events.forEach(e => { const d = daysBetween(t, e.date); if (d >= 0 && d <= 14) add(d + 0.5, '🎭', 'openEvent', e.id, T.alEvent(e.title || T.evTitle, d), [e.time, e.place].filter(Boolean).join(' · ')); });
   inactiveStudents().slice(0, 3).forEach(s => add(30, '💤', 'openStudent', s.id, T.alInactive(s.name, daysBetween(studentStats(s.id).lastHeld.date, t)), T.alInactiveHint));
@@ -8378,7 +8396,7 @@ function studentRow(s){
   const when = ss.next ? T.nextL(`${shortDate(ss.next.date)}${ss.next.time ? ', ' + ss.next.time : ''}`) : ss.last ? T.lastL(shortDate(ss.last.date)) : '';
   const contact = s.phone ? s.phone : s.tg ? '@' + s.tg : '';
   const line = [when || contact || T.noLessonsYet, ss.n ? lessonsW(ss.n) : ''].filter(Boolean).join(' · ');
-  const right = (ss.pkg && ss.left > 0 ? `<span class="chip pk">🎟 ${ss.left}</span>` : '') + (ss.debt ? `<span class="chip debt">−${money(ss.debt)}</span>` : '');
+  const right = (ss.pkg && ss.totalLeft > 0 ? `<span class="chip pk">🎟 ${ss.totalLeft}</span>` : '') + (ss.debt ? `<span class="chip debt">−${money(ss.debt)}</span>` : '');
   return `<div class="row" data-act="openStudent" data-id="${s.id}">${ava(s)}
     <div class="main"><div class="name">${esc(s.name)}${bdayIn(s.bday) === 0 ? ' 🎂' : ''}</div><div class="sub one">${esc(line)}</div></div>
     <div class="right">${right}<span class="chev">›</span></div></div>`;
@@ -8748,9 +8766,15 @@ function studentCard(id){
     const bd = bdayIn(s.bday), pr = money(priceFor(id, s.svc));
     const info = [svcName(s.svc) ? `${svcName(s.svc)} · ${pr}` : T.perLesson(pr),
       s.bday ? `🎂 ${dayMonth(s.bday)}${bd !== null && bd <= 30 ? ' · ' + T.inDays(bd) : ''}` : '', s.src ? T.srcs[s.src] || '' : ''].filter(Boolean);
-    const p = ss.pkg;
-    const pkg = p ? `<div class="pkgbox" data-act="editPackage" data-id="${p.id}"><b>🎟 ${esc(T.pkgTitle(p.n, svcName(p.svc)))}</b>
+    const p = ss.pkg, pks = ss.activePkgs || [];
+    const pkg = pks.length > 1 ? `<div class="pkgbox"><b>🎟 ${esc(T.pk.queueTotal(pks.length, ss.totalLeft))}</b>
+      <div class="pkgqueue">${pks.map((q, i) => `<div class="pkgqueueitem" data-act="editPackage" data-id="${q.id}"><b>${esc(i ? T.pk.queueNext : T.pk.queueNow)} · ${esc(T.pkgTitle(q.n, svcName(q.svc)))}</b>
+        <div class="barbg"><i style="width:${Math.round(pkgUsed(q) * 100 / Math.max(1, q.n))}%"></i></div><small>${esc(T.pkgLeftL(pkgLeft(q), q.n, shortDate(q.date)))}${(+q.days > 0 || (q.frz || []).length) ? ' · ' + esc(pkgUntilText(q)) : ''}${pkgFrozenOn(q, today()) ? ' · ' + esc(T.pk.frozenNow) : ''}</small></div>`).join('')}</div>
+      <small>${esc(T.pk.queueHint)}</small></div>` : p ? `<div class="pkgbox" data-act="editPackage" data-id="${p.id}"><b>🎟 ${esc(T.pkgTitle(p.n, svcName(p.svc)))}</b>
       <div class="barbg"><i style="width:${Math.round(pkgUsed(p) * 100 / Math.max(1, p.n))}%"></i></div><small>${esc(T.pkgLeftL(ss.left, p.n, shortDate(p.date)))}${T.pk && (+p.days > 0 || (p.frz || []).length) ? ' · ' + esc(pkgUntilText(p)) : ''}${T.pk && pkgBurnt(p) ? ' · ' + esc(T.pk.burnt(pkgBurnt(p))) : ''}${T.pk && pkgFrozenOn(p, today()) ? ' · ' + esc(T.pk.frozenNow) : ''}</small></div>` : '';
+    const pkgAction = ss.totalLeft > 0
+      ? `<button class="btn ghost" data-act="renewPackage" data-id="${id}">🎟 ${esc(T.pk.renew)}</button>`
+      : `<button class="btn ghost" data-act="addPackage" data-id="${id}">🎟 ${esc(T.sellPkg)}</button>`;
     const dsum = [s.range.lo !== '' && s.range.hi !== '' ? `🎤 ${noteName(s.range.lo)}–${noteName(s.range.hi)}` : '',
       s.songs.length ? `🎵 ${s.songs.filter(x => x.done).length}/${s.songs.length}` : '', s.hw.length ? `📝 ${s.hw.filter(x => x.done).length}/${s.hw.length}` : '']
       .filter(Boolean).map(x => `<span class="chip">${esc(x)}</span>`).join('');
@@ -8766,7 +8790,7 @@ function studentCard(id){
         <div class="stat${ss.debt ? ' debt' : ''}"><small>${esc(T.cDebt)}</small><b>${money(ss.debt)}</b></div></div>
       ${ss.debt ? `<button class="btn ghost" data-act="payAll" data-id="${id}">${esc(T.payAll)}</button>` : ''}
       ${pkg}
-      <div class="btnrow"><button class="btn" data-act="addLessonFor" data-id="${id}">${esc(T.addLessonBtn)}</button><button class="btn ghost" data-act="addPackage" data-id="${id}">🎟 ${esc(T.sellPkg)}</button></div>
+      <div class="btnrow"><button class="btn" data-act="addLessonFor" data-id="${id}">${esc(T.addLessonBtn)}</button>${pkgAction}</div>
       <div class="btnrow"><button class="btn ghost" data-act="diary" data-id="${id}">📒 ${esc(T.diary)}</button><button class="btn ghost" data-act="writeTo" data-id="${id}">💬 ${esc(T.writeBtn)}</button></div>
       <button class="btn ghost" data-act="stuReport" data-id="${id}">${esc(mx().report)} ${esc(L === 'ru' ? 'для ученика или родителя' : 'for a student or parent')}</button>
       ${safe(profMusic, true) ? `<button class="btn ghost" data-act="songs" data-id="${id}">🎵 ${esc(T.songsBtn)}${s.songs.length ? ` · ${s.songs.filter(x => !x.done).length} ${esc(T.songsInWork)}` : ''}</button>` : ''}
@@ -8848,12 +8872,15 @@ function pkgUntilText(p){
   if (!u) return X.forever;
   return pkgExpired(p) ? X.expired(shortDate(u)) : pkgFrzDays(p) ? X.untilFrz(shortDate(u), pkgFrzDays(p)) : X.until(shortDate(u));
 }
-function packageForm(sid, pid){
+function packageForm(sid, pid, renewFromId){
   const ex = pid ? state.packages.find(p => p.id === pid) : null;
   const sidX = ex ? ex.sid : sid;
+  const renewFrom = !ex && renewFromId ? state.packages.find(p => p.id === renewFromId && p.sid === sidX) : null;
   const pkPrice = (svc, n) => { const sv = svcOf(svc); return sv && +n === 4 && +sv.p4 ? +sv.p4 : sv && +n === 8 && +sv.p8 ? +sv.p8 : priceFor(sidX, svc); };
-  const P0 = ex ? Object.assign({}, ex, { mode: +ex.tot > 0 ? 'tot' : 'per', pr: +ex.tot > 0 ? +ex.tot : ex.price }) : { svc: defSvcFor(sidX), n: 8, date: today(), mode: 'per', days: 0, name: '' };
-  if (!ex) { P0.pr = pkPrice(P0.svc, 8); P0.rent = rentFor(P0.svc, false); }
+  const P0 = ex ? Object.assign({}, ex, { mode: +ex.tot > 0 ? 'tot' : 'per', pr: +ex.tot > 0 ? +ex.tot : ex.price })
+    : renewFrom ? Object.assign({}, renewFrom, { date: today(), frz: [], mode: +renewFrom.tot > 0 ? 'tot' : 'per', pr: +renewFrom.tot > 0 ? +renewFrom.tot : renewFrom.price })
+      : { svc: defSvcFor(sidX), n: 8, date: today(), mode: 'per', days: 0, name: '' };
+  if (!ex && !renewFrom) { P0.pr = pkPrice(P0.svc, 8); P0.rent = rentFor(P0.svc, false); }
   PKF = P0;
   const fn = () => {
     const s = stu(sidX), cur = state.settings.cur, X = T.pk, tpl = state.settings.pkgT || [];
@@ -8866,7 +8893,7 @@ function packageForm(sid, pid){
         <div class="field"><label for="p_fzn">${esc(X.frzN)}</label><input type="number" inputmode="numeric" min="1" id="p_fzn" placeholder="7"></div></div>
         <button type="button" class="btn soft sm" data-act="pkFrz" data-id="${ex.id}">${esc(X.frzBtn)}</button></div>
       <div class="hintline" style="margin:-4px 8px 8px">${esc(X.frzHint)}</div>` : '';
-    return sheetHead(ex ? T.pkgEdit : T.sellPkg) + note(s ? s.name : T.removed) + `
+    return sheetHead(ex ? T.pkgEdit : T.sellPkg) + note(s ? s.name : T.removed) + (!ex && activePackageQueue(sidX).length ? `<div class="hintline" style="margin:0 8px 8px;text-align:left">${esc(X.queueBuyHint)}</div>` : '') + `
       <div class="group"><div class="field"><span class="lb">${esc(tpl.length ? X.tpl : T.pkgN)}</span><div class="chipsel" style="margin:0" id="p_tpl">${chips}</div></div>
         <div class="two"><div class="field"><label for="p_n">${esc(T.pkgN)}</label><input type="number" inputmode="numeric" min="1" id="p_n" value="${esc(P0.n)}"></div>
         <div class="field"><label for="p_svc">${esc(T.fSvc)}</label><select id="p_svc">${svcOptions(P0.svc)}</select></div></div>
@@ -9071,8 +9098,8 @@ function pkgHubSheet(){
 function pkgPickSheet(){
   const fn = () => {
     const list = state.students.filter(s => !s.archived).sort((a, b) => a.name.localeCompare(b.name));
-    return sheetHead(T.pk.pick) + (list.length ? `<div class="card">${list.map(s => { const l = state.packages.filter(p => p.sid === s.id).reduce((a, p) => a + pkgLeft(p), 0);
-      return `<div class="row" data-act="addPackage" data-id="${s.id}"><div class="main"><div class="name">${esc(s.name)}</div>${l ? `<div class="sub one">🎟 ${esc(T.pk.leftOf(l, ''))}</div>` : ''}</div><div class="right"><span class="chev">›</span></div></div>`; }).join('')}</div>`
+    return sheetHead(T.pk.pick) + (list.length ? `<div class="card">${list.map(s => { const active = activePackageQueue(s.id), l = active.reduce((a, p) => a + pkgLeft(p), 0);
+      return `<div class="row" data-act="${active.length ? 'renewPackage' : 'addPackage'}" data-id="${s.id}"><div class="main"><div class="name">${esc(s.name)}</div>${l ? `<div class="sub one">🎟 ${esc(T.pk.leftOf(l, ''))}</div>` : ''}</div><div class="right"><span class="chev">›</span></div></div>`; }).join('')}</div>`
       : `<div class="empty">${esc(T.pk.noStu)}</div>`);
   };
   fn.isPick = true; return fn;
@@ -9164,7 +9191,7 @@ function tplVars(s){
   return {
     name: s ? firstName(s.name) : T.tplName, me: userName(),
     next: nx ? `${wdLong(parseD(nx.date))}, ${dayMonth(nx.date)}${nx.time ? ' ' + T.at + ' ' + nx.time : ''}` : T.tplNextNone,
-    debt: money(ss ? ss.debt : 0), left: ss ? ss.left : 0,
+    debt: money(ss ? ss.debt : 0), left: ss ? ss.totalLeft : 0,
     slots: freeSlots(7).slice(0, 4).map(d => `• ${cap(wdShort(parseD(d.ds)))} ${shortDate(d.ds)}: ${d.slots.slice(0, 4).join(', ')}`).join('\n') || '—',
     event: ev ? `«${ev.title}» — ${dayMonth(ev.date)}${ev.time ? ' ' + T.at + ' ' + ev.time : ''}` : T.tplEventNone
   };
@@ -9890,7 +9917,7 @@ function botCtx(){
     .map(l => { const s = stu(l.sid); return `${l.date} ${l.time || '--:--'} ${s ? s.name : '?'} ${l.st}${l.paid ? ' paid' : ''}`; });
   return { students: state.students.map(s => Object.assign({ id: s.id, n: s.name }, s.archived ? { a: 1 } : {}))   /* 10.11: phones stay on the phone — not sent to the server/AI */,
     svcs: state.services.map(s => Object.assign({ id: s.id, n: s.name, p: priceFor('', s.id) }, s.online ? { on: 1 } : {})), up, dur: +state.settings.dur || 60, price: +state.settings.price || 0, cur: state.settings.cur || '₽',
-    pk: state.students.filter(s => !s.archived).map(s => { const ss = studentStats(s.id); return ss.pkg ? `${s.name}: ${ss.left}` : ''; }).filter(Boolean),
+    pk: state.students.filter(s => !s.archived).map(s => { const ss = studentStats(s.id); return ss.pkg && ss.totalLeft ? `${s.name}: ${ss.totalLeft}` : ''; }).filter(Boolean),
     work: `${state.settings.work.from}-${state.settings.work.to}`, prof: safe(() => profOf() ? profName(profOf(), 'ru') : '', ''), cnt: { s: state.students.length, l: state.lessons.length, x: (state.items || []).length + (state.habits || []).length + (state.wish || []).length + (state.goals || []).length + (state.fin || []).length + (state.lists || []).reduce((a, l) => a + l.items.length, 0) }, ...safe(planCtx, {}), ...safe(lifeCtx, {}) };
 }
 async function pollOps(){
@@ -10030,8 +10057,8 @@ function applyAct(a, out, touched){
       /* a named sum is what the student paid in total: keep it exact (price per lesson, no extra rent) */
       /* 7.7: no sum named → a ready-made package type with the same number of lessons (its price for the whole package and term) */
       const tp = !total && !per ? (state.settings.pkgT || []).find(x => +x.n === n && (!x.svc || x.svc === svc)) : null;
-      if (tp && +tp.tot > 0) state.packages.push({ id: uid(), sid: s.id, svc, n, price: Math.round(tp.tot / n), tot: +tp.tot, rent, date: bxDate(a.date) || t, note: String(a.note || '').slice(0, 200), name: tp.name || '', days: +tp.days || 0, frz: [] });
-      else state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, tot: total && !bxNum(a.per_lesson) ? total : 0, rent: per ? 0 : rent, date: bxDate(a.date) || t, note: String(a.note || '').slice(0, 200), days: Math.max(0, Math.min(400, bxNum(a.days) || (tp ? +tp.days || 0 : 0))), frz: [] });
+      if (tp && +tp.tot > 0) state.packages.push({ id: uid(), sid: s.id, svc, n, price: Math.round(tp.tot / n), tot: +tp.tot, rent, date: bxDate(a.date) || t, createdAt: Date.now(), note: String(a.note || '').slice(0, 200), name: tp.name || '', days: +tp.days || 0, frz: [] });
+      else state.packages.push({ id: uid(), sid: s.id, svc, n, price: per || def, tot: total && !bxNum(a.per_lesson) ? total : 0, rent: per ? 0 : rent, date: bxDate(a.date) || t, createdAt: Date.now(), note: String(a.note || '').slice(0, 200), days: Math.max(0, Math.min(400, bxNum(a.days) || (tp ? +tp.days || 0 : 0))), frz: [] });
       touched.add(s.id); out.push('📦 ' + T2.pkg(s.name, n)); return;
     }
     case 'add_expense': {
@@ -14251,7 +14278,9 @@ function stuRepText(id){
   }
   const ss = studentStats(s.id);
   out.push(ss.debt ? R.debt(money(ss.debt)) : R.noDebt);
-  const p = ss.pkg; if (p && ss.left > 0) out.push(R.pkg(ss.left, +p.n || 0, (+p.days > 0 || (p.frz || []).length) && T.pk ? pkgUntilText(p) : ''));
+  const p = ss.pkg, activePkgs = ss.activePkgs || [];
+  if (activePkgs.length > 1) out.push(R.pkg(ss.totalLeft, activePkgs.reduce((a, x) => a + (+x.n || 0), 0), T.pk.queueHint));
+  else if (p && ss.left > 0) out.push(R.pkg(ss.left, +p.n || 0, (+p.days > 0 || (p.frz || []).length) && T.pk ? pkgUntilText(p) : ''));
   if (s.hw && s.hw.length) out.push(R.hw(s.hw.filter(x => x.done).length, s.hw.length));
   out.push('', R.thanks);
   const b = brandLine() || userName(); if (b) out.push(b);
@@ -14597,13 +14626,14 @@ const A = {
       const v = await choose(T.cDelLesson + (X.hint ? '\n' + X.hint : ''), opts); if (!v) return;
       if (v === 'ser') gone = [l].concat(ser); else if (v === 'grp') gone = [l].concat(grp);
     } else if (!await ask(T.cDelLesson + (X.hint ? '\n' + X.hint : ''), T.del, true)) return;
-    const sids = sidsOf(gone), before = {}; sids.forEach(sid => { const p = lastPkg(sid); if (p) before[sid] = pkgLeft(p); });
+    const sids = sidsOf(gone), before = {}; sids.forEach(sid => { before[sid] = packageQueue(sid).map(p => ({ id: p.id, left: pkgLeft(p), n: p.n })); });
     state.lessons = state.lessons.filter(x => !gone.includes(x));
     sids.forEach(applyPackages);
     gone.forEach(x => { if (x.date >= today()) safe(() => markFreed(x.date, x.time)); });
     save(); closeSheet(); render();
     /* tell what was recalculated: the package got its lesson back, the money follows */
-    const sum = sids.map(sid => { const p = lastPkg(sid); if (!p || before[sid] === undefined) return ''; const now = pkgLeft(p); return now !== before[sid] && X.pk ? X.pk(firstName((stu(sid) || {}).name || ''), now, +p.n || 0) : ''; }).filter(Boolean);
+    const sum = sids.map(sid => { const changed = (before[sid] || []).map(x => ({ x, p: state.packages.find(p => p.id === x.id) })).find(y => y.p && pkgLeft(y.p) !== y.x.left);
+      return changed && X.pk ? X.pk(firstName((stu(sid) || {}).name || ''), pkgLeft(changed.p), +changed.p.n || 0) : ''; }).filter(Boolean);
     toast((gone.length > 1 && X.many ? X.many(gone.length) : T.tDeleted) + (sum.length ? '\n' + sum.join('\n') : '') + (X.money && gone.some(x => x.paid || counts(x)) ? '\n' + X.money : ''), sum.length ? 3800 : 2600);
   },
   mark: el => {
@@ -14691,6 +14721,7 @@ const A = {
 
   /* packages */
   addPackage: el => openSheet(packageForm(el.dataset.id, '')),
+  renewPackage: el => { const sid = el.dataset.id, current = activePackageQueue(sid)[0]; openSheet(packageForm(sid, '', current && current.id)); },
   editPackage: el => openSheet(packageForm('', el.dataset.id)),
   pkN: el => { $('p_n').value = el.dataset.v; $('p_n').oninput(); haptic(); },
   pkM: el => { if (!PKF) return; PKF.mode = el.dataset.v; document.querySelectorAll('[data-act=pkM]').forEach(b => b.classList.toggle('on', b === el)); $('p_priceL').textContent = PKF.mode === 'tot' ? T.pk.priceTot(state.settings.cur) : T.pk.pricePer(state.settings.cur);
@@ -14736,7 +14767,7 @@ const A = {
     const id = el.dataset.id, sid = el.dataset.sid;
     let nid = '';
     if (id) { const p = state.packages.find(x => x.id === id); if (p) Object.assign(p, data); }
-    else { nid = uid(); state.packages.push(Object.assign({ id: nid, sid, note: '', frz: [] }, data)); }
+    else { nid = uid(); state.packages.push(Object.assign({ id: nid, sid, note: '', frz: [], createdAt: Date.now() }, data)); }
     applyPackages(sid);
     save(); hapticOk(); closeSheet(); if (topFn().isPick) closeSheet(); render();
     if (nid && rcHintOk('p')) snack(T.tPkgSold, '📎 ' + T.rc.attachShort, 'rcAdd', { k: 'p', id: nid }); else toast(savedMsg(), 2600);
