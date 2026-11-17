@@ -7246,7 +7246,6 @@ function applyLang(code){
 applyLang(lsGetK('vs_lang') || 'ru');
 
 /* ================= State ================= */
-const API_RE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
 const DEF = { pkgT: [], price: 0, rent: 0, dur: 60, cur: '₽', name: '', lang: 'ru', theme: 'light', goal: 0, tax: 0, bday: '', api: '', init: 0,
   work: { days: [1, 2, 3, 4, 5, 6], from: '10:00', to: '21:00' },
   nt: { on: 1, morning: 9, before: 60, evening: 21, debts: 1, monthly: 1, ach: 1, week: 1 } };
@@ -7255,7 +7254,6 @@ function normalize(d){
   d = d && typeof d === 'object' ? d : {};
   const s0 = d.settings && typeof d.settings === 'object' ? d.settings : {};
   const settings = Object.assign({}, DEF, s0);
-  settings.api = API_RE.test(String(s0.api || '')) ? String(s0.api) : '';
   settings.work = Object.assign({}, DEF.work, s0.work && typeof s0.work === 'object' ? s0.work : {});
   if (!Array.isArray(settings.work.days)) settings.work.days = DEF.work.days.slice();
   settings.nt = Object.assign({}, DEF.nt, s0.nt && typeof s0.nt === 'object' ? s0.nt : {});
@@ -7423,14 +7421,14 @@ async function cloudLoad(){
   window.__csKeys = keys.length;
   const mirror = readMirror();
   const d = { settings: null, students: [], lessons: [] };
-  let bad = 0; const badBuckets = [];
+  let bad = 0;
   for (const b of Object.keys(raw).sort(bucketOrder)) {
     try {
       const v = JSON.parse(raw[b]);
       if (b.charAt(0) === 'M') { if (!Array.isArray(v)) throw new Error('bad'); d.lessons.push(...v); }
       else { if (!v || typeof v !== 'object' || Array.isArray(v)) throw new Error('bad'); for (const k in v) if (k !== 'v') d[k] = v[k]; }
     } catch (e) {
-      bad++; badBuckets.push(b);
+      bad++;
       if (mirror) {
         if (b.charAt(0) === 'M') d.lessons.push(...mirror.lessons.filter(l => monthOf(l) === b));
         else { (BKEYS[b] || []).forEach(k => { d[k] = mirror[k]; }); if (b === 'S' && !('P' in raw)) d.students = mirror.students; }
@@ -7438,13 +7436,7 @@ async function cloudLoad(){
     }
   }
   gc(keys, P);
-  let mirrorDoc = null; try { mirrorDoc = JSON.parse(lsGet() || 'null'); } catch (e) {}
-  const unrecovered = badBuckets.some(b => {
-    if (!mirror || !mirrorDoc || typeof mirrorDoc !== 'object') return true;
-    if (b.charAt(0) === 'M') return !Array.isArray(mirrorDoc.lessons) || !mirror.lessons.some(l => monthOf(l) === b);
-    return !(BKEYS[b] || []).every(k => Object.prototype.hasOwnProperty.call(mirrorDoc, k));
-  });
-  return { state: normalize(d), raw, P, empty: !pk.length, bad, mirror, unrecovered };
+  return { state: normalize(d), raw, P, empty: !pk.length, bad, mirror };
 }
 
 async function gc(keys, P){
@@ -7790,8 +7782,8 @@ function applyPackages(sid){
   ls.forEach(l => {
     if (l.pkg) { const p = byId[l.pkg]; l.paid = true; l.paidAt = p.date; l.price = (+p.price || 0) * units(l); l.rent = l.online ? 0 : (+p.rent || 0); return; }
     if (!elig(l) || l.paid) return;
-    const p = pk.find(x => !outside(x, l) && used[x.id] < x.n);
-    if (!p || used[p.id] + units(l) > p.n) return; // do not skip an older package with a remaining balance
+    const p = pk.find(x => !outside(x, l) && used[x.id] + units(l) <= x.n);
+    if (!p) return;
     l.pkg = p.id; l.paid = true; l.paidAt = p.date; l.price = (+p.price || 0) * units(l); l.rent = l.online ? 0 : (+p.rent || 0); used[p.id] += units(l);
   });
   pk.forEach(p => {
@@ -7970,6 +7962,7 @@ function celebrate(o){
 
 /* ================= Bot notifications (Google Apps Script backend) ================= */
 let botStatus = '', botLast = 0, syncTimer = null, lastPayload = '', botBlocked = false;
+const API_RE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
 /* 8.3.1: the app may be opened without ?api= (bot profile «Открыть приложение», t.me/<bot>?startapp=…, catalogs) — then it uses the bot's own server. Not a secret: every request is checked by Telegram initData on the server. */
 const API_DEFAULT = 'https://script.google.com/macros/s/AKfycbwXVhcKmZF3jB0HRQxSdAfK9uSSMDAy3mQPUsRWQ8RqxSwDYjSxQdRdzYotQQ93aKiYDw/exec';
 const evQueue = (() => { try { const q = JSON.parse(lsGetK('vs_evq') || '[]'); return Array.isArray(q) ? q.filter(e => e && !/^(ach_|achm_|pz_)/.test(e.k)) : []; } catch (e) { return []; } })();
@@ -8058,7 +8051,6 @@ function buildNotes(){
 }
 function scheduleBotSync(){ if (!inTG || !state.settings.api || !ready) return; clearTimeout(syncTimer); syncTimer = setTimeout(() => botSync(false), 2500); }
 async function botPost(body, ms){
-  if (!API_RE.test(String(state.settings.api || ''))) throw new Error('bad api');
   const ctl = window.AbortController ? new AbortController() : null;
   const tm = setTimeout(() => { try { ctl && ctl.abort(); } catch (e) {} }, ms || 30000);
   try {
@@ -9708,30 +9700,12 @@ async function startBooking(){
   document.documentElement.dataset.theme = 'light';
   const api = pendingApi;
   const box = $('app');
-  const localApi = state.settings.api || safe(() => (readMirror() || {}).settings.api, '') || '';
-  const trustKey = 'vs_trusted_book_api_' + (tgUser ? tgUser.id : 'local');
-  const trustedApi = api === API_DEFAULT || api === localApi || lsGetK(trustKey) === api;
-  if (!API_RE.test(api)) {
-    box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🔒</div><b>${esc(T.bkNone)}</b><p>${esc(L === 'ru' ? 'В ссылке указан некорректный сервер записи.' : 'The booking link contains an invalid server address.')}</p></div>`;
-    document.body.classList.remove('booting'); return;
-  }
-  if (!trustedApi) {
-    const sid = (api.match(/\/s\/([\w-]+)\/exec$/) || [])[1] || '';
-    const ok = await ask(L === 'ru'
-      ? 'Эта ссылка отправит Telegram ID, имя, телефон и комментарий на неизвестный сервер Google Apps Script' + (sid ? ' (' + sid.slice(0, 12) + '…)' : '') + '. Продолжить?'
-      : 'This link will send your Telegram ID, name, phone and note to an unverified Google Apps Script server' + (sid ? ' (' + sid.slice(0, 12) + '…)' : '') + '. Continue?', L === 'ru' ? 'Продолжить' : 'Continue');
-    if (!ok) {
-      box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🔒</div><b>${esc(L === 'ru' ? 'Запись отменена' : 'Booking cancelled')}</b></div>`;
-      document.body.classList.remove('booting'); return;
-    }
-    lsSetK(trustKey, api);
-  }
   /* every request has a 20 s limit — a hung server shows «try again» instead of an endless «Загрузка…» */
   const call = body => { const ac = typeof AbortController === 'function' ? new AbortController() : null, t = ac && setTimeout(() => ac.abort(), 20000);
     return fetch(api, { method: 'POST', body: JSON.stringify(Object.assign({ init: tg ? tg.initData : '', lang: L }, bookTid ? { t: bookTid } : {}, body)), signal: ac ? ac.signal : undefined }).then(r => r.json()).finally(() => t && clearTimeout(t)); };
   box.innerHTML = `<div class="boot">${esc(T.loading)}</div>`;
   let pub = null;
-  try { if (!API_RE.test(api)) throw 0; const j = await call({ a: 'slots' }); pub = j.pub; } catch (e) {}
+  try { if (!api) throw 0; const j = await call({ a: 'slots' }); pub = j.pub; } catch (e) {}
   if (!pub) { box.innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🎤</div><b>${esc(T.bkNone)}</b><p style="margin-top:14px"><button class="btn soft" onclick="location.reload()">↻ ${esc(L === 'ru' ? 'Попробовать ещё раз' : 'Try again')}</button></p></div>`; return; }
   const sel = { ds: '', time: '', svc: pub.svcs && pub.svcs[0] ? pub.svcs[0].name : '' };
   const draw = () => {
@@ -10132,14 +10106,8 @@ function applyOps(ops){
 
 /* ================= What's new (shown once after each update) =================
    Every release: bump APP_VER and add an entry on top of CHANGES (ru + en; es/it/fr fall back to en). */
-const APP_VER = 59;
+const APP_VER = 57;
 const CHANGES = [
-  { v: 59, name: '8.5.7', date: '2026-11-15', fix: true,
-    ru: { add: [], better: ['👤 Карточка ученика сразу обновляет историю и счётчики после сохранения урока', '🎟 Уроки списываются строго по очереди абонементов — старый остаток не пропускается', '🛟 При повреждённой облачной копии без локального резерва приложение остановит запись, сохранив исходные данные', '🔒 Неизвестный сервер ссылки записи требует подтверждения; резервная копия не заменит настроенный сервер без подтверждения'], removed: [] },
-    en: { add: [], better: ['👤 A student card now refreshes lesson history and counts after saving a lesson', '🎟 Lessons use package balances in purchase order; an older remaining balance is not skipped', '🛟 If cloud data is damaged and no local backup exists, writes stop so the original data stays intact', '🔒 Unknown booking servers require confirmation; a backup cannot silently replace the configured server'], removed: [] } },
-  { v: 58, name: '8.5.6', date: '2026-11-15',
-    ru: { add: ['🎟 Можно продлить абонемент заранее: остаток текущего сохранится, следующий начнёт списываться после него.'], better: [], removed: [] },
-    en: { add: ['🎟 Renew a package early: the current balance stays, and the next package starts after it is used.'], better: [], removed: [] } },
   {"v": 57, "name": "8.5.5", "date": "2026-11-12", "ru": {"add": ["🔁 Дела и напоминания можно повторять каждый день, через день и вообще «каждые N» дней, недель, месяцев или лет", "📅 Урок можно повторить каждый день, через день, каждую неделю или раз в 2–4 недели — и сам выбираешь, сколько ещё занятий (до 60)"], "better": ["🔔 Больше вариантов напоминаний: от «за 5 минут» до «за неделю»; утренний план — с 5:00 до 12:00, вечерний — с 17:00 до 23:00", "🎂 Напоминание о дне рождения — за 1, 2, 3, 5, 7, 14 или 30 дней", "📆 Отмена записи учеником — от 1 часа до 3 суток", "🤖 Бот понимает «каждый день», «через день», «раз в 2 недели»"]}, "en": {"add": ["🔁 Tasks and reminders repeat daily, every other day or every N days, weeks, months or years", "📅 A lesson can repeat every day, every other day, weekly or every 2–4 weeks — you choose how many more (up to 60)"], "better": ["🔔 More reminder options: from 5 minutes to a week before; morning plan 5:00–12:00, evening 17:00–23:00", "🎂 Birthday reminder 1, 2, 3, 5, 7, 14 or 30 days before", "📆 Students can cancel from 1 hour to 3 days before", "🤖 The bot understands “every day”, “every other day”, “every 2 weeks”"]}},
   {"v": 56, "name": "8.5.4", "date": "2026-11-10", "fix": true, "ru": {"better": ["🔐 Проверка безопасности: закрыли найденные слабые места на сервере", "🔗 Ссылка на запись к тебе теперь личная — заявки приходят точно тебе. Если раньше делился ссылкой, скопируй новую: Настройки → Работа и запись", "🛡 Боту-помощнику больше не передаются телефоны учеников; в политике конфиденциальности точно написано, что получает ИИ"]}, "en": {"better": ["🔐 Security review: weak spots on the server fixed", "🔗 Your booking link is now personal — requests come only to you. If you shared it before, copy the new one: Settings → Work & booking", "🛡 Students' phone numbers are no longer sent to the assistant; the privacy policy now says exactly what the AI receives"]}},
   {"v": 54, "name": "8.5.3", "date": "2026-11-09", "ru": {"better": ["🛡 Изменения не теряются, даже если закрыть приложение сразу после них — при следующем открытии они дошлются сами", "🚀 Открывается быстрее и не зависает, если медленно отвечает Telegram или его облако: сразу показываю копию с телефона", "📱💻 Можно работать с телефона и компьютера одновременно: изменения с обоих устройств объединяются, ничего не теряется", "🔋 Приложение меньше тратит батарею и интернет, когда открыто и им никто не пользуется", "↩️ «Вернуть» больше не может стереть то, что ты сделал после удаления", "🔠 Крупный шрифт (до 140%) и длинные имена больше не вылезают за край экрана", "📲 QR-код для оплаты открывается, даже если интернет медленный", "🎟 Выключение абонемента в уроке сохраняет цену и оплату; налог в «Деньгах» совпадает с «Налогом и чеками»", "📸 Фото ученика: больше не путается при медленной связи и догружается само, если не отправилось сразу", "🐞 Мелкие исправления: двойные нажатия, «удалить всю группу», быстрее «Отчёт», запись клиентов при медленном сервере"]}, "en": {"better": ["🛡 Changes are kept even if you close the app right after them", "🚀 Opens faster when Telegram or its cloud is slow", "📱💻 Work from your phone and computer at the same time: changes from both are merged, nothing is lost", "🔋 Uses less battery and data while open and idle", "↩️ Undo can no longer erase work done after the deletion", "🐞 Fixes: package switch keeps price, tax figures match, double taps, photos, group delete, faster report", "🔠 Large text (up to 140%) and long names no longer go off the screen", "📲 The payment QR opens even on a slow connection"]}},
@@ -10582,19 +10550,9 @@ function parseBackup(txt){
 }
 async function restoreFrom(d){
   if (!await ask(T.cRestore(d.students.length, d.lessons.length), T.replace, true)) return false;
-  const currentApi = state.settings.api || '';
-  const importedApi = normalize(d).settings.api || '';
-  let acceptedApi = currentApi;
-  if (!currentApi && importedApi && importedApi !== API_DEFAULT) {
-    const id = (importedApi.match(/\/s\/([\w-]+)\/exec$/) || [])[1] || '';
-    if (await ask(L === 'ru'
-      ? 'В резервной копии указан отдельный сервер Google Apps Script' + (id ? ' (' + id.slice(0, 12) + '…)' : '') + '. После восстановления Telegram ID и данные приложения будут отправляться туда. Доверять этому серверу?'
-      : 'This backup includes a separate Google Apps Script server' + (id ? ' (' + id.slice(0, 12) + '…)' : '') + '. After restoring, your Telegram ID and app data will be sent there. Trust this server?', L === 'ru' ? 'Доверять' : 'Trust')) acceptedApi = importedApi;
-  }
   await snapshot('pre');
-  const keep = { seenVer: state.settings.seenVer, opsDone: state.settings.opsDone, pkgV: state.settings.pkgV, bkAt: state.settings.bkAt };
+  const keep = { seenVer: state.settings.seenVer, opsDone: state.settings.opsDone, api: state.settings.api, pkgV: state.settings.pkgV, bkAt: state.settings.bkAt };
   state = normalize(d); Object.keys(keep).forEach(k => { if (keep[k] && !state.settings[k]) state.settings[k] = keep[k]; });
-  state.settings.api = API_RE.test(acceptedApi) ? acceptedApi : (inTG && !window.__mockCfg && API_RE.test(API_DEFAULT) ? API_DEFAULT : '');
   if ((state.settings.lang || 'ru') !== L) applyLang(state.settings.lang);
   allowEmpty = true; seedDefaults(); save(); closeSheet(true); render(); toast(T.tRestored);
   return true;
@@ -14639,7 +14597,7 @@ const A = {
       ui.month = f.date.slice(0, 7); ui.selDay = f.date;
     }
     touched.forEach(sid => applyPackages(sid));
-    save(); hapticOk(); closeSheet(); render(); if (stack.length) refreshSheet();
+    save(); hapticOk(); closeSheet(); render();
     if (f.rep && !id) toast(T.tSavedRep(f.rep));
     else if (newlyDone) { toast(praise(), 2600); dayWin(); }
     else toast(savedMsg());
@@ -15131,14 +15089,6 @@ async function start(){
       $('app').innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">☁️</div><b>${esc(T.loadErr)}</b>${esc(T.loadErrText)}<button class="btn" data-act="retryLoad">${esc(T.retry)}</button></div>` + footer();
       return;
     }
-    if (r.unrecovered) {
-      const msg = L === 'ru'
-        ? 'Облачная копия читается не полностью, а полной копии на этом устройстве нет. Я не сохраняю неполные данные поверх облака. Исходные части в Telegram CloudStorage оставлены нетронутыми. Проверь связь и попробуй ещё раз; если сообщение повторится, восстанови резервную копию.'
-        : 'The Telegram cloud copy could not be fully read, and this device has no complete local copy. I will not overwrite the cloud with partial data. The original Telegram CloudStorage parts remain untouched. Check your connection and retry; if this repeats, restore a backup.';
-      $('app').innerHTML = `<div class="empty" style="margin-top:40px"><div class="big">🛟</div><b>${esc(T.loadErr)}</b><p>${esc(msg)}</p><button class="btn" data-act="retryLoad">${esc(T.retry)}</button></div>` + footer();
-      document.body.classList.remove('booting');
-      return;
-    }
     cloudReady = true; lastRefresh = Date.now();
     applyLoaded(r);
     safe(() => { const k = window.__csKeys || 0, day = new Date().toISOString().slice(0, 10); if (k > 800 && lsGetK('vs_ckw') !== day) { lsSetK('vs_ckw', day); logErr(new Error('cloud keys ' + k + '/1024'), 'cloud'); } });
@@ -15162,7 +15112,8 @@ async function start(){
   snapshot('day');
   let dirty = seedDefaults();
   if ((+state.settings.pkgV || 0) < 2) { sidsOf(state.packages).forEach(applyPackages); state.settings.pkgV = 2; dirty = true; }
-  if (!state.settings.api && inTG && !window.__mockCfg && API_RE.test(API_DEFAULT)) { state.settings.api = API_DEFAULT; dirty = true; }
+  if (pendingApi && API_RE.test(pendingApi) && pendingApi !== state.settings.api) { state.settings.api = pendingApi; dirty = true; }
+  else if (!pendingApi && !state.settings.api && inTG && !window.__mockCfg && API_RE.test(API_DEFAULT)) { state.settings.api = API_DEFAULT; dirty = true; }
   ready = true;
   safe(tourMaybe);
   safe(legalGate);
